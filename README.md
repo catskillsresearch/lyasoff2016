@@ -24,6 +24,22 @@ Toolchain: Lean `v4.35.0` (see `lean-toolchain`), Mathlib pin in `lakefile.toml`
 ## Status
 
 Lake project builds. Deterministic cores proved include Lemma 2.1 bounds, foliation/ODE calculus,
-`dufresne_zero_flux`, and Table 1–4 digit-enclosure certificates. Stochastic and contour theorems
-are stated against Mathlib `IsBrownianReal` and vendored Itô/Girsanov; remaining `sorry`s track
-paper arguments awaiting full discharge.
+`dufresne_zero_flux`, Girsanov scaling, and Asian `S_*` / strike-derivative lemmas. Stochastic and
+contour theorems are stated against Mathlib `IsBrownianReal` and vendored Itô/Girsanov; remaining
+`sorry`s track paper arguments awaiting full discharge.
+
+## Proof-hole board
+
+Same style as the AEC board: dependency graph of paper-facing holes (open / blocked / done).
+
+```bash
+python3 scripts/build_holes.py
+python3 -m http.server 8765
+# open http://localhost:8765/holes.html
+```
+
+| File | Role |
+|------|------|
+| [`holes.html`](holes.html) | Interactive board |
+| [`holes-graph.json`](holes-graph.json) | Node/edge data (regenerated) |
+| [`HOLES.md`](HOLES.md) | Markdown inventory |

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lyasoff 2016 proof holes — dependency board</title>
+  <style>
+    :root {
+      --ink: #1a1f1c;
+      --muted: #5a645c;
+      --paper: #f3efe6;
+      --panel: #ebe6da;
+      --line: #b7b0a2;
+      --open: #1f6b4a;
+      --open-bg: #c8ecd9;
+      --blocked: #9aa19a;
+      --blocked-bg: #ecece8;
+      --err: #8a3b12;
+      --err-bg: #f3ddd0;
+      --done: #1d4f91;
+      --done-bg: #d5e4f7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Source Sans 3", "Segoe UI", sans-serif;
+      background: #f7f3ea;
+      color: var(--ink);
+      min-height: 100vh;
+    }
+    header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem 1.25rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+    h1 {
+      font-family: "IBM Plex Serif", Georgia, serif;
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin: 0;
+    }
+    .sub { color: var(--muted); font-size: 0.88rem; }
+    .stats { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .chip {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 0.3rem 0.55rem;
+      font-size: 0.78rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .chip.open { background: var(--open-bg); border-color: var(--open); color: var(--open); }
+    .controls { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; font-size: 0.82rem; }
+    .controls label { display: inline-flex; gap: 0.35rem; align-items: center; color: var(--muted); cursor: pointer; }
+    #open-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--open-bg) 45%, white);
+      align-items: center;
+    }
+    #open-bar .label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--open);
+      font-weight: 700;
+      margin-right: 0.25rem;
+    }
+    #open-bar button {
+      font: inherit;
+      border: 1.5px solid var(--open);
+      background: var(--open-bg);
+      color: var(--ink);
+      padding: 0.4rem 0.7rem;
+      cursor: pointer;
+      font-family: ui-monospace, "IBM Plex Mono", monospace;
+      font-size: 0.82rem;
+    }
+    #open-bar button:hover, #open-bar button.active {
+      background: var(--open);
+      color: white;
+    }
+    #open-bar .empty { color: var(--muted); font-size: 0.88rem; }
+    main { padding: 0.75rem 1rem 1.5rem; }
+    .panel {
+      background: #faf7f0;
+      border: 1px solid var(--line);
+      padding: 0.65rem;
+    }
+    .panel h2 {
+      margin: 0 0 0.5rem;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .legend i {
+      width: 0.65rem; height: 0.65rem;
+      border: 1px solid currentColor;
+      display: inline-block;
+      margin-right: 0.25rem;
+      vertical-align: -1px;
+    }
+    .legend .open i { background: var(--open-bg); color: var(--open); }
+    .legend .blocked i { background: var(--blocked-bg); color: var(--blocked); }
+    .legend .done i { background: var(--done-bg); color: var(--done); }
+    #graph {
+      width: 100%;
+      height: calc(100vh - 11rem);
+      min-height: 28rem;
+      overflow: auto;
+      background:
+        repeating-linear-gradient(0deg, transparent 0 31px, #efeae0 32px),
+        #faf7f0;
+    }
+    svg { display: block; min-width: 100%; }
+    .rank-label {
+      fill: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+    .node { pointer-events: auto; cursor: copy; }
+    .node rect { stroke-width: 1.4; cursor: copy; }
+    .node text { font-size: 12px; pointer-events: none; fill: var(--ink); }
+    .node .badge {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      fill: var(--open);
+    }
+    .status-open rect { fill: var(--open-bg); stroke: var(--open); stroke-width: 2.25; }
+    .status-done rect { fill: var(--done-bg); stroke: var(--done); }
+    .status-blocked rect { fill: var(--blocked-bg); stroke: var(--blocked); }
+    .chip.done { background: var(--done-bg); border-color: var(--done); color: var(--done); }
+    .node.dim { opacity: 0.22; }
+    .edge {
+      fill: none;
+      stroke: #5a635c;
+      stroke-width: 1.35;
+      opacity: 0.55;
+      pointer-events: none;
+    }
+    .edge.dim { opacity: 0.08; }
+    .edge.hot {
+      stroke: #1a1f1c;
+      stroke-width: 2.15;
+      opacity: 1;
+    }
+    .node.selected rect { filter: drop-shadow(0 0 0.3rem color-mix(in srgb, var(--open) 40%, transparent)); }
+    #detail {
+      margin-top: 0.65rem;
+      padding-top: 0.55rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.88rem;
+      min-height: 3.5rem;
+    }
+    #detail .title { font-family: Georgia, serif; font-size: 1.05rem; margin-bottom: 0.25rem; }
+    #detail .id { font-family: ui-monospace, monospace; font-size: 0.82rem; color: var(--muted); }
+    #detail .copy-tip {
+      margin-left: 0.55rem;
+      font-family: ui-monospace, monospace;
+      font-size: 0.75rem;
+      color: var(--open);
+      font-weight: 600;
+    }
+    .err {
+      margin: 0.75rem 1.25rem;
+      padding: 0.75rem;
+      border: 1px solid var(--err);
+      background: var(--err-bg);
+      color: var(--err);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Lyasoff 2016 proof holes</h1>
+      <div class="sub">Paper-order board · edge B→A means the proof of A requires B · blue = done</div>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="controls">
+      <label><input type="checkbox" id="tog-focus" checked> focus open (hide done)</label>
+    </div>
+  </header>
+  <div id="load-error" class="err" hidden></div>
+  <div id="open-bar"></div>
+  <main>
+    <section class="panel">
+      <h2>Graph</h2>
+      <div class="legend">
+        <span class="open"><i></i>open</span>
+        <span class="done"><i></i>done</span>
+        <span class="blocked"><i></i>blocked</span>
+      </div>
+      <div id="graph"></div>
+      <div id="detail"><div class="title">Select a node</div></div>
+    </section>
+  </main>
+  <script>
+    const STATUS_RANK = { open: 0, done: 1, blocked: 2 };
+    const NW = 132, NH = 32, RANK_GAP = 96, NODE_GAP = 28, PAD_X = 110, PAD_Y = 28;
+    const FOCUS_KEY = "lyasoff-holes-focus-open";
+    let SELECTED = null;
+
+    function normStatus(s) {
+      // Legacy "failed"/"kill" are treated as open unless a program-refuting counterexample appears.
+      return (s === "kill" || s === "failed") ? "open" : s;
+    }
+
+    function countBy(nodes) {
+      const c = { open: 0, blocked: 0, done: 0 };
+      for (const n of nodes) {
+        const s = normStatus(n.status);
+        c[s] = (c[s] || 0) + 1;
+      }
+      return c;
+    }
+
+    /** Walk hard edges backward (including through done) so unfinished deps stay wired. */
+    function addHardAncestors(data, keep) {
+      const preds = new Map(data.nodes.map(n => [n.id, []]));
+      for (const e of data.edges) {
+        if (e.kind !== "hard") continue;
+        if (!preds.has(e.to)) continue;
+        preds.get(e.to).push(e.from);
+      }
+      const stack = [...keep];
+      while (stack.length) {
+        const id = stack.pop();
+        for (const p of preds.get(id) || []) {
+          if (!keep.has(p)) {
+            keep.add(p);
+            stack.push(p);
+          }
+        }
+      }
+      return keep;
+    }
+
+    function stripDone(data, keep) {
+      const byId = Object.fromEntries(data.nodes.map(n => [n.id, n]));
+      for (const id of [...keep]) {
+        if (byId[id] && nodeStatus(byId[id]) === "done") keep.delete(id);
+      }
+      return keep;
+    }
+
+    function hardPreds(data, id) {
+      return data.edges.filter(e => e.to === id && e.kind === "hard").map(e => e.from);
+    }
+
+    function nodeStatus(n) {
+      return normStatus(n.status);
+    }
+
+    function ranks(data) {
+      const ids = data.nodes.map(n => n.id);
+      const preds = new Map(ids.map(id => [id, []]));
+      for (const e of data.edges) {
+        if (e.kind !== "hard") continue;
+        if (!preds.has(e.to)) continue;
+        preds.get(e.to).push(e.from);
+      }
+      const depth = new Map();
+      const visiting = new Set();
+      function dfs(id) {
+        if (depth.has(id)) return depth.get(id);
+        if (visiting.has(id)) return 0;
+        visiting.add(id);
+        let d = 0;
+        for (const p of preds.get(id) || []) d = Math.max(d, dfs(p) + 1);
+        visiting.delete(id);
+        depth.set(id, d);
+        return d;
+      }
+      for (const id of ids) dfs(id);
+      return depth;
+    }
+
+    function neighborhood(data, seeds) {
+      // Seed cone only: unfinished hard ancestors of the seeds, plus a bounded
+      // forward fan of their dependents. Do NOT pull ancestors of forward nodes
+      // (that dragged unrelated opens like 5.7 into a 3.11 focus).
+      const keep = new Set(seeds);
+      addHardAncestors(data, keep);
+      const hard = data.edges.filter(e => e.kind === "hard");
+      const queue = [...seeds];
+      const dist = new Map(seeds.map(s => [s, 0]));
+      while (queue.length) {
+        const id = queue.shift();
+        const d = dist.get(id);
+        if (d >= 2) continue;
+        for (const e of hard) {
+          if (e.from !== id) continue;
+          if (!dist.has(e.to)) {
+            dist.set(e.to, d + 1);
+            keep.add(e.to);
+            queue.push(e.to);
+          }
+        }
+      }
+      return stripDone(data, keep);
+    }
+
+    /** Fan ports so parallel edges do not share the same attachment point. */
+    function portOffset(index, count, span) {
+      if (count <= 1) return 0;
+      return ((index / (count - 1)) - 0.5) * span;
+    }
+
+    function layout(data, visible) {
+      const depth = ranks(data);
+      const nodes = data.nodes.filter(n => visible.has(n.id));
+      const byRank = new Map();
+      for (const n of nodes) {
+        const r = depth.get(n.id) || 0;
+        if (!byRank.has(r)) byRank.set(r, []);
+        byRank.get(r).push(n);
+      }
+      const rankList = [...byRank.keys()].sort((a, b) => a - b);
+      // Compact ranks to 0..k for display spacing
+      const rankIndex = new Map(rankList.map((r, i) => [r, i]));
+      for (const r of rankList) {
+        byRank.get(r).sort((a, b) =>
+          (STATUS_RANK[nodeStatus(a)] - STATUS_RANK[nodeStatus(b)]) ||
+          (a.section - b.section) || a.id.localeCompare(b.id));
+      }
+      const pos = new Map();
+      let maxW = 0;
+      for (const r of rankList) {
+        const list = byRank.get(r);
+        const rowW = list.length * NW + Math.max(0, list.length - 1) * NODE_GAP;
+        maxW = Math.max(maxW, rowW);
+      }
+      const width = Math.max(PAD_X * 2 + maxW, 960);
+      for (const r of rankList) {
+        const list = byRank.get(r);
+        const ri = rankIndex.get(r);
+        const rowW = list.length * NW + Math.max(0, list.length - 1) * NODE_GAP;
+        const x0 = (width - rowW) / 2;
+        const y = PAD_Y + 16 + ri * (NH + RANK_GAP);
+        list.forEach((n, i) => {
+          pos.set(n.id, { x: x0 + i * (NW + NODE_GAP), y, w: NW, h: NH, rank: ri, rawRank: r });
+        });
+      }
+      const height = PAD_Y + 16 + Math.max(1, rankList.length) * (NH + RANK_GAP) + 24;
+      return { pos, width, height, rankList: rankList.map(r => rankIndex.get(r)), depth };
+    }
+
+    function render(data) {
+      const focusEl = document.getElementById("tog-focus");
+      const focus = focusEl.checked;
+      const counts = countBy(data.nodes);
+      document.getElementById("stats").innerHTML = [
+        ["open", counts.open, "open"],
+        ["done", counts.done, "done"],
+        ["blocked", counts.blocked, ""],
+        ["sorry", data.sorryCount, ""],
+      ].map(([k, v, cls]) => `<span class="chip ${cls}"><b>${v}</b> ${k}</span>`).join("");
+
+      const open = data.nodes.filter(n => normStatus(n.status) === "open");
+      const bar = document.getElementById("open-bar");
+      bar.innerHTML = open.length
+        ? `<span class="label">Open now</span>` +
+          open.map(n => `<button type="button" data-id="${n.id}">${n.id}</button>`).join("")
+        : `<span class="label">Open now</span><span class="empty">None — every hole is blocked or done.</span>`;
+
+      // Focus view: one open hole’s dependency cone (selected open-bar chip, else a default).
+      const openIds = open.map(n => n.id);
+      if (SELECTED && !data.nodes.some(n => n.id === SELECTED)) SELECTED = null;
+      const seedOpen = (SELECTED && openIds.includes(SELECTED))
+        ? SELECTED
+        : (open.find(n => n.id === "prop_2_2")?.id
+          || open.find(n => n.id === "perpetuity_inv_moment")?.id
+          || open.find(n => n.id === "yor_formula_classical")?.id
+          || open.find(n => n.id === "g_solves_contour_equation")?.id
+          || open[0]?.id
+          || null);
+      const seeds = focus ? (seedOpen ? [seedOpen] : []) : openIds;
+      const visible = focus && seeds.length
+        ? neighborhood(data, seeds)
+        : new Set(data.nodes.map(n => n.id));
+
+      const { pos, width, height, rankList } = layout(data, visible);
+      const byId = Object.fromEntries(data.nodes.map(n => [n.id, n]));
+
+      const edges = data.edges.filter(e => visible.has(e.from) && visible.has(e.to));
+      const outIdx = new Map(), inIdx = new Map(), outN = new Map(), inN = new Map();
+      for (const e of edges) {
+        outN.set(e.from, (outN.get(e.from) || 0) + 1);
+        inN.set(e.to, (inN.get(e.to) || 0) + 1);
+      }
+      const outSeen = new Map(), inSeen = new Map();
+      for (const e of edges) {
+        const oi = outSeen.get(e.from) || 0;
+        outSeen.set(e.from, oi + 1);
+        outIdx.set(e, oi);
+        const ii = inSeen.get(e.to) || 0;
+        inSeen.set(e.to, ii + 1);
+        inIdx.set(e, ii);
+      }
+
+      const edgePaths = edges.map(e => {
+        const a = pos.get(e.from), b = pos.get(e.to);
+        if (!a || !b) return "";
+        const oi = outIdx.get(e), oc = outN.get(e.from) || 1;
+        const ii = inIdx.get(e), ic = inN.get(e.to) || 1;
+        let x1, y1, x2, y2, cx1, cy1, cx2, cy2;
+        if (a.rank === b.rank) {
+          const leftToRight = a.x <= b.x;
+          x1 = leftToRight ? a.x + a.w : a.x;
+          y1 = a.y + a.h / 2 + portOffset(oi, oc, a.h * 0.55);
+          x2 = leftToRight ? b.x : b.x + b.w;
+          y2 = b.y + b.h / 2 + portOffset(ii, ic, b.h * 0.55);
+          const bow = Math.min(56, 22 + Math.abs(x2 - x1) * 0.14) + oi * 10;
+          cx1 = x1 + (leftToRight ? bow * 0.4 : -bow * 0.4);
+          cy1 = y1 + bow;
+          cx2 = x2 + (leftToRight ? -bow * 0.4 : bow * 0.4);
+          cy2 = y2 + bow;
+        } else {
+          const down = b.rank >= a.rank;
+          x1 = a.x + a.w / 2 + portOffset(oi, oc, a.w * 0.7);
+          y1 = down ? a.y + a.h : a.y;
+          x2 = b.x + b.w / 2 + portOffset(ii, ic, b.w * 0.7);
+          y2 = down ? b.y : b.y + b.h;
+          const dy = Math.max(28, Math.abs(y2 - y1) * 0.42);
+          const sway = (oi - (oc - 1) / 2) * 14 + (ii - (ic - 1) / 2) * 8;
+          cx1 = x1 + sway;
+          cy1 = down ? y1 + dy : y1 - dy;
+          cx2 = x2 - sway * 0.35;
+          cy2 = down ? y2 - dy : y2 + dy;
+        }
+        const d = `M${x1},${y1} C${cx1},${cy1} ${cx2},${cy2} ${x2},${y2}`;
+        return `<path class="edge" data-from="${e.from}" data-to="${e.to}" marker-end="url(#arrow)" d="${d}" />`;
+      }).join("");
+
+      const rankLabels = rankList.map((ri, i) => {
+        const y = PAD_Y + 8 + ri * (NH + RANK_GAP);
+        return `<text class="rank-label" x="12" y="${y}">L${i}</text>`;
+      }).join("");
+
+      const nodes = data.nodes.filter(n => visible.has(n.id)).map(n => {
+        const p = pos.get(n.id);
+        const st = nodeStatus(n);
+        const badge = st === "open"
+          ? `<text class="badge" x="8" y="11">OPEN</text>`
+          : "";
+        const ty = st === "open" ? 24 : 20;
+        return `<g class="node status-${st}" data-id="${n.id}" transform="translate(${p.x},${p.y})">
+          <rect width="${p.w}" height="${p.h}" rx="2" />
+          ${badge}
+          <text x="8" y="${ty}">${n.label}</text>
+        </g>`;
+      }).join("");
+
+      const defs = `<defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0,1 L9,5 L0,9 z" fill="#1a1f1c" />
+        </marker>
+      </defs>`;
+
+      // Edges under nodes so labels stay readable.
+      const graphEl = document.getElementById("graph");
+      graphEl.innerHTML = `<svg viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">
+        ${defs}${rankLabels}${edgePaths}${nodes}
+      </svg>`;
+
+      function copyId(id) {
+        const done = () => {
+          const tip = document.getElementById("copy-tip");
+          if (tip) {
+            tip.textContent = `copied ${id}`;
+            tip.hidden = false;
+            clearTimeout(copyId._t);
+            copyId._t = setTimeout(() => { tip.hidden = true; }, 1200);
+          }
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(id).then(done).catch(() => {});
+        } else {
+          const ta = document.createElement("textarea");
+          ta.value = id;
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand("copy"); } catch (_) {}
+          ta.remove();
+          done();
+        }
+      }
+
+      function select(id, { reseed = false, copy = false } = {}) {
+        SELECTED = id;
+        if (reseed && focusEl.checked) {
+          redraw();
+          if (copy) copyId(id);
+          return;
+        }
+        if (copy) copyId(id);
+        const focusMode = focusEl.checked;
+        // Focus view is already the open cone (done stripped). Keep hard
+        // ancestors + direct successors bright so prerequisites stay readable;
+        // only highlight incident edges as hot.
+        const keepBright = new Set([id]);
+        addHardAncestors(data, keepBright);
+        for (const e of data.edges) {
+          if (e.kind === "hard" && e.from === id) keepBright.add(e.to);
+        }
+        document.querySelectorAll(".edge").forEach(path => {
+          const hot = path.dataset.from === id || path.dataset.to === id;
+          path.classList.toggle("hot", hot);
+          const bothKept = keepBright.has(path.dataset.from) && keepBright.has(path.dataset.to);
+          path.classList.toggle("dim", focusMode && !bothKept);
+        });
+        document.querySelectorAll(".node").forEach(g => {
+          g.classList.toggle("selected", g.dataset.id === id);
+          g.classList.toggle("dim", focusMode && !keepBright.has(g.dataset.id));
+        });
+        document.querySelectorAll("#open-bar button").forEach(b => b.classList.toggle("active", b.dataset.id === id));
+        const n = byId[id];
+        if (!n) return;
+        const preds = hardPreds(data, id).map(p => byId[p]?.label || p).join(", ") || "—";
+        document.getElementById("detail").innerHTML = `
+          <div class="title">${n.label} <span class="id">(${n.id})</span>
+            <span id="copy-tip" class="copy-tip" hidden></span></div>
+          <div><b>status:</b> ${nodeStatus(n)} · <b>file:</b> ${n.file}</div>
+          <div><b>proof requires:</b> ${preds}</div>
+          ${n.blocker ? `<div style="margin-top:0.3rem;color:var(--blocked)"><b>blocker:</b> ${n.blocker}</div>` : ""}
+          ${n.detail ? `<div style="margin-top:0.3rem"><b>detail:</b> ${n.detail}</div>` : ""}
+        `;
+        const g = document.querySelector(`.node[data-id="${id}"]`);
+        if (g) g.scrollIntoView({ block: "center", inline: "center", behavior: "smooth" });
+      }
+
+      document.querySelectorAll(".node").forEach(el => {
+        el.addEventListener("click", () => select(el.dataset.id, { copy: true }));
+      });
+      document.querySelectorAll("#open-bar button[data-id]").forEach(el => {
+        el.addEventListener("click", () => select(el.dataset.id, { reseed: true, copy: true }));
+      });
+
+      const focusId = (SELECTED && visible.has(SELECTED)) ? SELECTED : seedOpen;
+      if (focusId) select(focusId);
+      else document.getElementById("detail").innerHTML =
+        `<div class="title">No open holes</div><div>All remaining work is blocked or done.</div>`;
+    }
+
+    let DATA = null;
+    function redraw() { if (DATA) render(DATA); }
+
+    (function initFocusToggle() {
+      const el = document.getElementById("tog-focus");
+      const saved = localStorage.getItem(FOCUS_KEY);
+      el.checked = saved === null ? true : saved === "1";
+      el.addEventListener("change", () => {
+        localStorage.setItem(FOCUS_KEY, el.checked ? "1" : "0");
+        SELECTED = null;
+        redraw();
+      });
+    })();
+
+    fetch("holes-graph.json", { cache: "no-store" })
+      .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+      .then(data => { DATA = data; render(data); })
+      .catch(err => {
+        const box = document.getElementById("load-error");
+        box.hidden = false;
+        box.textContent = `Could not load holes-graph.json (${err.message}). Serve the repo root and reload.`;
+      });
+  </script>
+</body>
+</html>

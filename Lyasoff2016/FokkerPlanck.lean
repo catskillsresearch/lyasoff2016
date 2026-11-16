@@ -635,8 +635,47 @@ theorem dufresne_eq_igDensity_one (ν : ℝ) :
   funext x
   simp [dufresne, igDensity, one_pow, div_one]
 
+
+/-! ### Product-space Brownian copies (for `perpetuity_inv_moment`) -/
+
+theorem isBM_prod_fst {P : Measure Ω} [IsProbabilityMeasure P]
+    {W : ℝ≥0 → Ω → ℝ} (hW : IsBM P W) :
+    IsBM (P.prod P) (fun t (p : Ω × Ω) => W t p.1) where
+  hasLaw I :=
+    (hW.hasLaw I).comp (measurePreserving_fst (μ := P) (ν := P)).hasLaw
+  cont :=
+    (measurePreserving_fst (μ := P) (ν := P)).quasiMeasurePreserving.ae hW.cont
+
+theorem isBM_prod_snd {P : Measure Ω} [IsProbabilityMeasure P]
+    {W : ℝ≥0 → Ω → ℝ} (hW : IsBM P W) :
+    IsBM (P.prod P) (fun t (p : Ω × Ω) => W t p.2) where
+  hasLaw I :=
+    (hW.hasLaw I).comp (measurePreserving_snd (μ := P) (ν := P)).hasLaw
+  cont :=
+    (measurePreserving_snd (μ := P) (ν := P)).quasiMeasurePreserving.ae hW.cont
+
+theorem indepFun_prod_copies {P : Measure Ω} [IsProbabilityMeasure P]
+    {W : ℝ≥0 → Ω → ℝ} (hW : IsBM P W) :
+    IndepFun (fun p : Ω × Ω => fun t : ℝ≥0 => W t p.1)
+      (fun p => fun t : ℝ≥0 => W t p.2) (P.prod P) := by
+  refine IndepFun.process_indepFun_process₀
+    (fun t => (hW.toIsPreBrownianReal.aemeasurable t).comp_fst)
+    (fun t => (hW.toIsPreBrownianReal.aemeasurable t).comp_snd)
+    (fun I J => ?_)
+  have hI : AEMeasurable (fun ω : Ω => fun i : I => W i.1 ω) P :=
+    aemeasurable_pi_iff.mpr fun i => hW.toIsPreBrownianReal.aemeasurable i.1
+  have hJ : AEMeasurable (fun ω : Ω => fun j : J => W j.1 ω) P :=
+    aemeasurable_pi_iff.mpr fun j => hW.toIsPreBrownianReal.aemeasurable j.1
+  exact indepFun_prod₀ hI hJ
+
 /-- Stationarity of `Z` plus `L(log) = ν + x⁻¹` gives the first reciprocal moment
-`E[A⁻¹] = -ν`. Remaining gap: justify `E[L log(Z)] = 0` from the Itô SDE for `Z`. -/
+`E[A⁻¹] = -ν`.
+
+Proof plan (product-BM helpers `isBM_prod_*` / `indepFun_prod_copies` above):
+on `P.prod P` take independent copies `W₁,W₂`, apply `Z_stationary_sigma_one`,
+use the pathwise identity `log Z_t − log A = νt − B_t + ∫₀ᵗ Z_s⁻¹`
+(chain rule on the finite-variation factor; drift = `dufresneGenerator ν log`),
+take expectations and conclude `E[A⁻¹] = -ν`. -/
 theorem perpetuity_inv_moment (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (ν : ℝ) (hν : ν < 0) :
     ∫⁻ ω, ENNReal.ofReal
@@ -669,6 +708,7 @@ theorem perpetuity_neg_moments (P : Measure Ω) [IsProbabilityMeasure P]
       -- Higher moments via the generator recurrence on `x ↦ x^{-(n+2)}`.
       sorry
 
+
 /-- Unit-volatility generator: `generator 1 ν`. -/
 abbrev dufresneGenerator (ν : ℝ) : (ℝ → ℝ) → ℝ → ℝ := generator 1 ν
 
@@ -685,17 +725,6 @@ theorem dufresneGenerator_log (ν x : ℝ) (hx : 0 < x) :
   simp only [dufresneGenerator, generator, one_pow, one_mul, h1, h2]
   field_simp
   ring
-
-/-- The unit-volatility perpetuity path functional. -/
-noncomputable def perpetuity (W : ℝ≥0 → Ω → ℝ) (ν : ℝ) (ω : Ω) : ℝ :=
-  ∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s)
-
-/-- Perpetuity of a continuous path. -/
-noncomputable def perpetuityPath (ν : ℝ) (x : C(ℝ≥0, ℝ)) : ℝ :=
-  ∫ s in Ioi (0 : ℝ), Real.exp (x s.toNNReal + ν * s)
-
-theorem measurable_perpetuityPath (ν : ℝ) : Measurable (perpetuityPath ν) :=
-  measurable_path_integral_Ioi (fun s y => Real.exp (y + ν * s)) (by fun_prop) (Ioi 0)
 
 /-- The unit-volatility form of Dufresne's identity.  This is the sole probabilistic
 identification needed after Brownian scaling: equivalently, the reciprocal of the integral
