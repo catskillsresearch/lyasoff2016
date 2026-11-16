@@ -155,11 +155,16 @@
       opacity: 0.55;
       pointer-events: none;
     }
+    .edge.soft {
+      stroke-dasharray: 5 4;
+      opacity: 0.32;
+    }
     .edge.dim { opacity: 0.08; }
     .edge.hot {
       stroke: #1a1f1c;
       stroke-width: 2.15;
       opacity: 1;
+      stroke-dasharray: none;
     }
     .node.selected rect { filter: drop-shadow(0 0 0.3rem color-mix(in srgb, var(--open) 40%, transparent)); }
     #detail {
@@ -191,7 +196,7 @@
   <header>
     <div>
       <h1>Lyasoff 2016 proof holes</h1>
-      <div class="sub">Paper-order board · edge B→A means the proof of A requires B · blue = done</div>
+      <div class="sub">Hard edge B→A: A still needs B · dashed = soft paper-order only · done never sits under an unfinished hard dep</div>
     </div>
     <div class="stats" id="stats"></div>
     <div class="controls">
@@ -207,6 +212,7 @@
         <span class="open"><i></i>open</span>
         <span class="done"><i></i>done</span>
         <span class="blocked"><i></i>blocked</span>
+        <span>solid = hard dep · dashed = soft (paper-order only)</span>
       </div>
       <div id="graph"></div>
       <div id="detail"><div class="title">Select a node</div></div>
@@ -236,7 +242,7 @@
     function addHardAncestors(data, keep) {
       const preds = new Map(data.nodes.map(n => [n.id, []]));
       for (const e of data.edges) {
-        if (e.kind !== "hard") continue;
+        if (e.kind && e.kind !== "hard") continue;
         if (!preds.has(e.to)) continue;
         preds.get(e.to).push(e.from);
       }
@@ -261,8 +267,12 @@
       return keep;
     }
 
+    function isHard(e) {
+      return !e.kind || e.kind === "hard";
+    }
+
     function hardPreds(data, id) {
-      return data.edges.filter(e => e.to === id && e.kind === "hard").map(e => e.from);
+      return data.edges.filter(e => e.to === id && isHard(e)).map(e => e.from);
     }
 
     function nodeStatus(n) {
@@ -273,7 +283,7 @@
       const ids = data.nodes.map(n => n.id);
       const preds = new Map(ids.map(id => [id, []]));
       for (const e of data.edges) {
-        if (e.kind !== "hard") continue;
+        if (!isHard(e)) continue;
         if (!preds.has(e.to)) continue;
         preds.get(e.to).push(e.from);
       }
@@ -295,11 +305,10 @@
 
     function neighborhood(data, seeds) {
       // Seed cone only: unfinished hard ancestors of the seeds, plus a bounded
-      // forward fan of their dependents. Do NOT pull ancestors of forward nodes
-      // (that dragged unrelated opens like 5.7 into a 3.11 focus).
+      // forward fan of their dependents. Soft edges are ignored for focus.
       const keep = new Set(seeds);
       addHardAncestors(data, keep);
-      const hard = data.edges.filter(e => e.kind === "hard");
+      const hard = data.edges.filter(isHard);
       const queue = [...seeds];
       const dist = new Map(seeds.map(s => [s, 0]));
       while (queue.length) {
@@ -400,7 +409,13 @@
       const { pos, width, height, rankList } = layout(data, visible);
       const byId = Object.fromEntries(data.nodes.map(n => [n.id, n]));
 
-      const edges = data.edges.filter(e => visible.has(e.from) && visible.has(e.to));
+      // Soft edges into done nodes read as "unproven proves proven" — omit them.
+      // Soft edges never drive status; they are paper-order only.
+      const edges = data.edges.filter(e => {
+        if (!visible.has(e.from) || !visible.has(e.to)) return false;
+        if (e.kind === "soft" && nodeStatus(byId[e.to]) === "done") return false;
+        return true;
+      });
       const outIdx = new Map(), inIdx = new Map(), outN = new Map(), inN = new Map();
       for (const e of edges) {
         outN.set(e.from, (outN.get(e.from) || 0) + 1);
@@ -447,7 +462,8 @@
           cy2 = down ? y2 - dy : y2 + dy;
         }
         const d = `M${x1},${y1} C${cx1},${cy1} ${cx2},${cy2} ${x2},${y2}`;
-        return `<path class="edge" data-from="${e.from}" data-to="${e.to}" marker-end="url(#arrow)" d="${d}" />`;
+        const soft = e.kind === "soft" ? " soft" : "";
+        return `<path class="edge${soft}" data-from="${e.from}" data-to="${e.to}" marker-end="url(#arrow)" d="${d}" />`;
       }).join("");
 
       const rankLabels = rankList.map((ri, i) => {
@@ -519,11 +535,13 @@
         const keepBright = new Set([id]);
         addHardAncestors(data, keepBright);
         for (const e of data.edges) {
-          if (e.kind === "hard" && e.from === id) keepBright.add(e.to);
+          if (isHard(e) && e.from === id) keepBright.add(e.to);
         }
         document.querySelectorAll(".edge").forEach(path => {
-          const hot = path.dataset.from === id || path.dataset.to === id;
-          path.classList.toggle("hot", hot);
+          const incident = path.dataset.from === id || path.dataset.to === id;
+          const soft = path.classList.contains("soft");
+          // Only hard edges get the thick "hot" treatment — soft stays dashed.
+          path.classList.toggle("hot", incident && !soft);
           const bothKept = keepBright.has(path.dataset.from) && keepBright.has(path.dataset.to);
           path.classList.toggle("dim", focusMode && !bothKept);
         });
@@ -535,11 +553,18 @@
         const n = byId[id];
         if (!n) return;
         const preds = hardPreds(data, id).map(p => byId[p]?.label || p).join(", ") || "—";
+        const softOut = data.edges
+          .filter(e => e.kind === "soft" && e.from === id && nodeStatus(byId[e.to]) !== "done")
+          .map(e => byId[e.to]?.label || e.to);
+        const softNote = softOut.length
+          ? `<div style="margin-top:0.25rem;color:var(--muted)"><b>soft (paper-order):</b> ${softOut.join(", ")}</div>`
+          : "";
         document.getElementById("detail").innerHTML = `
           <div class="title">${n.label} <span class="id">(${n.id})</span>
             <span id="copy-tip" class="copy-tip" hidden></span></div>
           <div><b>status:</b> ${nodeStatus(n)} · <b>file:</b> ${n.file}</div>
-          <div><b>proof requires:</b> ${preds}</div>
+          <div><b>proof requires (hard):</b> ${preds}</div>
+          ${softNote}
           ${n.blocker ? `<div style="margin-top:0.3rem;color:var(--blocked)"><b>blocker:</b> ${n.blocker}</div>` : ""}
           ${n.detail ? `<div style="margin-top:0.3rem"><b>detail:</b> ${n.detail}</div>` : ""}
         `;

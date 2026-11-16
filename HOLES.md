@@ -2,8 +2,8 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-16T22:07:45Z
-**Holes:** 14 open+blocked · 4 open · 10 blocked · 19 done.
+**Updated:** 2026-11-16T22:18:51Z
+**Holes:** 16 open+blocked · 5 open · 11 blocked · 17 done.
 
 **Live board:** [`holes.html`](holes.html) + [`holes-graph.json`](holes-graph.json).
 
@@ -18,6 +18,7 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 |---|---|---|
 | `prop_2_2` | Prop 2.2 | `Lyasoff2016/Auxiliary.lean:58` |
 | `perpetuity_inv_moment` | E[A⁻¹]=−ν | `Lyasoff2016/FokkerPlanck.lean:679` |
+| `fokker_planck_joint` | FP (3.6b) | `Lyasoff2016/FokkerPlanck.lean:821` |
 | `g_solves_contour_equation` | g contour eq | `Lyasoff2016/IntegralReps.lean:71` |
 | `yor_formula_classical` | Yor classical | `Lyasoff2016/IntegralReps.lean:197` |
 
@@ -38,7 +39,7 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | done | `scaling_relations` | Scaling | `Lyasoff2016/Auxiliary.lean:178` |
 | done | `girsanov_density` | Girsanov (2.2) | `Lyasoff2016/Auxiliary.lean:213` |
 
-### §3 — 4 hole(s)
+### §3 — 5 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
@@ -48,8 +49,8 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | open | `perpetuity_inv_moment` | E[A⁻¹]=−ν | `Lyasoff2016/FokkerPlanck.lean:679` |
 | blocked | `perpetuity_neg_moments` | E[A⁻ⁿ] | `Lyasoff2016/FokkerPlanck.lean:690` |
 | blocked | `dufresne_theorem_sigma_one` | Dufresne σ=1 | `Lyasoff2016/FokkerPlanck.lean:735` |
-| done | `dufresne_theorem` | Dufresne thm | `Lyasoff2016/FokkerPlanck.lean:742` |
-| blocked | `fokker_planck_joint` | FP (3.6b) | `Lyasoff2016/FokkerPlanck.lean:821` |
+| blocked | `dufresne_theorem` | Dufresne thm | `Lyasoff2016/FokkerPlanck.lean:742` |
+| open | `fokker_planck_joint` | FP (3.6b) | `Lyasoff2016/FokkerPlanck.lean:821` |
 | done | `remark_3_2` | Rem 3.2 | `Lyasoff2016/FokkerPlanck.lean:839` |
 
 ### §4 — 0 hole(s)
@@ -62,7 +63,7 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | done | `prop_4_4` | Prop 4.4 | `Lyasoff2016/Foliation.lean:358` |
 | done | `theorem_4_5` | Thm 4.5 | `Lyasoff2016/Foliation.lean:405` |
 
-### §5 — 3 hole(s)
+### §5 — 4 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
@@ -70,7 +71,7 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | open | `yor_formula_classical` | Yor classical | `Lyasoff2016/IntegralReps.lean:197` |
 | done | `remark_5_1` | Rem 5.1 | `Lyasoff2016/IntegralReps.lean:188` |
 | blocked | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:227` |
-| done | `yor_formula` | Yor via Rem 5.1 | `Lyasoff2016/IntegralReps.lean:204` |
+| blocked | `yor_formula` | Yor via Rem 5.1 | `Lyasoff2016/IntegralReps.lean:204` |
 
 ### §6 — 6 hole(s)
 

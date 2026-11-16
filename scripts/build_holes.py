@@ -231,13 +231,13 @@ NODES: dict[str, dict] = {
     },
 }
 
-# Hard edges: from → to means proof of `to` requires `from`.
+# Hard edges: from → to means the current Lean proof of `to` still needs `from`
+# (so `to` cannot be marked done while `from` is unfinished). Keep these honest:
+# paper-order aspirations that the Lean proof already bypassed belong in SOFT_EDGES.
 HARD_EDGES: list[tuple[str, str]] = [
     # §2
     ("lemma_2_1", "prop_2_2"),
-    ("prop_2_2", "scaling_relations"),
-    ("scaling_relations", "girsanov_density"),
-    # §3
+    # §3 Dufresne moment chain (wrappers still call the σ=1 tip)
     ("infinite_integral_finite", "Z_stationary"),
     ("Z_stationary", "perpetuity_inv_moment"),
     ("dufresne_zero_flux", "perpetuity_inv_moment"),
@@ -245,22 +245,17 @@ HARD_EDGES: list[tuple[str, str]] = [
     ("perpetuity_neg_moments", "dufresne_theorem_sigma_one"),
     ("dufresne_theorem_sigma_one", "dufresne_theorem"),
     ("time_reversal", "fokker_planck_joint"),
-    ("prop_2_2", "fokker_planck_joint"),
     ("time_reversal", "remark_3_2"),
-    # §4
-    ("fokker_planck_joint", "theorem_4_1_pde"),
+    # §4 internal (already sorry-free; keep for structure)
     ("theorem_4_1_pde", "theorem_4_1_striking"),
     ("theorem_4_1_pde", "formula_4_6"),
     ("formula_4_6", "prop_4_4"),
     ("prop_4_4", "theorem_4_5"),
     ("theorem_4_5", "theorem_4_1_striking"),
     # §5
-    ("theorem_4_5", "g_solves_contour_equation"),
     ("g_solves_contour_equation", "pi_formula"),
     ("yor_formula_classical", "pi_formula"),
-    ("pi_formula", "remark_5_1"),
     ("yor_formula_classical", "yor_formula"),
-    ("remark_5_1", "yor_formula"),
     # §6
     ("S_zero", "S_closed_form"),
     ("pi_formula", "asian_price_formula"),
@@ -274,6 +269,16 @@ HARD_EDGES: list[tuple[str, str]] = [
     ("benchmark_k_zero", "table1_asian_enclosure"),
 ]
 
+# Soft edges: paper/logical order only. Drawn on the board but do NOT force
+# status (Lean already discharged the target without that prerequisite).
+SOFT_EDGES: list[tuple[str, str]] = [
+    ("prop_2_2", "scaling_relations"),
+    ("prop_2_2", "fokker_planck_joint"),
+    ("fokker_planck_joint", "theorem_4_1_pde"),
+    ("theorem_4_5", "g_solves_contour_equation"),
+    ("pi_formula", "remark_5_1"),
+    ("remark_5_1", "yor_formula"),
+]
 
 def scan_lean() -> dict[str, dict]:
     """Return map decl_name → {file, line, has_sorry}."""
@@ -302,43 +307,31 @@ def scan_lean() -> dict[str, dict]:
     return found
 
 
-def compute_status(has_sorry: bool, preds: list[str], status_of: dict[str, str]) -> str:
-    if has_sorry:
-        # Open if all hard preds are done; else blocked.
-        if all(status_of.get(p, "done") == "done" for p in preds):
-            return "open"
-        return "blocked"
-    return "done"
-
-
 def build() -> dict:
     scanned = scan_lean()
-    # Seed statuses from local sorry, then iterate dependency closure for blocked/open.
-    raw_sorry = {nid: scanned.get(nid, {}).get("has_sorry", False) for nid in NODES}
-    # Also treat missing decls as blocked/open? Keep as open with note if expected.
-    preds: dict[str, list[str]] = {nid: [] for nid in NODES}
+    # Local sorry (missing decl counts as a hole).
+    raw_sorry = {
+        nid: True if nid not in scanned else scanned[nid]["has_sorry"]
+        for nid in NODES
+    }
+    hard_preds: dict[str, list[str]] = {nid: [] for nid in NODES}
     for frm, to in HARD_EDGES:
-        if to in preds and frm in NODES:
-            preds[to].append(frm)
+        if frm in NODES and to in NODES:
+            hard_preds[to].append(frm)
 
     status: dict[str, str] = {}
-    # Iterate to fixpoint: blocked if any pred not done.
+    # Fixpoint: a node is done only if it has no local sorry AND every hard
+    # predecessor is done. Otherwise open (all hard preds done) or blocked.
     for _ in range(len(NODES) + 2):
         changed = False
         for nid in NODES:
-            hs = raw_sorry.get(nid, False)
-            # If declaration not found and not marked, treat as open hole still.
-            if nid not in scanned and nid in NODES:
-                hs = True
-            st = "done" if not hs else (
-                "open" if all(status.get(p, "done" if not raw_sorry.get(p) else "open") == "done"
-                              for p in preds[nid]) else "blocked"
-            )
-            # Recompute properly using current status map
-            if not hs:
+            preds_done = all(status.get(p) == "done" for p in hard_preds[nid])
+            if not raw_sorry[nid] and preds_done:
                 st = "done"
+            elif preds_done:
+                st = "open"
             else:
-                st = "open" if all(status.get(p, "blocked") == "done" for p in preds[nid]) else "blocked"
+                st = "blocked"
             if status.get(nid) != st:
                 status[nid] = st
                 changed = True
@@ -359,13 +352,13 @@ def build() -> dict:
             "detail": meta.get("detail"),
         })
 
-    # Annotate blockers for blocked nodes
+    # Annotate blockers for blocked nodes (hard preds only).
     by_id = {n["id"]: n for n in nodes}
     for n in nodes:
         if n["status"] != "blocked":
             continue
         unfinished = [
-            p for p in preds[n["id"]]
+            p for p in hard_preds[n["id"]]
             if by_id.get(p, {}).get("status") != "done"
         ]
         if unfinished:
@@ -375,8 +368,11 @@ def build() -> dict:
         {"from": frm, "to": to, "kind": "hard"}
         for frm, to in HARD_EDGES
         if frm in NODES and to in NODES
+    ] + [
+        {"from": frm, "to": to, "kind": "soft"}
+        for frm, to in SOFT_EDGES
+        if frm in NODES and to in NODES
     ]
-
     sorry_count = sum(1 for n in nodes if n["status"] in ("open", "blocked"))
     open_ids = [n["id"] for n in nodes if n["status"] == "open"]
 
@@ -389,11 +385,12 @@ def build() -> dict:
             "done": "Proved (no sorry)",
         },
         "notes": [
-            "Edge B→A means the paper/Lean proof of A requires B.",
+            "Hard edge B→A: Lean proof of A still needs B — A cannot be done while B is unfinished.",
+            "Soft edge B→A: paper-order aspiration only (drawn dashed); does not affect status.",
+            "Done = no local sorry and every hard predecessor is done (no unproven→proven).",
             "Blue = done. Green = open. Grey = blocked.",
             "Regenerate with: python3 scripts/build_holes.py",
             f"Open tips: {', '.join(open_ids) if open_ids else '(none)'}.",
-            "Paper order: §1–2 → §3 Dufresne/FP → §4 foliation → §5 contours → §6 Asian/tables.",
         ],
         "nodes": nodes,
         "edges": edges,
@@ -486,7 +483,7 @@ def main() -> None:
     OUT_JSON.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
     write_md(data)
     OUT_EDGES.write_text(
-        "\n".join(f"{e['from']} -> {e['to']}" for e in data["edges"]) + "\n",
+        "\n".join(f"{e['from']} -{e['kind']}-> {e['to']}" for e in data["edges"]) + "\n",
         encoding="utf-8",
     )
     open_n = sum(1 for n in data["nodes"] if n["status"] == "open")
