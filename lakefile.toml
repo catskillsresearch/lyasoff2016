@@ -1,0 +1,24 @@
+name = "lyasoff2016"
+defaultTargets = ["Lyasoff2016"]
+
+[leanOptions]
+pp.unicode.fun = true
+autoImplicit = false
+relaxedAutoImplicit = false
+
+[[require]]
+name = "BrownianMotion"
+path = "vendor/brownian-motion"
+
+[[require]]
+name = "MathFin"
+path = "vendor/formal-mathfin"
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4"
+rev = "e91b128082cc221d6432a6a5aadcd3243af8e76c"
+
+[[lean_lib]]
+name = "Lyasoff2016"
+globs = ["Lyasoff2016", "Lyasoff2016.+"]

@@ -1,0 +1,24 @@
+# Vendored dependency pins (verbatim trees; no git submodules / soft links)
+
+brownian-motion
+  url:    https://github.com/RemyDegenne/brownian-motion.git
+  commit: 497e5e2a60450796f75ab920e6c33addae4d644d
+  date:   2026-11-16
+  note:   Pin matches formal-mathfin lake-manifest / lakefile.lean
+
+kolmogorov_extension4
+  url:    https://github.com/RemyDegenne/kolmogorov_extension4.git
+  commit: c20f168ed693537c78111ffeabc2ab5f384e35d6
+  date:   2026-11-16
+  note:   Transitive dep of brownian-motion @ 497e5e2; lakefile uses path
+
+formal-mathfin
+  url:    https://github.com/formal-applied-math/formal-mathfin.git
+  commit: c47908ea18274b16c5b26edd206ec073470c4a26
+  date:   2026-11-16
+  note:   Itô calculus, Girsanov; lean-toolchain v4.35.0; mathlib e91b128082cc
+
+mathlib (Lake git require, not vendored)
+  url:    https://github.com/leanprover-community/mathlib4
+  commit: e91b128082cc221d6432a6a5aadcd3243af8e76c
+  toolchain: leanprover/lean4:v4.35.0

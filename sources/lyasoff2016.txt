@@ -1,0 +1,2143 @@
+Finance Stoch (2016) 20:1061–1096
+DOI 10.1007/s00780-016-0307-1
+
+
+
+
+Another look at the integral of exponential Brownian
+motion and the pricing of Asian options
+
+Andrew Lyasoff1
+
+
+
+
+Received: 19 February 2015 / Accepted: 8 April 2016 / Published online: 15 July 2016
+© Springer-Verlag Berlin Heidelberg 2016
+
+
+
+Abstract It is shown that Marc Yor’s formula (Adv. Appl. Probab. 24:509–531,
+1992) for the density of the integral of exponential Brownian motion taken over a
+finite time interval is an extremal member of a family of previously unknown in-
+tegral formulae for the same density. The derivation is independent from the one
+by Yor and obtained from a simple time-reversibility feature, in conjunction with a
+Fokker–Planck type argument. Similar arguments lead to an independent derivation
+of Dufresne’s result (Scand. Actuar. J. 90:39–79, 1990) for the law of the integral
+taken over an infinite time interval. The numerical aspects of the new formulae are
+developed, with concrete applications to Asian options.
+
+Keywords Exponential Brownian motion · Random environment · Asian options
+
+Mathematics Subject Classification (2010) 60J65 · 60J60
+
+JEL Classification C63 · C65 · G13
+
+
+1 Introduction
+The present paper is a follow-up to Marc Yor’s discovery [33] of an integral formula
+for the density of the distribution of the integral of exponential Brownian motion
+taken over a finite time interval: with σ = 2, one has
+                                          t                         
+                                   1
+                  φt,σ (x, y) :=       P       eσ Ws ds ∈ dx, Wt ∈ dy
+                                 dx dy     0
+                                                       
+                                 1 − 1 (1+e2y ) ey
+                               = e 2x          θ      ,t ,                      (1.1)
+                                 x                 x
+
+B A. Lyasoff
+    alyasoff@bu.edu
+1   Questrom School of Business, Boston University, Boston, MA, United States
+1062                                                                                           A. Lyasoff
+
+where
+                                                ∞
+                              r           π2               u2                         πu
+              θ (r, t) = √            e   2t            e− 2t e−r cosh u sinh u sin      du.
+                             2π 3 t             0                                      t
+One immediate application of such a formula is the computation of expected values
+of the form
+                               t                
+                                        σ Ws +νs
+                           E f        e          ds ,
+                                                    0
+
+for some choice of the parameters σ, ν ∈ R, 0 < t ≤ ∞, and the Borel function
+f : R+ → R. With f (x) = (x − K)+ for some fixed K > 0, such expected values
+can be linked to the price of so-called average or Asian call options. Another reason
+for studying the distribution of the integral of exponential Brownian motion is the
+seemingly unrelated domain of disordered systems and diffusions in random envi-
+ronment (see [7] for a detailed discussion and references).
+   To gain some insight into the nature of Yor’s formula (1.1), notice that with σ = 2
+and ν = 0, the price of the Asian call can be linked to the multiple integral
+        π2
+    e 2t
+   √
+    2π 3 t
+      ∞                                      ∞
+              (x − K)+ ∞           1                 u2 ey cosh u      πu
+   ×       dx      2
+                          dy e y− 2x (1+e2y )
+                                                  e− 2t − x sinh u sin    du.
+       0         x     −∞                      0                        t
+Unfortunately, some computational issues related to the oscillatory nature of the in-
+tegrand aside, the above expression exists as an iterated integral (in that order of
+integration), but not as a triple integral over the domain R++ × R × R++ . The reason
+is that for K ≥ 0,
+     ∞                                                                         
+          1 − ey cosh u+(1+e2y )/2                     1  y                    
+            e           x          dx = −Ei(0) + Ei −     e cosh u + (1 + e )/2
+                                                                           2y
+      K x                                              K
+                                      = ∞,
+
+which shows that the order of integration is crucial (Fubini’s theorem does not hold).
+This limits significantly the applicability of (1.1). It is important to understand the
+intrinsic reason why the above triple integral fails to exist: the point is that (1.1) is
+essentially an integral (convolution) of probability densities of the form
+
+                                                 a p−1    1 −a
+                       R++  x →                             e x,          a > 0,                  (1.2)
+                                               Γ (p − 1) x p
+with p = 2, and with that particular choice for p, these densities do not have finite
+first moments.
+    The main objective of the present paper is to derive integral representations that
+are analogous to (1.1), but can be expressed as convolutions of densities of the form
+(1.2) with p ≥ 3; in fact, one would need at least p = 4 in order to ensure that the
+triple integral representing the unconditional first moment exists, and not just as an
+Another look at the integral of exponential Brownian motion                                              1063
+
+iterated integral. We emphasize that this task cannot revolve around exploring vari-
+ous integral re-interpretations of Yor’s formula. This is because Yor’s formula (see
+[33, (6.c)]) is obtained from some rather special features of Bessel processes and
+confluent hypergeometric functions, the generalization of which, if possible at all, is
+difficult to establish. In what follows, we develop a new method for deriving integral
+representations for the density in (1.1) (including the representation on the right side
+of (1.1)) which is independent from Yor’s method and rests on the following elemen-
+tary time-reversibility-in-law property of generic integral functionals of Brownian
+motion: For measurable functions Vi : R+ × R → R, 1 ≤ i ≤ n, chosen so that the
+integrals below exist a.s., one has the identity in law
+      t                            t                    
+            V1 (s, Ws ) ds, . . . ,     Vn (s, Ws ) ds, Wt
+            0                             0
+             t                                          t                                
+      law
+      =             V1 (t − s, Wt − Ws ) ds, . . . ,             Vn (t − s, Wt − Ws ) ds, Wt .          (1.3)
+                0                                           0
+
+The above identity—usually stated with n = 1 and V1 (s, Ws ) = exp(σ Ws )—has been
+used in a number of contexts (see Alili et al. [1], Bertoin and Yor [3], Carmona
+et al. [4], Linetsky [19]), and its proof is completely elementary. Indeed, setting
+Bst := Wt − Wt−s , s ∈ [0, t], and changing the integration variable in the last n in-
+tegrals from s to t − s, the right side of (1.3) can be written as
+                  t                           t                    
+                                t                          t        t
+                       V1 (s, Bs ) ds, . . . ,     Vn (s, Bs ) ds, Bt
+                             0                          0
+                              t                                t                     
+                       law
+                        =            V1 (s, Ws ) ds, . . . ,          Vn (s, Ws ) ds, Wt .
+                                 0                               0
+
+Nevertheless, as we are about to see, (1.3) encodes all the features needed to develop
+integral representations for the density, including the one due to Yor.
+   The outline of the method is then the following. Starting from (1.3) and using a
+Fokker–Planck type argument, we derive a second order PDE for the joint density
+φt,σ (x, y) in the variables x and y, for fixed t. The idea behind this derivation is sim-
+ple: each side of (1.3) has its own infinitesimal generator, and as the density of both
+sides is the same, the actions of the adjoint infinitesimal generators on this density
+must yield the same result (for fixed t).1 The derivation of this PDE is the objective of
+Sect. 3 below (see (3.6b)). As an aside, and completely unintentionally, this deriva-
+tion yields yet another proof of the striking identity of Donati-Martin et al. [8, (1.1)]
+(see (4.4) below). Somewhat surprisingly, the second order PDE reduces to a first
+order PDE, the integral lines of which foliate the domain R++ × R into 1-manifolds
+and can be computed in closed form. The information encrypted in those integral
+lines plays in our analysis the same role as the connection between Bessel processes
+
+1 The most common use of (1.3) has been to identify the integral component(s) on the right side as diffu-
+sion(s) (in t ) and rely on diffusion theory for the study of the distribution of the associated component(s)
+on the left side. In contrast, the time dynamics play no role in the present study, except for the fact that an
+infinitesimal generator for either side exists.
+1064                                                                            A. Lyasoff
+
+of index ν and the exponential Brownian motion of index ν (due to Lamperti’s rep-
+resentation) plays in Yor’s derivation of (1.1). Using the properties of the first order
+PDE, we derive in Sect. 4 a closed-form expression for the Laplace transform of the
+conditional law of ( 0 eσ Ws ds)−1 given Wt . In Sect. 5, we use this Laplace transform
+                      t
+
+to develop a family of integral representations for φt,σ (x, y). The essence of this step
+is to seek expressions for φt,σ (x, y) in the form of contour integrals, i.e., expressions
+written as
+                                    1
+                                            e− x ft,p (y, z) dz,
+                                               z
+                   φt,σ (x, y) =                                   x ∈ R,
+                                   xp   γ
+
+for various choices of the integer p ≥ 2, of the contour γ and of the function
+(y, z) → ft,p (y, z) that comply with the Laplace transform. To be precise, writing
+the Laplace transform in terms of the above expression leads to an equation for γ
+and ft,p (y, z). This is simply our special way of inverting the Laplace transform.
+We are going to see that the choices for such representations are many, and one of
+those choices is precisely (1.1). One interesting (and useful) aspect of our method is
+the possibility to obtain integral representations with p = 3 and p = 4, as discussed
+above. Moreover, by choosing the contour γ accordingly, we obtain integral repre-
+sentations with less problematic oscillations and substantially easier to evaluate nu-
+merically, even in the case p = 2. Finally, we discuss in Sect. 6 concrete applications
+to Asian options, which are illustrated with concrete numerical examples. The accu-
+racy with which the exact formulae that we obtain can be evaluated depends mostly
+on how far one can push the working precision in the computing system—especially
+for smaller volatilities and shorter time intervals. In addition, most of the formulae
+that we obtain rely on computer algebra. Fortunately, a computing system with which
+one can accomplish such tasks is available and in the public domain. All the comput-
+ing that the present paper refers to is done on a Surface tablet running ‘Linux’ OS
+(as a virtual machine), with the Sage computing system and the mpmath (mp) library
+(within Sage) for higher precision arithmetic.
+   For a detailed review of the topic “integral functionals of Brownian motion” and
+for a comprehensive bibliography, we refer the reader to the survey papers of Mat-
+sumoto and Yor [22, 23] and also to the collection of papers by Yor [35]. The present
+paper is self-contained and does not rely on previously known results, except for the
+time-reversibility property (1.3) and the auxiliary results included in the next section.
+Aside from the short proof of Dufresne’s result [11] about the integral taken over
+an infinite time period, which is included at the beginning of Sect. 3, it is not in the
+paper’s objectives to develop alternative derivations of previously known results. Not
+counting Yor’s original result [33], which we are going to obtain as a special case
+of more general integral formulae, the only other known result that crops up in our
+study—accidentally, and seemingly out of nowhere—is the striking identity in (4.4).
+
+
+2 Some auxiliary results
+A truly pedantic approach to the study of the distributions of the integrals
+              t                            ∞
+                 e σ Ws
+                        ds, t > 0, and          eσ Ws −νs ds, σ, ν > 0,             (2.1)
+               0                                   0
+Another look at the integral of exponential Brownian motion                                            1065
+
+would require a formal proof that infinitely smooth densities exist, before the task
+of calculating those densities can be undertaken. There are various ways in which
+such issues can be addressed. Perhaps the most elementary approach, which does
+not involve advanced tools from diffusion theory or Malliavin calculus, is to replace
+(Ws , 0 ≤ s ≤ t) with (αs + st ξ, 0 ≤ s ≤ t), where (αs , 0 ≤ s ≤ t) is a pinned Brownian
+motion, pinned at α0 = αt = 0, and ξ ∼ N (0, t) is a Gaussian random variable with
+E[ξ ] = 0 and E[ξ 2 ] = t which is independent from (αs ). If we fix the sample path
+[0, t]  s → αs , then the first integral in (2.1) becomes a strictly monotone function
+of ξ and the existence of an infinitely smooth density can be established with the
+standard tools from analysis. The existence of a smooth density for the second integral
+can be obtained in a similar fashion. Given our main objectives, we prefer not to be
+sidetracked into formal proofs of such features and only state (without proof, except
+for the elementary lemma below) the properties that we are going to need later on.
+
+Lemma 2.1 We have for any p ∈ N0 := {0, 1, 2, . . .} that
+                                              t               ±p 
+                                        E             eσ Ws ds           < ∞.
+                                                  0
+
+Proof There are well-known exact formulae for the above moments (see [9] and [10],
+for example), but establishing just the finiteness of the moments, as stated here, is
+completely elementary; one only has to notice that
+                             t
+                                     eσ Ws ds ≤ teσ sup0≤s≤t |Ws | = teσ |Wt |
+                                                                          law
+                                0
+
+and that
+       t                 −1             t                −1
+                                                                     1                  law 1
+                                                  e−σ Ws ds         ≤ eσ sup0≤s≤t |Ws | = eσ |Wt | .
+                                    law
+                eσ Ws ds            =
+            0                                 0                      t                      t
+
+                                                                                                         
+
+Proposition 2.2 Given any t > 0, σ > 0 and ν < 0, the densities
+                        t                         
+                   1
+    φt,σ (x|y) :=     P      e σ Ws
+                                    ds ∈ dx Wt = y , x > 0, −∞ < y < ∞,
+                   dx      0
+                           t                          
+                     1
+    φt,σ (x, y) :=       P       eσ Ws ds ∈ dx, Wt ∈ dy
+                   dx dy      0
+                            1             1
+                                    e− 2t y φt,σ (x|y),
+                                              2
+                    =√                         x > 0, −∞ < y < ∞,
+                      2πt
+                          ∞                    
+                     1          σ Ws +νs
+         ψσ,ν (x) :=    P     e          ds ∈ dx , x > 0,
+                     dx    0
+
+have the following properties:
+1066                                                                                                       A. Lyasoff
+
+    (a) All functions (x, y) → φt,σ (x, y), (x, y) → φt,σ (x|y) and x → ψσ,ν (x) are
+infinitely smooth in all variables.
+                                       ∂n                            ∂n
+    (b) limx 0 ψσ,ν (x) = 0, limx ∞ ∂x   n ψσ,ν (x) = 0, and limx 0 ∂x n ψσ,ν (x) exists
+for every n ≥ 0.
+                                          m+n
+    (c) limx 0 φt,σ (x|y) = 0, limx ∞ ∂x∂ m ∂y n φt,σ (x|y) = 0, and
+
+                                                  ∂ m+n
+                                          lim              φt,σ (x|y)
+                                          x    0 ∂x m ∂y n
+
+
+exists for every m, n ≥ 0.
+   (d) For any m, n, p ∈ N, we have
+                   ∞                     ∞
+                                    y2                       ∂ m+n
+                          dy e− 2t              x ±p                  φt,σ (x|y) dx < ∞.
+                   −∞                      0                ∂x m ∂y n
+
+In particular, the function
+                        t                        ±p                        ∞
+         Ry →E                     e   σ Ws
+                                               ds            Wt = y =                x ±p φt,σ (x |y) dx
+                                0                                               0
+
+is infinitely smooth and one has
+                    t                 ±p                ∞
+          ∂n                                                         ∂n
+              E             eσ Ws ds                Wt = y =    x ±p n φt,σ (x|y) dx.
+         ∂y n         0                                      0      ∂y
+
+   With the scaling property of Brownian motion in mind, the following relations are
+easy to verify:
+                                                                                                 
+                      1          x y                                                1          x y
+        φt,1 (x, y) = 3 φ t ,σ      ,     ,                            φt,1 (x|y) = 2 φ t ,σ         ,
+                     σ   σ2      σ2 σ                                              σ   σ2      σ2 σ
+                                
+                      1           x
+          ψ1,ν (x) = 2 ψσ,νσ 2        .
+                     σ           σ2
+
+At the same time, a straightforward application of the Cameron–Martin–Girsanov
+theorem implies that the joint density of
+                    t                             
+                                σ Ws +μs
+                            e                 ds, Wt ,                 σ > 0, −∞ < μ < ∞,
+                        0
+
+which we denote by φt,σ,μ (x, y), x > 0, −∞ < y < ∞, can be connected with the
+density φt,σ (x, y) = φt,σ,0 (x, y) through the formula
+
+                                                                   2                 
+                                                     μ
+                                                         y+ 12 μ2 t                 μ
+                        φt,σ,μ (x, y) = e σ                    σ       φt,σ,0 x, y + t .                       (2.2)
+                                                                                    σ
+Another look at the integral of exponential Brownian motion                                                        1067
+
+3 Fokker–Planck type characterization of the law of the integral taken
+  over finite and infinite time intervals
+
+As noted in the introduction, the tools developed in the present paper rest in a crucial
+way on the time-reversibility relation (1.3), which leads to a Fokker–Planck type
+equation for the integral taken at a finite time. Applying the Fokker–Planck argument
+to the law of the integral taken over an infinite time period is somewhat simpler,
+and obtains from a particular application of what is known as the “random affine
+equation” (see Bertoin and Yor [3, (17)]): If W and B are two independent Brownian
+                                                                  ∞
+motions, then for every choice of σ > 0 and ν < 0, we have 0 eσ (Ws +νs) ds < ∞
+a.s.,2 and as a result, the following process is well defined:
+                                ∞                                    t                            
+        Zt := e   σ (νt−Bt )
+                                           e   σ (νs+Ws )
+                                                            ds +            e    σ (−νs+Bs )
+                                                                                                ds ,     t ≥ 0.    (3.1)
+                                      0                                0
+
+This process is a stationary Markov process for the filtration (Ft )t≥0 defined by
+                                                                           law     ∞ σ (Ws +νs)
+Ft := σ (Wu , Bv : u ∈ R+ , v ∈ [0, t]), with Zt =                                0 e           ds for any t ≥ 0, and
+its infinitesimal generator is given by
+                                                     
+                            1 2 2 ∂2             σ2      ∂
+                        L := σ x    2
+                                      + 1 + νσ +    x      .                                                       (3.2)
+                            2    ∂x              2      ∂x
+
+Consequently, the density ψσ,ν (x), which is also the density of the random variable
+Zt for any fixed t ∈ R+ , must solve the Fokker–Planck equation
+                                                      
+              ∂ σ2 ∂  2                   σ2
+                      x ψσ,ν (x) − 1 + νσ +    x ψσ,ν (x) = 0.
+             ∂x 2 ∂x                        2
+
+A straightforward integration of this equation gives
+                                                           x                                       
+                          −      2        2ν         2c1              2
+                                                                             − 2ν
+          ψσ,ν (x) = e         x σ2   x   σ −1                   e   uσ2   u   σ −1    du + c2 ,          x > 0,
+                                                     σ2     x0
+
+                                                                                       2         2
+                                                                                            −
+for some x0 > 0 and free constants c1 and c2 . Since e u σ 2 x σ 2 ≥ 1 for u ≤ x and the
+function
+                          x
+                    2ν          2ν         σ 2ν              2ν       2ν
+             x → x σ −1      u− σ −1 du = x σ −1 x0 − σ − x − σ
+                          x0               2ν
+                                                                                  2
+                                                                            −          2ν
+                                                                                            −1
+is not integrable at ∞, while the function x → e x σ 2 x σ 2 obviously is (ν < 0), we
+must have c1 = 0. The constant c2 is then determined from the normalization and we
+
+2 In Dufresne [11, Proposition 4.4.4], this property is established as a consequence from the arcsine
+law. Alternatively,
+            √       it can be seen as a direct application of the law of the iterated logarithm, since
+ ∞ σ ((1+ε) 2s log(log s)+νs)
+ 0 e                          ds < ∞ for every choice of σ, ε > 0 and ν < 0.
+1068                                                                                              A. Lyasoff
+
+arrive at the formula
+                                     4ν
+                                 σσ             −     2     2ν
+              ψσ,ν (x) =                    e       x σ2   x σ −1 ,     x ∈ R++ , ν < 0, σ > 0.       (3.3)
+                            4ν/σ Γ (− 2ν
+                                      σ )
+
+   Several comments are now in order.
+
+Remark 3.1 The above formula can be traced back to Pollak and Siegmund [25,
+Proposition 3], where it is established in the special case ν = − 12 σ . In its present
+form, it was first derived by Dufresne [11] by using an entirely different method.
+Since then, a number of other derivations have emerged: Yor [34], Bertoin and Yor
+[3, (16)], Matsumoto and Yor [22, p. 334], Baudoin and O’Connell [2, (6)], etc. Ex-
+cept for [2], which relies on the features of the Laplace transform of the integral, the
+consensus strategy appears to be to derive the law of the integral over infinite time as
+the limit of the law of the integral over finite time,3 which in turn can be identified
+in law with a diffusion process that has the same dynamics as the process Z (one can
+write the same SDE for both) and shares the same generator as the one in (3.2). The
+shortcut in the foregoing is in the explicit construction of a process (Z from equation
+(3.1)) that already is stationary (immediately after it starts at t = 0), has the same law
+(for any fixed t, including t = 0) as the integral taken at infinite time period, and is
+subject to a Markovian dynamics described in terms of a concrete generator (L from
+equation (3.2)). This allows us to circumvent the passing-to-the-limit step in the argu-
+ment, and to immediately conclude that the “running” (as opposed to the “limiting”)
+density of the already stationary process must solve the associated Fokker–Planck
+equation, without the need to invoke any tools from diffusion theory in order to jus-
+tify the ergodicity feature and connect the infinitesimal generator with the limiting
+law.4
+
+   For a twice continuously differentiable function V : R → R, let
+                      t                                       t
+              Xt =         V (Ws ) ds     and Yt =                   V (Wt − Ws ) ds,   t ≥ 0.
+                       0                                         0
+
+        (1)                    (1)
+Let (Xt , t ≥ 0) and (Yt , t ≥ 0) denote the above processes with V replaced by V
+       (2)              (2)
+and (Xt , t ≥ 0) and (Yt , t ≥ 0) with V replaced by V . In addition, suppose that
+
+3 Dufresne [11] also discretizes the finite time integral and relies on the discrete time result from Vervaat
+[31] (effectively, on the result of Chamayou and Letac [5]), before passing to the limit. Yor [34] connects
+(3.3) with Getoor’s result [16] on escape times of Brownian motion.
+4 Strictly speaking, although identical in terms of dynamics, the SDE that one can write for the process
+Z from (3.1) is different for the SDE that one can write for the integral taken over finite time (see [3,
+19, 20, 21, 22, 25]) in the sense that the filtration of Z is larger, and this is what allows us to “fit” the
+limiting distribution into the initial state Z0 , which then makes passing to the limit redundant. In fact,
+the coincidence between the two SDEs is an accident of a sort, because the process Z originates from
+perturbing in a particular way the integral over infinite time, and the result Z cannot depend on the history
+of the Brownian motion until time t alone.
+Another look at the integral of exponential Brownian motion                                        1069
+
+the function V is chosen so that the following integrals are finite a.s. for any t > 0:
+   t                         t                              t
+                                                                         
+      E[|V (Ws )|] ds < ∞,       E |Ys(2) | ds < ∞ and           E |Ys(1) |2 ds < ∞.
+   0                                  0                                   0
+
+As a direct application of Itô’s formula, given any test function (infinitely smooth
+with compact support) ϕ : R × R → R, we can write
+                              t 
+ E[ϕ(Xt , Wt )] − ϕ(0, 0) =      E V (Ws )ϕ (1,0) (Xs , Ws )
+                                      0
+                                              1                  
+                                             + ϕ (0,2) (Xs , Ws ) ds,                           (3.4a)
+                                              2
+                                      t 
+                                                                   1
+  E[ϕ(Yt , Wt )] − ϕ(0, 0) =            E V (0)ϕ (1,0) (Ys , Ws ) + Ys(2) ϕ (1,0) (Ys , Ws )
+                                      0                            2
+                                              1
+                                             + (Ys(1) )2 ϕ (2,0) (Ys , Ws ) + Ys(1) ϕ (1,1) (Ys , Ws )
+                                              2
+                                              1                   
+                                             + ϕ (0,2) (Ys , Ws ) ds.                             (3.4b)
+                                              2
+Due to the time-reversibility feature (1.3), nothing will change in (3.4b) if throughout
+this equation, the symbol “Y ” is replaced with the symbol “X”. In our next step, we
+define the differentiation operator
+                                                                       
+                            1 2 ∂2         ∂2        1                      ∂
+         At (x, y ; u, v) := u      2
+                                      +u        +      v + V (0) − V (y)       ,
+                            2 ∂x          ∂x∂y       2                     ∂x
+subtract (3.4a) from (3.4b) (after replacing “Y ” by “X”), and differentiate in t. This
+yields the relation
+                                      (1)  (2)           
+                    E At (Xt , Wt ; Xt , Xt )ϕ (Xt , Wt ) = 0.                     (3.5)
+
+Let
+                            1
+              φt (x|y) :=      P[Xt ∈ dx | Wt = y],           x > 0, −∞ < y < ∞,
+                            dx
+denote the conditional density of Xt given Wt , and let
+                               (1)             (2)
+       Mx,y ( du, dv) := P[Xt        ∈ du, Xt        ∈ dv | Xt = x, Wt = y],       (u, v) ∈ R2 ,
+                                                (1)     (2)
+be the conditional distribution of (Xt , Xt ) given (Xt , Wt ). By way of an ex-
+ample, with V ( · ) = expσ · , we have Xt = σ Xt and Xt = σ 2 Xt , in which case
+                                           (1)              (2)
+                                                         2
+Mx,y ( du, dv) is nothing but a point mass at (σ x, σ x). In any case, we can now
+rewrite (3.5) in the equivalent form
+          ∞  ∞              2
+                                                                        
+    1                     − y2t
+  √           dy      dxe       φt (x|y)    Mx,y ( du, dv)At (x, y ; u, v) ϕ(x, y) = 0.
+   2πt −∞          0                      R2
+1070                                                                                 A. Lyasoff
+
+As this relation must hold for any test function ϕ, we arrive at the equation
+                                               ∗
+                                                        y2
+                   Mx,y ( du, dv)At (x, y ; u, v)    e− 2t φt (x|y) = 0,
+                       R2
+
+where ( · )∗ denotes the usual adjoint operator. As noted earlier, with V ( · ) = expσ · ,
+the above adjoint is simply At (x, y ; σ x, σ 2 x)∗ and the last equation specializes to
+                     
+                   ∂ σ 2x2 ∂                        ∂
+                                φt,σ (x|y) + σ x φt,σ (x|y)
+                  ∂x     2 ∂x                      ∂y
+                                                                 
+                           σ xy σ 2 x
+                        −        −        +1−e     σy
+                                                      φt,σ (x|y) = 0.              (3.6a)
+                             t        2
+
+Since the unconditional joint density φt,σ (x, y) is linked to φt,σ (x|y) through the
+relation
+                                                      1     y2
+                                      φt,σ (x, y) = √    e− 2t φt,σ (x|y),
+                                                     2πt
+the above PDE can be restated as
+                                                                          
+      ∂ σ 2x2 ∂                    ∂                   σ 2x
+                 φt,σ (x, y) + σ x φt,σ (x, y) + eσy +      − 1 φt,σ (x, y)
+     ∂x    2 ∂x                   ∂y                    2
+       = 0.                                                                            (3.6b)
+
+Remark 3.2 In much the same way, the invariance relation (1.3) can be used to obtain
+PDEs for the joint density of other integral functionals of Brownian motion. In parti-
+cular, given any p > 0, one can write
+                 t                 t              
+                              1
+                      eWs ds, log       ep Ws ds, Wt
+                    0         p      0
+                         t                         t              
+                                              1
+                             e−Ws ds, Wt + log          e−p Ws ds, Wt .
+                law
+                 = eWt
+                           0                  p      0
+
+Setting
+                   t                                                 t
+                                                               1
+          Xt :=         e   Ws
+                                 ds     and Mt := max Ws = lim   log     ep Ws ds,
+                   0                             s∈[0,t]  p ∞p        0
+
+                                                   law
+the last identity implies (Xt , Mt , Wt ) = (e−Wt Xt , Mt − Wt , −Wt ), which is equiva-
+lent to
+
+                        (Xt , Mt − Wt , Mt ) = (e−Wt Xt , Mt , Mt − Wt ).
+                                                   law
+
+
+                                                         law
+As a special case, we have (Mt − Wt , Mt ) = (Mt , Mt − Wt ) which follows trivially
+from the reflection principle (to be precise, from the well-known formula for the
+Another look at the integral of exponential Brownian motion                                        1071
+
+joint density of (Mt , Wt )).5 With this observation in mind, it is not very difficult to
+establish for the joint density of (Xt , Mt − Wt , Mt ) the invariance property
+
+     ez−y Φt (ez−y x, y, z) = Φt (x, y, z) = ey−z Φt (ey−z x, z, y),            x, y, z ∈ R+ ,
+
+and then derive a PDE for that density, which is analogous to (3.6b) above. Unfortu-
+nately, it does not appear to be possible to reduce this PDE to a first order PDE. In
+much the same way, one can develop a PDE for the joint density of
+                             t         t            
+                                 Ws ds,     Ws 2 ds, Wt .
+                                     0            0
+
+
+                                 t
+4 Foliation of the joint law of ( 0 eσ Ws ds, Wt )
+
+In order to solve (3.6a) in the domain {x > 0, −∞ < y < ∞}, we first note that this
+equation implies that for some yet to be determined function y → α(y), one must
+have
+                        σ 2x ∂                  ∂
+                                φt,σ (x|y) + σ φt,σ (x|y)
+                         2 ∂x                  ∂y
+                                                 
+                             σy σ     2   1 − eσy               α(y)
+                        =       −       +          φt,σ (x|y) +      .                            (4.1)
+                              t      2       x                   x
+
+This is a first order PDE, the nature of which is encrypted into the integral lines of
+the vector field
+                                                      σ 2x ∂    ∂
+                           (x, y) → V (x, y) :=              +σ .
+                                                       2 ∂x    ∂y
+These integral lines can be expressed as
+                                            1 2                
+                     R  u → γx (u), ηy (u) := xe 2 σ u , (y + u)σ ,
+
+for various choices of x ∈ R++ and y ∈ R, and will play a crucial role in our study.
+We can now restate (4.1) as
+              d      1 2              
+                φt,σ xe 2 σ u (y + u)σ
+             du
+                 2                           2   
+                 σ (y + u) σ 2 1 − eσ (y+u)              1 2              
+             =                −    +        1 2
+                                                    φt,σ xe 2 σ u (y + u)σ
+                      t          2       xe 2 σ u
+                  α((y + u)σ )
+                +       1 2
+                                ,                                                                 (4.2)
+                     xe 2 σ u
+5 The connections between the distributions of X , M and L , the local time of W in 0, have been studied
+                                                t   t     t
+extensively by several authors—see the survey papers by Matsumoto and Yor [20, 21].
+1072                                                                                           A. Lyasoff
+
+and observe that
+   ∞                                              ∞                    
+        d       1 2                  d     1 2                     
+          φt,σ xe 2 σ u (y + u)σ dx =     e− 2 σ u     φt,σ x (y + u)σ dx
+   0   du                             du            0
+
+                                                        d  − 1 σ 2u    σ 2 σ2
+                                                   =       e 2        = − e− 2 u .
+                                                       du                 2
+Since the left side of (4.2) integrates (in x) to a finite value, the unknown function
+α( · ) must be chosen in such a way that the right side of (4.2) integrates to a finite
+value as well. However, a formal integration of the right side of (4.2) yields
+         ∞                           2   
+              σ 2 (y + u) σ 2 1 − eσ (y+u)       1 2             
+                          −    +     1 2
+                                            φt,σ xe 2 σ u (y + u)σ dx
+         0          t       2     xe 2 σ u
+                         ∞
+           α((y + u)σ )     1
+        +      1 2
+                              dx, u ∈ R,
+              e2σ u      0  x
+
+and with u = 0 this expression becomes
+        ∞                   2                          ∞
+              σ 2 y σ 2 1 − eσ y                             1
+                   −   +          φt,σ (x|σy) dx + α(σy)       dx.                                 (4.3)
+        0       t    2     x                              0  x
+
+Since the integral
+                 t                                  t                   −1            
+                      φt,σ (x|σy)
+                                  dx = E                    e   σ Ws
+                                                                       ds         Wt = y
+                    0       x                           0
+
+                                             ∞
+is finite (see Lemma 2.1) while 0 x1 dx = ∞, we see that (4.3) can be finite only
+if we set the function α( · ) to 0. Essentially, we are using the finiteness of the above
+integral as a “boundary condition” from which we can fix the solution to (3.6a). In
+any case, integrating both sides of (4.2) with α( · ) = 0 and u = 0, we arrive at the
+special form
+                                            t
+                       σ 2y           σ 2y      φt,σ (x|σy)
+                             + (1 − e )                     dx = 0
+                         t                   0        x
+or, equivalently,
+                                              t
+                               σ 2y             φt,σ (x|σy)      σ 2y
+                          (e          − 1)                  dx =      .
+                                              0       x            t
+With y = 0, the last relation yields
+                            t
+                                 φt,σ (x|y/σ )            y
+                                               dx =      y − 1)
+                                                                ,
+                               0       x            t (e
+
+and as both sides are continuous functions of y, letting y → 0 gives
+Another look at the integral of exponential Brownian motion                                   1073
+                                             t
+                                               φt,σ (x|0)     1
+                                                          dx = .
+                                             0      x         t
+
+   These findings can be summarized as follows.
+
+Theorem 4.1 In the domain {(x, y) : x > 0, −∞ < y < ∞}, the conditional density
+φt,σ (x|y) satisfies the first order PDE
+                                                                           
+      σ 2x ∂                ∂                               σy 1 − eσy   σ2
+             φt,σ (x|y) + σ φt,σ (x|y) =                       +       −     φt,σ (x|y),
+       2 ∂x                ∂y                                t    x      2
+
+which is equivalent to the PDE, for the unconditional density,
+                                                                             
+         σ 2x ∂                 ∂                                1 − eσy   σ2
+                φt,σ (x, y) + σ φt,σ (x, y) =                            −     φt,σ (x, y).
+          2 ∂x                 ∂y                                   x      2
+
+In addition, we have the identity
+              t                   −1           
+                                                              y
+        E            e   σ Ws
+                                ds         Wt = y/σ =                     for any y ∈ R,      (4.4)
+                 0                                      t (ey − 1)
+
+where the right side is understood to be 1t when y = 0.
+
+Remark 4.2 The last identity was first discovered by Donati-Martin et al. [8] (see
+also [9]). The reason why (4.4) was referred to as “striking” by those who first dis-
+covered it is that the expectation on the left appears to be invariant under the choice
+of σ . We note that the method used above is completely different from the one em-
+ployed in [8] and [9]. It is also very different from the derivation of Hobson [17], who
+showed that (4.4) follows from Vervaat’s relationship between Brownian bridges and
+excursions, and from Chaumont et al. [6], where (4.4) is derived from the cyclic ex-
+changeability property of exponential functionals of Lévy processes. While it is not
+uncommon to arrive at one and the same relation with different methods and from
+different points of view, it is remarkable that in this case, the methods and the points
+of view appear to be entirely unrelated.                                              
+
+    Coming back now to the integral lines R  u → (γx (u), ηy (u)) of the vector
+field V (x, y), we observe that there is precisely one such line that passes through
+any (x, y) ∈ R++ × R, and any such line is completely determined by the intercept
+ηy (u) = 0. Thus, the entire family of integral lines can be described as
+                                    1 2                             
+              R  u → γx (u), η0 (u) = xe 2 σ u , σ u ∈ R++ × R : x ∈ R++ ,
+
+or equivalently as
+                                                     
+                          x u u
+                   Ru→      e ,
+                              2      ∈ R++ × R : x ∈ R++ ,
+                          σ2     σ
+1074                                                                                             A. Lyasoff
+
+which gives a foliation of the space R++ × R into 1-manifolds. The key feature of
+this foliation is that an explicit expression for the logarithmic derivative of the (con-
+ditional or unconditional) density along each of its 1-manifolds is readily available,
+as we are about to establish. To this end, we first note that, setting6
+                                                             t
+                                                2 − σ2 Wt
+                                      Zt = σ e                    eσ Ws ds,
+                                                             0
+
+we can write
+                                                                   
+                       1                                  x u u
+                           P[Zt ∈ dx, σ Wt ∈ du] = φt,σ      e 2,    .
+                     dx du                                σ2      σ
+
+Next, notice that the first order equations for φt,σ (x|y) and φt,σ (x, y) from Theo-
+rem 4.1 can be foliated into the two (equivalent) collections of ODEs
+                                           2       
+   d      1 2                     1 − eσ u     σ2       1 2          
+     φt,σ xe 2 σ u , σ u =               1 2
+                                               −     φt,σ xe 2 σ u , σ u ,         x ∈ R++ ,
+  du                                  xe 2 σ u   2
+                                                     2 
+   d      1 2                     σ 2 u σ 2 1 − eσ u         1 2        
+     φt,σ xe 2 σ u σ u =                 −   +    1 2
+                                                          φt,σ xe 2 σ u σ u ,                  x ∈ R++ .
+  du                                  t    2   xe 2 σ u
+
+
+After a simple change of variables, namely u → σu2 and x → σx2 , these (equivalent)
+equations take the form
+                                                      
+     d         x u u          1 2      u         x u u
+       φt,σ      e ,
+                   2     =−     + sinh    φt,σ       e ,
+                                                      2       , x ∈ R++ ,
+    du        σ2     σ        2 x      2         σ2      σ
+                                                            
+     d        x u u          u   1 2        u           x u u
+       φt,σ      e 2     =      − − sinh        φt,σ      e 2     , x ∈ R++ .
+    du        σ2     σ      σ 2t 2 x        2          σ2      σ
+
+The integration of the first equation gives
+                                                 
+                                      x u u                               4
+                                                      = Ct (x) e− 2 − x cosh 2 .
+                                                                      u       u
+                           φt,σ          e2,
+                                      σ2     σ
+
+To determine the function Ct (x), i.e., the free constant from the integration, observe
+that
+                                                                                   x   u   u
+                              P[σ Wt ∈ du, Zt ∈ dx]      φt,σ ( σ 2 e 2 , σ )
+       P[σ Wt ∈ du|Zt ∈ dx] =                       du =                      du,
+                                   P[Zt ∈ dx]                  ht (x)
+
+where ht (x) = dx
+               1
+                  P[Zt ∈ dx] is the (smooth) density of Zt . Consequently,7
+
+6 Processes of this form have played an important role in other studies—see the survey papers by Mat-
+sumoto and Yor [20, 21].
+7 See http://dlmf.nist.gov/10.32.E9 regarding the identity involving K .
+                                                                      1
+Another look at the integral of exponential Brownian motion                                                            1075
+                                 ∞                                            ∞
+                    ht (x)                           4                                       4
+                                         e− 2 − x cosh 2 du = 2                      e−u− x cosh u du
+                                                 u             u
+                           =
+                    Ct (x)          −∞                                         −∞
+                                     ∞                                                   
+                                                 − x4 cosh u                              4
+                            =4               e                 cosh u du = 4K1              ,
+                                    0                                                     x
+
+where K1 stands for the modified Bessel function of the second kind.
+  Similarly, the integration of the equation for the conditional density gives
+                                                                    2
+                  x u u                      x     − u2 − x4 cosh u2 + u 2
+       φt,σ          e2         = Λt             e                    2σ t ,              x ∈ R++ , u ∈ R.         (4.5)
+                  σ2    σ                    σ2
+
+Setting u = 0 in the last relation, we see that the function Λt ( · ) can be expressed as
+                                                                                            
+                                     2                             x                      x       4
+     Λt (x) = φt,σ (x|0)e4/(σ x)                  or Λt                     = φt,σ           0   ex ,      x ∈ R++ ,
+                                                                   σ2                    σ 2
+
+
+and therefore (4.5) can be rearranged as
+
+                                         σy   − σy − 2 (e σy2 −1)2 + y 2
+                     φt,σ (x|y) = φt,σ xe− 2 0 e 2 σ 2 x               2t .                                        (4.6)
+
+As we are about to see, this last relation would allow us to obtain a closed-form
+expression for the Laplace transform of the conditional law of ( 0 eσ Ws ds)−1 given
+                                                                  t
+
+the position of the Brownian motion at time t, i.e.,
+                                              ∞
+                                                      e− x φt,σ (x|y) dx,
+                                                          u
+                         Lt,y (u) =                                                      u > 0.
+                                                 0
+
+Remark 4.3 We stress that here we work with Laplace transforms with respect to the
+probability measure, not with respect to the time variable.                     
+
+   To facilitate the calculation of Lt,y (u), we now define the family of operators
+Tt,y , y ∈ R, to act on continuous functions ϕ : R++ → R according to the rule
+
+                                     σy  − σy − 2 (e 2 −1)2 + y
+                                                      σy          2
+                  (Tt,y ϕ)(x) := ϕ xe− 2 e 2 σ 2 x              2t ,                              x > 0.
+
+With this operation in mind, (4.6) can be interpreted as φt,σ ( · |y) = Tt,y φt,σ ( · |0).
+Since conditional densities integrate to 1, this observation has the effect that when
+applied to the function φt,σ ( · |0), the transformations Tt,y , y ∈ R, preserve the prob-
+ability mass, i.e.,
+                             ∞                                     ∞
+                       1=           φt,σ (x|y) dx =                         Tt,y φt,σ (x|0) dx.
+                                0                                   0
+
+                                                                                          ∞
+However, for a generic function ϕ ≥ 0, the property                                      0 Tt,y ϕ(x) dx = 1 for any
+y ∈ R results into the chain of identities
+1076                                                                                                                  A. Lyasoff
+               ∞                                      ∞
+                                                 y2           − σy  − 2 (e σy2 −1)2  − σy 
+        1=          Tt,y ϕ(x) dx = e             2t         ϕ xe 2 e σ 2 x           d xe 2
+              0                                       0
+                                                       ∞
+                                                 y2                     − 42 (cosh σy
+                                          =e     2t         ϕ(x) e        σ x       2 −1)   dx.                           (4.7)
+                                                      0
+
+Since the function R+  y → σ42 (cosh σy
+                                       2 − 1) ∈ R+ is one-to-one and invertible,
+                                        ∞
+we see from the last relation that y → 0 Tt,y acts as some sort of a “transformed
+Laplace transform”, and we can claim the following.
+
+Proposition 4.4 The density x → φt,σ (x|0) can be identified as the unique function
+                                ∞
+x → ϕ(x) that has the property 0 Tt,y ϕ(x) dx = 1 for all y ∈ R.
+
+   This brings us to the following result.
+
+Theorem 4.5 For fixed t > 0 and σ > 0, the Laplace transform of the conditional
+law
+                 t            −1            
+            1
+              P        e σ Ws
+                              ds     ∈ dx Wt = y , x > 0, y ∈ R,
+           dx       0
+
+is given by
+                      ∞                                          y2                                   2 − yσ
+                                                                       − 22 arcosh2 (cosh σy
+                                                                                           2 + 4 e
+                                                                                              uσ
+                           e− x φt,σ (x|y) dx = e 2t
+                                u                                                                           2 )
+        Lt,y (u) =                                                       σ t                                      .
+                      0
+
+Proof Establishing this result is merely a matter of computation, which comes down
+to integrating (4.6), changing the integration variable accordingly, and taking into
+account (4.7). This yields
+                        ∞
+                            e− x φt,σ (x|y) dx
+                               u
+            Lt,y (u) =
+                           0
+                           ∞
+                                        − xu
+                                                    − σy  − σy − 2 (e σy2 −1)2 + y 2
+                      =             e          φt,σ xe 2 0 e 2 σ 2 x               2t dx
+                           0
+                                 ∞                                     σy
+                                                                       − 2
+                                                                                      σy
+                           y2                                 − x1 e         (u+ 22 (e 2 −1)2 )
+                      = e 2t                   φt,σ (x|0) e                      σ                dx
+                                    0
+                                 ∞                                           σy
+                                                                             − 2 σ2
+                           y2                                 − 42 (u e                   σy
+                      = e 2t                   φt,σ (x|0) e     σ x               4 +cosh 2 −1)    dx
+                                    0
+                                 ∞
+                           y2                                 − 42 (cosh σ2z −1)
+                      =e   2t                  φt,σ (x|0) e     σ x                   dx,
+                                    0
+
+where
+                                                                                        
+      σz       σy σ 2        σy                             2            σy           σ2
+                                                                                 − σy
+ cosh    = u e− 2     + cosh                          or z = arcosh cosh    + ue    2      .
+      2            4          2                             σ             2           4
+Another look at the integral of exponential Brownian motion                                                     1077
+
+The Laplace transform can now be written as
+                                                   ∞
+                         y2         2        z2                        − 42 (cosh σ2z −1)           y2   z2
+                                − z2t
+        Lt,y (u) = e e   2t              e   2t         φt,σ (x|0) e     σ x                dx = e 2t e− 2t .     
+                                                  0
+
+   Now we can obtain again the “striking” identity in (4.4), this time by differenti-
+ating the Laplace transform Lt,y (u); a straightforward—albeit somewhat tedious—
+calculation gives
+                  t                   −1                 
+                                                                               ∂
+            E            e   σ Ws
+                                    ds             Wt = y = − lim                  Lt,y (u)
+                    0                                                  u→0 ∂u
+                                                                          σy
+                                                                 =               ,     −∞ < y < ∞.
+                                                                     t (eσy − 1)
+
+The calculation of moments of higher order is possible—especially if delegated to
+computer algebra. By way of an example, the Sage program gives the expansion
+
+Lt,0 (u)
+                                         
+             1                                171460800 σ 18 3168117684 σ 16
+ =                                                          +
+     810967336058880000                             t              t2
+
+               26520488325 σ 14 132024741590 σ 12 430791891075 σ 10
+           +                   +                 +
+                     t3                t4                t5
+           955555260660 σ 8 1440985946400 σ 6 1424690467200 σ 4
+           +                +                   +
+                 t6                     t7             t8
+                                           
+           838053216000 σ 2 223480857600 10
+         +                  +                u
+                 t9                 t 10
+                        
+               1           2116800 σ 16 38798964 σ 14 317833445 σ 12
+     −                                   +           +
+       1067062284288000         t             t2           t3
+
+           1520066730 σ 10 4642833195 σ 8 9274945680 σ 6
+           +              +                +
+                 t4               t5              t6
+                                                      
+           11835663840 σ 4 8821612800 σ 2 2940537600 9
+         +                +                +            u
+                 t7               t8             t9
+                     
+             1         132300 σ 14 2400129 σ 12 19114550 σ 10
+     +                            +            +
+       6974263296000        t           t2           t3
+
+             86641555 σ 8 241441200 σ 6 413693280 σ 4 403603200 σ 2
+           +             +             +             +
+                  t4           t5            t6            t7
+                       
+             172972800 8
+           +             u
+                 t8
+1078                                                                                 A. Lyasoff
+                       
+           1             2700 σ 12 48321 σ 10 370370 σ 8 1556555 σ 6
+    −                               +            +             +
+      14529715200             t          t2              t3           t4
+                                                      
+           3783780 σ 4 5045040 σ 2 2882880 7
+        +                 +              +               u
+                t5                 t6           t7
+                   
+           1           300 σ 10 5269 σ 8 38225 σ 6 143220 σ 4
+    +                            +         +             +
+      159667200           t           t2          t3           t4
+                                     
+           277200 σ 2 221760 6
+        +                +             u
+               t5               t6
+                                                                 
+         1      12 σ 8 205 σ 6 1365 σ 4 4200 σ 2 5040 5
+    −                    +           +        +              + 5    u
+      604800         t          t2       t3           t4       t
+              6                                              4              
+        1     3σ         49 σ 4 280 σ 2 560 4               1  σ    15 σ 2 60 3
+    +                  + 2 +              +         u  −          +       +      u
+      13440      t          t         t3     t4           360 t        t2   t3
+                      
+      1 σ 2 12 2 u
+    +         + 2 u − + 1 + O(u11 ).
+      24 t         t             t
+
+From the last expansion, one can easily obtain the values for
+
+                                   t                   −p            
+                             E            e   σ Ws
+                                                     ds         Wt = 0
+                                     0
+
+
+with p = 0, 1, . . . , 10 (we use Sage again) as
+
+        1         σ2    1           σ4   σ2   1                      3σ6    7σ4    σ2   1
+  1,      ,           + ,               + 2 + 3,                          +       + 3 + 4,
+        t         12 t t 2          60 t 4 t t                       560 t 80 t 2  2t  t
+                         σ8    41 σ 6    13 σ 4 5 σ 2  1
+                             +         +        + 4 + 5,
+                        420 t 1008 t 2   48 t 3  6t   t
+                  5 σ 10   479 σ 8    695 σ 6    31 σ 4 5 σ 2  1
+                         +        2
+                                    +        3
+                                               +      4
+                                                        + 5 + 6,
+                  3696 t 20160 t      4032 t     48 t    4t   t
+              15 σ 12   59 σ 10   37 σ 8    311 σ 6 21 σ 4 7 σ 2   1
+                      +       2
+                                +       3
+                                          +       4
+                                                    +      5
+                                                             + 6 + 7,
+              16016 t 3520 t      288 t     576 t     16 t    4t  t
+ 7 σ 14   266681 σ 12   4201 σ 10 17311 σ 8 67 σ 6 287 σ 4 7 σ 2       1
+        +           2
+                      +         3
+                                  +         4
+                                              +      5
+                                                       +       6
+                                                                 + 7 + 8,
+ 9152 t 19219200 t      38016 t     34560 t     48 t     120 t    3t  t
+              7 σ 16   63397 σ 14   3739217 σ 12 32753 σ 10 2021 σ 8
+                     +            +              +           +
+              9724 t 4804800 t 2    34594560 t 3   63360 t 4   1280 t 5
+                                 757 σ 6 161 σ 4 3 σ 2  1
+                           +           6
+                                         +      7
+                                                  + 8 + 9,
+                                 240 t     40 t     t  t
+Another look at the integral of exponential Brownian motion                                            1079
+
+        567 σ 18   1543917 σ 16   364919 σ 14 5839219 σ 12 21713 σ 10
+                 +              +                 +                +
+        739024 t 108908800 t 2     3075072 t 3       9884160 t 4     11264 t 5
+                     5473 σ 8   619 σ   6   51 σ  4   15 σ  2    1
+                   +          +           +         +         + 10 .
+                     1280 t 6    96 t 7      8 t8      4 t9    t
+Remark 4.6 It is now clear that the striking identity discovered by Donati-Martin
+et al. [8] is a special case of a perhaps even more striking feature: The conditional
+moments of E[( 0 eσ Ws ds)−p |Wt = 0] can be written as homogeneous polynomials
+                   t
+
+of degree p from the variables σ 2 and 1t with leading term t1p and final term equal to
+          2(p−1)
+const. σ t         , for p ≥ 2.
+
+
+5 Integral representations for the density of the integral taken over
+  finite time
+                                                 t
+Since the densities of the integrals 0 eσ s ds, for various choices of σ , are simple
+transformations of one another, it would be enough for us to compute the density
+with σ = 1. Furthermore, because of the connection established in (4.6), it would
+suffice to compute just the conditional density φt,1 ( · |0). In conjunction with Proposi-
+tion 4.4 and the relation (4.7), this calculation comes down to solving for the function
+R++  x → ϕt (x) from the integral equation (this is simply (4.7) with the substitu-
+tions σ = 1 and y = 2y)
+                             ∞
+                                           4 cosh y−4        2y 2
+                                  ϕt (x) e− x         dx = e− t .                    (5.1)
+                                  0
+
+Essentially, the problem comes down to inverting a concrete Laplace transform, and
+the idea is to do this by developing various integral expressions for the density that
+are consistent with the Laplace transform. Inspired by Yor’s discovery [32] that the
+density of the Hartman–Watson distribution may be interpreted as a contour integral,8
+we attempt to resolve the above equation for ϕt ( · ) by seeking solutions in the form
+of contour integrals written as
+                                 1
+                                      e− x ft,p (z) dz, x ∈ R,
+                                         z
+                       ϕt (x) = p
+                                x γ
+
+for various choices of the contour γ ⊂ {z ∈ C : R(z) > 0}, the integer p ≥ 2 and
+the function ft,p ( · ). As we are about to see, there is simply too much to choose
+from, and Yor’s formula   (1.1) can be seen as one such choice. Assuming that the
+             ∞
+operations 0 dx and γ dz can be interchanged, we must choose the contour γ and
+the function z → ft,p (z) so that the following identity holds for any y ∈ R:
+                   ∞                         
+                           1 − z+4 cosh y−4                ft,p (z) (p − 2)!
+          ft,p (z)            e      x      dx   dz =                         dz
+        γ             0   x p
+                                                      γ (z + 4 cosh y − 4)p−1
+                                                                   2y 2
+                                                            = e− t .                                  (5.2)
+
+8 Yor’s formula (1.1) is essentially a consequence from the contour integral representation of the density of
+the Hartman–Watson law.
+1080                                                                                       A. Lyasoff
+
+It is clear from the last relation that in order to justify the interchange of the two
+integration operations, it would be enough to check that
+
+                             |ft,p (z)|
+                                                  | dz| < ∞ for any y ∈ R.
+                  γ |z + 4 cosh y − 4|
+                                      p−1
+
+
+   Our first step in this program is to rewrite the above contour integral in a more
+tractable form that makes the calculus of residues easier to implement. In particular,
+we should like to express the contour γ as a function of the form
+                                                      
+                        θ → γ (θ ) = −4 cosh ζ (θ ) − 1 ∈ C,
+
+where θ → ζ (θ ) represents another contour inside C. As γ ⊂ {z ∈ C : R(z) > 0},
+we must have ζ ⊂ {z ∈ C : R(cosh z) < 1}. Changing the variables in (5.2) ac-
+cordingly, we arrive at the following equation for the contour ζ and the function
+gt,p (z) := ft,p (4 − 4 cosh z) (i.e., we seek the unknown function ft,p ( · ) in the form
+ft,p (z) = gt,p (arcosh(1 − z/4)), z ∈ C, for some yet to be determined function
+gt,p ( · )):
+
+                 gt,p (z)                  (−4)p−2 − 2y 2
+                               sinh z dz =          e t                   for all y ∈ R.       (5.3)
+        ζ (cosh z − cosh y)
+                           p−1             (p − 2)!
+
+As long as the contour ζ and the function z → gt,p (z) satisfy the above relation, we
+can express the conditional density as a contour integral of the form
+
+                              1
+                                      e− x ft,p (z) dz
+                                           z
+              φt,1 (x|0) =
+                             xp   γ
+
+                           4               4
+                        =− p              e x (cosh z−1) gt,p (z) sinh z dz,   x ∈ R.          (5.4)
+                          x           ζ
+
+    The only remaining task is to establish precisely how the contour ζ and the func-
+tion z → gt,p (z) can be engineered to solve (5.3). To start with this program, notice
+first that if ζ is a closed contour that bounds a region Ω which contains the entire
+real line R, and if the function ζ  z → gt,p (z) has an analytic extension to the entire
+domain Ω, the calculus of residues would reduce (5.3) to
+
+                                            1 (−4)p−2 −2 y 2
+            Rt,p (y) + Rt,p (−y) =                      e t ,           y ∈ R, p ≥ 2,          (5.5)
+                                           2πi (p − 2)!
+
+where
+                                                                    
+                          1         dp−2   (z − y)p−1 gt,p (z)
+           Rt,p (y) :=          lim                            sinh z .                        (5.6)
+                       (p − 2)! z→y dzp−2 (cosh z − cosh y)p−1
+
+The calculation of Rt,p (y) is completely straightforward for p = 2, 3, but for larger
+values of p, the use of computer algebra becomes handy. By way of an example, Sage
+returns
+Another look at the integral of exponential Brownian motion                                                      1081
+
+        Rt,2 (y) = gt,2 (y),          y ∈ R,
+                      gt,3 (y)
+        Rt,3 (y) =                ,   y ∈ R,
+                       sinh y
+                          cosh y gt,4 (y)          gt,4 (y)
+        Rt,4 (y) = −                  3
+                                               +               ,        y ∈ R,
+                            2 sinh y               2 sinh2 y
+                                                                     (3)
+                        gt,5 (y)          cosh y gt,5 (y)           gt,5 (y)         gt,5 (y)
+        Rt,5 (y) =            3
+                                      −             4
+                                                             +             3
+                                                                                 +               ,      y ∈ R,
+                      3 sinh y                2 sinh y             6 sinh y          2 sinh5 y
+                                                                                   (3)                (4)
+                          cosh y gt,6 (y)          11gt,6 (y)            cosh y gt,6 (y)             gt,6 (y)
+        Rt,6 (y) = −                           +                    −                      +
+                            4 sinh5 y              24 sinh4 y              4 sinh5 y             24 sinh4 y
+                          5 cosh y gt,6 (y)             5gt,6 (y)
+                      −                   7
+                                                   +                ,     y ∈ R.
+                              8 sinh y                 8 sinh6 y
+
+   These relations reveal the general rule for producing the function Rt,p ( · ) from
+any concrete choice for the function gt,p ( · ). To put it in another way, one can think
+of Rt,p as a function of the symbol gt,p . If we now use the symbol g( · ) as a generic
+placeholder for the input gt,p ( · ), and interpret the above relations as recipes for pro-
+ducing the symbol Rt,p ( · ) from the generic symbol g( · ), we see that for p ≥ 3,
+the recipe for producing Rt,p ( · ) is connected to the recipe for producing Rt,p−1 ( · ),
+through the following relation, which is easy to verify directly from (5.6):
+
+                            1         d
+       Rt,p (y) =                       Rt,p−1 (y),                     Rt,2 (y) = g(y),         y ∈ R.          (5.7)
+                      (p − 2) sinh y dy
+
+In particular, we see that if g( · ) is chosen to be an even function, the output Rt,p ( · )
+will be even as well, which in conjunction with (5.5) will give us the formula
+
+                                               1 (−4)p−2 −2 y 2
+                           Rt,p (y) =                       e t ,                y ∈ R.
+                                              4πi Γ (p − 1)
+
+Since Rt,p ( · ) is now known, we can recover g( · ), which is simply a placeholder
+for gt,p ( · ), with p − 2 anti-differentiations from (5.7). Clearly, the result is going to
+depend on p − 2 free constants, but this is to be expected, since the function
+
+                                  z → gt,p (z) := ft,p (4 − 4 cosh z)
+
+we are looking for cannot be determined uniquely from (5.3). Because all we need is
+just one concrete choice for gt,p ( · ), we can suppose that all free constants are null,
+and with this choice all functions gt,p ( · ), p ≥ 2, are automatically even, as intended.9
+
+9 Equation (5.3) is the only condition that we want the function g ( · ) to satisfy. Because of the magic
+                                                                  t,p
+of the Cauchy formula and the calculus of residues, the left side of (5.3) is nothing but a differentiation
+operation of order p − 2 applied to gt,p ( · ), while the right side is given. It should be clear that (5.3) can
+be satisfied with infinitely many choices for gt,p ( · ).
+1082                                                                                              A. Lyasoff
+
+With the help of the Sage system again, we arrive for p = 2, 3, 4 at the expressions
+                     1 −2 y 2
+        gt,2 (y) =      e t , y ∈ R,
+                   4πi
+                         √                                
+                           t        t + 4y         t − 4y
+        gt,3 (y) = et/8 √       erf √       + erf √          , y ∈ R,
+                       4i 2π         2 2t           2 2t
+                         √                                
+                            t        t + 2y         t − 2y
+        gt,4 (y) = et/2 √       erf √       + erf √
+                       2i 2π            2t             2t
+                                  √                               
+                                   t        t + 4y          t − 4y
+                   − et/8 cosh y √       erf √        + erf √        , y ∈ R. (5.8)
+                                 i 2π        2 2t            2 2t
+In addition to being even, these functions are analytic in the entire complex plane C,
+and since we have erf(z) = erf(z) and erf(−z) = − erf(z), z ∈ C, it is straightforward
+to check that gt,p (z) = −gt,p (z), z ∈ C. This last relation has the effect that
+                                                                    
+            R gt,p (z) = −R gt,p (z) and I gt,p (z) = I gt,p (z) .
+   Now we turn to the equation (5.3) and the choice of the contour
+                                   ζ ⊂ {z ∈ C : R(cosh ζ ) < 1}.
+Since R(cosh z) = cos I(z) cosh R(z), z ∈ C, the above relation is the same as
+                             ζ ⊂ {z ∈ C : cos I(z) < 1/ cosh R(z)}.
+In particular, it would be enough for us to take
+       ζ ⊂ {z ∈ C : cos I(z) ≤ 0}
+                            π               π                            
+         = z ∈ C : (2k − 1) ≤ I(z) ≤ (2k + 1) for some integer k ∈ Z \ {0} .
+                              2              2
+Of course, we must choose ζ so that it bounds a region Ω that contains the entire real
+line R. There is indeed too much to choose from. Perhaps the simplest such choice is
+                                                                         
+       ζ = ζa := (−∞, +∞)  u → u − ia ∪ (+∞, −∞)  u → u + ia
+
+for some fixed a ∈ [ π2 , 3π2 ]. The choice that appears to be “most obvious” is “the
+middle” a = π , and as we are about to see, this choice (i.e., ζ = ζπ ) leads to a family
+of integral representations of which the well-known Yor formula is a special (and ex-
+treme, in that it involves the lowest possible power of p) case. However, we shall also
+establish that choosing the borderline a = π2 (i.e., ζ = ζπ/2 ) leads to computationally
+more tractable representations.10 Of course, in order to interpret (see (5.3))
+                                            gt,p (z)
+                                                         sinh z dz
+                                 ζa (cosh z − cosh y)p−1
+
+10 Apparently, there are infinitely many choices for the contour ζ that can be used for constructing integral
+representations that are of interest to us. The study of which choices would lead to the most computa-
+tionally efficient representations is beyond the scope of the present paper. Our choices here appear to be
+“natural”, but we are also trying to mimic the contour integral representations from [32] simply because
+we insist on developing integral representation of which (1.1) is a special case.
+Another look at the integral of exponential Brownian motion                                   1083
+
+as a closed-contour integral and apply calculus of residues as planned, one must show
+that
+                   1
+                               gt,p (n + iau)
+            lim                                     sinh(n + iau) du
+           n→∞       −1 (cosh(n + iau) − cosh y)p−1
+                   1                                             
+                           gt,p (−n − iau)
+               +                                 sinh(−n − iau) du = 0.
+                 −1 (cosh(−n − iau) − cosh y)
+                                             p−1
+
+
+However, as long as the function z → gt,p (z) is chosen to be even, the last two inte-
+grals annihilate each other and the above condition is satisfied in a trivial way.
+   Now we turn to computing the various concrete forms of the general contour-
+integral representation in (5.4) with ζ = ζa , π2 ≤ a ≤ 3π
+                                                         2 . Since for any u ∈ R, we
+have
+
+                                −gt,p (u + ia) = gt,p (u − ia),
+                                   cosh(u + ia) = cosh(u − ia),
+                                   sinh(u + ia) = sinh(u − ia),
+
+we can then write, for x > 0,
+                             ∞
+                        4               4
+         φt,1 (x|0) = − p           e x (cosh(u−ia)−1) gt,p (u − ia) sinh(u − ia)
+                       x      −∞
+                                             4
+                                        − e x (cosh(u+ia)−1) gt,p (u + ia) sinh(u + ia) du
+                                    ∞
+                       16 4                      4
+                    = − p e− x              R e x cosh(u−ia) gt,p (u − ia) sinh(u − ia) du.
+                       x            0
+
+With a completely analogous calculation, (5.3) can be cast as
+          ∞                                              
+                           gt,p (u − ia)                          (−4)p−2 − 2y 2
+     2         R                               sinh(u − ia)  du =          e t
+          −∞        (cosh(u − ia) − cosh y)p−1                    (p − 2)!
+
+for any y ∈ R. By using the relations
+
+            cosh(u ± ia) = cos(a ∓ iu),    sinh(u ± ia) = ±i cos(a ∓ iu),
+             cos(π ∓ iu) = − cosh u,    ±i sin(π ∓ iu) = − sinh u,
+           cos(π/2 ∓ iu) = ±i sinh u, ±i sin(π/2 ∓ iu) = ±i cosh u,
+
+we can restate the last two integral equation as follows: with a = π/2, for any y ∈ C
+with −π/2 < I(y) < π/2,
+                              ∞
+                 16 4                            4
+     φt,1 (x|0) = p e− x            R ie−i x sinh u cosh u gt,p (u − iπ/2) du,       x > 0,
+                 x             0
+1084                                                                            A. Lyasoff
+
+and
+             ∞                                         
+                                     gt,p (u − iπ/2)            (−4)p−2 − 2y 2
+        2         R −i cosh u                              du =          e t ,
+             −∞                  (−i sinh u − cosh y)p−1        (p − 2)!
+and with a = π , for any y ∈ C with −π < I(y) < π ,
+                           
+                   16 4 ∞            4
+      φt,1 (x|0) = p e− x      R e− x cosh u sinh u gt,p (u − iπ) du,     x > 0,
+                   x        0
+
+and
+              ∞                                      
+                                     gt,p (u − iπ)            (−4)p−2 − 2y 2
+         2         R − sinh u                            du =          e t .
+              −∞                (− cosh u − cosh y)p−1        (p − 2)!
+   In order to justify the interchange of the integrations over the variables x and z,
+on which the above calculations are based, it would be enough to check that the
+following conditions are in force:
+    ∞
+                                  cosh u
+        gt,p (u − iπ/2)                            du < ∞, −π/2 < I(y) < π/2
+    −∞                   (−i sinh u − cosh y)p−1
+and
+        ∞
+                                      sinh u
+              gt,p (u − iπ)                          du < ∞,     −π < I(y) < π.
+       −∞                     (− cosh u − cosh y)p−1
+A straightforward calculation shows that
+
+            R(i sinh u + cosh y) = cos I(y) cosh R(y) − cosh R(u) sin I(u).
+
+In particular, with −π/2 < I(y) < π/2, we have
+
+            |−i sinh u − cosh y| ≥ cos I(y) cosh R(y) > 0,     for any u ∈ R.
+
+Similarly,
+
+             R(cosh u + cosh y) = cos I(y) cosh R(y) + cos I(u) cosh R(u),
+             I(cosh u + cosh y) = sin I(y) sinh R(y) + sin I(u) sinh R(u),
+
+so that one has for any u ∈ R
+                         
+                                                                        2
+ |cosh(u) + cosh(y)| = sin2 I(y) sinh2 R(y) + cos I(y) cosh R(y) + cosh u .
+
+If R(y) = 0 = I(y), the above norm is bounded from below by
+
+                                 |sin I(y) sinh R(y)| > 0.
+
+If I(y) = 0, the same norm is bounded from below by
+                    
+                                         2
+                        cosh R(y) + cosh u ≥ cosh R(y) ≥ 1,
+Another look at the integral of exponential Brownian motion                                   1085
+
+and if R(y) = 0, with −π < I(y) < π and u ∈ R, we have
+               |cosh u + cosh y| ≥ cosh u + cos I(y) ≥ 1 + cos I(y) > 0.
+
+In any case, we can claim that with −π < I(y) < π , one has
+                                    inf |cosh u + cosh y| > 0.
+                                    u∈R
+
+Therefore, it is enough to establish that
+                          ∞
+                              |gt,p (u − iπ/2) cosh u| du < ∞
+                               −∞
+
+and                             ∞
+                                       |gt,p (u − iπ) sinh u| du < ∞.
+                                −∞
+To see why these estimates are indeed satisfied, first notice that the expressions
+                              gt,p (u − iπ/2)        and gt,p (u − iπ)
+
+are both linear combinations of expressions of the form erf(c1 u + ic2 ) for various
+constants c1 , c2 ∈ R. Then notice that for every choice of a, b ∈ R, one has
+                                                             2  1
+                    1                            be−a            2
+  I erf(a + ib) =        erf(a + ib) − erf(a − ib) = √             eb v cos(2abv) dv
+                      2i                                  π −1
+and
+                                                                   2    1
+              1                          aeb
+                                                                              e−a v cos(2abv) dv.
+                                                                                 2
+ R erf(a + ib) = erf(a + ib) − erf(−a + ib) = √
+                2                              π                         −1
+
+These relations follow trivially from differentiating the functions v → erf(a + ibv)
+and v → erf(av + ib). Since the integrals
+               ∞                              ∞
+                    e−c1 u cosh u du and            e−c1 u |sinh u| du
+                        2 2                             2 2
+
+                   −∞                                     −∞
+
+are finite, the exchange of the two integration operations is finally justified.
+   By using the conversion rule φt,σ (x|0) = σ 2 φσ 2 t,1 (σ 2 x|0) and the relation (4.6),
+we obtain the general formulae (x ∈ R)
+                                                 2
+                         16        1
+                                       σy (p−1)+ y − 2 (eσy +1)
+      φt,σ (x|y) =              e2        2t   σ 2x
+                     σ 2p−2 x p
+                         ∞
+                                        −i 4 eσ y/2 sinh u
+                     ×       cosh u R ie σ 2 x             gσ 2 t,p (u − iπ/2) du,          (5.9a)
+                         0
+                                                 2
+                         16        1
+                                       σy (p−1)+ y − 2 (eσy +1)
+      φt,σ (x|y) =              e2           2t σ 2x
+                     σ 2p−2 x p
+                         ∞
+                                       − 4 eσ y/2 cosh u
+                     ×       sinh u R e σ 2 x            gσ 2 t,p (u − iπ) du,              (5.9b)
+                         0
+1086                                                                                              A. Lyasoff
+
+which are equivalent to the formulae, for the unconditional joint density,
+
+                             16                1
+                                                   σy (p−1)− 22 (eσy +1)
+   φt,σ (x, y) =                  √           e2             σ x
+                   σ 2p−2 x p 2πt
+                       ∞
+                                      −i 4 eσ y/2 sinh u
+                   ×       cosh u R ie σ 2 x             gσ 2 t,p (u − iπ/2) du,                   (5.10a)
+                       0
+                             16                1
+                                                   σy (p−1)− 22 (eσy +1)
+   φt,σ (x, y) =                  √           e2             σ x
+                   σ 2p−2 x p 2πt
+                       ∞
+                                     − 4 eσ y/2 cosh u
+                   ×       sinh u R e σ 2 x            gσ 2 t,p (u − iπ) du.                       (5.10b)
+                       0
+
+We shall refer to (5.10a) as “the π2 -formula of order p” and to (5.10b) as “the
+π -formula of order p.” With p = 2, we have
+                                    2                                  
+                 π      1 −2 (u−iπ/2)      1 π 22 − 2 u22   2 πu     2 πu
+  gσ 2 t,2 u − i     =     e     2
+                                σ t     =    e 2σ t σ t sin 2 − i cos 2 ,
+                 2     4πi                4π                σ t      σ t
+
+and
+                                          2                                                       
+                              1 −2 (u−iπ)      1 2 π 2 −2 u2                     4 πu         4 πu
+       gσ 2 t,2 (u − iπ) =       e   σ 2t   =    e σ 2t                    sin        − i cos        .
+                             4πi              4π                                 σ 2t         σ 2t
+
+As a result, (5.9a) and (5.9b) specialize to
+
+                                  π2
+                        4 e 2σ 2 t σy + y 2 − 2 (eσy +1)
+            φt,σ (x|y) = 2 2 e 2 2 t σ 2 x
+                        σ x π
+                           ∞ 2 u2                                         
+                                   − 2                  4 sinh u eσy/2 2 πu
+                        ×         e σ t cosh u cos                    − 2     du
+                             0                               σ 2x      σ t
+
+and
+                                       2 π2
+                            4 e σ 2 t σy + y 2 − 2 (eσy +1)
+                φt,σ (x|y) = 2 2 e 2 2 t σ 2 x
+                            σ x π
+                               ∞ 2 u2 4 cosh u
+                                      −       −       eσy/2           4 πu
+                            ×        e σ 2t e σ 2x          sinh u sin 2 du,
+                                0                                     σ t
+
+while (5.10a) and (5.10b) specialize to
+
+                                       π2
+                             4 e 2σ 2 t    σy
+                                              − 2 (eσy +1)
+           φt,σ (x, y) =          √       e 2 σ 2x
+                         σ 2 x 2 π 2πt
+                             ∞ 2 u2                                        
+                                    −                   4 sinh u eσy/2 2 πu
+                         ×        e σ 2 t cosh u cos                  −        du
+                              0                              σ 2x       σ 2t
+Another look at the integral of exponential Brownian motion                                           1087
+
+and
+                                         2 π2
+                                   4 e σ 2t     σy
+                                                   − 2 (eσy +1)
+                 φt,σ (x, y) =          √      e 2 σ 2x
+                               σ 2 x 2 π 2πt
+                                   ∞ 2 u2 4 cosh u
+                                          −     −       eσy/2           4 πu
+                               ×        e σ 2t e σ 2x         sinh u sin 2 du.
+                                    0                                   σ t
+
+Remark 5.1 With σ = 2, the last formula, i.e., the π -formula of order 2, reads
+                               π2                    ∞
+                          e 2t      1                         u2     cosh u y                πu
+                               ey− 2x (e +1)              e− 2t e−
+                                        2y
+       φt,2 (x, y) =       √                                           x e      sinh u sin      du,
+                     x 2 π 2πt                       0                                        t
+
+and this is precisely Yor’s formula [33, (6.c)]—see (1.1) above.
+
+Remark 5.2 It is easy to see why from a computational point of view, the π2 -formula
+                                                                   − 4 eσ y/2 cosh u
+may be preferable to the π -formula: The expression e σ 2 x          in the π -formula
+involves double exponentials, whereas in the π2 -formula, this expression is replaced
+with the bounded term cos(. . .). These differences are manifested in the numerical
+                 ∞
+evaluation of 0 φ1,2 (x|0) dx, which comes down to the computation of a double
+                       ∞        ∞
+integral of the form 0 du 0 dx(. . .). In either case, the double integral converges
+and Sage/Maxima can compute the inner integral in closed form as an explicit func-
+tion of u. This function, which is considerably simpler in the case of the π -formula,
+can only be integrated numerically and only on a finite interval. In the case of the
+π -formula, the widely used QUADPACK package from Maxima (via Sage), with the
+                                               a
+default working precision, fails to compute 0 du with a ≥ 720, and for smaller val-
+ues of a, say a = 710, returns a number close to 1.0 with error of order 10−8 (and
+with the report of an ‘excessive roundoff error’ throughout the integration). In the
+                                                                 a
+case of the π/2-formula, however, QUADPACK can compute 0 du with a as large
+as a = 5000 and returns 1.0 with error of order 10−13 . When using numerical in-
+tegration based on the fast GSL C-library (via Sage), in some sense the opposite is
+                                            a
+observed: In the case of the π -formula, 0 du evaluates to 1.0 with error of order
+   −7                                                       a
+10 for a ≈ 700, while in the case of the π2 -formula, 0 du evaluates to 1.0 with
+error of order 10  −12 but only for a ≤ 10. Overall, at least in the context of the
+                                            11
+
+computation described here, the π2 -formula appears to provide 5 additional digits of
+precision essentially for free.
+                                                ∞
+Remark 5.3 Above, we computed 0 φ1,2 (x|0) dx for the purpose of benchmark-
+                                                                  ∞
+ing, but nothing would have changed if we were to compute a φt,σ (x|y) dx for
+                                                             ∞       ∞
+some fixed a > 0; we again end up with a double integral 0 du a dx(. . .), and
+the inner integral is again computable in closed form in terms of special functions.
+In fact, from the point of view of machine precision arithmetic, the computation of
+
+11 Generally, the GSL C-library is much faster, but in all experiments described here, both methods return
+the results practically in an instant.
+1088                                                                                 A. Lyasoff
+
+  ∞
+ a φt,σ (x|y) dx would be easier, because the numerical procedure must deal only
+with the thinness of the distribution at ∞, as opposed to thinness at both ∞ and 0.
+We stress that—and the numerical examples discussed in the previous remark are a
+perfect illustration—there would be no need in principle to develop integral formulae
+of order higher that p = 2 if one is only interested in computing probabilities (say,
+the probability for an Asian option to be in the money). The problem occurs when
+                                           ∞
+computing expected values that involve a x φt,σ (x|y) dx, because the integral in x
+would not converge for fixed u unless p ≥ 3, and the double integral can be computed
+only by carrying out the integration in the variable u first.
+
+Remark 5.4 Another—and perhaps even more important—advantage of the
+π
+2 -formula is that it still allows the real part R(. . .) in (5.10a) to be expressed in
+closed form, i.e., without the use of the function R( · ), not just for p = 2, but also for
+p > 2. This is important because many of the commonly used quadrature packages
+are only meant to work with functions that evaluate to real floats. For this reason, and
+also for the reasons noted in the previous remark, in what follows we are going to be
+concerned only with applications of the π2 -formula, but note that applications of the
+π -formula may be developed in a completely analogous fashion.
+
+Remark 5.5 As an aside, the π -formula for the conditional density φt,σ (x|y) leads
+to the following curious identity, which sheds some light on the nature of the integral
+representations obtained above: for all z ∈ C \ (−∞, 1), one has
+                       ∞        2                          
+                              e− t arcosh u
+                                         2
+             1 2 π2                               4π                  2
+                                                     arcosh u du = e− t arcosh z .
+                                                                              2
+               e t                          sin
+             π        1          u+z               t
+
+To see where this identity may be coming from, first observe that with a simple
+change of the integration variable, the π -formula can be rewritten as
+                          2    ∞                                            
+                    e2π /t          1 − u − 2 arcosh2 u−4       4π        u−4
+       φt,1 (x|0) =                    e e
+                                         x  t          4  sin      arcosh       du.
+                      π         8   x2                           t         4
+
+Substituting the above expression in the equation (see (5.1))
+           ∞
+                            4 cosh y−4        2y 2
+               φt,1 (x|0) e− x         dx = e− t , y ∈ C, −π < I(y) < π,
+             0
+
+carrying out the integration in x, which leads to a closed-form expression as a func-
+tion of u, and finally substituting y = arcosh z gives the result.                 
+
+
+6 Computation of expected values and applications to Asian options
+
+Because the initial motivation for the present study was to achieve greater com-
+putational tractability, our exposition would not be complete without concrete ex-
+amples to illustrate the applicability of the new formulae we have developed. As
+Another look at the integral of exponential Brownian motion                                         1089
+
+the most widely discussed concrete examples documented throughout the litera-
+ture (related to the distribution of the integral of exponential Brownian motion) in-
+volve the pricing of Asian options, this will be the nature of our illustrations also.
+However, we emphasize very strongly that the essence of our approach is to carry
+out calculations by using the density of the distribution directly, and in this re-
+spect our method can be seen as universal, in the sense that the concrete repre-
+sentations for the density that we obtain are not related to Asian options in any
+way.
+   The numerical evaluation of the prices of Asian options has a long history and
+can be traced back at least as far as Turnbull and Wakeman [28]. The next step
+was due to Eydeland and Geman [14], who used a particular algorithm for invert-
+ing the Laplace transform (in the time variable) which was computed by Geman
+and Yor [15]. Another widely used approach to Asian options is to establish lower
+and upper bounds for the price. This method was pioneered by Rogers and Shi [26],
+and we refer to the recent work of Kordzakhia and Novikov [18] for a unified and
+expanded framework as well as an up-to-date overview of this approach and the re-
+lated literature. Generically, the upper/lower bound technique can give the price of
+the Asian option with 3 decimal places of accuracy. Other computational methods,
+specifically designed for Asian options, have been developed by Dufresne [12, 13],
+Milevsky and Posner [24], Thompson [27], Linetsky [19], Večeř [29, 30] and others.
+Among these works, Linetsky’s provides the most accurate results, achieving 10 dec-
+imal places of accuracy. Since his numerical examples are benchmarked against those
+of his predecessors, we use in this section his parameter values (in all 7 cases from
+[19, Table 1]) as a benchmark test, but include 24 new cases at the end. We stress,
+however, that the methodology developed in the present paper is not specific to Asian
+options.
+   Now we turn to the computation of expected values of the form
+                                   t                
+                                            σ Ws +μs
+                               E f        e          ds ,
+                                              0
+
+which was our main motivation for developing integral representations for φt,σ (x|y)
+or, equivalently, for φt,σ (x, y). As we are already well aware, an integral formula of
+order p = 2 would be inadequate for computing conditional expectations of the form
+                  t                        ∞
+              E f         e σ Ws
+                                 ds Wt = y =          f (x) φt,σ (x|y) dx
+                           0                                  0
+
+for functions R+  x → f (x) that are linear at ∞ (for example, f (x) = x or
+f (x) = (x − K)+ ), as the integral on the right would become a double integral that
+exists only as an iterated integral, but not as an integral on the domain R+ × R+ .
+Integral formulae of order p = 3 are still inadequate because the integration of the
+                                                         y2
+above expression against the density √ 1 e− 2t dy leads to triple integrals that still
+                                                  2πt
+exist only as iterated integrals.12
+
+12 With p = 3 and f (x) = x or f (x) = (x − K)+ , the integration with respect to x can be closed, but the
+integration with respect to the remaining variables u and y can only be carried out as an iterated double
+integral (in this order).
+1090                                                                                            A. Lyasoff
+
+   In what follows, we illustrate with concrete examples the use of the π2 -formula
+of order p = 4 in the calculation of the price of certain Asian options, i.e., in the
+calculation of integrals of the form
+                     ∞            ∞
+                             dy            (x − k) φt,σ,μ (x, y) dx,                 k ≥ 0,
+                        −∞            k
+
+where (see (2.2))
+                                                                                           
+                                                     μ    1 μ2                         μ
+                        φt,σ,μ (x, y) = e            σ y+ 2 σ 2 t   φt,σ,0       x, y + t
+                                                                                       σ
+
+and φt,σ,0 ( · , · ) =: φt,σ ( · , · ) is given by (5.10a) with p = 4. The calculation then
+boils down to the computation of a triple integral in the variables x, y and u. Since
+we are using the π2 -formula of order p = 4, the integrand in the triple integral is
+summable and we can choose the order of integration in any way that we find useful—
+recall that p = 4 is the lowest power for which this property holds. In particular, if
+the variable x is integrated out first, the corresponding integral can be computed in
+closed form and we are left with a double integral in the variables y and u, which
+can be computed only numerically. Since the exact value of this integral for k = 0
+is known, we can use the case k = 0 as a benchmark for the accuracy of the double
+quadrature that will be used.
+   Our first step in this program is to transform the above integral into
+                     ∞         ∞                                          
+                                                         2           2 log w
+                          dw              (x − k)          φt,σ,μ x,           dx.
+                    0             k                     σw              σ
+
+Expanding the density φt,σ,μ according to the π2 -formula of order p = 4, the above
+integral becomes
+     ∞     ∞                                   ∞                     
+                                               π     x − k − 1 A(u,w)
+   R     dw     du B(w) C(u, w) gσ 2 t,4 u − i            e  x        dx   ,
+      0      0                                 2 k    x4
+
+where the function gt,4 ( · ) is given by (5.8) and
+                                                                    1
+                                      2 w 2 eμt + 4iwe 2 μt sinh u + 2
+                  A(u, w) :=                                           ,
+                                                    σ2
+                                            2μ          μ2 t
+                                                 −1
+                                      2 w σ2          e 2σ2
+                     B(w) :=                                   ,
+                                                 σ
+                                           √ −2 p+2 p−1          1      1
+                                      8i    2σ     w    cosh u e 2 μpt− 2 μt
+                  C(u, w) :=                         √                       .
+                                                      πt
+
+The innermost integral can be computed in closed form: For any integer p ≥ 3 and
+quantity A ∈ C with R(A) > 0, which is independent from x, one can write
+Another look at the integral of exponential Brownian motion                                     1091
+                              ∞
+                                               x −k
+                                      e− x
+                                           A
+            Sk,p (u, w) :=                          dx
+                              k                 xp
+                              ∞                                  ∞
+                                          −A        1                             1
+                                                                          e− x
+                                                                             A
+                         =            e    x            dx − k                      dx
+                              k                x p−1                 k           xp
+                              1                               1
+                                  k                                  k
+                         =            e−Av v p−3 dv − k                  e−Av v p−2 dv
+                              0                                  0
+                                                                  
+                             −(p−1)          A     −(p−2)          A
+                         = kA       Γ p − 1,     −A       Γ p − 2,
+                                             k                     k
+                             − kA−(p−1) Γ (p − 1) + A−(p−2) Γ (p − 2) ,
+
+with the understanding that for k = 0, one has
+                              ∞
+                                         1
+                                  e− x p−1 dx = A−(p−2) Γ (p − 2).
+                                     A
+              S0,p (u, w) :=
+                              0        x
+If k depends on a parameter α, i.e., k = k(α), then
+                                                                          ∞
+                                                                                       1
+                                                                                 e− x
+                                                                                    A
+        Sk(α),p (u, w) := ∂α Sk(α),p (u, w) = −k (α)                                       dx
+                                                                          k(α)          xp
+                                           1
+                                               k
+                        = −k (α)                   e−Av v p−2 dv
+                                           0
+                                                              
+                                       −(p−1)                A
+                        = k (α)A                    Γ p − 1,     − k (α)A−(p−1) Γ (p − 1) .
+                                                             k
+The complex-valued functions
+                                                                    
+                                                                   π
+          (u, w) → Ft,σ,μ,k (u, w) := B(w) C(u, w) gσ 2 t,4 u − i      Sk,4 (u, w),
+                                                                   2
+                                                                    
+                                                                   π
+        (u, w) → Ft,σ,μ,k(α) (u, w) := B(w) C(u, w) gσ 2 t,4 u − i     Sk(α),4 (u, w)
+                                                                   2
+can be integrated numerically in the domain R+ × R+ , and we are only interested in
+the real part of the result. Some of the widely used (and highly efficient) numerical
+integration packages will not accept functions that do not evaluate to real floats—
+numerical_integral and nintegral in Sage are in this category.13 However, the sym-
+bolic platform in Sage is capable of segregating the real and imaginary parts of the
+above functions in symbolic form (one of the advantages of the π2 -formula), provid-
+ing closed-form expressions in terms of special functions for R(Ft,σ,μ,k (u, w)) and
+I(Ft,σ,μ,k (u, w)). The integrals
+    ∞ ∞                                 ∞ ∞
+                                                                    
+             R Ft,σ,μ,k (u, w) du dw,              R Ft,σ,μ,k(α) (u, w) du dw (6.1)
+    0      0                                              0      0
+
+13 The first function uses the GSL C-library, while the second one uses the QUADPACK package.
+1092                                                                                            A. Lyasoff
+
+can then be computed rather efficiently by iterating nintegral in u, followed by nu-
+merical_integral in w. Unfortunately, this technique works only for relatively large
+values for σ and t, and not quite with the accuracy that one might desire. By way of
+an example, with t = 1, σ = 1, μ = 0, and k = 0, the first integral above gives the
+exact value of E[ 0 eWs ds] only with accuracy of order ≈ 10−8 .
+                    1
+
+   In order to obtain practically meaningful results—or any results at all—for more
+realistic values for σ and t, the numerical integration must be executed with higher
+working precision than the standard machine precision. One package that allows
+such operations is mpmath (mp). Specifically, the function mp.quad can perform
+both single and double quadratures with arbitrary precision. In addition, mp.quad
+can integrate numerically complex-valued functions, and generally, the numerical
+integration with mp.quad of the complex functions (u, w) → Ft,σ,μ,k (u, w) and
+(u, w) → Ft,σ,μ,k(α) (u, w) is considerably more efficient than the numerical inte-
+gration of their real parts, expressed in terms of special functions.14
+
+Remark 6.1 The numerical integration described in this section is not specific to
+Asian options and can be applied to more general integrals of the form
+      ∞       ∞                                   ∞
+                                                  π        f (x) − 1 A(u,w)
+          dw       du B(w) C(u, w) gσ 2 t,4 u − i                e x        dx
+      0        0                                  2   0     x4
+
+for reasonably behaved functions x → f (x)—say for smooth f that are at most lin-
+ear at 0 and ∞. The only simplification that comes from the Asian call structure is
+due to the fact that the integration in the variable x can be closed, which then re-
+duces the triple integral to a double integral. Because of the similarity between these
+integrals for various choices of the function f , and because the main obstacle in the
+numerical integration is in the shape of the density for smaller values for σ and t,
+we can benchmark our choice of numerical integration strategy (i.e., the choice of
+method, working precision and domain of integration) by comparing the result for
+k = 0 with the exact value
+                         t                       1 2
+                                 σ Ws +μs      2 (e 2 σ t+μt − 1)
+                      E        e          ds =                    .
+                            0                       σ 2 + 2μ
+In general, using k = 0 as a benchmark in the design of an integration strategy for a
+particular choice for σ , t and μ is useful because with k = 0, the procedure is forced
+to deal with the thinness of the density at both 0 and ∞, whereas with k > 0, the first
+challenge goes away. Thus, it is reasonable to assume that the numerical integration
+with k > 0 would be at least as precise as with k = 0.
+
+   Now we turn to some concrete examples from the realm of Asian call options.
+Consider the canonical complete market model (as in Linetsky [19] and others) that
+consists of a risky security St , t ≥ 0, and a risk-free security that generates a con-
+stant rate of return r > 0; specifically, under the pricing (risk-neutral) measure Q,
+
+14 One possible explanation for this phenomenon is that the closed-form expression for R(F
+                                                                                             t,σ,μ,k (u, w))
+is quite long and requires a substantially larger number of evaluations.
+Another look at the integral of exponential Brownian motion                         1093
+
+the dynamics of (St ) are given by dSt = σ St dWt + rSt dt, where Wt , t ≥ 0, is a
+Q-Brownian motion. The price at time t = 0 of an Asian (average) call option with
+strike price K > 0 and maturity date T > 0 is
+                                  T                           + 
+                              1                    1 2
+                   e−rT EQ      S0      eσ Ws +(r− 2 σ )s ds − K
+                              T     0
+                                   T                               
+                           S0 Q                      1 2        KT +
+                    = e−rT    E          eσ Ws +(r− 2 σ )s ds −
+                           T          0                          S0
+                               ∞ ∞
+                           S0                               
+                    = e−rT               R Ft,σ,μ,k (u, w) du dw
+                           T 0      0
+
+with μ = r − 12 σ 2 and k = KS0T . If one is interested in computing the sensitivity of
+the call option to the spot price S0 (the so-called “delta” of the option), then one must
+compute two such integrals, namely
+                               ∞ ∞
+                       e−rT                                    
+                                               R Ft,σ,μ,k (u, w) du dw
+                        T          0      0
+                                          ∞ ∞
+                              K                                      
+                       − e−rT                        R Ft,σ,μ,k (u, w) du dw.      (6.2)
+                              S0           0     0
+
+   First, we compare the results from the numerical integration described above in
+each of the 7 cases from [19, Table 1]. Cases 4 through 6 involve T = 1, σ = 1/2 and
+r = 5/100, for 3 different choices for S0 , which is tantamount to 3 different choices of
+the strike price K. With these values, the integration strategy based on double quadra-
+tures using mp.quad in the domain (u, w) ∈ [0, 20] × [0, 20], with working precision
+set to mp.dps = 30, produces the exact value for K = 0 with error ≤ 10−25 . The same
+integration strategy produces values for each of the Asian call options in cases 4
+through 6 which, after being rounded to the 10th decimal place, exactly match the
+corresponding values from [19, Table 3]. Similarly, case 7 involves T = 2, σ = 1/2
+and r = 5/100. Using the same integration strategy gives the exact value for K = 0
+with error ≤ 10−14 , and produces a value for the Asian call option in case 7 which,
+after rounding to the 10th decimal place, again coincides with the value reported in
+[19, Table 3]. The same claim can be made for case 3 (T = 2, σ = 1/4 and r = 1/80),
+except that the exact value for K = 0 is produced with error ≤ 10−17 .
+   Cases 1 and 2 from [19, Table 1] are more involved and require a different inte-
+gration strategy. In both cases T = 1 and the volatility σ is set to, respectively, 1/10
+and 3/10. This combination of volatility values and life-time of the option requires
+higher working precision than mp.dps = 30, which makes the double quadrature us-
+ing mp.quad excessively slow. The following alternative strategy can then be used.
+For a discrete set of abscissas wi ∈ R+ , 0 ≤ i ≤ n, and for a sufficiently large a > 0,
+compute numerically the values
+                               a
+                                                          
+                       bi =            R FT ,σ,μ,k (u, wi ) du,   0 ≤ i ≤ n,
+                               0
+1094                                                                               A. Lyasoff
+
+Table 1 T = 1/2, σ = 22/100;
+strategy: mp.dps = 120, n = 45,   Strike K                               Asian call price
+w0 = 10−65 , wn = 2, a = 2;
+error for K = 0 is ≤ 10−15 ;      7/10                                   0.302471713826246
+Asian call with strike K          8/10                                   0.203823272652937
+                                  9/10                                   0.109134667336200
+                                  1                                      0.038694821814008
+                                  11/10                                  0.008127776133751
+                                  12/10                                  0.001028464610034
+
+
+
+Table 2 T = 1/2, σ = 1/3;
+strategy: mp.dps = 60, n = 65,    Strike K                                    Asian call price
+w0 = 1/4, wn = 15/4, a = 20;
+error for K = 0 is ≤ 10−11 ;      7/10                                        0.30256324113
+Asian call with strike K          8/10                                        0.20574087443
+                                  9/10                                        0.11939786084
+                                  1                                           0.05691875027
+                                  11/10                                       0.02222765943
+                                  12/10                                       0.00727337085
+
+
+
+by using single quadrature with mp.quad and an appropriate value for the working
+precision parameter mp.dps. Then construct a natural spline from the tabulated val-
+ues (wi , bi ), 0 ≤ i ≤ n, and finally calculate exactly, i.e., with the designated working
+precision, the integral of this spline over the interpolation domain [w0 , wn ]. One re-
+markable advantage of this strategy is that it is easily parallelizable. Fortunately, in
+the present context, the nature of the function
+                                      a
+                                                            
+                        R+  w →         R FT ,σ,μ,k (u, w) du ∈ R
+                                         0
+
+is such that this function can be approximated rather efficiently with natural splines
+over an appropriate finite domain. In case 2 from [19, Table 1], following the spline
+quadrature strategy with mp.dps = 45, a = 20, n = 100, w0 = 1/8 and wn = 5 gives
+the exact value for K = 0 with error ≤ 10−13 and again produces a value for the
+Asian option which, after rounding to the 10th decimal place, becomes identical to
+the value reported in [19, Table 3]. The same exact claim can also be made for case 1
+(T = 1 and σ = 1/10), except that one must set the working precision as high as
+mp.dps = 300, and use interpolation with n = 35, w0 = 1/2 and wn = 16/10 (the
+exact value for K = 0 is again obtained with error ≤ 10−13 ).
+    We now conclude the paper with yet another set of examples, which were chosen
+to be somewhat more realistic. In all cases, the numerical integration strategy is based
+on interpolation quadratures, as describe above. The initial price is scaled to S0 = 1,
+and the interest rate is fixed to r = 5/200 = 2.5 %. The values of all Asian call options
+are computed for time t = 0 and are reported in Tables 1–4.
+    All calculations reported above are done with a single Sage process from a Linux
+virtual box on a Surface tablet with 2 GB of RAM (dedicated to Linux) and a 64-bit
+Another look at the integral of exponential Brownian motion                                       1095
+
+Table 3 T = 1, σ = 22/100;
+strategy: mp.dps = 60, n = 65,     Strike K                                           Asian call price
+w0 = 1/8, wn = 28/8, a = 20;
+error for K = 0 is ≤ 10−12 ;       7/10                                               0.304923087645
+Asian call with strike K           8/10                                               0.208572293433
+                                   9/10                                               0.120806302805
+                                   1                                                  0.056156816264
+                                   11/10                                              0.020689114929
+                                   12/10                                              0.006174095598
+
+
+Table 4 T = 1, σ = 1/3;
+strategy: mp.dps = 45, n = 100,    Strike K                                            Asian call price
+w0 = 1/4, wn = 5, a = 20; error
+for K = 0 is ≤ 10−11 ; Asian       7/10                                                0.30620859092
+call with strike K                 8/10                                                0.21565075810
+                                   9/10                                                0.13878233268
+                                   1                                                   0.08160208509
+                                   11/10                                               0.04425815874
+                                   12/10                                               0.02244768617
+
+
+
+2.50 GHz processor. The computing times (for a single call option) are heavily de-
+pendent on the working precision, and vary between roughly 30 min (mp.dps = 30)
+and 60 min (mp.dps = 120), but increase to as much as 7 h with mp.dps = 300.
+As was already noted, the computing times scale almost exactly to the number of
+processors used, since the procedure involves the calculation of a finite number of
+univariate integrals in a single pass (the sub-kernels need to communicate only once,
+and the integration of the resulting spline is essentially instantaneous). Finally, we
+note that—see (6.2)—the calculation of the delta of the option involves twice the
+amount of work needed for the calculation of the option price (unless the option price
+is already computed). Since up to a factor, the function F comprises the first and
+the third terms in the function F , the calculation of the second integral in (6.1) can
+be accomplished by using the same integration strategy with which the first integral
+is computed; but typically—see Remark 5.3—, the calculation of F is considerably
+less demanding and in most cases can be accomplished with the native precision.
+
+Acknowledgements The author is greatly indebted to two exceptionally conscientious and construc-
+tive anonymous referees, and also to Catherine Donati-Martin, Helyette Geman, Yannis Karatzas, Alex
+Novikov, Hiroyuki Matsumoto, and especially to Marc Yor, for their interest in the present work and for
+many helpful comments.
+
+
+
+References
+ 1. Alili, L., Dufresne, D., Yor, M.: Sur l’identité de Bougerol pour les fonctionnelles exponentielles
+    du mouvement brownien avec drift. In: Yor, M. (ed.) Exponential Functionals and Principal Values
+    Related to Brownian Motion. A Collection of Research Papers, pp. 3–14. Biblioteca de la Revista
+    Matemática Ibero-Americana, Madrid (1997)
+ 2. Baudoin, F., O’Connell, N.: Exponential functionals of Brownian motion and class-one Whittaker
+    functions. Ann. Inst. Henri Poincaré B, Calc. Probab. Stat. 47, 1096–1120 (2011)
+1096                                                                                            A. Lyasoff
+
+ 3. Bertoin, J., Yor, M.: Exponential functionals of Lévy processes. Probab. Surv. 2, 191–212 (2005)
+ 4. Carmona, P., Petit, F., Yor, M.: On the distribution and asymptotic results for exponential function-
+    als of Lévy processes. In: Yor, M. (ed.) Exponential Functionals and Principal Values Related to
+    Brownian Motion. A Collection of Research Papers, pp. 73–130. Biblioteca de la Revista Matemática
+    IberoAmericana, Madrid (1997)
+ 5. Chamayou, J., Letac, G.: Explicit stationary distributions for compositions of random functions and
+    products of random matrices. J. Theor. Probab. 4, 3–36 (1991)
+ 6. Chaumont, L., Hobson, D.G., Yor, M.: Some consequences of the cyclic exchangeability property for
+    exponential functionals of Lévy processes. In: Azéma, J., et al. (eds.) Séminaire de Probabilités de
+    Strasbourg 35. Lecture Notes in Mathematics, vol. 1755, pp. 334–347 (2001)
+ 7. Comtet, A., Monthus, C., Yor, M.: Exponential functionals of Brownian motion and disordered sys-
+    tems. J. Appl. Probab. 35, 255–271 (1998)
+ 8. Donati-Martin, C., Matsumoto, H., Yor, M.: On striking identities about the exponential functionals
+    of the Brownian bridge and Brownian motion. Period. Math. Hung. 41, 103–119 (2000)
+ 9. Donati-Martin, C., Matsumoto, H., Yor, M.: On positive and negative moments of the integral of
+    geometric Brownian motions. Stat. Probab. Lett. 49, 45–52 (2000)
+10. Dufresne, D.: Weak convergence of random growth processes with applications to insurance. Insur.
+    Math. Econ. 8, 187–201 (1989)
+11. Dufresne, D.: The distribution of a perpetuity with application to risk theory and pension funding.
+    Scand. Actuar. J. 90, 39–79 (1990)
+12. Dufresne, D.: Laguerre series for Asian and other options. Math. Finance 10, 407–428 (2000)
+13. Dufresne, D.: The integral of geometric Brownian motion. Adv. Appl. Probab. 33, 223–241 (2001)
+14. Eydeland, A., Geman, H.: Domino effect: Inverting the Laplace transform. Risk 8, 65–67 (1995)
+15. Geman, H., Yor, M.: Bessel process, Asian options and perpetuities. Math. Finance 3, 349–375 (1993)
+16. Getoor, R.K.: The Brownian escape process. Ann. Probab. 7, 864–867 (1979)
+17. Hobson, D.G.: A short proof of an identity for a Brownian bridge due to Donati-Martin, Matsumoto
+    and Yor. Stat. Probab. Lett. 77, 148–150 (2007)
+18. Kordzakhia, N., Novikov, A.: On lower and upper bounds for Asian-type options: A unified approach
+    (2013). Preprint, available online at: arXiv:1309.2383
+19. Linetsky, V.: Spectral expansions for Asian (average price) options. Oper. Res. 52, 856–867 (2004)
+20. Matsumoto, H., Yor, M.: An analogue of Pitman’s 2M − X theorem for exponential Wiener function-
+    als, Part I: A time-inversion approach. Nagoya Math. J. 159, 125–166 (2000)
+21. Matsumoto, H., Yor, M.: An analogue of Pitman’s 2M − X theorem for exponential Wiener function-
+    als, Part II: The role of the generalized inverse Gaussian laws. Nagoya Math. J. 162, 65–86 (2001)
+22. Matsumoto, H., Yor, M.: Exponential functionals of Brownian motion, I: Probability laws at fixed
+    time. Probab. Surv. 2, 312–347 (2005)
+23. Matsumoto, H., Yor, M.: Exponential functionals of Brownian motion, II: Some related diffusion
+    processes. Probab. Surv. 2, 348–384 (2005)
+24. Milevsky, M.A., Posner, S.E.: Asian options, the sum of lognormals, and the reciprocal gamma dis-
+    tribution. J. Financ. Quant. Anal. 33, 409–422 (1998)
+25. Pollak, M., Siegmund, D.: A diffusion process and its applications to detecting a change in the drift
+    of a Brownian motion. Biometrika 72, 267–280 (1985)
+26. Rogers, L.C.G., Shi, Z.: The value of an Asian option. J. Appl. Probab. 32, 1077–1088 (1995)
+27. Thompson, G.W.P.: Fast narrow bounds on the value of Asian options. Working paper (1999). Avail-
+    able online at: http://www.jbs.cam.ac.uk/fileadmin/user_upload/research/workingpapers/wp0209.pdf
+28. Turnbull, S.M., Wakeman, L.M.: A quick algorithm for pricing European average options. J. Financ.
+    Quant. Anal. 26, 377–389 (1991)
+29. Večeř, J.: A new PDE approach for pricing arithmetic average Asian options. J. Comput. Finance 4,
+    105–113 (2001)
+30. Večeř, J.: Black–Scholes representation for Asian options. Math. Finance 24, 598–626 (2014)
+31. Vervaat, W.: On a stochastic difference equation and a representation of non-negative infinitely divis-
+    ible random variables. Adv. Appl. Probab. 11, 750–783 (1979)
+32. Yor, M.: Loi de l’indice du lacet brownien, et distribution de Hartman–Watson. Z. Wahrscheinlichkeit-
+    stheor. Verw. Geb. 53, 71–95 (1980)
+33. Yor, M.: On some exponential functionals of Brownian motion. Adv. Appl. Probab. 24, 509–531
+    (1992)
+34. Yor, M.: Sur certain fonctionnelles exponentielles du mouvement brownien réel. J. Appl. Probab. 29,
+    202–208 (1992)
+35. Yor, M.: Exponential Functionals of Brownian Motion and Related Processes. Springer, Berlin (2001)
+
