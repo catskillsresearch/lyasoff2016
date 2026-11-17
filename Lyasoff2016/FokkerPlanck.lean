@@ -8,6 +8,7 @@ public import Lyasoff2016.MomentUniqueness
 public import Lyasoff2016.InverseGamma
 public import Lyasoff2016.JointFokkerPlanckHelpers
 public import Lyasoff2016.JointFokkerPlanckIto
+public import Lyasoff2016.ExpectedIto
 public import BrownianMotion.Gaussian.BrownianMotion
 public import MathFin.Probability.Brownian.Ito.ItoFormulaTD
 public import MathFin.Probability.Brownian.Ito.ItoFormulaProcess
@@ -18,6 +19,8 @@ public import MathFin.Probability.Brownian.Ito.ItoFormulaGBM
 public import MathFin.Probability.Brownian.Ito.ItoIntegralProcessGeneral
 public import Mathlib.Probability.Independence.Integration
 public import Mathlib.Analysis.Distribution.AEEqOfIntegralContDiff
+public import Mathlib.Analysis.Calculus.Deriv.Support
+public import Mathlib.Analysis.SpecificLimits.Basic
 
 
 @[expose] public section
@@ -25,6 +28,7 @@ public import Mathlib.Analysis.Distribution.AEEqOfIntegralContDiff
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open MeasureTheory.Measure
 open scoped ENNReal NNReal Real
+open MathFin ItoIntegralL2
 
 noncomputable section
 namespace Lyasoff2016
@@ -3030,20 +3034,372 @@ theorem jointA_eq_drift_diff (σ : ℝ) (u v : ℝ → ℝ)
   simp only [jointA, hxx, hxy, hx]
   ring
 
-/-- Dynkin identity (3.5) for product test functions. -/
+/-- Pointwise: `jointA(u⊗v) = twinGenerator − (3.4a drift)`. -/
+theorem jointA_eq_twinGenerator_sub (σ : ℝ) (u v : ℝ → ℝ)
+    (hu : ContDiff ℝ 2 u) (hv : ContDiff ℝ 2 v) (x y : ℝ) :
+    jointA σ (fun x y => u x * v y) x y =
+      twinGenerator σ u v x y -
+        (deriv u x * Real.exp (σ * y) * v y +
+          u x * ((1 : ℝ) / 2) * deriv (deriv v) y) := by
+  simpa [twinGenerator] using jointA_eq_drift_diff σ u v hu hv x y
+
+/-- Continuity of the product-test generator. -/
+theorem continuous_jointA_product (σ : ℝ) {u v : ℝ → ℝ}
+    (hu : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) u)
+    (hv : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) v) :
+    Continuous fun p : ℝ × ℝ => jointA σ (fun x y => u x * v y) p.1 p.2 := by
+  have hu2 : ContDiff ℝ 2 u := hu.of_le (by decide)
+  have hv2 : ContDiff ℝ 2 v := hv.of_le (by decide)
+  have htw := continuous_twinGenerator σ hu hv
+  have hu1 : ContDiff ℝ 1 u := hu.of_le (by decide)
+  have hv1 : ContDiff ℝ 1 v := hv.of_le (by decide)
+  have hdv1 : ContDiff ℝ 1 (deriv v) := (contDiff_succ_iff_deriv (n := 1)).mp hv2 |>.2.2
+  have hu'c : Continuous (deriv u) := ContDiff.continuous_deriv_one hu1
+  have hv''c : Continuous (deriv (deriv v)) := ContDiff.continuous_deriv_one hdv1
+  have hdrift : Continuous fun p : ℝ × ℝ =>
+      deriv u p.1 * Real.exp (σ * p.2) * v p.2 +
+        u p.1 * ((1 : ℝ) / 2) * deriv (deriv v) p.2 :=
+    (((hu'c.comp continuous_fst).mul
+        (Real.continuous_exp.comp (continuous_const.mul continuous_snd))).mul
+        (hv.continuous.comp continuous_snd)).add
+      (((hu.continuous.comp continuous_fst).mul continuous_const).mul
+        (hv''c.comp continuous_snd))
+  refine (htw.sub hdrift).congr fun p => ?_
+  exact (jointA_eq_twinGenerator_sub σ u v hu2 hv2 p.1 p.2).symm
+
+/-- Compactly supported product tests make `jointA(u⊗v)`, `twinGenerator`, and the
+(3.4a) drift globally bounded. -/
+theorem jointA_product_bounds (σ : ℝ) {u v : ℝ → ℝ}
+    (hu : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) u)
+    (hv : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) v)
+    (huC : HasCompactSupport u) (hvC : HasCompactSupport v) :
+    ∃ M : ℝ,
+      (∀ x y, |jointA σ (fun x y => u x * v y) x y| ≤ M) ∧
+      (∀ x y, |twinGenerator σ u v x y| ≤ M) ∧
+      (∀ x y,
+        |deriv u x * Real.exp (σ * y) * v y +
+            u x * ((1 : ℝ) / 2) * deriv (deriv v) y| ≤ M) := by
+  obtain ⟨Cu, hu_bdd, hu'_bdd, hu''_bdd⟩ := contDiff_top_compactSupport_bounds hu huC
+  obtain ⟨Cv, hv_bdd, hv'_bdd, hv''_bdd⟩ := contDiff_top_compactSupport_bounds hv hvC
+  have hCu : 0 ≤ Cu := (abs_nonneg _).trans (hu_bdd 0)
+  have hCv : 0 ≤ Cv := (abs_nonneg _).trans (hv_bdd 0)
+  have hu1 : ContDiff ℝ 1 u := hu.of_le (by decide)
+  have hu2 : ContDiff ℝ 2 u := hu.of_le (by decide)
+  have hdu1 : ContDiff ℝ 1 (deriv u) := (contDiff_succ_iff_deriv (n := 1)).mp hu2 |>.2.2
+  have hu'c : Continuous (deriv u) := ContDiff.continuous_deriv_one hu1
+  have hu''c : Continuous (deriv (deriv u)) := ContDiff.continuous_deriv_one hdu1
+  have hvc : Continuous v := hv.continuous
+  obtain ⟨K₁, hK₁⟩ := (show Continuous ((fun x : ℝ => x) * deriv u) from
+    continuous_id.mul hu'c).bounded_above_of_compact_support huC.deriv.mul_left
+  obtain ⟨K₂, hK₂⟩ := (show Continuous ((fun x : ℝ => x ^ 2) * deriv (deriv u)) from
+    (continuous_id.pow 2).mul hu''c).bounded_above_of_compact_support
+      huC.deriv.deriv.mul_left
+  obtain ⟨Kexp, hKexp⟩ :=
+    (show Continuous ((fun y : ℝ => Real.exp (σ * y)) * v) from
+      (Real.continuous_exp.comp (continuous_const.mul continuous_id)).mul hvc
+      ).bounded_above_of_compact_support hvC.mul_left
+  have hK₁0 : 0 ≤ K₁ := (abs_nonneg _).trans (hK₁ 0)
+  have hK₂0 : 0 ≤ K₂ := (abs_nonneg _).trans (hK₂ 0)
+  have hKexp0 : 0 ≤ Kexp := (abs_nonneg _).trans (by simpa [Real.norm_eq_abs] using hKexp 0)
+  set Mtw : ℝ :=
+    Cu * Cv + |σ ^ 2 / 2| * K₁ * Cv + |σ ^ 2 / 2| * K₂ * Cv +
+      |σ| * K₁ * Cv + (1 / 2) * Cu * Cv
+  set Mdr : ℝ := Cu * Kexp + Cu * (1 / 2) * Cv
+  set M : ℝ := Mtw + Mdr
+  have htw (x y : ℝ) : |twinGenerator σ u v x y| ≤ Mtw := by
+    simp only [twinGenerator]
+    have h1 : |(1 : ℝ) * deriv u x * v y| ≤ Cu * Cv := by
+      simp only [one_mul, abs_mul]
+      exact mul_le_mul (hu'_bdd x) (hv_bdd y) (abs_nonneg _) hCu
+    have h2 : |(σ ^ 2 / 2) * x * deriv u x * v y| ≤ |σ ^ 2 / 2| * K₁ * Cv := by
+      have : |(σ ^ 2 / 2) * (x * deriv u x) * v y| =
+          |σ ^ 2 / 2| * |x * deriv u x| * |v y| := by
+        simp [abs_mul, mul_assoc]
+      rw [show (σ ^ 2 / 2) * x * deriv u x * v y =
+          (σ ^ 2 / 2) * (x * deriv u x) * v y by ring, this]
+      exact mul_le_mul
+        (mul_le_mul_of_nonneg_left (hK₁ x) (abs_nonneg _))
+        (hv_bdd y) (abs_nonneg _) (by positivity)
+    have h3 : |(σ ^ 2 / 2) * x ^ 2 * deriv (deriv u) x * v y| ≤ |σ ^ 2 / 2| * K₂ * Cv := by
+      have : |(σ ^ 2 / 2) * (x ^ 2 * deriv (deriv u) x) * v y| =
+          |σ ^ 2 / 2| * |x ^ 2 * deriv (deriv u) x| * |v y| := by
+        simp [abs_mul, mul_assoc]
+      rw [show (σ ^ 2 / 2) * x ^ 2 * deriv (deriv u) x * v y =
+          (σ ^ 2 / 2) * (x ^ 2 * deriv (deriv u) x) * v y by ring, this]
+      exact mul_le_mul
+        (mul_le_mul_of_nonneg_left (hK₂ x) (abs_nonneg _))
+        (hv_bdd y) (abs_nonneg _) (by positivity)
+    have h4 : |σ * x * deriv u x * deriv v y| ≤ |σ| * K₁ * Cv := by
+      have : |σ * (x * deriv u x) * deriv v y| = |σ| * |x * deriv u x| * |deriv v y| := by
+        simp [abs_mul, mul_assoc]
+      rw [show σ * x * deriv u x * deriv v y = σ * (x * deriv u x) * deriv v y by ring, this]
+      exact mul_le_mul
+        (mul_le_mul_of_nonneg_left (hK₁ x) (abs_nonneg _))
+        (hv'_bdd y) (abs_nonneg _) (by positivity)
+    have h5 : |(1 / 2) * u x * deriv (deriv v) y| ≤ (1 / 2) * Cu * Cv := by
+      rw [abs_mul, abs_mul, abs_of_pos (by norm_num : (0 : ℝ) < 1 / 2)]
+      exact mul_le_mul (mul_le_mul_of_nonneg_left (hu_bdd x) (by norm_num))
+        (hv''_bdd y) (abs_nonneg _) (by positivity)
+    refine (abs_add_le _ _).trans ?_
+    refine (add_le_add (abs_add_le _ _) le_rfl).trans ?_
+    refine (add_le_add (add_le_add (abs_add_le _ _) le_rfl) le_rfl).trans ?_
+    refine (add_le_add (add_le_add (add_le_add (abs_add_le _ _) le_rfl) le_rfl) le_rfl).trans ?_
+    have := add_le_add (add_le_add (add_le_add (add_le_add h1 h2) h3) h4) h5
+    simpa [Mtw] using this
+  have hdr (x y : ℝ) :
+      |deriv u x * Real.exp (σ * y) * v y +
+          u x * ((1 : ℝ) / 2) * deriv (deriv v) y| ≤ Mdr := by
+    have h1 : |deriv u x * Real.exp (σ * y) * v y| ≤ Cu * Kexp := by
+      rw [mul_assoc, abs_mul]
+      refine mul_le_mul (hu'_bdd x) ?_ (abs_nonneg _) hCu
+      simpa [Real.norm_eq_abs] using hKexp y
+    have h2 : |u x * ((1 : ℝ) / 2) * deriv (deriv v) y| ≤ Cu * (1 / 2) * Cv := by
+      rw [abs_mul, abs_mul, abs_of_pos (by norm_num : (0 : ℝ) < 1 / 2)]
+      exact mul_le_mul (mul_le_mul_of_nonneg_right (hu_bdd x) (by norm_num))
+        (hv''_bdd y) (abs_nonneg _) (by positivity)
+    exact (abs_add_le _ _).trans (add_le_add h1 h2)
+  refine ⟨M, ?_, ?_, ?_⟩
+  · intro x y
+    have hu2' : ContDiff ℝ 2 u := hu.of_le (by decide)
+    have hv2' : ContDiff ℝ 2 v := hv.of_le (by decide)
+    rw [jointA_eq_twinGenerator_sub σ u v hu2' hv2' x y]
+    exact (abs_sub _ _).trans (add_le_add (htw x y) (hdr x y))
+  · intro x y
+    exact (htw x y).trans (le_add_of_nonneg_right (by
+      have : 0 ≤ Mdr := (abs_nonneg _).trans (hdr 0 0)
+      exact this))
+  · intro x y
+    exact (hdr x y).trans (le_add_of_nonneg_left (by
+      have : 0 ≤ Mtw := (abs_nonneg _).trans (htw 0 0)
+      exact this))
+
+omit [MeasurableSpace Ω] in
+private lemma continuous_expInt_of_continuous_path
+    {B : ℝ≥0 → Ω → ℝ} (hBcont : ∀ ω, Continuous fun s : ℝ≥0 => B s ω) (σ : ℝ) (ω : Ω) :
+    Continuous fun r : ℝ => expInt B σ 0 r.toNNReal ω := by
+  have heq : (fun r : ℝ => expInt B σ 0 r.toNNReal ω) =
+      fun r : ℝ => ∫ s in (0 : ℝ)..(r.toNNReal : ℝ), Real.exp (σ * B s.toNNReal ω) := by
+    funext r; simp [expInt]
+  rw [heq]
+  exact (continuous_pathIntegral_nnreal (Real.continuous_exp.comp
+    (continuous_const.mul (hBcont ω)))).comp continuous_real_toNNReal
+
+private lemma measurable_expInt_of_continuous_path
+    {B : ℝ≥0 → Ω → ℝ} (hBmeas : ∀ s, Measurable (B s))
+    (hBcont : ∀ ω, Continuous fun s : ℝ≥0 => B s ω) (σ : ℝ) (s : ℝ≥0) :
+    Measurable (expInt B σ 0 s) := by
+  have heq : expInt B σ 0 s =
+      fun ω => ∫ r in (0 : ℝ)..(s : ℝ), Real.exp (σ * B r.toNNReal ω) := by
+    funext ω; simp [expInt]
+  rw [heq]
+  exact (measurable_pathIntegral_natFiltration hBmeas hBcont
+    (by fun_prop : Continuous fun y => Real.exp (σ * y)) s).mono
+    ((natFiltration hBmeas).le s) le_rfl
+
+/-- Expectation of a continuous bounded functional of `(expInt, B_s)` is continuous in time. -/
+private lemma continuous_expectation_jointA_path
+    {B : ℝ≥0 → Ω → ℝ} {P : Measure Ω} [IsProbabilityMeasure P]
+    (hBmeas : ∀ s, Measurable (B s))
+    (hBcont : ∀ ω, Continuous fun s : ℝ≥0 => B s ω) (σ : ℝ)
+    (H : ℝ → ℝ → ℝ) (hH : Continuous fun p : ℝ × ℝ => H p.1 p.2)
+    {M : ℝ} (hM : ∀ (r : ℝ) (ω : Ω), |H (expInt B σ 0 r.toNNReal ω) (B r.toNNReal ω)| ≤ M) :
+    Continuous fun r : ℝ => ∫ ω, H (expInt B σ 0 r.toNNReal ω) (B r.toNNReal ω) ∂P := by
+  rw [continuous_iff_seqContinuous]
+  intro rn r₀ hrn
+  refine tendsto_integral_of_dominated_convergence (fun _ => M) ?_ (integrable_const M) ?_ ?_
+  · intro k
+    exact (hH.measurable.comp ((measurable_expInt_of_continuous_path hBmeas hBcont σ
+      (rn k).toNNReal).prodMk (hBmeas _))).aestronglyMeasurable
+  · intro k
+    filter_upwards with ω
+    simpa [Real.norm_eq_abs] using hM (rn k) ω
+  · filter_upwards with ω
+    have hcont : Continuous fun r : ℝ =>
+        H (expInt B σ 0 r.toNNReal ω) (B r.toNNReal ω) :=
+      hH.comp ((continuous_expInt_of_continuous_path hBcont σ ω).prodMk
+        ((hBcont ω).comp continuous_real_toNNReal))
+    exact hcont.continuousAt.tendsto.comp hrn
+
+/-- Dynkin identity (3.5) for product test functions.
+
+Proof outline (paper (3.5)): the product-test Itô identities (3.4a)/(3.4b) share the same
+LHS, so their drift-integrand difference integrates to zero on every horizon `τ ∈ (0,t]`.
+Pointwise that difference is `jointA` (`jointA_eq_twinGenerator_sub`). The resulting
+cumulative integral of `g(τ) := E[jointA(expInt_τ, W_τ)]` vanishes; continuity of `g`
+and FTC recover `g(t) = 0`. -/
 theorem joint_dynkin_Aop_product (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (ht : 0 < t)
-    (u v : ℝ → ℝ) (hu : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) u) (hv : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) v)
+    (u v : ℝ → ℝ) (hu : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) u)
+    (hv : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) v)
     (huC : HasCompactSupport u) (hvC : HasCompactSupport v) :
     ∫ ω, jointA σ (fun x y => u x * v y) (expInt W σ 0 t ω) (W t ω) ∂P = 0 := by
-  have h34a := ito_expInt_test_product P W hW σ t u v hu hv huC hvC
-  have h34b := ito_timeReversed_expInt_test_product P W hW σ t ht u v hu hv huC hvC
-  -- Subtract integrated drifts; rewrite difference as ∫ E[jointA]; the cumulative vanishes
-  -- for every horizon, so the continuous integrand vanishes at `t`.
-  have _ := jointA_eq_drift_diff σ u v (hu.of_le (by decide)) (hv.of_le (by decide))
-  have _ := h34a
-  have _ := h34b
-  sorry
+  classical
+  set B : ℝ≥0 → Ω → ℝ := hW.toIsPreBrownianReal.mk W
+  have hBmeas : ∀ s, Measurable (B s) := hW.toIsPreBrownianReal.measurable_mk
+  have hBcont : ∀ ω, Continuous fun s : ℝ≥0 => B s ω := hW.toIsPreBrownianReal.continuous_mk
+  have hBW : ∀ᵐ ω ∂P, ∀ s, B s ω = W s ω := hW.mk_ae_forall_eq
+  have hu2 : ContDiff ℝ 2 u := hu.of_le (by decide)
+  have hv2 : ContDiff ℝ 2 v := hv.of_le (by decide)
+  obtain ⟨M, hJA_bdd, hTw_bdd, hDr_bdd⟩ := jointA_product_bounds σ hu hv huC hvC
+  have hJA_cont := continuous_jointA_product σ hu hv
+  -- Continuous-in-time expectation along the continuous modification.
+  set g : ℝ → ℝ := fun r =>
+    ∫ ω, jointA σ (fun x y => u x * v y) (expInt B σ 0 r.toNNReal ω) (B r.toNNReal ω) ∂P
+  have hg_cont : Continuous g :=
+    continuous_expectation_jointA_path hBmeas hBcont σ
+      (fun x y => jointA σ (fun x y => u x * v y) x y) hJA_cont
+      (fun r ω => hJA_bdd _ _)
+  -- Goal equals `g t` after transporting `W` to `B`.
+  have hm_eq : (∫ ω, jointA σ (fun x y => u x * v y) (expInt W σ 0 t ω) (W t ω) ∂P) =
+      g (t : ℝ) := by
+    have htNN : (t : ℝ).toNNReal = t := Real.toNNReal_coe
+    simp only [g, htNN]
+    refine integral_congr_ae ?_
+    filter_upwards [hBW] with ω hω
+    have hX : expInt W σ 0 t ω = expInt B σ 0 t ω := by
+      simp only [expInt]
+      refine intervalIntegral.integral_congr fun r _ => ?_
+      rw [hω r.toNNReal]
+    rw [hX, hω t]
+  -- Continuous expectations of the (3.4a)/(3.4b) integrands along `B`.
+  have hu1 : ContDiff ℝ 1 u := hu.of_le (by decide)
+  have hv2' : ContDiff ℝ 2 v := hv.of_le (by decide)
+  have hdv1 : ContDiff ℝ 1 (deriv v) := (contDiff_succ_iff_deriv (n := 1)).mp hv2' |>.2.2
+  have hu'c : Continuous (deriv u) := ContDiff.continuous_deriv_one hu1
+  have hv''c : Continuous (deriv (deriv v)) := ContDiff.continuous_deriv_one hdv1
+  have hdrift_cont : Continuous fun p : ℝ × ℝ =>
+      deriv u p.1 * Real.exp (σ * p.2) * v p.2 +
+        u p.1 * ((1 : ℝ) / 2) * deriv (deriv v) p.2 :=
+    (((hu'c.comp continuous_fst).mul
+        (Real.continuous_exp.comp (continuous_const.mul continuous_snd))).mul
+        (hv.continuous.comp continuous_snd)).add
+      (((hu.continuous.comp continuous_fst).mul continuous_const).mul
+        (hv''c.comp continuous_snd))
+  set gTw : ℝ → ℝ := fun r =>
+    ∫ ω, twinGenerator σ u v (expInt B σ 0 r.toNNReal ω) (B r.toNNReal ω) ∂P
+  set gDr : ℝ → ℝ := fun r =>
+    ∫ ω,
+      deriv u (expInt B σ 0 r.toNNReal ω) * Real.exp (σ * B r.toNNReal ω) *
+          v (B r.toNNReal ω)
+        + u (expInt B σ 0 r.toNNReal ω) * ((1 : ℝ) / 2) *
+            deriv (deriv v) (B r.toNNReal ω) ∂P
+  have hgTw_cont : Continuous gTw :=
+    continuous_expectation_jointA_path hBmeas hBcont σ
+      (fun x y => twinGenerator σ u v x y) (continuous_twinGenerator σ hu hv)
+      (fun r ω => hTw_bdd _ _)
+  have hgDr_cont : Continuous gDr :=
+    continuous_expectation_jointA_path hBmeas hBcont σ
+      (fun x y =>
+        deriv u x * Real.exp (σ * y) * v y +
+          u x * ((1 : ℝ) / 2) * deriv (deriv v) y)
+      hdrift_cont (fun r ω => hDr_bdd _ _)
+  have hg_eq : g = fun r => gTw r - gDr r := by
+    funext r
+    have hintTw : Integrable
+        (fun ω => twinGenerator σ u v (expInt B σ 0 r.toNNReal ω) (B r.toNNReal ω)) P :=
+      Integrable.of_bound
+        ((continuous_twinGenerator σ hu hv).measurable.comp
+          ((measurable_expInt_of_continuous_path hBmeas hBcont σ r.toNNReal).prodMk
+            (hBmeas _))).aestronglyMeasurable
+        M (ae_of_all _ fun ω => by simpa [Real.norm_eq_abs] using hTw_bdd _ _)
+    have hintDr : Integrable
+        (fun ω =>
+          deriv u (expInt B σ 0 r.toNNReal ω) * Real.exp (σ * B r.toNNReal ω) *
+              v (B r.toNNReal ω)
+            + u (expInt B σ 0 r.toNNReal ω) * ((1 : ℝ) / 2) *
+                deriv (deriv v) (B r.toNNReal ω)) P :=
+      Integrable.of_bound
+        (hdrift_cont.measurable.comp
+          ((measurable_expInt_of_continuous_path hBmeas hBcont σ r.toNNReal).prodMk
+            (hBmeas _))).aestronglyMeasurable
+        M (ae_of_all _ fun ω => by simpa [Real.norm_eq_abs] using hDr_bdd _ _)
+    simp only [g, gTw, gDr]
+    rw [← integral_sub hintTw hintDr]
+    refine integral_congr_ae (ae_of_all _ fun ω => ?_)
+    simpa using jointA_eq_twinGenerator_sub σ u v hu2 hv2
+      (expInt B σ 0 r.toNNReal ω) (B r.toNNReal ω)
+  -- Cumulative vanishing + FTC.
+  have hcum : ∀ τ : ℝ≥0, 0 < τ → τ ≤ t → (∫ s in (0 : ℝ)..τ, g s) = 0 := by
+    intro τ hτpos _hτle
+    have h34a := ito_expInt_test_product P W hW σ τ u v hu hv huC hvC
+    have h34b := ito_timeReversed_expInt_test_product P W hW σ τ hτpos u v hu hv huC hvC
+    -- Transport Itô RHSs from `W` to the continuous modification `B`.
+    have h34aB :
+        (∫ ω, u (expInt W σ 0 τ ω) * v (W τ ω) ∂P) - u 0 * v 0 =
+          ∫ s in Ioc (0 : ℝ) τ, gDr s := by
+      refine h34a.trans ?_
+      refine setIntegral_congr_fun measurableSet_Ioc fun s _hs => ?_
+      change _ = ∫ ω,
+          deriv u (expInt B σ 0 s.toNNReal ω) * Real.exp (σ * B s.toNNReal ω) *
+              v (B s.toNNReal ω)
+            + u (expInt B σ 0 s.toNNReal ω) * ((1 : ℝ) / 2) *
+                deriv (deriv v) (B s.toNNReal ω) ∂P
+      refine integral_congr_ae ?_
+      filter_upwards [hBW] with ω hω
+      have hX : expInt W σ 0 s.toNNReal ω = expInt B σ 0 s.toNNReal ω := by
+        simp only [expInt]
+        refine intervalIntegral.integral_congr fun r _ => ?_
+        rw [hω r.toNNReal]
+      simp only [hX, hω]
+    have h34bB :
+        (∫ ω, u (expInt W σ 0 τ ω) * v (W τ ω) ∂P) - u 0 * v 0 =
+          ∫ s in Ioc (0 : ℝ) τ, gTw s := by
+      refine h34b.trans ?_
+      refine setIntegral_congr_fun measurableSet_Ioc fun s _hs => ?_
+      change _ = ∫ ω, twinGenerator σ u v (expInt B σ 0 s.toNNReal ω) (B s.toNNReal ω) ∂P
+      refine integral_congr_ae ?_
+      filter_upwards [hBW] with ω hω
+      have hX : expInt W σ 0 s.toNNReal ω = expInt B σ 0 s.toNNReal ω := by
+        simp only [expInt]
+        refine intervalIntegral.integral_congr fun r _ => ?_
+        rw [hω r.toNNReal]
+      simp only [twinGenerator, hX, hω]
+    have hrhs : (∫ s in Ioc (0 : ℝ) τ, gTw s) = ∫ s in Ioc (0 : ℝ) τ, gDr s :=
+      h34bB.symm.trans h34aB
+    have hIoc_g : (∫ s in Ioc (0 : ℝ) τ, g s) = 0 := by
+      have hcongr : (fun s => g s) = fun s => gTw s - gDr s := hg_eq
+      simp only [hcongr]
+      rw [integral_sub hgTw_cont.integrableOn_Ioc hgDr_cont.integrableOn_Ioc, hrhs, sub_self]
+    have hτ0 : (0 : ℝ) ≤ τ := NNReal.coe_nonneg τ
+    calc
+      (∫ s in (0 : ℝ)..τ, g s) = ∫ s in Ioc (0 : ℝ) τ, g s :=
+        intervalIntegral.integral_of_le hτ0
+      _ = 0 := hIoc_g
+  have hF : ∀ τ : ℝ, τ ∈ Icc (0 : ℝ) t → (∫ s in (0 : ℝ)..τ, g s) = 0 := by
+    intro τ ⟨hτ0, hτt⟩
+    rcases eq_or_lt_of_le hτ0 with h0 | h0
+    · subst h0; simp
+    · exact hcum ⟨τ, hτ0⟩ (by exact_mod_cast h0) (by exact_mod_cast hτt)
+  have hg_zero_oo : ∀ τ ∈ Ioo (0 : ℝ) t, g τ = 0 := by
+    intro τ ⟨hτ0, hτt⟩
+    have hder : HasDerivAt (fun υ => ∫ s in (0 : ℝ)..υ, g s) (g τ) τ :=
+      intervalIntegral.integral_hasDerivAt_right
+        (hg_cont.intervalIntegrable _ _)
+        (hg_cont.stronglyMeasurableAtFilter _ _)
+        hg_cont.continuousAt
+    have hF0 : (fun _ : ℝ => (0 : ℝ)) =ᶠ[𝓝 τ] (fun υ => ∫ s in (0 : ℝ)..υ, g s) := by
+      filter_upwards [Ioo_mem_nhds hτ0 hτt] with υ hυ
+      exact (hF υ ⟨hυ.1.le, hυ.2.le⟩).symm
+    exact HasDerivAt.unique (hder.congr_of_eventuallyEq hF0) (hasDerivAt_const _ _)
+  have hg_t : g (t : ℝ) = 0 := by
+    have hseq' : Tendsto (fun n : ℕ => (t : ℝ) * ((n : ℝ) / (n + 1))) atTop (𝓝 (t : ℝ)) := by
+      have h := tendsto_const_nhds (x := (t : ℝ)) |>.mul (tendsto_natCast_div_add_atTop (1 : ℝ))
+      simpa using h
+    have hpos : ∀ᶠ n : ℕ in atTop, (t : ℝ) * ((n : ℝ) / (n + 1)) ∈ Ioo (0 : ℝ) t := by
+      filter_upwards [eventually_gt_atTop 0] with n hn
+      have hn0 : (0 : ℝ) < n := Nat.cast_pos.mpr hn
+      have hden : (0 : ℝ) < n + 1 := by positivity
+      have ht0 : (0 : ℝ) < t := by exact_mod_cast ht
+      refine ⟨mul_pos ht0 (div_pos hn0 hden), ?_⟩
+      have : (t : ℝ) * (n / (n + 1)) < t * 1 :=
+        mul_lt_mul_of_pos_left (div_lt_one hden |>.mpr (by linarith)) ht0
+      simpa using this
+    have heq : ∀ᶠ n : ℕ in atTop, g ((t : ℝ) * ((n : ℝ) / (n + 1))) = 0 := by
+      filter_upwards [hpos] with n hn
+      exact hg_zero_oo _ hn
+    exact tendsto_nhds_unique (hg_cont.continuousAt.tendsto.comp hseq')
+      (tendsto_nhds_of_eventually_eq heq)
+  exact hm_eq.trans hg_t
 
 /-- Weak adjoint identity against product test functions, via `IsJointDensity`. -/
 theorem weak_joint_fokker_planck_product (P : Measure Ω) [IsProbabilityMeasure P]

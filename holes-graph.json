@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-17T12:53:50Z",
-  "sorryCount": 4,
+  "updated": "2026-11-17T14:07:11Z",
+  "sorryCount": 3,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
     "blocked": "Waiting on incomplete required proof-deps",
@@ -12,7 +12,7 @@
     "Done = no local sorry and every hard predecessor is done (no unproven\u2192proven).",
     "Blue = done. Green = open. Grey = blocked.",
     "Regenerate with: python3 scripts/build_holes.py",
-    "Open tips: joint_dynkin_Aop_product."
+    "Open tips: weak_joint_fokker_planck_product."
   ],
   "nodes": [
     {
@@ -64,7 +64,7 @@
       "id": "infinite_integral_finite",
       "label": "\u222b\u2080^\u221e finite",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:93",
+      "file": "Lyasoff2016/FokkerPlanck.lean:97",
       "status": "done",
       "blocker": null,
       "detail": "Footnote 2: a.s. finiteness of the perpetuity for \u03bd<0."
@@ -73,7 +73,7 @@
       "id": "Z_stationary",
       "label": "Z stationary",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:435",
+      "file": "Lyasoff2016/FokkerPlanck.lean:439",
       "status": "done",
       "blocker": null,
       "detail": "Stationarity of Z_t vs the infinite-horizon integral."
@@ -82,7 +82,7 @@
       "id": "dufresne_zero_flux",
       "label": "Zero-flux ODE",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:451",
+      "file": "Lyasoff2016/FokkerPlanck.lean:455",
       "status": "done",
       "blocker": null,
       "detail": "Dufresne density satisfies the stationary zero-flux ODE."
@@ -91,7 +91,7 @@
       "id": "perpetuity_inv_moment",
       "label": "E[A\u207b\u00b9]=\u2212\u03bd",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:1188",
+      "file": "Lyasoff2016/FokkerPlanck.lean:1192",
       "status": "done",
       "blocker": null,
       "detail": "First reciprocal moment via Dynkin/stationarity of Z and L(log)."
@@ -100,7 +100,7 @@
       "id": "perpetuity_neg_moments",
       "label": "E[A\u207b\u207f]",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:2752",
+      "file": "Lyasoff2016/FokkerPlanck.lean:2756",
       "status": "done",
       "blocker": null,
       "detail": "All reciprocal moments match the inverse-Gamma moments."
@@ -109,7 +109,7 @@
       "id": "dufresne_theorem_sigma_one",
       "label": "Dufresne \u03c3=1",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:2824",
+      "file": "Lyasoff2016/FokkerPlanck.lean:2828",
       "status": "done",
       "blocker": null,
       "detail": "Unit-volatility law of A is igMeasure(\u22122\u03bd, 2)."
@@ -118,7 +118,7 @@
       "id": "dufresne_theorem",
       "label": "Dufresne thm",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:2914",
+      "file": "Lyasoff2016/FokkerPlanck.lean:2918",
       "status": "done",
       "blocker": null,
       "detail": "General \u03c3 via Brownian scaling from \u03c3=1."
@@ -145,8 +145,8 @@
       "id": "joint_dynkin_Aop_product",
       "label": "Dynkin (3.5)",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:3034",
-      "status": "open",
+      "file": "Lyasoff2016/FokkerPlanck.lean:3233",
+      "status": "done",
       "blocker": null,
       "detail": "E[jointA(u\u2297v)] = 0 from the two Ito drifts."
     },
@@ -154,9 +154,9 @@
       "id": "weak_joint_fokker_planck_product",
       "label": "Weak FP product",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:3049",
-      "status": "blocked",
-      "blocker": "needs joint_dynkin_Aop_product",
+      "file": "Lyasoff2016/FokkerPlanck.lean:3411",
+      "status": "open",
+      "blocker": null,
       "detail": "Adjoint pairing \u222b\u222b (u\u2297v)\u00b7jointFokkerPlanckAdjoint = 0."
     },
     {
@@ -172,7 +172,7 @@
       "id": "jointFokkerPlanckAdjoint_eq_zero",
       "label": "Adjoint = 0",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:3063",
+      "file": "Lyasoff2016/FokkerPlanck.lean:3425",
       "status": "blocked",
       "blocker": "needs weak_joint_fokker_planck_product",
       "detail": "Pointwise vanishing of jointFokkerPlanckAdjoint on x>0."
@@ -181,7 +181,7 @@
       "id": "fokker_planck_joint",
       "label": "FP (3.6b)",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:3084",
+      "file": "Lyasoff2016/FokkerPlanck.lean:3446",
       "status": "blocked",
       "blocker": "needs jointFokkerPlanckAdjoint_eq_zero",
       "detail": "Joint density satisfies the divergence-form Fokker\u2013Planck PDE."
@@ -190,7 +190,7 @@
       "id": "remark_3_2",
       "label": "Rem 3.2",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:3138",
+      "file": "Lyasoff2016/FokkerPlanck.lean:3500",
       "status": "done",
       "blocker": null,
       "detail": "Reflection / running-max identity in law."
