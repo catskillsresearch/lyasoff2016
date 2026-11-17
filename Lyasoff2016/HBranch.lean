@@ -155,7 +155,6 @@ theorem hasDerivAt_v {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F)
     · simp only [↓reduceIte, deriv_const', mul_zero]
       exact (hasDerivAt_const v (0 : ℝ)).congr_of_eventuallyEq h_ev_v
 
-
 theorem continuous {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F)
     {v₀ a₀ : ℝ} (hv₀ : 0 ≤ v₀) (ha₀ : Real.sqrt (1 + 2 * v₀) < a₀)
     (hF0 : ∀ a ≤ a₀, F a = 0) (sgn : Bool) {v : ℝ} (hv : 0 ≤ v) (hvv₀ : v ≤ v₀) :

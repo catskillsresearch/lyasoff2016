@@ -4,6 +4,8 @@ Ito identities for product test functions along `(expInt, W)`, used by `fokker_p
 module
 
 public import Lyasoff2016.Setting
+public import Lyasoff2016.TwinGenerator
+public import Lyasoff2016.ExpIntTwin
 public import MathFin.Probability.Brownian.Ito.ItoFormulaTD
 public import MathFin.Probability.Brownian.Ito.ItoFormulaCLM
 public import MathFin.Probability.Brownian.Ito.ItoFormulaAdaptedProcess
@@ -532,75 +534,6 @@ theorem ae_localItoProcess_mul_of_version {μ : Measure Ω} [IsProbabilityMeasur
   simp only [localItoProcess, hy₀]
   exact key.symm
 
-/-- The time-reversed twin of `expInt`: `Y_s = e^{σ B_s} ∫₀ˢ e^{-σ B_r} dr = ∫₀ˢ e^{σ (B_s - B_r)} dr`.
-It solves `dY = (1 + σ² Y / 2) ds + σ Y dB`, and `(Y_s, B_s)` has the law of
-`(∫₀ˢ e^{σ B_r} dr, B_s)` at each fixed `s`. -/
-def expIntTwin (B : ℝ≥0 → Ω → ℝ) (σ : ℝ) (s : ℝ≥0) (ω : Ω) : ℝ :=
-  Real.exp (σ * B s ω) * driftPath (fun r ω ↦ Real.exp (-σ * B r ω)) s ω
-
-/-- The integrand of paper (3.4b) for a product test `u ⊗ v`: the generator of `(expIntTwin, B)`
-applied to `u ⊗ v`. -/
-def twinGenerator (σ : ℝ) (u v : ℝ → ℝ) (x y : ℝ) : ℝ :=
-  (1 : ℝ) * deriv u x * v y
-    + (σ ^ 2 / 2) * x * deriv u x * v y
-    + (σ ^ 2 / 2) * x ^ 2 * deriv (deriv u) x * v y
-    + σ * x * deriv u x * deriv v y
-    + (1 / 2) * u x * deriv (deriv v) y
-
-/-- The integrand of (3.4b) is jointly continuous for smooth tests. -/
-theorem continuous_twinGenerator (σ : ℝ) {u v : ℝ → ℝ}
-    (hu : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) u) (hv : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) v) :
-    Continuous fun p : ℝ × ℝ ↦ twinGenerator σ u v p.1 p.2 := by
-  have hu1 : ContDiff ℝ 1 u := hu.of_le (by decide)
-  have hu2 : ContDiff ℝ 2 u := hu.of_le (by decide)
-  have hdu1 : ContDiff ℝ 1 (deriv u) := (contDiff_succ_iff_deriv (n := 1)).mp hu2 |>.2.2
-  have huc : Continuous u := hu.continuous
-  have hu'c : Continuous (deriv u) := ContDiff.continuous_deriv_one hu1
-  have hu''c : Continuous (deriv (deriv u)) := ContDiff.continuous_deriv_one hdu1
-  have hv1 : ContDiff ℝ 1 v := hv.of_le (by decide)
-  have hv2 : ContDiff ℝ 2 v := hv.of_le (by decide)
-  have hdv1 : ContDiff ℝ 1 (deriv v) := (contDiff_succ_iff_deriv (n := 1)).mp hv2 |>.2.2
-  have hvc : Continuous v := hv.continuous
-  have hv'c : Continuous (deriv v) := ContDiff.continuous_deriv_one hv1
-  have hv''c : Continuous (deriv (deriv v)) := ContDiff.continuous_deriv_one hdv1
-  unfold twinGenerator
-  fun_prop
-
-/-- The time integral of `e^{a B}` up to a fixed time is measurable. -/
-theorem measurable_driftPath_exp {B : ℝ≥0 → Ω → ℝ} (hBmeas : ∀ t, Measurable (B t))
-    (hBcont : ∀ ω, Continuous fun t : ℝ≥0 ↦ B t ω) (a : ℝ) (s : ℝ≥0) :
-    Measurable (driftPath (fun r ω ↦ Real.exp (a * B r ω)) s) :=
-  measurable_pathIntegral (w := fun r ω ↦ Real.exp (a * B r ω))
-    (fun r ↦ Real.continuous_exp.measurable.comp ((hBmeas r).const_mul a))
-    (fun ω ↦ Real.continuous_exp.comp (continuous_const.mul (hBcont ω))) s
-
-/-- The twin is measurable at each time. -/
-theorem measurable_expIntTwin {B : ℝ≥0 → Ω → ℝ} (hBmeas : ∀ t, Measurable (B t))
-    (hBcont : ∀ ω, Continuous fun t : ℝ≥0 ↦ B t ω) (σ : ℝ) (s : ℝ≥0) :
-    Measurable (expIntTwin B σ s) :=
-  (Real.continuous_exp.measurable.comp ((hBmeas s).const_mul σ)).mul
-    (measurable_driftPath_exp hBmeas hBcont (-σ) s)
-
-/-- The twin is adapted to the natural filtration of `B`. -/
-theorem stronglyAdapted_expIntTwin {B : ℝ≥0 → Ω → ℝ} (hBmeas : ∀ t, Measurable (B t))
-    (hBcont : ∀ ω, Continuous fun t : ℝ≥0 ↦ B t ω) (σ : ℝ) (s : ℝ≥0) :
-    StronglyMeasurable[(natFiltration hBmeas s : MeasurableSpace Ω)] (expIntTwin B σ s) :=
-  ((show Continuous fun x : ℝ ↦ Real.exp (σ * x) by fun_prop).comp_stronglyMeasurable
-    (stronglyAdapted_natFiltration hBmeas s)).mul
-    ((driftPath_isStronglyPredictable_of_continuous hBmeas
-      (fun r ↦ (show Continuous fun x : ℝ ↦ Real.exp (-σ * x) by fun_prop).comp_stronglyMeasurable
-        (stronglyAdapted_natFiltration hBmeas r))
-      (fun ω ↦ Real.continuous_exp.comp (continuous_const.mul (hBcont ω)))).stronglyAdapted s)
-
-omit [MeasurableSpace Ω] in
-/-- Every path of the twin is continuous. -/
-theorem continuous_expIntTwin {B : ℝ≥0 → Ω → ℝ}
-    (hBcont : ∀ ω, Continuous fun t : ℝ≥0 ↦ B t ω) (σ : ℝ) (ω : Ω) :
-    Continuous fun s ↦ expIntTwin B σ s ω :=
-  (Real.continuous_exp.comp (continuous_const.mul (hBcont ω))).mul
-    (continuous_driftPath_of_continuous (b := fun r ω ↦ Real.exp (-σ * B r ω))
-      (Real.continuous_exp.comp (continuous_const.mul (hBcont ω))))
-
 /-- A pre-Brownian motion with continuous paths is the Itô process `∫ 1 dB`, almost surely on
 `[0, T]`. -/
 theorem ae_localItoProcess_one_eq {μ : Measure Ω} [IsProbabilityMeasure μ]
@@ -721,7 +654,7 @@ theorem integral_expIntTwin_eq {μ : Measure Ω} [IsProbabilityMeasure μ]
   have hφ₁ : Measurable φ₁ :=
     (measurable_pi_iff.2 fun _ ↦ measurable_driftPath_exp hBmeas hBcont σ s).prodMk (hBmeas s)
   have hφ₂ : Measurable φ₂ :=
-    (measurable_pi_iff.2 fun _ ↦ measurable_expIntTwin hBmeas hBcont σ s).prodMk (hBmeas s)
+    (measurable_pi_iff.2 fun _ ↦ expIntTwin.measurable hBmeas hBcont σ s).prodMk (hBmeas s)
   have hg' : Continuous fun p : (Fin 1 → ℝ) × ℝ ↦ g (p.1 0) p.2 :=
     hg.comp (f := fun p : (Fin 1 → ℝ) × ℝ ↦ (p.1 0, p.2))
       (((continuous_apply 0).comp continuous_fst).prodMk continuous_snd)
@@ -784,9 +717,9 @@ theorem ito_expIntTwin_product_of_continuous {μ : Measure Ω} [IsProbabilityMea
     stronglyAdapted_natFiltration hBmeas
   set Y : ℝ≥0 → Ω → ℝ := expIntTwin B σ with hY
   have hYa : ∀ s, StronglyMeasurable[(natFiltration hBmeas s : MeasurableSpace Ω)] (Y s) :=
-    stronglyAdapted_expIntTwin hBmeas hBcont σ
-  have hYc : ∀ ω, Continuous fun s ↦ Y s ω := continuous_expIntTwin hBcont σ
-  have hYm : ∀ s, Measurable (Y s) := measurable_expIntTwin hBmeas hBcont σ
+    expIntTwin.stronglyAdapted hBmeas hBcont σ
+  have hYc : ∀ ω, Continuous fun s ↦ Y s ω := expIntTwin.continuous hBcont σ
+  have hYm : ∀ s, Measurable (Y s) := expIntTwin.measurable hBmeas hBcont σ
   set σY : ℝ≥0 → Ω → ℝ := fun s ω ↦ σ * Y s ω with hσY
   have hσYa : ∀ s, StronglyMeasurable[(natFiltration hBmeas s : MeasurableSpace Ω)] (σY s) :=
     fun s ↦ (hYa s).const_mul σ
@@ -880,7 +813,7 @@ theorem ito_expIntTwin_product_of_continuous {μ : Measure Ω} [IsProbabilityMea
   -- the drift weight
   set w : ℝ≥0 → Ω → ℝ := fun s ω ↦ twinGenerator σ u v (Y s ω) (B s ω) with hw
   have hG : Continuous fun p : ℝ × ℝ ↦ twinGenerator σ u v p.1 p.2 :=
-    continuous_twinGenerator σ hu hv
+    twinGenerator.continuous σ hu hv
   have hw_meas : ∀ s, Measurable (w s) := by
     intro s
     have h := hG.measurable.comp ((hYm s).prodMk (hBmeas s))
@@ -985,7 +918,7 @@ theorem ito_timeReversed_expInt_test_product (P : Measure Ω) [IsProbabilityMeas
   have key := ito_expIntTwin_product_of_continuous hBpre hBmeas hBcont σ t u v hu hv huC hvC
   -- `time_reversal` at each horizon replaces the twin by `expInt` in expectation.
   have hG : Continuous fun p : ℝ × ℝ ↦ twinGenerator σ u v p.1 p.2 :=
-    continuous_twinGenerator σ hu hv
+    twinGenerator.continuous σ hu hv
   have huv : Continuous fun p : ℝ × ℝ ↦ u p.1 * v p.2 :=
     (hu.continuous.comp continuous_fst).mul (hv.continuous.comp continuous_snd)
   have hterm : (∫ ω, u (expInt W σ 0 t ω) * v (W t ω) ∂P) =

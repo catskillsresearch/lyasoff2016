@@ -3,7 +3,9 @@
 -/
 module
 
-public import Lyasoff2016.FokkerPlanck
+public import Lyasoff2016.Line
+public import Lyasoff2016.ModifiedBesselK1
+public import Lyasoff2016.Setting
 
 
 @[expose] public section
@@ -15,40 +17,6 @@ noncomputable section
 namespace Lyasoff2016
 
 variable {Ω : Type*} [MeasurableSpace Ω]
-
-/- Paper: p. 1071, integral lines of V = (σ²x/2)∂ₓ + σ∂ᵧ.
-   Plain recap: the flow is u ↦ (x e^{σ²u/2}, y + σ u).
-   PAPER NOTE: printed second coordinate (y+u)σ is wrong; flow of σ∂ᵧ is y+σu. -/
-def line (σ x y u : ℝ) : ℝ × ℝ := (x * Real.exp (σ ^ 2 * u / 2), y + σ * u)
-
-/- Paper: p. 1071.
-   Plain recap: that curve is an integral curve of the vector field V. -/
-theorem line_is_integral_curve (σ x y u : ℝ) :
-    HasDerivAt (fun u => (line σ x y u).1) (σ ^ 2 / 2 * (line σ x y u).1) u ∧
-    HasDerivAt (fun u => (line σ x y u).2) σ u := by
-  constructor
-  · have h : HasDerivAt (fun u : ℝ => σ ^ 2 * u / 2) (σ ^ 2 / 2) u := by
-      simpa using ((hasDerivAt_id u).const_mul (σ ^ 2)).div_const 2
-    have := (h.exp).const_mul x
-    simp only [line]
-    convert this using 1
-    ring
-  · simp only [line]
-    simpa using ((hasDerivAt_id u).const_mul σ).const_add y
-
-/- Paper: p. 1073, foliation.
-   Plain recap: every point (x,y) in ℝ₊₊×ℝ lies on the line through (x e^{-σy/2}, 0). -/
-theorem foliation (σ : ℝ) (hσ : σ ≠ 0) (x y : ℝ) :
-    line σ (x * Real.exp (-(σ * y) / 2)) 0 (y / σ) = (x, y) := by
-  simp only [line]
-  refine Prod.ext ?_ ?_
-  · show x * Real.exp (-(σ * y) / 2) * Real.exp (σ ^ 2 * (y / σ) / 2) = x
-    have : σ ^ 2 * (y / σ) / 2 = σ * y / 2 := by field_simp
-    rw [this, mul_assoc, ← Real.exp_add]
-    have : -(σ * y) / 2 + σ * y / 2 = 0 := by ring
-    rw [this]; simp
-  · show 0 + σ * (y / σ) = y
-    field_simp; ring
 
 /- Paper: p. 1071–1073, Theorem 4.1 (PDE part).
    Plain recap: the conditional density satisfies the first-order transport PDE along V. -/
@@ -103,33 +71,6 @@ theorem hasDerivAt_ode_solution (x u : ℝ) :
       convert h2 using 1; funext; rfl
     exact h1'.sub h2'
   convert hlin.exp using 1
-  ring
-
-/- The standard whole-line integral representation from DLMF 10.32.9,
-   specialized to order one.  Mathlib does not currently define `Kν`. -/
-def modifiedBesselK1 (z : ℝ) : ℝ :=
-  (1 / 2 : ℝ) * ∫ u : ℝ, Real.exp (-z * Real.cosh u + u)
-
-/- Paper: p. 1075, link of the foliation constant to modified Bessel K₁.
-   The printed calculation is
-   `∫ exp (-u/2 - (4/x) cosh (u/2)) du = 4 K₁(4/x)`. -/
-theorem besselK1_identity (x : ℝ) :
-    ∫ u : ℝ, Real.exp (-u / 2 - (4 / x) * Real.cosh (u / 2)) =
-      4 * modifiedBesselK1 (4 / x) := by
-  let g : ℝ → ℝ := fun u => Real.exp (-u - (4 / x) * Real.cosh u)
-  have hscale : (∫ u : ℝ, g (u / 2)) = 2 * ∫ u : ℝ, g u := by
-    simpa using (Measure.integral_comp_div g (2 : ℝ))
-  have hneg : (∫ u : ℝ, g u) =
-      ∫ u : ℝ, Real.exp (-(4 / x) * Real.cosh u + u) := by
-    rw [← MeasureTheory.integral_neg_eq_self]
-    congr 1
-    funext u
-    simp only [g, neg_neg, Real.cosh_neg]
-    ring_nf
-  rw [show (fun u : ℝ => Real.exp (-u / 2 - (4 / x) * Real.cosh (u / 2))) =
-      fun u => g (u / 2) by funext u; simp [g]; ring_nf]
-  rw [hscale, hneg]
-  simp only [modifiedBesselK1]
   ring
 
 /- The integrated ODE (4.5), with its integration constant fixed at `u = 0`.

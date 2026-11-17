@@ -8,6 +8,7 @@ module
 
 public import Lyasoff2016.YorKernel
 public import Lyasoff2016.BrownianScaling
+public import Lyasoff2016.YorDensity
 
 @[expose] public section
 

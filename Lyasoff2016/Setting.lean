@@ -64,20 +64,9 @@ def pd (m n : ℕ) (φ : ℝ → ℝ → ℝ) (x y : ℝ) : ℝ :=
 
 /-! ## §1 Introduction (pp. 1061–1063) -/
 
-/- Paper: p. 1062, θ(r,t) in Yor’s formula.
-   Plain recap: the Hartman–Watson-type kernel appearing in Yor’s density. -/
-def theta (r t : ℝ) : ℝ :=
-  r / Real.sqrt (2 * Real.pi ^ 3 * t) * Real.exp (Real.pi ^ 2 / (2 * t)) *
-    ∫ u in Ioi (0 : ℝ), Real.exp (-u ^ 2 / (2 * t)) * Real.exp (-r * Real.cosh u) *
-      Real.sinh u * Real.sin (Real.pi * u / t)
-
-/- Paper: p. 1061, (1.1).
-   Plain recap: Yor’s candidate joint density for σ = 2. -/
-def yorDensity (t x y : ℝ) : ℝ :=
-  (1 / x) * Real.exp (-(1 + Real.exp (2 * y)) / (2 * x)) * theta (Real.exp y / x) t
-
 /- Paper: p. 1061 (1.1) — Yor’s theorem [33, (6.c)].
-   Plain recap: stated here; proved in `IntegralReps` as `yor_formula` via Remark 5.1. -/
+   Plain recap: stated here; proved in `IntegralReps` as `yor_formula` via Remark 5.1.
+   Definitions `theta` and `yorDensity` live in `Lyasoff2016.Theta` / `Lyasoff2016.YorDensity`. -/
 
 /- Paper: p. 1062, densities of the form (1.2).
    Plain recap: inverse-Gamma shape densities a^{p-1}/Γ(p-1) · x^{-p} e^{-a/x}. -/

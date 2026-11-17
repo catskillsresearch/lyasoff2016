@@ -5,6 +5,7 @@ and the sorry-free proof of `IsJointDensity P W 2 0 t (yorDensity t)`.
 module
 
 public import Lyasoff2016.YorLaplace
+public import Lyasoff2016.YorDensity
 
 @[expose] public section
 
