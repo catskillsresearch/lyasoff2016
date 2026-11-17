@@ -27,20 +27,34 @@ variable {Ω : Type*} [MeasurableSpace Ω]
 def timeReversed (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) : ℝ≥0 → Ω → ℝ :=
   fun s ω => if s ≤ t then W t ω - W (t - s) ω else W s ω
 
+namespace timeReversed
+
 omit [MeasurableSpace Ω] in
-theorem timeReversed_zero (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) (ω : Ω) :
+theorem zero (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) (ω : Ω) :
     timeReversed W t 0 ω = 0 := by
   simp [timeReversed]
 
 omit [MeasurableSpace Ω] in
-theorem timeReversed_eq_on_Icc (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) {s : ℝ≥0} (hs : s ≤ t) (ω : Ω) :
+theorem eq_on_Icc (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) {s : ℝ≥0} (hs : s ≤ t) (ω : Ω) :
     timeReversed W t s ω = W t ω - W (t - s) ω := by
   simp [timeReversed, hs]
 
 omit [MeasurableSpace Ω] in
-theorem timeReversed_eq_of_gt (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) {s : ℝ≥0} (hs : ¬ s ≤ t) (ω : Ω) :
+theorem eq_of_gt (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) {s : ℝ≥0} (hs : ¬ s ≤ t) (ω : Ω) :
     timeReversed W t s ω = W s ω := by
   simp [timeReversed, hs]
+
+omit [MeasurableSpace Ω] in
+private theorem eq_fun_le (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) {s : ℝ≥0} (hs : s ≤ t) :
+    timeReversed W t s = fun ω => W t ω - W (t - s) ω :=
+  funext fun ω => eq_on_Icc W t hs ω
+
+omit [MeasurableSpace Ω] in
+private theorem eq_fun_gt (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) {s : ℝ≥0} (hs : ¬ s ≤ t) :
+    timeReversed W t s = W s :=
+  funext fun ω => eq_of_gt W t hs ω
+
+end timeReversed
 
 /- Paper: p. 1063.
    Plain recap: for s,u ≤ t the time-reversed increments have BM covariance min(s,u). -/
@@ -92,26 +106,16 @@ theorem covariance_timeReversed_le (P : Measure Ω) [IsProbabilityMeasure P] (W 
   convert hsm using 1
   ring
 
-omit [MeasurableSpace Ω] in
-private theorem timeReversed_eq_fun_le (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) {s : ℝ≥0} (hs : s ≤ t) :
-    timeReversed W t s = fun ω => W t ω - W (t - s) ω :=
-  funext fun ω => timeReversed_eq_on_Icc W t hs ω
-
-omit [MeasurableSpace Ω] in
-private theorem timeReversed_eq_fun_gt (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) {s : ℝ≥0} (hs : ¬ s ≤ t) :
-    timeReversed W t s = W s :=
-  funext fun ω => timeReversed_eq_of_gt W t hs ω
-
 private theorem covariance_timeReversed_aux (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsPreBrownianReal W P) (t : ℝ≥0) (s u : ℝ≥0) :
     covariance (timeReversed W t s) (timeReversed W t u) P = ↑(min s u) := by
   by_cases hs : s ≤ t <;> by_cases hu : u ≤ t
   · -- both ≤ t
-    rw [timeReversed_eq_fun_le W t hs, timeReversed_eq_fun_le W t hu]
+    rw [timeReversed.eq_fun_le W t hs, timeReversed.eq_fun_le W t hu]
     exact covariance_timeReversed_le P W hW t hs hu
   · -- s ≤ t < u
     have hu' : t ≤ u := le_of_not_ge hu
-    rw [timeReversed_eq_fun_le W t hs, timeReversed_eq_fun_gt W t hu]
+    rw [timeReversed.eq_fun_le W t hs, timeReversed.eq_fun_gt W t hu]
     have hWt : MemLp (W t) 2 P := (hW.hasLaw_eval t).memLp (memLp_id_gaussianReal (2 : ℝ≥0))
     have hWs : MemLp (W (t - s)) 2 P :=
       (hW.hasLaw_eval (t - s)).memLp (memLp_id_gaussianReal (2 : ℝ≥0))
@@ -126,7 +130,7 @@ private theorem covariance_timeReversed_aux (P : Measure Ω) [IsProbabilityMeasu
     ring
   · -- u ≤ t < s
     have hs' : t ≤ s := le_of_not_ge hs
-    rw [timeReversed_eq_fun_gt W t hs, timeReversed_eq_fun_le W t hu]
+    rw [timeReversed.eq_fun_gt W t hs, timeReversed.eq_fun_le W t hu]
     have hWt : MemLp (W t) 2 P := (hW.hasLaw_eval t).memLp (memLp_id_gaussianReal (2 : ℝ≥0))
     have hWu : MemLp (W (t - u)) 2 P :=
       (hW.hasLaw_eval (t - u)).memLp (memLp_id_gaussianReal (2 : ℝ≥0))
@@ -140,7 +144,7 @@ private theorem covariance_timeReversed_aux (P : Measure Ω) [IsProbabilityMeasu
     rw [min_eq_right hus]
     ring
   · -- both > t
-    rw [timeReversed_eq_fun_gt W t hs, timeReversed_eq_fun_gt W t hu]
+    rw [timeReversed.eq_fun_gt W t hs, timeReversed.eq_fun_gt W t hu]
     simpa using hW.covariance_eval s u
 
 private theorem isGaussianProcess_timeReversed (P : Measure Ω) (W : ℝ≥0 → Ω → ℝ)
@@ -158,14 +162,14 @@ private theorem isGaussianProcess_timeReversed (P : Measure Ω) (W : ℝ≥0 →
           simp only [Pi.smul_apply, RingHom.id_apply]
           module }, ?_⟩
     intro ω
-    rw [timeReversed_eq_on_Icc W t hs]
+    rw [timeReversed.eq_on_Icc W t hs]
     simp [Finset.restrict_def]
   · refine ⟨{s},
       { toFun x := x ⟨s, by simp⟩
         map_add' := by simp
         map_smul' := by simp }, ?_⟩
     intro ω
-    rw [timeReversed_eq_of_gt W t hs]
+    rw [timeReversed.eq_of_gt W t hs]
     simp [Finset.restrict_def]
 
 /- The finite-dimensional laws of the time-reversed process match those of BM. -/
@@ -176,11 +180,11 @@ theorem isPreBrownianReal_timeReversed (P : Measure Ω) (W : ℝ≥0 → Ω → 
   refine IsGaussianProcess.isPreBrownianReal_of_covariance
     (isGaussianProcess_timeReversed P W hW.isGaussianProcess t) (fun s ↦ ?_) (fun s u hsu ↦ ?_)
   · by_cases hs : s ≤ t
-    · rw [timeReversed_eq_fun_le W t hs, integral_sub, hW.integral_eval, hW.integral_eval,
+    · rw [timeReversed.eq_fun_le W t hs, integral_sub, hW.integral_eval, hW.integral_eval,
         sub_zero]
       · exact (hW.isGaussianProcess.hasGaussianLaw_eval _).integrable
       · exact (hW.isGaussianProcess.hasGaussianLaw_eval _).integrable
-    · rw [timeReversed_eq_fun_gt W t hs]
+    · rw [timeReversed.eq_fun_gt W t hs]
       exact hW.integral_eval s
   · have hcov := covariance_timeReversed_aux (P := P) W hW.toIsPreBrownianReal t s u
     rwa [min_eq_left hsu] at hcov

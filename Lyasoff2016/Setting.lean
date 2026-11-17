@@ -98,6 +98,6 @@ theorem time_reversal (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 →
   refine hlaw.trans ?_
   refine Measure.map_congr ?_
   filter_upwards [hW.eval_zero_ae_eq_zero] with ω h0
-  exact (timeReversed_functional_eq W t ω n V h0).symm
+  exact (timeReversed.functional_eq W t ω n V h0).symm
 
 end Lyasoff2016

@@ -348,7 +348,7 @@ theorem Z_stationary_consistent (P : Measure Ω) [IsProbabilityMeasure P] (W B :
           ((measurable_pi_apply t).sub (measurable_pi_apply (t - min s t))).neg
       exact (hWB.comp measurable_id hψ).symm
     · filter_upwards [bmPath_ae_eq hβ] with ω h s
-      simp [stopPath, h, timeReversed_eq_on_Icc B t (min_le_right s t)]
+      simp [stopPath, h, timeReversed.eq_on_Icc B t (min_le_right s t)]
   have hind2 : IndepFun (fun ω => stopPath t (bmPath hW ω)) (bmPath hS) P := by
     refine indepFun_path_of_ae_eq P _ _ (fun ω s => W (min s t) ω)
       (fun ω s => W (t + s) ω - W t ω) ?_ ?_ (bmPath_ae_eq hS)
@@ -385,7 +385,7 @@ theorem Z_stationary_consistent (P : Measure Ω) [IsProbabilityMeasure P] (W B :
     filter_upwards [bmPath_ae_eq hβ, bmPath_ae_eq hW, hB.eval_zero_ae_eq_zero] with ω hβω hWω h0
     have hI := integral_stopPath_eq σ ν t (bmPath hβ ω) (fun s => -(timeReversed B t s ω))
       (fun s => by rw [hβω]; rfl)
-    have hrev := timeReversed_integral_eq B t ω (fun u b => Real.exp (σ * -b + ν * u))
+    have hrev := timeReversed.integral_eq B t ω (fun u b => Real.exp (σ * -b + ν * u))
     have hfin : ∫ s in (0 : ℝ)..(t : ℝ), Real.exp (σ * -(timeReversed B t s.toNNReal ω) + ν * s)
         = Real.exp (ν * (t : ℝ) - σ * B t ω) *
           ∫ s in (0 : ℝ)..(t : ℝ), Real.exp (-ν * s + σ * B s.toNNReal ω) := by
@@ -395,7 +395,7 @@ theorem Z_stationary_consistent (P : Measure Ω) [IsProbabilityMeasure P] (W B :
       congr 1
       ring
     have hend : stopPath t (bmPath hβ ω) t = -B t ω := by
-      simp [stopPath, hβω, timeReversed_eq_on_Icc B t le_rfl, h0]
+      simp [stopPath, hβω, timeReversed.eq_on_Icc B t le_rfl, h0]
     simp only [Ψ, hI, hfin, hend, hWω]
     rw [mul_add, add_comm]
     congr 2
@@ -4115,14 +4115,14 @@ theorem remark_3_2 (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω
   · filter_upwards [hW.cont, hW.eval_zero_ae_eq_zero] with ω hcont h0 x hx
     have hBt : x t = -W t ω := by
       rw [hx]
-      simp [timeReversed_eq_on_Icc W t le_rfl, h0]
+      simp [timeReversed.eq_on_Icc W t le_rfl, h0]
     have hBs : ∀ s : Icc (0 : ℝ≥0) t, x s = W (t - s) ω - W t ω := by
       intro s
       rw [hx]
-      simp [timeReversed_eq_on_Icc W t s.2.2]
+      simp [timeReversed.eq_on_Icc W t s.2.2]
     have hint : ∫ s in (0 : ℝ)..(t : ℝ), Real.exp (1 * x s.toNNReal + 0 * s) =
         Real.exp (-W t ω) * expInt W 1 0 t ω := by
-      have h := timeReversed_integral_eq W t ω (fun _ b => Real.exp (-b))
+      have h := timeReversed.integral_eq W t ω (fun _ b => Real.exp (-b))
       simp only [expInt]
       rw [← intervalIntegral.integral_const_mul]
       calc ∫ s in (0 : ℝ)..(t : ℝ), Real.exp (1 * x s.toNNReal + 0 * s)
