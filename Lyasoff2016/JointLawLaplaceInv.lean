@@ -5,7 +5,9 @@ Inversion of the distributional Fokker–Planck PDE along characteristics
 module
 
 public import Lyasoff2016.JointLawLaplace
-public import Mathlib.Analysis.SpecialFunctions.SmoothTransition
+public import Lyasoff2016.SmoothBump
+public import Lyasoff2016.YPlus
+public import Lyasoff2016.YMinus
 public import Mathlib.MeasureTheory.Function.JacobianOneDim
 public import Mathlib.Topology.ContinuousMap.Weierstrass
 
@@ -16,379 +18,6 @@ open scoped ENNReal NNReal Real Polynomial
 
 noncomputable section
 namespace Lyasoff2016
-
-section SmoothCutoffs
-
-/-- Smooth step from `0` (on `(-∞, a]`) to `1` (on `[b, ∞)`), for `a < b`. -/
-def smoothStepRight (a b x : ℝ) : ℝ :=
-  Real.smoothTransition ((x - a) / (b - a))
-
-/-- Smooth step from `1` (on `(-∞, c]`) to `0` (on `[d, ∞)`), for `c < d`. -/
-def smoothStepLeft (c d x : ℝ) : ℝ :=
-  Real.smoothTransition ((d - x) / (d - c))
-
-/-- Smooth bump equal to `1` on `[b, c]` and `0` outside `(a, d)`, for `a < b ≤ c < d`. -/
-def smoothBump (a b c d x : ℝ) : ℝ :=
-  smoothStepRight a b x * smoothStepLeft c d x
-
-lemma smoothStepRight_contDiff (a b : ℝ) {n : ℕ∞} :
-    ContDiff ℝ n (smoothStepRight a b) := by
-  unfold smoothStepRight
-  exact Real.smoothTransition.contDiff.comp ((contDiff_id.sub contDiff_const).div_const _)
-
-lemma smoothStepLeft_contDiff (c d : ℝ) {n : ℕ∞} :
-    ContDiff ℝ n (smoothStepLeft c d) := by
-  unfold smoothStepLeft
-  exact Real.smoothTransition.contDiff.comp ((contDiff_const.sub contDiff_id).div_const _)
-
-lemma smoothBump_contDiff (a b c d : ℝ) {n : ℕ∞} :
-    ContDiff ℝ n (smoothBump a b c d) :=
-  (smoothStepRight_contDiff a b).mul (smoothStepLeft_contDiff c d)
-
-lemma smoothStepRight_zero_of_le {a b x : ℝ} (hab : a < b) (hx : x ≤ a) :
-    smoothStepRight a b x = 0 :=
-  Real.smoothTransition.zero_of_nonpos (div_nonpos_of_nonpos_of_nonneg (sub_nonpos.mpr hx) (sub_pos.mpr hab).le)
-
-lemma smoothStepRight_one_of_le {a b x : ℝ} (hab : a < b) (hx : b ≤ x) :
-    smoothStepRight a b x = 1 :=
-  Real.smoothTransition.one_of_one_le ((one_le_div (sub_pos.mpr hab)).mpr (by linarith))
-
-lemma smoothStepRight_mem_Icc (a b x : ℝ) :
-    0 ≤ smoothStepRight a b x ∧ smoothStepRight a b x ≤ 1 :=
-  ⟨Real.smoothTransition.nonneg _, Real.smoothTransition.le_one _⟩
-
-lemma smoothStepLeft_one_of_le {c d x : ℝ} (hcd : c < d) (hx : x ≤ c) :
-    smoothStepLeft c d x = 1 :=
-  Real.smoothTransition.one_of_one_le ((one_le_div (sub_pos.mpr hcd)).mpr (by linarith))
-
-lemma smoothStepLeft_zero_of_le {c d x : ℝ} (hcd : c < d) (hx : d ≤ x) :
-    smoothStepLeft c d x = 0 :=
-  Real.smoothTransition.zero_of_nonpos (div_nonpos_of_nonpos_of_nonneg (sub_nonpos.mpr hx) (sub_pos.mpr hcd).le)
-
-lemma smoothStepLeft_mem_Icc (c d x : ℝ) :
-    0 ≤ smoothStepLeft c d x ∧ smoothStepLeft c d x ≤ 1 :=
-  ⟨Real.smoothTransition.nonneg _, Real.smoothTransition.le_one _⟩
-
-lemma smoothBump_mem_Icc (a b c d x : ℝ) :
-    0 ≤ smoothBump a b c d x ∧ smoothBump a b c d x ≤ 1 :=
-  ⟨mul_nonneg (smoothStepRight_mem_Icc a b x).1 (smoothStepLeft_mem_Icc c d x).1,
-   (mul_le_of_le_one_right (smoothStepRight_mem_Icc a b x).1 (smoothStepLeft_mem_Icc c d x).2).trans
-     (smoothStepRight_mem_Icc a b x).2⟩
-
-lemma smoothBump_one_of_mem {a b c d x : ℝ} (hab : a < b) (hcd : c < d)
-    (hbx : b ≤ x) (hxc : x ≤ c) : smoothBump a b c d x = 1 := by
-  simp [smoothBump, smoothStepRight_one_of_le hab hbx, smoothStepLeft_one_of_le hcd hxc]
-
-lemma smoothBump_zero_of_not_mem {a b c d x : ℝ} (hab : a < b) (hcd : c < d)
-    (hx : x ≤ a ∨ d ≤ x) : smoothBump a b c d x = 0 := by
-  rcases hx with h | h
-  · simp [smoothBump, smoothStepRight_zero_of_le hab h]
-  · simp [smoothBump, smoothStepLeft_zero_of_le hcd h]
-
-lemma smoothBump_hasCompactSupport {a b c d : ℝ} (hab : a < b) (hcd : c < d) :
-    HasCompactSupport (smoothBump a b c d) := by
-  refine HasCompactSupport.of_support_subset_isCompact (isCompact_Icc (a := a) (b := d)) ?_
-  intro x hx
-  by_contra hnot
-  simp only [mem_Icc, not_and_or, not_le] at hnot
-  exact hx (smoothBump_zero_of_not_mem hab hcd (hnot.imp le_of_lt le_of_lt))
-
-end SmoothCutoffs
-
-section CharacteristicGeometry
-
-/-- Characteristic invariant `A(v, y) = cosh y + v * exp(-y)`. -/
-def charA (v y : ℝ) : ℝ := Real.cosh y + v * Real.exp (-y)
-
-/-- Critical point `y₀(v) = (1/2) * log(1 + 2v)` where `∂_y A(v, y) = 0`. -/
-def yCrit (v : ℝ) : ℝ := (1 / 2 : ℝ) * Real.log (1 + 2 * v)
-
-/-- Upper inverse branch `y_+(v, a) = log(a + √(a² - (1 + 2v)))`. -/
-def yPlus (v a : ℝ) : ℝ := Real.log (a + Real.sqrt (a ^ 2 - (1 + 2 * v)))
-
-/-- Lower inverse branch `y_-(v, a) = log(a - √(a² - (1 + 2v)))`. -/
-def yMinus (v a : ℝ) : ℝ := Real.log (a - Real.sqrt (a ^ 2 - (1 + 2 * v)))
-
-lemma charA_eq (v y : ℝ) :
-    charA v y = (Real.exp y + (1 + 2 * v) * Real.exp (-y)) / 2 := by
-  simp only [charA, Real.cosh_eq]; ring
-
-lemma deriv_charA_y_eq (v y : ℝ) :
-    Real.sinh y - v * Real.exp (-y) = (Real.exp y - (1 + 2 * v) * Real.exp (-y)) / 2 := by
-  simp only [Real.sinh_eq]; ring
-
-lemma hasDerivAt_charA_y (v y : ℝ) :
-    HasDerivAt (charA v) (Real.sinh y - v * Real.exp (-y)) y := by
-  have h1 := Real.hasDerivAt_cosh y
-  have h2 := ((hasDerivAt_id' y).neg.exp).const_mul v
-  unfold charA
-  convert h1.fun_add h2 using 1
-  simp [sub_eq_add_neg, mul_neg]
-
-lemma hasDerivAt_charA_v (v y : ℝ) :
-    HasDerivAt (fun v' => charA v' y) (Real.exp (-y)) v := by
-  have h := ((hasDerivAt_id' v).mul_const (Real.exp (-y))).const_add (Real.cosh y)
-  simpa [charA] using h
-
-lemma charA_sq_sub (v y : ℝ) :
-    charA v y ^ 2 - (1 + 2 * v) = (Real.sinh y - v * Real.exp (-y)) ^ 2 := by
-  rw [charA_eq, deriv_charA_y_eq]
-  have hmul : Real.exp y * Real.exp (-y) = 1 := by
-    rw [← Real.exp_add, add_neg_cancel, Real.exp_zero]
-  calc ((Real.exp y + (1 + 2 * v) * Real.exp (-y)) / 2) ^ 2 - (1 + 2 * v)
-      = ((Real.exp y - (1 + 2 * v) * Real.exp (-y)) / 2) ^ 2 +
-          (1 + 2 * v) * (Real.exp y * Real.exp (-y) - 1) := by ring
-    _ = ((Real.exp y - (1 + 2 * v) * Real.exp (-y)) / 2) ^ 2 := by rw [hmul]; ring
-
-lemma exp_two_mul_yCrit {v : ℝ} (hv : 0 ≤ v) :
-    Real.exp (2 * yCrit v) = 1 + 2 * v := by
-  simp only [yCrit]
-  rw [show 2 * ((1 / 2 : ℝ) * Real.log (1 + 2 * v)) = Real.log (1 + 2 * v) by ring]
-  exact Real.exp_log (by linarith)
-
-lemma charA_yCrit {v : ℝ} (hv : 0 ≤ v) :
-    charA v (yCrit v) = Real.sqrt (1 + 2 * v) := by
-  have h12v : 0 < 1 + 2 * v := by linarith
-  have hsq : Real.exp (yCrit v) ^ 2 = 1 + 2 * v := by
-    rw [← Real.exp_nat_mul]; simpa [Nat.cast_ofNat] using exp_two_mul_yCrit hv
-  have hexp_pos : 0 < Real.exp (yCrit v) := Real.exp_pos _
-  have he : Real.exp (yCrit v) = Real.sqrt (1 + 2 * v) := by
-    rw [← Real.sqrt_sq hexp_pos.le, hsq]
-  have he_neg : (1 + 2 * v) * Real.exp (-yCrit v) = Real.sqrt (1 + 2 * v) := by
-    calc (1 + 2 * v) * Real.exp (-yCrit v)
-        = (Real.exp (yCrit v) * Real.exp (yCrit v)) * (Real.exp (yCrit v))⁻¹ := by
-            rw [← hsq, sq, Real.exp_neg]
-      _ = Real.exp (yCrit v) := mul_inv_cancel_right₀ hexp_pos.ne' _
-      _ = Real.sqrt (1 + 2 * v) := he
-  rw [charA_eq, he, he_neg]
-  ring
-
-lemma charA_ge_sqrt {v : ℝ} (hv : 0 ≤ v) (y : ℝ) :
-    Real.sqrt (1 + 2 * v) ≤ charA v y := by
-  have hpos : 0 < charA v y := by
-    unfold charA
-    exact add_pos_of_pos_of_nonneg (Real.cosh_pos y) (mul_nonneg hv (Real.exp_pos _).le)
-  have hsq : 1 + 2 * v ≤ charA v y ^ 2 := by
-    have := charA_sq_sub v y
-    nlinarith [sq_nonneg (Real.sinh y - v * Real.exp (-y))]
-  rw [← Real.sqrt_sq hpos.le]
-  exact Real.sqrt_le_sqrt hsq
-
-lemma charA_deriv_pos_iff {v : ℝ} (hv : 0 ≤ v) (y : ℝ) :
-    0 < Real.sinh y - v * Real.exp (-y) ↔ yCrit v < y := by
-  rw [deriv_charA_y_eq]
-  have hexp : 0 < Real.exp (-y) := Real.exp_pos (-y)
-  have hfactor : (Real.exp y - (1 + 2 * v) * Real.exp (-y)) / 2 =
-      Real.exp (-y) * (Real.exp (2 * y) - (1 + 2 * v)) / 2 := by
-    have hmul : Real.exp (-y) * Real.exp (2 * y) = Real.exp y := by
-      rw [← Real.exp_add]; congr 1; ring
-    linarith [mul_sub (Real.exp (-y)) (Real.exp (2 * y)) (1 + 2 * v)]
-  rw [hfactor]
-  constructor
-  · intro h
-    have h2 : 0 < Real.exp (2 * y) - (1 + 2 * v) := by nlinarith
-    have h3 : Real.exp (2 * yCrit v) < Real.exp (2 * y) := by
-      rw [exp_two_mul_yCrit hv]; linarith
-    linarith [Real.exp_lt_exp.mp h3]
-  · intro h
-    have h3 : 1 + 2 * v < Real.exp (2 * y) := by
-      rw [← exp_two_mul_yCrit hv]; exact Real.exp_lt_exp.mpr (by linarith)
-    have h2 : 0 < Real.exp (2 * y) - (1 + 2 * v) := by linarith
-    positivity
-
-lemma charA_deriv_neg_iff {v : ℝ} (hv : 0 ≤ v) (y : ℝ) :
-    Real.sinh y - v * Real.exp (-y) < 0 ↔ y < yCrit v := by
-  rw [deriv_charA_y_eq]
-  have hexp : 0 < Real.exp (-y) := Real.exp_pos (-y)
-  have hfactor : (Real.exp y - (1 + 2 * v) * Real.exp (-y)) / 2 =
-      Real.exp (-y) * (Real.exp (2 * y) - (1 + 2 * v)) / 2 := by
-    have hmul : Real.exp (-y) * Real.exp (2 * y) = Real.exp y := by
-      rw [← Real.exp_add]; congr 1; ring
-    linarith [mul_sub (Real.exp (-y)) (Real.exp (2 * y)) (1 + 2 * v)]
-  rw [hfactor]
-  constructor
-  · intro h
-    have h2 : Real.exp (2 * y) - (1 + 2 * v) < 0 := by
-      by_contra hge
-      push Not at hge
-      have : 0 ≤ Real.exp (-y) * (Real.exp (2 * y) - (1 + 2 * v)) / 2 := by positivity
-      linarith
-    have h3 : Real.exp (2 * y) < Real.exp (2 * yCrit v) := by
-      rw [exp_two_mul_yCrit hv]; linarith
-    linarith [Real.exp_lt_exp.mp h3]
-  · intro h
-    have h3 : Real.exp (2 * y) < 1 + 2 * v := by
-      rw [← exp_two_mul_yCrit hv]; exact Real.exp_lt_exp.mpr (by linarith)
-    have h2 : Real.exp (2 * y) - (1 + 2 * v) < 0 := by linarith
-    have : Real.exp (-y) * (Real.exp (2 * y) - (1 + 2 * v)) < 0 :=
-      mul_neg_of_pos_of_neg hexp h2
-    linarith
-
-lemma charA_strictMonoOn {v : ℝ} (hv : 0 ≤ v) :
-    StrictMonoOn (charA v) (Ici (yCrit v)) := by
-  refine strictMonoOn_of_deriv_pos (convex_Ici _) (by unfold charA; fun_prop) fun y hy => ?_
-  have hd := (hasDerivAt_charA_y v y).deriv
-  rw [hd]
-  exact (charA_deriv_pos_iff hv y).mpr (by simpa using hy)
-
-lemma charA_strictAntiOn {v : ℝ} (hv : 0 ≤ v) :
-    StrictAntiOn (charA v) (Iic (yCrit v)) := by
-  refine strictAntiOn_of_deriv_neg (convex_Iic _) (by unfold charA; fun_prop) fun y hy => ?_
-  have hd := (hasDerivAt_charA_y v y).deriv
-  rw [hd]
-  exact (charA_deriv_neg_iff hv y).mpr (by simpa using hy)
-
-lemma sqrt_sq_sub_lt_self {v a : ℝ} (hv : 0 ≤ v) (ha : Real.sqrt (1 + 2 * v) < a) :
-    Real.sqrt (a ^ 2 - (1 + 2 * v)) < a := by
-  have ha0 : 0 < a := (Real.sqrt_nonneg _).trans_lt ha
-  have h12v : 0 < 1 + 2 * v := by linarith
-  rw [Real.sqrt_lt' ha0]
-  linarith
-
-lemma charA_yPlus {v a : ℝ} (hv : 0 ≤ v) (ha : Real.sqrt (1 + 2 * v) < a) :
-    yCrit v < yPlus v a ∧ charA v (yPlus v a) = a := by
-  have ha0 : 0 < a := (Real.sqrt_nonneg _).trans_lt ha
-  have h12v : 0 < 1 + 2 * v := by linarith
-  have hsub : 0 < a ^ 2 - (1 + 2 * v) := by
-    have := Real.lt_sq_of_sqrt_lt ha
-    linarith
-  set s := Real.sqrt (a ^ 2 - (1 + 2 * v))
-  have hs_pos : 0 < s := Real.sqrt_pos.mpr hsub
-  have harg_pos : 0 < a + s := by positivity
-  have hprod : (a + s) * (a - s) = 1 + 2 * v := by
-    have : s ^ 2 = a ^ 2 - (1 + 2 * v) := Real.sq_sqrt hsub.le
-    nlinarith
-  have hgt_sqrt : Real.sqrt (1 + 2 * v) < a + s := lt_trans ha (by linarith)
-  have hy : yCrit v < yPlus v a := by
-    have h2 : 1 + 2 * v < (a + s) ^ 2 := by
-      nlinarith [Real.lt_sq_of_sqrt_lt ha, hs_pos]
-    have hexp : Real.exp (2 * yCrit v) < Real.exp (2 * yPlus v a) := by
-      rw [exp_two_mul_yCrit hv, yPlus, show 2 * Real.log (a + s) = Real.log ((a + s) ^ 2) by
-        rw [Real.log_pow]; ring]
-      rw [Real.exp_log (by positivity)]
-      exact h2
-    linarith [Real.exp_lt_exp.mp hexp]
-  refine ⟨hy, ?_⟩
-  rw [charA_eq, yPlus, Real.exp_log harg_pos, Real.exp_neg, Real.exp_log harg_pos]
-  have hinv : (1 + 2 * v) * (a + s)⁻¹ = a - s := by
-    field_simp [harg_pos.ne']
-    linarith [hprod]
-  rw [hinv]
-  ring
-
-lemma charA_yMinus {v a : ℝ} (hv : 0 ≤ v) (ha : Real.sqrt (1 + 2 * v) < a) :
-    yMinus v a < yCrit v ∧ charA v (yMinus v a) = a := by
-  have ha0 : 0 < a := (Real.sqrt_nonneg _).trans_lt ha
-  have h12v : 0 < 1 + 2 * v := by linarith
-  have hsub : 0 < a ^ 2 - (1 + 2 * v) := by
-    have := Real.lt_sq_of_sqrt_lt ha
-    linarith
-  set s := Real.sqrt (a ^ 2 - (1 + 2 * v))
-  have hs_pos : 0 < s := Real.sqrt_pos.mpr hsub
-  have hs_lt : s < a := sqrt_sq_sub_lt_self hv ha
-  have harg_pos : 0 < a - s := sub_pos.mpr hs_lt
-  have hprod : (a + s) * (a - s) = 1 + 2 * v := by
-    have : s ^ 2 = a ^ 2 - (1 + 2 * v) := Real.sq_sqrt hsub.le
-    nlinarith
-  have hy : yMinus v a < yCrit v := by
-    have h2 : (a - s) ^ 2 < 1 + 2 * v := by
-      have : a - s < a + s := by linarith
-      nlinarith [hprod, harg_pos]
-    have hexp : Real.exp (2 * yMinus v a) < Real.exp (2 * yCrit v) := by
-      rw [exp_two_mul_yCrit hv, yMinus, show 2 * Real.log (a - s) = Real.log ((a - s) ^ 2) by
-        rw [Real.log_pow]; ring]
-      rw [Real.exp_log (by positivity)]
-      exact h2
-    linarith [Real.exp_lt_exp.mp hexp]
-  refine ⟨hy, ?_⟩
-  rw [charA_eq, yMinus, Real.exp_log harg_pos, Real.exp_neg, Real.exp_log harg_pos]
-  have hinv : (1 + 2 * v) * (a - s)⁻¹ = a + s := by
-    field_simp [harg_pos.ne']
-    linarith [hprod]
-  rw [hinv]
-  ring
-
-lemma yPlus_charA {v y : ℝ} (hv : 0 ≤ v) (hy : yCrit v < y) :
-    yPlus v (charA v y) = y := by
-  have ha : Real.sqrt (1 + 2 * v) < charA v y := by
-    rw [← charA_yCrit hv]
-    exact charA_strictMonoOn hv le_rfl hy.le hy
-  obtain ⟨hy', hchar⟩ := charA_yPlus hv ha
-  exact (charA_strictMonoOn hv).injOn hy'.le hy.le hchar
-
-lemma yMinus_charA {v y : ℝ} (hv : 0 ≤ v) (hy : y < yCrit v) :
-    yMinus v (charA v y) = y := by
-  have ha : Real.sqrt (1 + 2 * v) < charA v y := by
-    rw [← charA_yCrit hv]
-    exact charA_strictAntiOn hv hy.le le_rfl hy
-  obtain ⟨hy', hchar⟩ := charA_yMinus hv ha
-  exact (charA_strictAntiOn hv).injOn hy'.le hy.le hchar
-
-lemma charA_lower_bound {v y : ℝ} (hv : 0 ≤ v) :
-    Real.exp |y| / 2 ≤ charA v y := by
-  unfold charA
-  have h1 : Real.exp |y| / 2 ≤ Real.cosh y := by
-    rcases le_total 0 y with hy | hy
-    · rw [abs_of_nonneg hy, Real.cosh_eq]
-      linarith [Real.exp_pos (-y)]
-    · rw [abs_of_nonpos hy, Real.cosh_eq]
-      linarith [Real.exp_pos y]
-  linarith [mul_nonneg hv (Real.exp_pos (-y)).le]
-
-lemma yPlus_contDiffOn {v : ℝ} (_hv : 0 ≤ v) {n : ℕ∞} :
-    ContDiffOn ℝ n (yPlus v) (Ioi (Real.sqrt (1 + 2 * v))) := by
-  intro a ha
-  have ha0 : 0 < a := (Real.sqrt_nonneg _).trans_lt ha
-  have hsub : 0 < a ^ 2 - (1 + 2 * v) := by
-    have := Real.lt_sq_of_sqrt_lt ha; linarith
-  have hs_pos : 0 < Real.sqrt (a ^ 2 - (1 + 2 * v)) := Real.sqrt_pos.mpr hsub
-  have harg : a + Real.sqrt (a ^ 2 - (1 + 2 * v)) ≠ 0 := by positivity
-  have h1 : ContDiffAt ℝ n (fun x : ℝ => x ^ 2 - (1 + 2 * v)) a := by fun_prop
-  have h2 : ContDiffAt ℝ n (fun x : ℝ => Real.sqrt (x ^ 2 - (1 + 2 * v))) a :=
-    h1.sqrt hsub.ne'
-  have h3 : ContDiffAt ℝ n (fun x : ℝ => x + Real.sqrt (x ^ 2 - (1 + 2 * v))) a :=
-    contDiffAt_id.add h2
-  exact ((Real.contDiffAt_log.mpr harg).comp a h3).contDiffWithinAt
-
-lemma yMinus_contDiffOn {v : ℝ} (hv : 0 ≤ v) {n : ℕ∞} :
-    ContDiffOn ℝ n (yMinus v) (Ioi (Real.sqrt (1 + 2 * v))) := by
-  intro a ha
-  have hsub : 0 < a ^ 2 - (1 + 2 * v) := by
-    have := Real.lt_sq_of_sqrt_lt ha; linarith
-  have harg_pos : 0 < a - Real.sqrt (a ^ 2 - (1 + 2 * v)) :=
-    sub_pos.mpr (sqrt_sq_sub_lt_self hv ha)
-  have h1 : ContDiffAt ℝ n (fun x : ℝ => x ^ 2 - (1 + 2 * v)) a := by fun_prop
-  have h2 : ContDiffAt ℝ n (fun x : ℝ => Real.sqrt (x ^ 2 - (1 + 2 * v))) a :=
-    h1.sqrt hsub.ne'
-  have h3 : ContDiffAt ℝ n (fun x : ℝ => x - Real.sqrt (x ^ 2 - (1 + 2 * v))) a :=
-    contDiffAt_id.sub h2
-  exact ((Real.contDiffAt_log.mpr harg_pos.ne').comp a h3).contDiffWithinAt
-
-lemma charA_image_Ioi_yCrit {v : ℝ} (hv : 0 ≤ v) :
-    charA v '' Ioi (yCrit v) = Ioi (Real.sqrt (1 + 2 * v)) := by
-  ext a
-  simp only [mem_image, mem_Ioi]
-  constructor
-  · rintro ⟨y, hy, rfl⟩
-    rw [← charA_yCrit hv]
-    exact charA_strictMonoOn hv le_rfl hy.le hy
-  · intro ha
-    obtain ⟨hy, hchar⟩ := charA_yPlus hv ha
-    exact ⟨yPlus v a, hy, hchar⟩
-
-lemma charA_image_Iio_yCrit {v : ℝ} (hv : 0 ≤ v) :
-    charA v '' Iio (yCrit v) = Ioi (Real.sqrt (1 + 2 * v)) := by
-  ext a
-  simp only [mem_image, mem_Ioi]
-  constructor
-  · rintro ⟨y, hy, rfl⟩
-    rw [← charA_yCrit hv]
-    exact charA_strictAntiOn hv hy.le le_rfl hy
-  · intro ha
-    obtain ⟨hy, hchar⟩ := charA_yMinus hv ha
-    exact ⟨yMinus v a, hy, hchar⟩
-
-end CharacteristicGeometry
 
 section TransportEquation
 
@@ -444,7 +73,7 @@ private lemma branch_compactSupport_bound {F : ℝ → ℝ} (hFC : HasCompactSup
     rw [← Real.exp_log (by positivity : 0 < 2 * (M + 1))]
     exact Real.exp_le_exp.mpr hlog
   have hA : M ≤ |charA v y| := by
-    have h1 := charA_lower_bound hv (y := y)
+    have h1 := charA.lower_bound hv (y := y)
     have h2 : 0 ≤ charA v y := (by positivity : 0 ≤ Real.exp |y| / 2).trans h1
     rw [abs_of_nonneg h2]
     linarith
@@ -458,7 +87,7 @@ private lemma ψBranch_contDiff {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F)
   rw [contDiff_iff_contDiffAt]
   intro y
   have hcrit : charA v (yCrit v) < a₀ := by
-    rw [charA_yCrit hv]
+    rw [charA.yCrit hv]
     exact lt_of_le_of_lt (Real.sqrt_le_sqrt (by linarith)) ha₀
   rcases lt_trichotomy (yCrit v) y with hy | hy | hy
   · have hF_smooth : ContDiffAt ℝ 3 (fun y' => Real.exp (-y') * F (charA v y')) y := by
@@ -517,7 +146,7 @@ private lemma hasDerivAt_hBranch_v {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F)
   have hF1 : ContDiff ℝ 1 F := hF.of_le (by norm_num)
   have hFdiff : Differentiable ℝ F := hF1.differentiable (by norm_num)
   have hcrit : charA v (yCrit v) < a₀ := by
-    rw [charA_yCrit hv.le]
+    rw [charA.yCrit hv.le]
     exact lt_of_le_of_lt (Real.sqrt_le_sqrt (by linarith)) hδ
   have hyCrit_at : ContinuousAt yCrit v := by
     have h12v : (1 + 2 * v) ≠ 0 := by linarith
@@ -543,7 +172,7 @@ private lemma hasDerivAt_hBranch_v {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F)
           simpa using (hasDerivAt_id' y).neg.exp
         have h2 : HasDerivAt (fun y' => F (charA v y'))
             (deriv F (charA v y) * (Real.sinh y - v * Real.exp (-y))) y :=
-          (hFdiff (charA v y)).hasDerivAt.comp y (hasDerivAt_charA_y v y)
+          (hFdiff (charA v y)).hasDerivAt.comp y (charA.hasDerivAt_y v y)
         exact (h1.mul h2).deriv
       rw [hd_y]
       have hd_v : HasDerivAt (fun v' => 2 * (Real.sinh y - v' * Real.exp (-y)) * F (charA v' y))
@@ -555,7 +184,7 @@ private lemma hasDerivAt_hBranch_v {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F)
           convert h.const_mul 2 using 1; ring
         have h2 : HasDerivAt (fun v' => F (charA v' y))
             (deriv F (charA v y) * Real.exp (-y)) v :=
-          (hFdiff (charA v y)).hasDerivAt.comp v (hasDerivAt_charA_v v y)
+          (hFdiff (charA v y)).hasDerivAt.comp v (charA.hasDerivAt_v v y)
         exact h1.mul h2
       refine hd_v.congr_of_eventuallyEq h_ev_v |>.congr_deriv ?_
       ring
@@ -592,7 +221,7 @@ private lemma hasDerivAt_hBranch_v {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F)
           simpa using (hasDerivAt_id' y).neg.exp
         have h2 : HasDerivAt (fun y' => F (charA v y'))
             (deriv F (charA v y) * (Real.sinh y - v * Real.exp (-y))) y :=
-          (hFdiff (charA v y)).hasDerivAt.comp y (hasDerivAt_charA_y v y)
+          (hFdiff (charA v y)).hasDerivAt.comp y (charA.hasDerivAt_y v y)
         exact (h1.mul h2).deriv
       rw [hd_y]
       have hd_v : HasDerivAt (fun v' => 2 * (Real.sinh y - v' * Real.exp (-y)) * F (charA v' y))
@@ -604,7 +233,7 @@ private lemma hasDerivAt_hBranch_v {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F)
           convert h.const_mul 2 using 1; ring
         have h2 : HasDerivAt (fun v' => F (charA v' y))
             (deriv F (charA v y) * Real.exp (-y)) v :=
-          (hFdiff (charA v y)).hasDerivAt.comp v (hasDerivAt_charA_v v y)
+          (hFdiff (charA v y)).hasDerivAt.comp v (charA.hasDerivAt_v v y)
         exact h1.mul h2
       refine hd_v.congr_of_eventuallyEq h_ev_v |>.congr_deriv ?_
       ring
@@ -650,7 +279,7 @@ private lemma deriv_ψBranch_bound {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F) (_h
     positivity
   · have hyR' : |y| ≤ R := not_lt.mp hyR
     have hcrit : charA v (yCrit v) < a₀ := by
-      rw [charA_yCrit hv]
+      rw [charA.yCrit hv]
       exact lt_of_le_of_lt (Real.sqrt_le_sqrt (by linarith)) ha₀
     have hexp_le : Real.exp (-y) ≤ Real.exp R := Real.exp_le_exp.mpr ((neg_le_abs y).trans hyR')
     have hfac_le : |Real.sinh y - v * Real.exp (-y)| ≤ Real.cosh R + v₀ * Real.exp R := by
@@ -692,7 +321,7 @@ private lemma deriv_ψBranch_bound {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F) (_h
             simpa using (hasDerivAt_id' y).neg.exp
           have h2 : HasDerivAt (fun y' => F (charA v y'))
               (deriv F (charA v y) * (Real.sinh y - v * Real.exp (-y))) y :=
-            (hFdiff (charA v y)).hasDerivAt.comp y (hasDerivAt_charA_y v y)
+            (hFdiff (charA v y)).hasDerivAt.comp y (charA.hasDerivAt_y v y)
           exact (h1.mul h2).deriv
         rw [hd_y]
         exact hval_le
@@ -721,7 +350,7 @@ private lemma deriv_ψBranch_bound {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F) (_h
             simpa using (hasDerivAt_id' y).neg.exp
           have h2 : HasDerivAt (fun y' => F (charA v y'))
               (deriv F (charA v y) * (Real.sinh y - v * Real.exp (-y))) y :=
-            (hFdiff (charA v y)).hasDerivAt.comp y (hasDerivAt_charA_y v y)
+            (hFdiff (charA v y)).hasDerivAt.comp y (charA.hasDerivAt_y v y)
           exact (h1.mul h2).deriv
         rw [hd_y']
         exact hval_le
@@ -995,7 +624,7 @@ private lemma transport_branch_eq {Ω : Type*} [MeasurableSpace Ω] {P : Measure
                 unfold charA; fun_prop
               exact hc.continuousAt.tendsto.mono_left nhdsWithin_le_nhds
           · have hcrit0 : charA 0 y < a₀ := by
-              rw [← hy, charA_yCrit le_rfl]
+              rw [← hy, charA.yCrit le_rfl]
               exact lt_of_le_of_lt (Real.sqrt_le_sqrt (by linarith)) ha₀
             have hA_cont : Continuous (fun v : ℝ => charA v y) := by unfold charA; fun_prop
             have h_ev : (fun v => hBranch sgn F v y) =ᶠ[nhdsWithin 0 (Ioi 0)] fun _ => 0 := by
@@ -1044,7 +673,7 @@ private lemma continuous_arcosh_charA {v : ℝ} (hv : 0 ≤ v) :
   have h1 : Continuous (charA v) := by unfold charA; fun_prop
   refine Real.continuousOn_arcosh.comp_continuous h1 fun y => ?_
   have h12v : (1 : ℝ) ≤ 1 + 2 * v := by linarith
-  exact (Real.sqrt_one ▸ Real.sqrt_le_sqrt h12v).trans (charA_ge_sqrt hv y)
+  exact (Real.sqrt_one ▸ Real.sqrt_le_sqrt h12v).trans (charA.ge_sqrt hv y)
 
 private lemma branch_eval_zero {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
     [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W)
@@ -1070,9 +699,9 @@ private lemma branch_eval_zero {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω
   let g : ℝ → ℝ := fun a => 2 * F a * gaussianPDFReal 0 t (Real.arcosh a)
   have hcosh_eq : charA 0 = Real.cosh := by funext y; simp [charA]
   have h_cosh_Ioi : Real.cosh '' Ioi (0 : ℝ) = Ioi (1 : ℝ) := by
-    simpa [hcosh_eq, hyCrit0] using charA_image_Ioi_yCrit (v := 0) le_rfl
+    simpa [hcosh_eq, hyCrit0] using charA.image_Ioi_yCrit (v := 0) le_rfl
   have h_cosh_Iio : Real.cosh '' Iio (0 : ℝ) = Ioi (1 : ℝ) := by
-    simpa [hcosh_eq, hyCrit0] using charA_image_Iio_yCrit (v := 0) le_rfl
+    simpa [hcosh_eq, hyCrit0] using charA.image_Iio_yCrit (v := 0) le_rfl
   have hstep1 : ∫ a in Ioi (1 : ℝ), g a =
       ∫ a in Ioi (Real.sqrt (1 + 2 * v₀)), g a := by
     rw [← integral_indicator measurableSet_Ioi, ← integral_indicator measurableSet_Ioi]
@@ -1103,20 +732,20 @@ private lemma branch_eval_zero {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω
       refine integral_image_eq_integral_abs_deriv_smul measurableSet_Iio ?_ ?_ g
       · intro y _; exact (Real.hasDerivAt_cosh y).hasDerivWithinAt
       · have hinj : InjOn (charA 0) (Iio 0) :=
-          (charA_strictAntiOn (v := 0) le_rfl).injOn.mono (by simp [hyCrit0])
+          (charA.strictAntiOn (v := 0) le_rfl).injOn.mono (by simp [hyCrit0])
         simpa [hcosh_eq] using hinj
     have hcov2 : ∫ a in Ioi (Real.sqrt (1 + 2 * v₀)), g a =
         ∫ y in Iio (yCrit v₀), |Real.sinh y - v₀ * Real.exp (-y)| * g (charA v₀ y) := by
-      rw [← charA_image_Iio_yCrit hv₀.le]
+      rw [← charA.image_Iio_yCrit hv₀.le]
       refine integral_image_eq_integral_abs_deriv_smul measurableSet_Iio ?_ ?_ g
-      · intro y _; exact (hasDerivAt_charA_y v₀ y).hasDerivWithinAt
-      · exact (charA_strictAntiOn hv₀.le).injOn.mono Iio_subset_Iic_self
+      · intro y _; exact (charA.hasDerivAt_y v₀ y).hasDerivWithinAt
+      · exact (charA.strictAntiOn hv₀.le).injOn.mono Iio_subset_Iic_self
     have hlhs_eq : ∫ y in Iio (0 : ℝ), gaussianPDFReal 0 t y * (2 * Real.sinh y * F (Real.cosh y)) =
         - ∫ y in Iio (0 : ℝ), |Real.sinh y| * g (Real.cosh y) := by
       rw [← integral_neg]
       refine setIntegral_congr_fun measurableSet_Iio fun y hy => ?_
       have hsinh_neg : Real.sinh y < 0 := by
-        simpa [hyCrit0] using (charA_deriv_neg_iff (v := 0) le_rfl y).mpr (by simpa [hyCrit0] using mem_Iio.mp hy)
+        simpa [hyCrit0] using (charA.deriv_neg_iff (v := 0) le_rfl y).mpr (by simpa [hyCrit0] using mem_Iio.mp hy)
       have harcosh : Real.arcosh (Real.cosh y) = -y := by
         rw [← Real.cosh_neg y]
         exact Real.arcosh_cosh (neg_nonneg.mpr (mem_Iio.mp hy).le)
@@ -1128,7 +757,7 @@ private lemma branch_eval_zero {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω
       rw [← integral_neg]
       refine setIntegral_congr_fun measurableSet_Iio fun y hy => ?_
       have hd_neg : Real.sinh y - v₀ * Real.exp (-y) < 0 :=
-        (charA_deriv_neg_iff hv₀.le y).mpr hy
+        (charA.deriv_neg_iff hv₀.le y).mpr hy
       rw [abs_of_neg hd_neg]
       simp only [hBranch, mem_Iio.mp hy, Bool.false_eq_true, ↓reduceIte, g]
       ring
@@ -1148,19 +777,19 @@ private lemma branch_eval_zero {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω
       refine integral_image_eq_integral_abs_deriv_smul measurableSet_Ioi ?_ ?_ g
       · intro y _; exact (Real.hasDerivAt_cosh y).hasDerivWithinAt
       · have hinj : InjOn (charA 0) (Ioi 0) :=
-          (charA_strictMonoOn (v := 0) le_rfl).injOn.mono (by simp [hyCrit0])
+          (charA.strictMonoOn (v := 0) le_rfl).injOn.mono (by simp [hyCrit0])
         simpa [hcosh_eq] using hinj
     have hcov2 : ∫ a in Ioi (Real.sqrt (1 + 2 * v₀)), g a =
         ∫ y in Ioi (yCrit v₀), |Real.sinh y - v₀ * Real.exp (-y)| * g (charA v₀ y) := by
-      rw [← charA_image_Ioi_yCrit hv₀.le]
+      rw [← charA.image_Ioi_yCrit hv₀.le]
       refine integral_image_eq_integral_abs_deriv_smul measurableSet_Ioi ?_ ?_ g
-      · intro y _; exact (hasDerivAt_charA_y v₀ y).hasDerivWithinAt
-      · exact (charA_strictMonoOn hv₀.le).injOn.mono Ioi_subset_Ici_self
+      · intro y _; exact (charA.hasDerivAt_y v₀ y).hasDerivWithinAt
+      · exact (charA.strictMonoOn hv₀.le).injOn.mono Ioi_subset_Ici_self
     have hlhs_eq : ∫ y in Ioi (0 : ℝ), gaussianPDFReal 0 t y * (2 * Real.sinh y * F (Real.cosh y)) =
         ∫ y in Ioi (0 : ℝ), |Real.sinh y| * g (Real.cosh y) := by
       refine setIntegral_congr_fun measurableSet_Ioi fun y hy => ?_
       have hsinh_pos : 0 < Real.sinh y := by
-        simpa [hyCrit0] using (charA_deriv_pos_iff (v := 0) le_rfl y).mpr (by simpa [hyCrit0] using mem_Ioi.mp hy)
+        simpa [hyCrit0] using (charA.deriv_pos_iff (v := 0) le_rfl y).mpr (by simpa [hyCrit0] using mem_Ioi.mp hy)
       have harcosh : Real.arcosh (Real.cosh y) = y :=
         Real.arcosh_cosh (mem_Ioi.mp hy).le
       rw [abs_of_pos hsinh_pos]
@@ -1170,7 +799,7 @@ private lemma branch_eval_zero {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω
         ∫ y in Ioi (yCrit v₀), |Real.sinh y - v₀ * Real.exp (-y)| * g (charA v₀ y) := by
       refine setIntegral_congr_fun measurableSet_Ioi fun y hy => ?_
       have hd_pos : 0 < Real.sinh y - v₀ * Real.exp (-y) :=
-        (charA_deriv_pos_iff hv₀.le y).mpr hy
+        (charA.deriv_pos_iff hv₀.le y).mpr hy
       rw [abs_of_pos hd_pos]
       simp only [hBranch, mem_Ioi.mp hy, ↓reduceIte, g]
       ring
@@ -1187,12 +816,12 @@ private lemma jointLaw_two_laplace_inv_branch {Ω : Type*} [MeasurableSpace Ω] 
   obtain ⟨c, hc⟩ := hc_vanish
   let a₀ : ℝ := charA v₀ c
   have ha₀ : Real.sqrt (1 + 2 * v₀) < a₀ := by
-    rw [← charA_yCrit hv₀.le]
+    rw [← charA.yCrit hv₀.le]
     cases sgn
     · simp only [Bool.false_eq_true, ↓reduceIte] at hc
-      exact charA_strictAntiOn hv₀.le hc.1.le le_rfl hc.1
+      exact charA.strictAntiOn hv₀.le hc.1.le le_rfl hc.1
     · simp only [↓reduceIte] at hc
-      exact charA_strictMonoOn hv₀.le le_rfl hc.1.le hc.1
+      exact charA.strictMonoOn hv₀.le le_rfl hc.1.le hc.1
   let F : ℝ → ℝ := fun a =>
     if a ≤ Real.sqrt (1 + 2 * v₀) then 0
     else f (if sgn then yPlus v₀ a else yMinus v₀ a) /
@@ -1205,19 +834,19 @@ private lemma jointLaw_two_laplace_inv_branch {Ω : Type*} [MeasurableSpace Ω] 
       simp only [F, hsq, ↓reduceIte]
       cases sgn
       · simp only [Bool.false_eq_true, ↓reduceIte] at hc ⊢
-        obtain ⟨hyM, hcharM⟩ := charA_yMinus hv₀.le hgt
+        obtain ⟨hyM, hcharM⟩ := charA.yMinus hv₀.le hgt
         have hcy : c ≤ yMinus v₀ a := by
           by_contra hlt
           push Not at hlt
-          have := charA_strictAntiOn hv₀.le hyM.le hc.1.le hlt
+          have := charA.strictAntiOn hv₀.le hyM.le hc.1.le hlt
           linarith [hcharM, ha]
         rw [hc.2 _ hcy, zero_div]
       · simp only [↓reduceIte] at hc ⊢
-        obtain ⟨hyP, hcharP⟩ := charA_yPlus hv₀.le hgt
+        obtain ⟨hyP, hcharP⟩ := charA.yPlus hv₀.le hgt
         have hyc : yPlus v₀ a ≤ c := by
           by_contra hlt
           push Not at hlt
-          have := charA_strictMonoOn hv₀.le hc.1.le hyP.le hlt
+          have := charA.strictMonoOn hv₀.le hc.1.le hyP.le hlt
           linarith [hcharP, ha]
         rw [hc.2 _ hyc, zero_div]
   have hF_smooth : ContDiff ℝ 3 F := by
@@ -1245,8 +874,8 @@ private lemma jointLaw_two_laplace_inv_branch {Ω : Type*} [MeasurableSpace Ω] 
         exact contDiffAt_const.mul (h1.sqrt hsub.ne')
       have hy_smooth : ContDiffAt ℝ 3 (if sgn then yPlus v₀ else yMinus v₀) a := by
         cases sgn
-        · simpa using (yMinus_contDiffOn hv₀.le (n := 3)).contDiffAt (isOpen_Ioi.mem_nhds ha_gt)
-        · simpa using (yPlus_contDiffOn hv₀.le (n := 3)).contDiffAt (isOpen_Ioi.mem_nhds ha_gt)
+        · simpa using (yMinus.contDiffOn hv₀.le (n := 3)).contDiffAt (isOpen_Ioi.mem_nhds ha_gt)
+        · simpa using (yPlus.contDiffOn hv₀.le (n := 3)).contDiffAt (isOpen_Ioi.mem_nhds ha_gt)
       have hnum_smooth : ContDiffAt ℝ 3 (fun a' => f (if sgn then yPlus v₀ a' else yMinus v₀ a')) a := by
         cases sgn
         · exact (hf.contDiffAt).comp a hy_smooth
@@ -1314,14 +943,14 @@ private lemma jointLaw_two_laplace_inv_branch {Ω : Type*} [MeasurableSpace Ω] 
     · simp only [Bool.false_eq_true, ↓reduceIte] at hc ⊢
       by_cases hy : y < yCrit v₀
       · have hgt : Real.sqrt (1 + 2 * v₀) < charA v₀ y := by
-          rw [← charA_yCrit hv₀.le]
-          exact charA_strictAntiOn hv₀.le hy.le le_rfl hy
+          rw [← charA.yCrit hv₀.le]
+          exact charA.strictAntiOn hv₀.le hy.le le_rfl hy
         have hnot : ¬ (charA v₀ y ≤ Real.sqrt (1 + 2 * v₀)) := not_le.mpr hgt
         have hd_neg : Real.sinh y - v₀ * Real.exp (-y) < 0 :=
-          (charA_deriv_neg_iff hv₀.le y).mpr hy
+          (charA.deriv_neg_iff hv₀.le y).mpr hy
         have hsqrt : Real.sqrt (charA v₀ y ^ 2 - (1 + 2 * v₀)) = -(Real.sinh y - v₀ * Real.exp (-y)) := by
-          rw [charA_sq_sub, Real.sqrt_sq_eq_abs, abs_of_neg hd_neg]
-        simp only [hBranch, hy, Bool.false_eq_true, ↓reduceIte, F, hnot, yMinus_charA hv₀.le hy, hsqrt]
+          rw [charA.sq_sub, Real.sqrt_sq_eq_abs, abs_of_neg hd_neg]
+        simp only [hBranch, hy, Bool.false_eq_true, ↓reduceIte, F, hnot, yMinus.charA hv₀.le hy, hsqrt]
         have hne : Real.sinh y - v₀ * Real.exp (-y) ≠ 0 := hd_neg.ne
         field_simp [hne]
       · have hge : c ≤ y := hc.1.le.trans (not_lt.mp hy)
@@ -1329,14 +958,14 @@ private lemma jointLaw_two_laplace_inv_branch {Ω : Type*} [MeasurableSpace Ω] 
     · simp only [↓reduceIte] at hc ⊢
       by_cases hy : yCrit v₀ < y
       · have hgt : Real.sqrt (1 + 2 * v₀) < charA v₀ y := by
-          rw [← charA_yCrit hv₀.le]
-          exact charA_strictMonoOn hv₀.le le_rfl hy.le hy
+          rw [← charA.yCrit hv₀.le]
+          exact charA.strictMonoOn hv₀.le le_rfl hy.le hy
         have hnot : ¬ (charA v₀ y ≤ Real.sqrt (1 + 2 * v₀)) := not_le.mpr hgt
         have hd_pos : 0 < Real.sinh y - v₀ * Real.exp (-y) :=
-          (charA_deriv_pos_iff hv₀.le y).mpr hy
+          (charA.deriv_pos_iff hv₀.le y).mpr hy
         have hsqrt : Real.sqrt (charA v₀ y ^ 2 - (1 + 2 * v₀)) = Real.sinh y - v₀ * Real.exp (-y) := by
-          rw [charA_sq_sub, Real.sqrt_sq hd_pos.le]
-        simp only [hBranch, hy, ↓reduceIte, F, hnot, yPlus_charA hv₀.le hy, hsqrt]
+          rw [charA.sq_sub, Real.sqrt_sq hd_pos.le]
+        simp only [hBranch, hy, ↓reduceIte, F, hnot, yPlus.charA hv₀.le hy, hsqrt]
         have hne : Real.sinh y - v₀ * Real.exp (-y) ≠ 0 := hd_pos.ne'
         field_simp [hne]
       · have hle : y ≤ c := (not_lt.mp hy).trans hc.1.le
@@ -1399,9 +1028,9 @@ theorem jointLaw_two_laplace_inv_contDiff {Ω : Type*} [MeasurableSpace Ω] {P :
     intro n
     have hn : (0 : ℝ) < (n : ℝ) + 1 := by positivity
     have hp_cd : ContDiff ℝ 3 (fun y => f y * χp n y) :=
-      hf.mul (smoothStepRight_contDiff _ _)
+      hf.mul (smoothStepRight.contDiff _ _)
     have hm_cd : ContDiff ℝ 3 (fun y => f y * χm n y) :=
-      hf.mul (smoothStepLeft_contDiff _ _)
+      hf.mul (smoothStepLeft.contDiff _ _)
     have hp_cs : HasCompactSupport (fun y => f y * χp n y) := hfC.mul_right
     have hm_cs : HasCompactSupport (fun y => f y * χm n y) := hfC.mul_right
     have hp_van : ∃ c, yCrit v₀ < c ∧ ∀ y ≤ c, f y * χp n y = 0 := by
@@ -1411,7 +1040,7 @@ theorem jointLaw_two_laplace_inv_contDiff {Ω : Type*} [MeasurableSpace Ω] {P :
           one_div_lt_one_div_of_lt (by positivity) (by linarith)
         linarith
       dsimp only [χp]
-      rw [smoothStepRight_zero_of_le hlt hy, mul_zero]
+      rw [smoothStepRight.zero_of_le hlt hy, mul_zero]
     have hm_van : ∃ c, c < yCrit v₀ ∧ ∀ y ≥ c, f y * χm n y = 0 := by
       refine ⟨yCrit v₀ - 1 / (2 * ((n : ℝ) + 1)), by linarith [show (0 : ℝ) < 1 / (2 * ((n : ℝ) + 1)) by positivity],
         fun y hy => ?_⟩
@@ -1420,7 +1049,7 @@ theorem jointLaw_two_laplace_inv_contDiff {Ω : Type*} [MeasurableSpace Ω] {P :
           one_div_lt_one_div_of_lt (by positivity) (by linarith)
         linarith
       dsimp only [χm]
-      rw [smoothStepLeft_zero_of_le hlt hy, mul_zero]
+      rw [smoothStepLeft.zero_of_le hlt hy, mul_zero]
     have hp_id := jointLaw_two_laplace_inv_branch B hBbm t ht hv₀ hp_cd hp_cs true hp_van
     have hm_id := jointLaw_two_laplace_inv_branch B hBbm t ht hv₀ hm_cd hm_cs false hm_van
     have hp_intL : Integrable (fun ω => (f (B t ω) * χp n (B t ω)) * Real.exp (-v₀ / expInt B 2 0 t ω)) P := by
@@ -1429,7 +1058,7 @@ theorem jointLaw_two_laplace_inv_contDiff {Ω : Type*} [MeasurableSpace Ω] {P :
         exact ((hc.measurable.comp (hBmeas t)).mul
           (Real.continuous_exp.measurable.comp (measurable_const.div hXmeas))).aestronglyMeasurable
       · filter_upwards [hXpos] with ω hω
-        have hle := (smoothStepRight_mem_Icc (yCrit v₀ + 1 / (2 * ((n : ℝ) + 1)))
+        have hle := (smoothStepRight.mem_Icc (yCrit v₀ + 1 / (2 * ((n : ℝ) + 1)))
           (yCrit v₀ + 1 / ((n : ℝ) + 1)) (B t ω))
         have hexp : Real.exp (-v₀ / expInt B 2 0 t ω) ≤ 1 :=
           Real.exp_le_one_iff.mpr (div_nonpos_of_nonpos_of_nonneg (neg_nonpos.mpr hv₀.le) hω.le)
@@ -1444,7 +1073,7 @@ theorem jointLaw_two_laplace_inv_contDiff {Ω : Type*} [MeasurableSpace Ω] {P :
         exact ((hc.measurable.comp (hBmeas t)).mul
           (Real.continuous_exp.measurable.comp (measurable_const.div hXmeas))).aestronglyMeasurable
       · filter_upwards [hXpos] with ω hω
-        have hle := (smoothStepLeft_mem_Icc (yCrit v₀ - 1 / ((n : ℝ) + 1))
+        have hle := (smoothStepLeft.mem_Icc (yCrit v₀ - 1 / ((n : ℝ) + 1))
           (yCrit v₀ - 1 / (2 * ((n : ℝ) + 1))) (B t ω))
         have hexp : Real.exp (-v₀ / expInt B 2 0 t ω) ≤ 1 :=
           Real.exp_le_one_iff.mpr (div_nonpos_of_nonpos_of_nonneg (neg_nonpos.mpr hv₀.le) hω.le)
@@ -1507,8 +1136,8 @@ theorem jointLaw_two_laplace_inv_contDiff {Ω : Type*} [MeasurableSpace Ω] {P :
             one_div_lt_one_div_of_lt (by positivity) (by linarith)
           linarith
         have hpos2 : (0 : ℝ) < 1 / (2 * ((n : ℝ) + 1)) := by positivity
-        have hp0 : χp n y = 0 := smoothStepRight_zero_of_le hlt1 (by linarith)
-        have hm1 : χm n y = 1 := smoothStepLeft_one_of_le hlt2 (by linarith)
+        have hp0 : χp n y = 0 := smoothStepRight.zero_of_le hlt1 (by linarith)
+        have hm1 : χm n y = 1 := smoothStepLeft.one_of_le hlt2 (by linarith)
         rw [hp0, hm1, zero_add]
       exact tendsto_const_nhds.congr' (h_ev.mono fun n hn => hn.symm)
     · have h_ev : ∀ᶠ n : ℕ in atTop, χp n y + χm n y = 1 := by
@@ -1525,13 +1154,13 @@ theorem jointLaw_two_laplace_inv_contDiff {Ω : Type*} [MeasurableSpace Ω] {P :
             one_div_lt_one_div_of_lt (by positivity) (by linarith)
           linarith
         have hpos2 : (0 : ℝ) < 1 / (2 * ((n : ℝ) + 1)) := by positivity
-        have hp1 : χp n y = 1 := smoothStepRight_one_of_le hlt1 (by linarith)
-        have hm0 : χm n y = 0 := smoothStepLeft_zero_of_le hlt2 (by linarith)
+        have hp1 : χp n y = 1 := smoothStepRight.one_of_le hlt1 (by linarith)
+        have hm0 : χm n y = 0 := smoothStepLeft.zero_of_le hlt2 (by linarith)
         rw [hp1, hm0, add_zero]
       exact tendsto_const_nhds.congr' (h_ev.mono fun n hn => hn.symm)
   have hχ_bdd : ∀ n y, 0 ≤ χp n y + χm n y ∧ χp n y + χm n y ≤ 2 := fun n y =>
-    ⟨add_nonneg (smoothStepRight_mem_Icc _ _ _).1 (smoothStepLeft_mem_Icc _ _ _).1,
-     (add_le_add (smoothStepRight_mem_Icc _ _ _).2 (smoothStepLeft_mem_Icc _ _ _).2).trans
+    ⟨add_nonneg (smoothStepRight.mem_Icc _ _ _).1 (smoothStepLeft.mem_Icc _ _ _).1,
+     (add_le_add (smoothStepRight.mem_Icc _ _ _).2 (smoothStepLeft.mem_Icc _ _ _).2).trans
        (by norm_num)⟩
   have hL_tendsto : Tendsto (fun n : ℕ => ∫ ω, (f (B t ω) * χp n (B t ω) + f (B t ω) * χm n (B t ω)) *
         Real.exp (-v₀ / expInt B 2 0 t ω) ∂P)
@@ -1539,8 +1168,8 @@ theorem jointLaw_two_laplace_inv_contDiff {Ω : Type*} [MeasurableSpace Ω] {P :
     refine tendsto_integral_of_dominated_convergence (fun _ => 2 * Cf) ?_ (integrable_const _) ?_ ?_
     · intro n
       have hc : Continuous (fun y => f y * χp n y + f y * χm n y) :=
-        (hfcont.mul (smoothStepRight_contDiff _ _ (n := 0)).continuous).add
-          (hfcont.mul (smoothStepLeft_contDiff _ _ (n := 0)).continuous)
+        (hfcont.mul (smoothStepRight.contDiff _ _ (n := 0)).continuous).add
+          (hfcont.mul (smoothStepLeft.contDiff _ _ (n := 0)).continuous)
       exact ((hc.measurable.comp (hBmeas t)).mul
         (Real.continuous_exp.measurable.comp (measurable_const.div hXmeas))).aestronglyMeasurable
     · intro n
@@ -1582,8 +1211,8 @@ theorem jointLaw_two_laplace_inv_contDiff {Ω : Type*} [MeasurableSpace Ω] {P :
       have hc : Continuous (fun y => (f y * χp n y + f y * χm n y) *
           gaussianPDFReal 0 t (Real.arcosh (charA v₀ y))) := by
         have hc1 : Continuous (fun y => f y * χp n y + f y * χm n y) :=
-          (hfcont.mul (smoothStepRight_contDiff _ _ (n := 0)).continuous).add
-            (hfcont.mul (smoothStepLeft_contDiff _ _ (n := 0)).continuous)
+          (hfcont.mul (smoothStepRight.contDiff _ _ (n := 0)).continuous).add
+            (hfcont.mul (smoothStepLeft.contDiff _ _ (n := 0)).continuous)
         have hg : Continuous (gaussianPDFReal 0 t) := by rw [gaussianPDFReal_def]; fun_prop
         have ha := continuous_arcosh_charA hv₀.le
         exact hc1.mul (hg.comp ha)
@@ -1661,11 +1290,11 @@ theorem jointLaw_two_laplace_inv_compact {Ω : Type*} [MeasurableSpace Ω] {P : 
     rw [Metric.mem_closedBall, dist_zero_right, Real.norm_eq_abs] at this
     linarith [le_max_left M0 1, le_max_right M0 1]
   let χ : ℝ → ℝ := smoothBump (-R - 1) (-R) R (R + 1)
-  have hχ_cd : ContDiff ℝ 3 χ := smoothBump_contDiff _ _ _ _
-  have hχ_cs : HasCompactSupport χ := smoothBump_hasCompactSupport (by linarith) (by linarith)
-  have hχ_mem : ∀ y, 0 ≤ χ y ∧ χ y ≤ 1 := smoothBump_mem_Icc _ _ _ _
+  have hχ_cd : ContDiff ℝ 3 χ := smoothBump.contDiff _ _ _ _
+  have hχ_cs : HasCompactSupport χ := smoothBump.hasCompactSupport (by linarith) (by linarith)
+  have hχ_mem : ∀ y, 0 ≤ χ y ∧ χ y ≤ 1 := smoothBump.mem_Icc _ _ _ _
   have hχ_one : ∀ y, |y| ≤ R → χ y = 1 := fun y hy =>
-    smoothBump_one_of_mem (by linarith) (by linarith) (neg_le.mp (neg_le_abs y |>.trans hy))
+    smoothBump.one_of_mem (by linarith) (by linarith) (neg_le.mp (neg_le_abs y |>.trans hy))
       ((le_abs_self y).trans hy)
   have h_approx : ∀ n : ℕ, ∃ p : ℝ[X], ∀ y ∈ Icc (-R - 1) (R + 1),
       |p.eval y - f y| < 1 / ((n : ℝ) + 1) := fun n =>
@@ -1691,7 +1320,7 @@ theorem jointLaw_two_laplace_inv_compact {Ω : Type*} [MeasurableSpace Ω] {P : 
           simpa [hf0] using (hp n y hyI).le
         exact (mul_le_of_le_one_right (abs_nonneg _) hmem.2).trans hpy
       · simp only [mem_Icc, not_and_or, not_le] at hyI
-        have hχ0 : χ y = 0 := smoothBump_zero_of_not_mem (by linarith) (by linarith)
+        have hχ0 : χ y = 0 := smoothBump.zero_of_not_mem (by linarith) (by linarith)
           (hyI.imp le_of_lt le_of_lt)
         simp [g, hχ0]; positivity
   have hg_eq : ∀ n,
@@ -1739,16 +1368,16 @@ theorem jointLaw_two_laplace_inv_compact {Ω : Type*} [MeasurableSpace Ω] {P : 
       atTop (nhds (∫ y : ℝ, f y * gaussianPDFReal 0 t (Real.arcosh (charA v₀ y)))) := by
     let χ1 : ℝ → ℝ := smoothBump (-R - 2) (-R - 1) (R + 1) (R + 2)
     have hχ1_one : ∀ y, |y| ≤ R + 1 → χ1 y = 1 := fun y hy =>
-      smoothBump_one_of_mem (by linarith) (by linarith) (by linarith [neg_le_abs y]) (by linarith [le_abs_self y])
+      smoothBump.one_of_mem (by linarith) (by linarith) (by linarith [neg_le_abs y]) (by linarith [le_abs_self y])
     let boundR : ℝ → ℝ := fun y => (Cf + 1) * χ1 y * gaussianPDFReal 0 t (Real.arcosh (charA v₀ y))
     have hbound_int : Integrable boundR := by
       have hc : Continuous boundR := by
-        have hχc : Continuous χ1 := (smoothBump_contDiff (-R - 2) (-R - 1) (R + 1) (R + 2) (n := 0)).continuous
+        have hχc : Continuous χ1 := (smoothBump.contDiff (-R - 2) (-R - 1) (R + 1) (R + 2) (n := 0)).continuous
         have hg : Continuous (gaussianPDFReal 0 t) := by rw [gaussianPDFReal_def]; fun_prop
         have ha : Continuous (fun y => Real.arcosh (charA v₀ y)) := continuous_arcosh_charA hv₀.le
         exact (continuous_const.mul hχc).mul (hg.comp ha)
       have hcs1 : HasCompactSupport (fun y => (Cf + 1) * χ1 y) :=
-        (smoothBump_hasCompactSupport (a := -R - 2) (b := -R - 1) (c := R + 1) (d := R + 2)
+        (smoothBump.hasCompactSupport (a := -R - 2) (b := -R - 1) (c := R + 1) (d := R + 2)
           (by linarith) (by linarith)).comp_left (mul_zero _)
       have hcs : HasCompactSupport boundR := hcs1.mul_right
       exact hc.integrable_of_hasCompactSupport hcs
@@ -1778,13 +1407,13 @@ theorem jointLaw_two_laplace_inv_compact {Ω : Type*} [MeasurableSpace Ω] {P : 
         have hχ0 : χ y = 0 := by
           rcases le_or_gt 0 y with h0 | h0
           · rw [abs_of_nonneg h0] at hy'
-            exact smoothBump_zero_of_not_mem (by linarith) (by linarith) (Or.inr hy'.le)
+            exact smoothBump.zero_of_not_mem (by linarith) (by linarith) (Or.inr hy'.le)
           · rw [abs_of_neg h0] at hy'
-            exact smoothBump_zero_of_not_mem (by linarith) (by linarith) (Or.inl (by linarith))
+            exact smoothBump.zero_of_not_mem (by linarith) (by linarith) (Or.inl (by linarith))
         have hg0 : g n y = 0 := by simp [g, hχ0]
         rw [hg0, abs_zero, zero_mul]
         dsimp [boundR]
-        have hχ1_nn : 0 ≤ χ1 y := (smoothBump_mem_Icc _ _ _ _ y).1
+        have hχ1_nn : 0 ≤ χ1 y := (smoothBump.mem_Icc _ _ _ _ y).1
         positivity
     · filter_upwards with y
       have hlim : Tendsto (fun n => g n y) atTop (nhds (f y)) := by
@@ -1834,8 +1463,8 @@ theorem jointLaw_two_laplace_inv {Ω : Type*} [MeasurableSpace Ω] {P : Measure 
       ∫ ω, (f (B t ω) * χ n (B t ω)) * Real.exp (-v₀ / expInt B 2 0 t ω) ∂P =
         ∫ y : ℝ, (f y * χ n y) * gaussianPDFReal 0 t (Real.arcosh (charA v₀ y)) := fun n =>
     jointLaw_two_laplace_inv_compact B hBbm t ht hv₀
-      (hf.mul (smoothBump_contDiff _ _ _ _ (n := 0)).continuous)
-      ((smoothBump_hasCompactSupport (by linarith : -((n : ℝ) + 2) < -((n : ℝ) + 1))
+      (hf.mul (smoothBump.contDiff _ _ _ _ (n := 0)).continuous)
+      ((smoothBump.hasCompactSupport (by linarith : -((n : ℝ) + 2) < -((n : ℝ) + 1))
         (by linarith : (n : ℝ) + 1 < (n : ℝ) + 2)).mul_left)
   have hχ_lim : ∀ y : ℝ, Tendsto (fun n : ℕ => χ n y) atTop (nhds 1) := by
     intro y
@@ -1845,7 +1474,7 @@ theorem jointLaw_two_laplace_inv {Ω : Type*} [MeasurableSpace Ω] {P : Measure 
       have hny : |y| ≤ (n : ℝ) + 1 := by
         have : (N : ℝ) ≤ n := by exact_mod_cast hn
         linarith
-      exact smoothBump_one_of_mem (by linarith) (by linarith)
+      exact smoothBump.one_of_mem (by linarith) (by linarith)
         (by linarith [neg_le_abs y]) (by linarith [le_abs_self y])
     exact tendsto_const_nhds.congr' (h_ev.mono fun n hn => hn.symm)
   have hL_tendsto : Tendsto (fun n : ℕ => ∫ ω, (f (B t ω) * χ n (B t ω)) * Real.exp (-v₀ / expInt B 2 0 t ω) ∂P)
@@ -1853,14 +1482,14 @@ theorem jointLaw_two_laplace_inv {Ω : Type*} [MeasurableSpace Ω] {P : Measure 
     refine tendsto_integral_of_dominated_convergence (fun _ => C) ?_ (integrable_const _) ?_ ?_
     · intro n
       have hc : Continuous (fun y => f y * χ n y) :=
-        hf.mul (smoothBump_contDiff _ _ _ _ (n := 0)).continuous
+        hf.mul (smoothBump.contDiff _ _ _ _ (n := 0)).continuous
       exact ((hc.measurable.comp (hBmeas t)).mul
         (Real.continuous_exp.measurable.comp (measurable_const.div hXmeas))).aestronglyMeasurable
     · intro n
       filter_upwards [hXpos] with ω hω
       have hexp : Real.exp (-v₀ / expInt B 2 0 t ω) ≤ 1 :=
         Real.exp_le_one_iff.mpr (div_nonpos_of_nonpos_of_nonneg (neg_nonpos.mpr hv₀.le) hω.le)
-      have hmem := smoothBump_mem_Icc (-((n : ℝ) + 2)) (-((n : ℝ) + 1)) ((n : ℝ) + 1) ((n : ℝ) + 2) (B t ω)
+      have hmem := smoothBump.mem_Icc (-((n : ℝ) + 2)) (-((n : ℝ) + 1)) ((n : ℝ) + 1) ((n : ℝ) + 2) (B t ω)
       rw [Real.norm_eq_abs, abs_mul, abs_mul, abs_of_pos (Real.exp_pos _), abs_of_nonneg hmem.1]
       calc |f (B t ω)| * χ n (B t ω) * Real.exp (-v₀ / expInt B 2 0 t ω)
           ≤ C * 1 * 1 := by
@@ -1895,13 +1524,13 @@ theorem jointLaw_two_laplace_inv {Ω : Type*} [MeasurableSpace Ω] {P : Measure 
       hgauss_int ?_ ?_
     · intro n
       have hc1 : Continuous (fun y => f y * χ n y) :=
-        hf.mul (smoothBump_contDiff _ _ _ _ (n := 0)).continuous
+        hf.mul (smoothBump.contDiff _ _ _ _ (n := 0)).continuous
       have hg : Continuous (gaussianPDFReal 0 t) := by rw [gaussianPDFReal_def]; fun_prop
       have ha : Continuous (fun y => Real.arcosh (charA v₀ y)) := continuous_arcosh_charA hv₀.le
       exact (hc1.mul (hg.comp ha)).aestronglyMeasurable
     · intro n
       filter_upwards with y
-      have hmem := smoothBump_mem_Icc (-((n : ℝ) + 2)) (-((n : ℝ) + 1)) ((n : ℝ) + 1) ((n : ℝ) + 2) y
+      have hmem := smoothBump.mem_Icc (-((n : ℝ) + 2)) (-((n : ℝ) + 1)) ((n : ℝ) + 1) ((n : ℝ) + 2) y
       have hgp : 0 ≤ gaussianPDFReal 0 t (Real.arcosh (charA v₀ y)) := gaussianPDFReal_nonneg _ _ _
       rw [Real.norm_eq_abs, abs_mul, abs_mul, abs_of_nonneg hmem.1, abs_of_nonneg hgp]
       calc |f y| * χ n y * gaussianPDFReal 0 t (Real.arcosh (charA v₀ y))

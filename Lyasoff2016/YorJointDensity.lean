@@ -210,7 +210,7 @@ lemma yorDensity_laplace_x (t : ℝ≥0) (ht : 0 < t) {v₀ : ℝ} (hv₀ : 0 < 
   have hc_factor : ∀ u : ℝ, c u = Real.exp y * (Real.cosh u + Real.cosh α) := fun u => by
     rw [hcosh_α]
     dsimp only [c, Cy]
-    rw [charA_eq, mul_add]
+    rw [charA.eq, mul_add]
     have hmul : Real.exp y * Real.exp (-y) = 1 := by
       rw [← Real.exp_add, add_neg_cancel, Real.exp_zero]
     have hexp2 : Real.exp (2 * y) = Real.exp y * Real.exp y := by
@@ -451,7 +451,7 @@ lemma yorDensity_integral_x_eq_gaussian (t : ℝ≥0) (ht : 0 < t) (y : ℝ) :
     have harc : ContinuousOn Real.arcosh (Ici 1) := Real.continuousOn_arcosh
     have h_in : ∀ v ∈ Ici (0 : ℝ), 1 ≤ charA v y := fun v hv => by
       have h1 : (1 : ℝ) ≤ 1 + 2 * v := by linarith [mem_Ici.mp hv]
-      exact (Real.sqrt_one ▸ Real.sqrt_le_sqrt h1).trans (charA_ge_sqrt hv y)
+      exact (Real.sqrt_one ▸ Real.sqrt_le_sqrt h1).trans (charA.ge_sqrt hv y)
     have hc_on : ContinuousOn (fun v : ℝ => Real.arcosh (charA v y)) (Ici 0) :=
       harc.comp hcontA.continuousOn h_in
     have ht1 : Tendsto (fun v : ℝ => Real.arcosh (charA v y)) (nhdsWithin 0 (Ioi 0))
@@ -957,33 +957,33 @@ lemma yorDensity_nonneg {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsPr
     exact Real.exp_lt_exp.mpr (neg_lt_neg (inv_strictAnti₀ ha hab))
   let φ : ℝ → ℝ := smoothBump (T (x - δ)) (T (x - δ / 2)) (T (x + δ / 2)) (T (x + δ))
   let f : ℝ → ℝ := smoothBump (y - δ) (y - δ / 2) (y + δ / 2) (y + δ)
-  have hφ_cont : ContinuousOn φ (Icc 0 1) := (smoothBump_contDiff _ _ _ _ (n := 0)).continuous.continuousOn
-  have hf_cont : Continuous f := (smoothBump_contDiff _ _ _ _ (n := 0)).continuous
-  have hf_cs : HasCompactSupport f := smoothBump_hasCompactSupport (by linarith) (by linarith)
+  have hφ_cont : ContinuousOn φ (Icc 0 1) := (smoothBump.contDiff _ _ _ _ (n := 0)).continuous.continuousOn
+  have hf_cont : Continuous f := (smoothBump.contDiff _ _ _ _ (n := 0)).continuous
+  have hf_cs : HasCompactSupport f := smoothBump.hasCompactSupport (by linarith) (by linarith)
   have h_test := jointLaw_two_eq_yorDensity_test W hW t ht hφ_cont hf_cont hf_cs
   have hL_nn : 0 ≤ ∫ ω, φ (Real.exp (-(expInt W 2 0 t ω)⁻¹)) * f (W t ω) ∂P :=
-    integral_nonneg fun ω => mul_nonneg (smoothBump_mem_Icc _ _ _ _ _).1
-      (smoothBump_mem_Icc _ _ _ _ _).1
+    integral_nonneg fun ω => mul_nonneg (smoothBump.mem_Icc _ _ _ _ _).1
+      (smoothBump.mem_Icc _ _ _ _ _).1
   have h_box_nonpos : ∀ y' : ℝ, ∀ x' ∈ Ioi (0 : ℝ),
       φ (T x') * f y' * yorDensity t x' y' ≤ 0 := by
     intro y' x' hx'
     by_cases hx1 : x' ∈ Icc (x - δ) (x + δ)
     · by_cases hy1 : y' ∈ Icc (y - δ) (y + δ)
       · have hneg := h_box (x', y') hx1 hy1
-        have hφ_nn := (smoothBump_mem_Icc (T (x - δ)) (T (x - δ / 2)) (T (x + δ / 2)) (T (x + δ)) (T x')).1
-        have hf_nn := (smoothBump_mem_Icc (y - δ) (y - δ / 2) (y + δ / 2) (y + δ) y').1
+        have hφ_nn := (smoothBump.mem_Icc (T (x - δ)) (T (x - δ / 2)) (T (x + δ / 2)) (T (x + δ)) (T x')).1
+        have hf_nn := (smoothBump.mem_Icc (y - δ) (y - δ / 2) (y + δ / 2) (y + δ) y').1
         exact mul_nonpos_of_nonneg_of_nonpos (mul_nonneg hφ_nn hf_nn) (by linarith)
       · have hy_out : y' ≤ y - δ ∨ y + δ ≤ y' := by
           simp only [mem_Icc, not_and_or, not_le] at hy1
           exact hy1.imp le_of_lt le_of_lt
         dsimp only [f]
-        rw [smoothBump_zero_of_not_mem (by linarith) (by linarith) hy_out, mul_zero, zero_mul]
+        rw [smoothBump.zero_of_not_mem (by linarith) (by linarith) hy_out, mul_zero, zero_mul]
     · have hx_out : T x' ≤ T (x - δ) ∨ T (x + δ) ≤ T x' := by
         simp only [mem_Icc, not_and_or, not_le] at hx1
         rcases hx1 with h | h
         · left; exact (hT_mono (mem_Ioi.mpr hx') (mem_Ioi.mpr hx_sub_pos) h).le
         · right; exact (hT_mono (mem_Ioi.mpr (by positivity)) (mem_Ioi.mpr hx') h).le
-      have hφ0 : φ (T x') = 0 := smoothBump_zero_of_not_mem
+      have hφ0 : φ (T x') = 0 := smoothBump.zero_of_not_mem
         (hT_mono (mem_Ioi.mpr hx_sub_pos) (mem_Ioi.mpr (by linarith)) (by linarith))
         (hT_mono (mem_Ioi.mpr (by linarith)) (mem_Ioi.mpr (by linarith)) (by linarith))
         hx_out
@@ -993,7 +993,7 @@ lemma yorDensity_nonneg {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsPr
     setIntegral_nonpos measurableSet_Ioi fun x' hx' => h_box_nonpos y' x' hx'
   have hg_slice : ∀ y' ∈ Icc (y - δ / 2) (y + δ / 2), g_y y' ≤ -ε * δ := by
     intro y' hy'
-    have hfy1 : f y' = 1 := smoothBump_one_of_mem (by linarith) (by linarith) hy'.1 hy'.2
+    have hfy1 : f y' = 1 := smoothBump.one_of_mem (by linarith) (by linarith) hy'.1 hy'.2
     let indX : ℝ → ℝ := (Icc (x - δ / 2) (x + δ / 2)).indicator (fun _ => -ε)
     have h_ind_int : IntegrableOn indX (Ioi 0) :=
       ((integrableOn_const (C := -ε) (hs := isCompact_Icc.measure_lt_top.ne)).integrable_indicator
@@ -1001,7 +1001,7 @@ lemma yorDensity_nonneg {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsPr
     have h_le_ind : ∀ x' ∈ Ioi (0 : ℝ), φ (T x') * f y' * yorDensity t x' y' ≤ indX x' := by
       intro x' hx'
       by_cases hx2 : x' ∈ Icc (x - δ / 2) (x + δ / 2)
-      · have hφ1 : φ (T x') = 1 := smoothBump_one_of_mem
+      · have hφ1 : φ (T x') = 1 := smoothBump.one_of_mem
           (hT_mono (mem_Ioi.mpr hx_sub_pos) (mem_Ioi.mpr (by linarith)) (by linarith))
           (hT_mono (mem_Ioi.mpr (by linarith)) (mem_Ioi.mpr (by linarith)) (by linarith))
           (hT_mono.monotoneOn (mem_Ioi.mpr (by linarith)) (mem_Ioi.mpr hx') hx2.1)
@@ -1017,13 +1017,13 @@ lemma yorDensity_nonneg {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsPr
     have h_lhs_int : IntegrableOn (fun x' => φ (T x') * f y' * yorDensity t x' y') (Ioi 0) := by
       refine (hy'_int.abs.const_mul 1).mono' ?_ ?_
       · have hc : ContinuousOn (fun x' => φ (T x') * f y') (Ioi 0) := fun x' hx' =>
-          (((smoothBump_contDiff _ _ _ _ (n := 0)).continuous.continuousAt.comp
+          (((smoothBump.contDiff _ _ _ _ (n := 0)).continuous.continuousAt.comp
             (Real.continuous_exp.continuousAt.comp ((continuousAt_id.inv₀ hx'.ne').neg))).mul
             continuousAt_const).continuousWithinAt
         exact (hc.aestronglyMeasurable measurableSet_Ioi).mul hy'_int.aestronglyMeasurable
       · refine ae_restrict_of_forall_mem measurableSet_Ioi fun x' _ => ?_
-        have hφm := smoothBump_mem_Icc (T (x - δ)) (T (x - δ / 2)) (T (x + δ / 2)) (T (x + δ)) (T x')
-        have hfm := smoothBump_mem_Icc (y - δ) (y - δ / 2) (y + δ / 2) (y + δ) y'
+        have hφm := smoothBump.mem_Icc (T (x - δ)) (T (x - δ / 2)) (T (x + δ / 2)) (T (x + δ)) (T x')
+        have hfm := smoothBump.mem_Icc (y - δ) (y - δ / 2) (y + δ / 2) (y + δ) y'
         rw [Real.norm_eq_abs, abs_mul, abs_mul, abs_of_nonneg hφm.1, abs_of_nonneg hfm.1, one_mul]
         exact mul_le_of_le_one_left (abs_nonneg _)
           ((mul_le_of_le_one_right hφm.1 hfm.2).trans hφm.2)
@@ -1041,9 +1041,9 @@ lemma yorDensity_nonneg {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsPr
       _ = -ε * δ := h_ind_val
   let indY : ℝ → ℝ := (Icc (y - δ / 2) (y + δ / 2)).indicator (fun _ => -ε * δ)
   have hg_int : Integrable g_y := yorDensity_integrable_y_slice t ht
-    ((smoothBump_contDiff _ _ _ _ (n := 0)).continuous)
+    ((smoothBump.contDiff _ _ _ _ (n := 0)).continuous)
     ⟨1, fun u => by
-      have hm := smoothBump_mem_Icc (T (x - δ)) (T (x - δ / 2)) (T (x + δ / 2)) (T (x + δ)) u
+      have hm := smoothBump.mem_Icc (T (x - δ)) (T (x - δ / 2)) (T (x + δ / 2)) (T (x + δ)) u
       rw [abs_of_nonneg hm.1]; exact hm.2⟩ hf_cont hf_cs
   have h_indY_int : Integrable indY :=
     (integrableOn_const (C := -ε * δ) (hs := isCompact_Icc.measure_lt_top.ne)).integrable_indicator
@@ -1337,9 +1337,9 @@ theorem yor_joint_density {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [Is
       have hk2 : c < c + (d - c) / ((k : ℝ) + 3) := by
         linarith [div_pos (sub_pos.mpr hcd) (by positivity : (0 : ℝ) < (k : ℝ) + 3)]
       exact jointLaw_two_eq_yorDensity_test W hW t ht
-        (smoothBump_contDiff _ _ _ _ (n := 0)).continuous.continuousOn
-        (smoothBump_contDiff _ _ _ _ (n := 0)).continuous
-        (smoothBump_hasCompactSupport hk2 (by linarith [show (0 : ℝ) < (d - c) / ((k : ℝ) + 3) by positivity]))
+        (smoothBump.contDiff _ _ _ _ (n := 0)).continuous.continuousOn
+        (smoothBump.contDiff _ _ _ _ (n := 0)).continuous
+        (smoothBump.hasCompactSupport hk2 (by linarith [show (0 : ℝ) < (d - c) / ((k : ℝ) + 3) by positivity]))
     have hφ_lim : ∀ x ∈ Ioi (0 : ℝ),
         Tendsto (fun k : ℕ => φ k (T x)) atTop (nhds ((Ioo a b).indicator (fun _ => (1 : ℝ)) x)) := by
       intro x hx
@@ -1361,7 +1361,7 @@ theorem yor_joint_density {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [Is
             linarith [div_pos (sub_pos.mpr hTab) (by positivity : (0 : ℝ) < (k : ℝ) + 3)]
           have hb_lt : T b - (T b - T a) / ((k : ℝ) + 3) < T b := by
             linarith [show 0 < (T b - T a) / ((k : ℝ) + 3) by positivity]
-          exact smoothBump_one_of_mem ha_lt hb_lt
+          exact smoothBump.one_of_mem ha_lt hb_lt
             (by linarith [min_le_left (T x - T a) (T b - T x)])
             (by linarith [min_le_right (T x - T a) (T b - T x)])
         simp only [indicator_of_mem hx_in]
@@ -1372,7 +1372,7 @@ theorem yor_joint_density {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [Is
           · left; exact (hT_mono.monotoneOn hx ha h)
           · right; exact (hT_mono.monotoneOn (ha.trans hab) hx h)
         have h_const : ∀ k : ℕ, φ k (T x) = 0 := fun k =>
-          smoothBump_zero_of_not_mem
+          smoothBump.zero_of_not_mem
             (by linarith [div_pos (sub_pos.mpr hTab) (by positivity : (0 : ℝ) < (k : ℝ) + 3)])
             (by linarith [show 0 < (T b - T a) / ((k : ℝ) + 3) by positivity])
             hx_out
@@ -1393,7 +1393,7 @@ theorem yor_joint_density {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [Is
             have hk'' := mul_lt_mul_of_pos_right hk' (sub_pos.mpr hcd)
             field_simp [(sub_pos.mpr hcd).ne'] at hk'' ⊢
             linarith
-          exact smoothBump_one_of_mem
+          exact smoothBump.one_of_mem
             (by linarith [div_pos (sub_pos.mpr hcd) (by positivity : (0 : ℝ) < (k : ℝ) + 3)])
             (by linarith [show 0 < (d - c) / ((k : ℝ) + 3) by positivity])
             (by linarith [min_le_left (y - c) (d - y)])
@@ -1404,7 +1404,7 @@ theorem yor_joint_density {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [Is
           simp only [mem_Ioo, not_and_or, not_lt] at hy_in
           exact hy_in.imp id id
         have h_const : ∀ k : ℕ, f k y = 0 := fun k =>
-          smoothBump_zero_of_not_mem
+          smoothBump.zero_of_not_mem
             (by linarith [div_pos (sub_pos.mpr hcd) (by positivity : (0 : ℝ) < (k : ℝ) + 3)])
             (by linarith [show 0 < (d - c) / ((k : ℝ) + 3) by positivity])
             hy_out
@@ -1442,8 +1442,8 @@ theorem yor_joint_density {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [Is
       refine tendsto_integral_of_dominated_convergence (fun _ => (1 : ℝ)) ?_ (integrable_const _) ?_ ?_
       · intro k
         have hXmeas : Measurable (expInt B 2 0 t) := measurable_expInt_bm hBmeas hBcont 2 t
-        have hcφ : Continuous (φ k) := (smoothBump_contDiff _ _ _ _ (n := 0)).continuous
-        have hcf : Continuous (f k) := (smoothBump_contDiff _ _ _ _ (n := 0)).continuous
+        have hcφ : Continuous (φ k) := (smoothBump.contDiff _ _ _ _ (n := 0)).continuous
+        have hcf : Continuous (f k) := (smoothBump.contDiff _ _ _ _ (n := 0)).continuous
         have h_ae1 : (fun ω => φ k (Real.exp (-(expInt B 2 0 t ω)⁻¹))) =ᵐ[P]
             fun ω => φ k (Real.exp (-(expInt W 2 0 t ω)⁻¹)) :=
           hBW.mono fun ω hω => by
@@ -1460,9 +1460,9 @@ theorem yor_joint_density {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [Is
         exact (hm1.mul hm2).aestronglyMeasurable
       · intro k
         filter_upwards with ω
-        have hm1 := smoothBump_mem_Icc (T a) (T a + (T b - T a) / ((k : ℝ) + 3))
+        have hm1 := smoothBump.mem_Icc (T a) (T a + (T b - T a) / ((k : ℝ) + 3))
           (T b - (T b - T a) / ((k : ℝ) + 3)) (T b) (Real.exp (-(expInt W 2 0 t ω)⁻¹))
-        have hm2 := smoothBump_mem_Icc c (c + (d - c) / ((k : ℝ) + 3))
+        have hm2 := smoothBump.mem_Icc c (c + (d - c) / ((k : ℝ) + 3))
           (d - (d - c) / ((k : ℝ) + 3)) d (W t ω)
         rw [Real.norm_eq_abs, abs_mul, abs_of_nonneg hm1.1, abs_of_nonneg hm2.1]
         exact (mul_le_of_le_one_right hm1.1 hm2.2).trans hm1.2
@@ -1542,14 +1542,14 @@ theorem yor_joint_density {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [Is
           linarith [div_pos (sub_pos.mpr hcd) (by positivity : (0 : ℝ) < (k : ℝ) + 3)]
         have h1 := yorDensity_integrable_y_slice t ht
           (φ := fun u => φ k (max 0 (min 1 u)))
-          ((smoothBump_contDiff _ _ _ _ (n := 0)).continuous.comp
+          ((smoothBump.contDiff _ _ _ _ (n := 0)).continuous.comp
             (continuous_const.max (continuous_const.min continuous_id)))
           ⟨1, fun u => by
-            have hm := smoothBump_mem_Icc (T a) (T a + (T b - T a) / ((k : ℝ) + 3))
+            have hm := smoothBump.mem_Icc (T a) (T a + (T b - T a) / ((k : ℝ) + 3))
               (T b - (T b - T a) / ((k : ℝ) + 3)) (T b) (max 0 (min 1 u))
             rw [abs_of_nonneg hm.1]; exact hm.2⟩
-          (smoothBump_contDiff _ _ _ _ (n := 0)).continuous
-          (smoothBump_hasCompactSupport hk2 hk3)
+          (smoothBump.contDiff _ _ _ _ (n := 0)).continuous
+          (smoothBump.hasCompactSupport hk2 hk3)
         refine (h1.congr (ae_of_all _ fun y => setIntegral_congr_fun measurableSet_Ioi fun x hx => ?_)).aestronglyMeasurable
         have hm : Real.exp (-x⁻¹) ∈ Icc (0 : ℝ) 1 :=
           ⟨(Real.exp_pos _).le, Real.exp_le_one_iff.mpr (neg_nonpos.mpr (inv_nonneg.mpr hx.le))⟩
@@ -1561,16 +1561,16 @@ theorem yor_joint_density {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [Is
         · simp only [boundY, indicator_of_mem hy, Real.norm_eq_abs]
           have h_le : ∀ x ∈ Ioi (0 : ℝ), ‖φ k (T x) * f k y * yorDensity t x y‖ ≤ |yorDensity t x y| := by
             intro x _
-            have hm1 := smoothBump_mem_Icc (T a) (T a + (T b - T a) / ((k : ℝ) + 3))
+            have hm1 := smoothBump.mem_Icc (T a) (T a + (T b - T a) / ((k : ℝ) + 3))
               (T b - (T b - T a) / ((k : ℝ) + 3)) (T b) (T x)
-            have hm2 := smoothBump_mem_Icc c (c + (d - c) / ((k : ℝ) + 3))
+            have hm2 := smoothBump.mem_Icc c (c + (d - c) / ((k : ℝ) + 3))
               (d - (d - c) / ((k : ℝ) + 3)) d y
             rw [Real.norm_eq_abs, abs_mul, abs_mul, abs_of_nonneg hm1.1, abs_of_nonneg hm2.1]
             exact mul_le_of_le_one_left (abs_nonneg _) ((mul_le_of_le_one_right hm1.1 hm2.2).trans hm1.2)
           have h_int_norm : IntegrableOn (fun x => ‖φ k (T x) * f k y * yorDensity t x y‖) (Ioi 0) :=
             hy_int.abs.mono' (by
               have hc : ContinuousOn (fun x => φ k (T x) * f k y) (Ioi 0) := fun x hx =>
-                (((smoothBump_contDiff _ _ _ _ (n := 0)).continuous.continuousAt.comp
+                (((smoothBump.contDiff _ _ _ _ (n := 0)).continuous.continuousAt.comp
                   (Real.continuous_exp.continuousAt.comp ((continuousAt_id.inv₀ hx.ne').neg))).mul
                   continuousAt_const).continuousWithinAt
               exact ((hc.aestronglyMeasurable measurableSet_Ioi).mul hy_int.aestronglyMeasurable).norm)
@@ -1585,7 +1585,7 @@ theorem yor_joint_density {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [Is
         · have hy_out : y ≤ c ∨ d ≤ y := by
             simp only [mem_Icc, not_and_or, not_le] at hy
             exact hy.imp le_of_lt le_of_lt
-          have hf0 : f k y = 0 := smoothBump_zero_of_not_mem
+          have hf0 : f k y = 0 := smoothBump.zero_of_not_mem
             (by linarith [div_pos (sub_pos.mpr hcd) (by positivity : (0 : ℝ) < (k : ℝ) + 3)])
             (by linarith [show 0 < (d - c) / ((k : ℝ) + 3) by positivity])
             hy_out
@@ -1596,15 +1596,15 @@ theorem yor_joint_density {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [Is
           ?_ hy_int.abs ?_ ?_
         · intro k
           have hc : ContinuousOn (fun x => φ k (T x) * f k y) (Ioi 0) := fun x hx =>
-            (((smoothBump_contDiff _ _ _ _ (n := 0)).continuous.continuousAt.comp
+            (((smoothBump.contDiff _ _ _ _ (n := 0)).continuous.continuousAt.comp
               (Real.continuous_exp.continuousAt.comp ((continuousAt_id.inv₀ hx.ne').neg))).mul
               continuousAt_const).continuousWithinAt
           exact (hc.aestronglyMeasurable measurableSet_Ioi).mul hy_int.aestronglyMeasurable
         · intro k
           refine ae_restrict_of_forall_mem measurableSet_Ioi fun x _ => ?_
-          have hm1 := smoothBump_mem_Icc (T a) (T a + (T b - T a) / ((k : ℝ) + 3))
+          have hm1 := smoothBump.mem_Icc (T a) (T a + (T b - T a) / ((k : ℝ) + 3))
             (T b - (T b - T a) / ((k : ℝ) + 3)) (T b) (T x)
-          have hm2 := smoothBump_mem_Icc c (c + (d - c) / ((k : ℝ) + 3))
+          have hm2 := smoothBump.mem_Icc c (c + (d - c) / ((k : ℝ) + 3))
             (d - (d - c) / ((k : ℝ) + 3)) d y
           rw [Real.norm_eq_abs, abs_mul, abs_mul, abs_of_nonneg hm1.1, abs_of_nonneg hm2.1]
           exact mul_le_of_le_one_left (abs_nonneg _) ((mul_le_of_le_one_right hm1.1 hm2.2).trans hm1.2)
