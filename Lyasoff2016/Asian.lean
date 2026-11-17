@@ -4,7 +4,7 @@
 module
 
 public import Lyasoff2016.IntegralReps
-public import Lyasoff2016.Lib.ExpBMIntegrable
+public import Lyasoff2016.ExpBMIntegrable
 
 
 @[expose] public section

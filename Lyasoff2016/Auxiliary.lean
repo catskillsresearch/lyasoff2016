@@ -4,11 +4,11 @@
 module
 
 public import Lyasoff2016.Setting
-public import Lyasoff2016.Lib.IntegralMoments
-public import Lyasoff2016.Lib.BrownianScaling
-public import Lyasoff2016.Lib.DensityVersions
-public import Lyasoff2016.Lib.CameronMartin
-public import Lyasoff2016.Lib.Prop22Classical
+public import Lyasoff2016.IntegralMoments
+public import Lyasoff2016.BrownianScaling
+public import Lyasoff2016.DensityVersions
+public import Lyasoff2016.CameronMartin
+public import Lyasoff2016.Prop22Classical
 
 
 @[expose] public section
@@ -88,7 +88,7 @@ def IsInftyDensity (P : Measure Ω) (W : ℝ≥0 → Ω → ℝ) (σ ν : ℝ) (
    everywhere.  `IsJointDensity`, `IsCondDensity`, `IsInftyDensity` only constrain
    `ENNReal.ofReal ∘ φ`, i.e. the positive part of `φ`, so this is exactly the pointwise
    statement the hypotheses of `scaling_relations` determine.  Proved in full
-   (`Lib/BrownianScaling.lean`). -/
+   (`BrownianScaling.lean`). -/
 theorem scaling_relations_posPart (σ : ℝ) (t : ℝ≥0) (hσ : 0 < σ) (ht : 0 < t)
     (φ₁ φσ : ℝ → ℝ → ℝ) (c₁ cσ : ℝ → ℝ → ℝ) (ψ₁ ψσ : ℝ → ℝ) (ν : ℝ)
     (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W)

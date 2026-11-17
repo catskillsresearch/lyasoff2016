@@ -16,7 +16,7 @@ Cameron–Martin–Girsanov for a constant drift, at the level of path functiona
 -/
 module
 
-public import Lyasoff2016.Lib.BrownianScaling
+public import Lyasoff2016.BrownianScaling
 public import MathFin.Probability.Brownian.Girsanov.GirsanovConstantTheta
 public import MathFin.Probability.Brownian.ExpMartingaleBrownian
 

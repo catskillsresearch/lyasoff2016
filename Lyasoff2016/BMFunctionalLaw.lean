@@ -5,7 +5,7 @@ and the pathwise time-reversal change of variables for (1.3).
 module
 
 public import BrownianMotion.Gaussian.BrownianMotion
-public import Lyasoff2016.Lib.TimeReversal
+public import Lyasoff2016.TimeReversal
 
 
 @[expose] public section

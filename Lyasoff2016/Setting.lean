@@ -10,8 +10,8 @@ module
 
 public import Mathlib
 public import Mathlib.Probability.BrownianMotion.Basic
-public import Lyasoff2016.Lib.TimeReversal
-public import Lyasoff2016.Lib.BMFunctionalLaw
+public import Lyasoff2016.TimeReversal
+public import Lyasoff2016.BMFunctionalLaw
 
 
 @[expose] public section

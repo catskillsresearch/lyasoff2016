@@ -4,7 +4,7 @@
 module
 
 public import Lyasoff2016.Foliation
-public import Lyasoff2016.Lib.YorClassical
+public import Lyasoff2016.YorClassical
 
 
 @[expose] public section

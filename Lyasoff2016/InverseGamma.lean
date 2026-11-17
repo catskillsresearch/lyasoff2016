@@ -4,7 +4,7 @@ Inverse-Gamma / Gamma reciprocal helpers for Dufresne’s theorem.
 module
 
 public import Lyasoff2016.Setting
-public import Lyasoff2016.Lib.MomentUniqueness
+public import Lyasoff2016.MomentUniqueness
 
 
 @[expose] public section

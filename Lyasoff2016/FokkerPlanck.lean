@@ -4,10 +4,10 @@
 module
 
 public import Lyasoff2016.Auxiliary
-public import Lyasoff2016.Lib.MomentUniqueness
-public import Lyasoff2016.Lib.InverseGamma
-public import Lyasoff2016.Lib.JointFokkerPlanckHelpers
-public import Lyasoff2016.Lib.JointFokkerPlanckIto
+public import Lyasoff2016.MomentUniqueness
+public import Lyasoff2016.InverseGamma
+public import Lyasoff2016.JointFokkerPlanckHelpers
+public import Lyasoff2016.JointFokkerPlanckIto
 public import BrownianMotion.Gaussian.BrownianMotion
 public import MathFin.Probability.Brownian.Ito.ItoFormulaTD
 public import MathFin.Probability.Brownian.Ito.ItoFormulaProcess
