@@ -184,7 +184,7 @@ NODES: dict[str, dict] = {
     "g_solves_contour_equation": {
         "label": "g contour eq",
         "section": 5,
-        "file": "Lyasoff2016/IntegralReps.lean",
+        "file": "Lyasoff2016/ContourEq.lean",
         "detail": "g_{t,p} solves the contour equation for a ∈ [π/2, 3π/2].",
     },
     "yor_formula_classical": {

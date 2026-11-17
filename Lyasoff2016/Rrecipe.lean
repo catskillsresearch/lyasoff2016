@@ -26,4 +26,20 @@ def Rrecipe (g : ℝ → ℂ) : ℕ → ℝ → ℂ
   | 2 => g
   | (p + 3) => fun y => deriv (Rrecipe g (p + 2)) y / (((p + 1 : ℕ) : ℂ) * Real.sinh y)
 
+namespace Rrecipe
+
+/-- (5.7), `p = 2`: `R_{t,2}[g] = g`. -/
+lemma two (g : ℝ → ℂ) : Rrecipe g 2 = g := rfl
+
+/-- (5.7), `p = 3`: `R_{t,3}[g](y) = g'(y) / sinh y`. -/
+lemma three (g : ℝ → ℂ) (y : ℝ) : Rrecipe g 3 y = deriv g y / Real.sinh y := by
+  simp [Rrecipe]
+
+/-- (5.7), `p = 4`: `R_{t,4}[g](y) = (g' / sinh)'(y) / (2 sinh y)`. -/
+lemma four (g : ℝ → ℂ) (y : ℝ) :
+    Rrecipe g 4 y = deriv (fun s : ℝ => deriv g s / Real.sinh s) y / (2 * Real.sinh y) := by
+  simp [Rrecipe]
+
+end Rrecipe
+
 end Lyasoff2016
