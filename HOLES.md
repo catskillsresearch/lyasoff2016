@@ -2,8 +2,8 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-17T10:49:04Z
-**Holes:** 0 open+blocked · 0 open · 0 blocked · 33 done.
+**Updated:** 2026-11-17T11:30:57Z
+**Holes:** 6 open+blocked · 2 open · 4 blocked · 33 done.
 
 **Live board:** [`holes.html`](holes.html) + [`holes-graph.json`](holes-graph.json).
 
@@ -14,7 +14,10 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 
 ## Open now (Layer 0)
 
-_None — every remaining hole is blocked or done._
+| Id | Label | File |
+|---|---|---|
+| `ito_expInt_test_product` | Ito (3.4a) | `Lyasoff2016/JointFokkerPlanckIto.lean:98` |
+| `ito_timeReversed_expInt_test_product` | Ito (3.4b) | `Lyasoff2016/JointFokkerPlanckIto.lean:192` |
 
 ## By section
 
@@ -33,7 +36,7 @@ _None — every remaining hole is blocked or done._
 | done | `scaling_relations` | Scaling | `Lyasoff2016/Auxiliary.lean:184` |
 | done | `girsanov_density` | Girsanov (2.2) | `Lyasoff2016/Auxiliary.lean:219` |
 
-### §3 — 0 hole(s)
+### §3 — 6 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
@@ -44,7 +47,13 @@ _None — every remaining hole is blocked or done._
 | done | `perpetuity_neg_moments` | E[A⁻ⁿ] | `Lyasoff2016/FokkerPlanck.lean:2752` |
 | done | `dufresne_theorem_sigma_one` | Dufresne σ=1 | `Lyasoff2016/FokkerPlanck.lean:2824` |
 | done | `dufresne_theorem` | Dufresne thm | `Lyasoff2016/FokkerPlanck.lean:2914` |
-| done | `fokker_planck_joint` | FP (3.6b) | `Lyasoff2016/FokkerPlanck.lean:3084` |
+| open | `ito_expInt_test_product` | Ito (3.4a) | `Lyasoff2016/JointFokkerPlanckIto.lean:98` |
+| open | `ito_timeReversed_expInt_test_product` | Ito (3.4b) | `Lyasoff2016/JointFokkerPlanckIto.lean:192` |
+| blocked | `joint_dynkin_Aop_product` | Dynkin (3.5) | `Lyasoff2016/FokkerPlanck.lean:3034` |
+| blocked | `weak_joint_fokker_planck_product` | Weak FP product | `Lyasoff2016/FokkerPlanck.lean:3049` |
+| done | `eq_zero_of_integral_product_eq_zero` | Product fund. lemma | `Lyasoff2016/JointFokkerPlanckHelpers.lean:70` |
+| blocked | `jointFokkerPlanckAdjoint_eq_zero` | Adjoint = 0 | `Lyasoff2016/FokkerPlanck.lean:3063` |
+| blocked | `fokker_planck_joint` | FP (3.6b) | `Lyasoff2016/FokkerPlanck.lean:3084` |
 | done | `remark_3_2` | Rem 3.2 | `Lyasoff2016/FokkerPlanck.lean:3138` |
 
 ### §4 — 0 hole(s)
@@ -94,7 +103,13 @@ flowchart TD
   Inv --> Neg[perpetuity_neg_moments]
   Neg --> D1[dufresne_theorem_sigma_one]
   D1 --> D[dufresne_theorem]
-  TR[time_reversal] --> FP[fokker_planck_joint]
+  ItoA[ito_expInt_test_product] --> Dyn[joint_dynkin_Aop_product]
+  ItoB[ito_timeReversed] --> Dyn
+  Dyn --> Weak[weak_joint_fokker_planck_product]
+  Weak --> Adj[jointFokkerPlanckAdjoint_eq_zero]
+  Fund[eq_zero_of_integral_product] --> Adj
+  Adj --> FP[fokker_planck_joint]
+  TR[time_reversal] --> FP
   P22 --> FP
   FP --> T41[theorem_4_1_pde]
   T41 --> F46[formula_4_6]

@@ -3033,7 +3033,7 @@ theorem jointA_eq_drift_diff (σ : ℝ) (u v : ℝ → ℝ)
 /-- Dynkin identity (3.5) for product test functions. -/
 theorem joint_dynkin_Aop_product (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (ht : 0 < t)
-    (u v : ℝ → ℝ) (hu : ContDiff ℝ (⊤ : WithTop ℕ∞) u) (hv : ContDiff ℝ (⊤ : WithTop ℕ∞) v)
+    (u v : ℝ → ℝ) (hu : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) u) (hv : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) v)
     (huC : HasCompactSupport u) (hvC : HasCompactSupport v) :
     ∫ ω, jointA σ (fun x y => u x * v y) (expInt W σ 0 t ω) (W t ω) ∂P = 0 := by
   have h34a := ito_expInt_test_product P W hW σ t u v hu hv huC hvC
@@ -3050,7 +3050,7 @@ theorem weak_joint_fokker_planck_product (P : Measure Ω) [IsProbabilityMeasure 
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (ht : 0 < t)
     (φ : ℝ → ℝ → ℝ) (hφ : IsJointDensity P W σ 0 t φ)
     (hsm : ∀ n : ℕ, ContDiffOn ℝ n (Function.uncurry φ) jointDomain)
-    (u v : ℝ → ℝ) (hu : ContDiff ℝ (⊤ : WithTop ℕ∞) u) (hv : ContDiff ℝ (⊤ : WithTop ℕ∞) v)
+    (u v : ℝ → ℝ) (hu : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) u) (hv : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) v)
     (huC : HasCompactSupport u) (hvC : HasCompactSupport v)
     (hsupp : tsupport (fun p : ℝ × ℝ => u p.1 * v p.2) ⊆ jointDomain) :
     ∫ p : ℝ × ℝ, u p.1 * v p.2 * jointFokkerPlanckAdjoint σ φ p.1 p.2 = 0 := by

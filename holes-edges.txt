@@ -5,6 +5,12 @@ dufresne_zero_flux -hard-> perpetuity_inv_moment
 perpetuity_inv_moment -hard-> perpetuity_neg_moments
 perpetuity_neg_moments -hard-> dufresne_theorem_sigma_one
 dufresne_theorem_sigma_one -hard-> dufresne_theorem
+ito_expInt_test_product -hard-> joint_dynkin_Aop_product
+ito_timeReversed_expInt_test_product -hard-> joint_dynkin_Aop_product
+joint_dynkin_Aop_product -hard-> weak_joint_fokker_planck_product
+weak_joint_fokker_planck_product -hard-> jointFokkerPlanckAdjoint_eq_zero
+eq_zero_of_integral_product_eq_zero -hard-> jointFokkerPlanckAdjoint_eq_zero
+jointFokkerPlanckAdjoint_eq_zero -hard-> fokker_planck_joint
 time_reversal -hard-> fokker_planck_joint
 time_reversal -hard-> remark_3_2
 theorem_4_1_pde -hard-> theorem_4_1_striking

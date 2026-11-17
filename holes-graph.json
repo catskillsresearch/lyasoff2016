@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-17T10:49:04Z",
-  "sorryCount": 0,
+  "updated": "2026-11-17T11:30:57Z",
+  "sorryCount": 6,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
     "blocked": "Waiting on incomplete required proof-deps",
@@ -12,7 +12,7 @@
     "Done = no local sorry and every hard predecessor is done (no unproven\u2192proven).",
     "Blue = done. Green = open. Grey = blocked.",
     "Regenerate with: python3 scripts/build_holes.py",
-    "Open tips: (none)."
+    "Open tips: ito_expInt_test_product, ito_timeReversed_expInt_test_product."
   ],
   "nodes": [
     {
@@ -124,12 +124,66 @@
       "detail": "General \u03c3 via Brownian scaling from \u03c3=1."
     },
     {
+      "id": "ito_expInt_test_product",
+      "label": "Ito (3.4a)",
+      "section": 3,
+      "file": "Lyasoff2016/JointFokkerPlanckIto.lean:98",
+      "status": "open",
+      "blocker": null,
+      "detail": "Product-test Ito identity along (expInt, W)."
+    },
+    {
+      "id": "ito_timeReversed_expInt_test_product",
+      "label": "Ito (3.4b)",
+      "section": 3,
+      "file": "Lyasoff2016/JointFokkerPlanckIto.lean:192",
+      "status": "open",
+      "blocker": null,
+      "detail": "Product-test Ito identity for the time-reversed functional."
+    },
+    {
+      "id": "joint_dynkin_Aop_product",
+      "label": "Dynkin (3.5)",
+      "section": 3,
+      "file": "Lyasoff2016/FokkerPlanck.lean:3034",
+      "status": "blocked",
+      "blocker": "needs ito_expInt_test_product, ito_timeReversed_expInt_test_product",
+      "detail": "E[jointA(u\u2297v)] = 0 from the two Ito drifts."
+    },
+    {
+      "id": "weak_joint_fokker_planck_product",
+      "label": "Weak FP product",
+      "section": 3,
+      "file": "Lyasoff2016/FokkerPlanck.lean:3049",
+      "status": "blocked",
+      "blocker": "needs joint_dynkin_Aop_product",
+      "detail": "Adjoint pairing \u222b\u222b (u\u2297v)\u00b7jointFokkerPlanckAdjoint = 0."
+    },
+    {
+      "id": "eq_zero_of_integral_product_eq_zero",
+      "label": "Product fund. lemma",
+      "section": 3,
+      "file": "Lyasoff2016/JointFokkerPlanckHelpers.lean:70",
+      "status": "done",
+      "blocker": null,
+      "detail": "Continuous + vanishing against product tests \u21d2 pointwise zero on jointDomain."
+    },
+    {
+      "id": "jointFokkerPlanckAdjoint_eq_zero",
+      "label": "Adjoint = 0",
+      "section": 3,
+      "file": "Lyasoff2016/FokkerPlanck.lean:3063",
+      "status": "blocked",
+      "blocker": "needs weak_joint_fokker_planck_product",
+      "detail": "Pointwise vanishing of jointFokkerPlanckAdjoint on x>0."
+    },
+    {
       "id": "fokker_planck_joint",
       "label": "FP (3.6b)",
       "section": 3,
       "file": "Lyasoff2016/FokkerPlanck.lean:3084",
-      "status": "done",
-      "blocker": null,
+      "status": "blocked",
+      "blocker": "needs jointFokkerPlanckAdjoint_eq_zero",
       "detail": "Joint density satisfies the divergence-form Fokker\u2013Planck PDE."
     },
     {
@@ -347,6 +401,36 @@
     {
       "from": "dufresne_theorem_sigma_one",
       "to": "dufresne_theorem",
+      "kind": "hard"
+    },
+    {
+      "from": "ito_expInt_test_product",
+      "to": "joint_dynkin_Aop_product",
+      "kind": "hard"
+    },
+    {
+      "from": "ito_timeReversed_expInt_test_product",
+      "to": "joint_dynkin_Aop_product",
+      "kind": "hard"
+    },
+    {
+      "from": "joint_dynkin_Aop_product",
+      "to": "weak_joint_fokker_planck_product",
+      "kind": "hard"
+    },
+    {
+      "from": "weak_joint_fokker_planck_product",
+      "to": "jointFokkerPlanckAdjoint_eq_zero",
+      "kind": "hard"
+    },
+    {
+      "from": "eq_zero_of_integral_product_eq_zero",
+      "to": "jointFokkerPlanckAdjoint_eq_zero",
+      "kind": "hard"
+    },
+    {
+      "from": "jointFokkerPlanckAdjoint_eq_zero",
+      "to": "fokker_planck_joint",
       "kind": "hard"
     },
     {

@@ -29,7 +29,7 @@ variable {Ω : Type*} [MeasurableSpace Ω]
 
 /-- Compactly supported `C^∞` functions are bounded with their first two derivatives. -/
 theorem contDiff_top_compactSupport_bounds {u : ℝ → ℝ}
-    (hu : ContDiff ℝ (⊤ : WithTop ℕ∞) u) (huC : HasCompactSupport u) :
+    (hu : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) u) (huC : HasCompactSupport u) :
     ∃ C : ℝ, (∀ x, |u x| ≤ C) ∧ (∀ x, |deriv u x| ≤ C) ∧ (∀ x, |deriv (deriv u) x| ≤ C) := by
   have hu1 : ContDiff ℝ 1 u := hu.of_le (by decide)
   have hu2 : ContDiff ℝ 2 u := hu.of_le (by decide)
@@ -97,8 +97,8 @@ theorem pathwise_u_expInt_ftc (B : ℝ≥0 → ℝ) (hBcont : Continuous B)
 /-- Paper (3.4a) for product tests `ϕ = u ⊗ v`. -/
 theorem ito_expInt_test_product (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0)
-    (u v : ℝ → ℝ) (hu : ContDiff ℝ (⊤ : WithTop ℕ∞) u)
-    (hv : ContDiff ℝ (⊤ : WithTop ℕ∞) v)
+    (u v : ℝ → ℝ) (hu : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) u)
+    (hv : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) v)
     (huC : HasCompactSupport u) (hvC : HasCompactSupport v) :
     (∫ ω, u (expInt W σ 0 t ω) * v (W t ω) ∂P) - u 0 * v 0 =
       ∫ s in Ioc (0 : ℝ) t,
@@ -191,8 +191,8 @@ theorem ito_expInt_test_product (P : Measure Ω) [IsProbabilityMeasure P]
 /-- Paper (3.4b) after time-reversal, for product tests. -/
 theorem ito_timeReversed_expInt_test_product (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_ht : 0 < t)
-    (u v : ℝ → ℝ) (hu : ContDiff ℝ (⊤ : WithTop ℕ∞) u)
-    (hv : ContDiff ℝ (⊤ : WithTop ℕ∞) v)
+    (u v : ℝ → ℝ) (hu : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) u)
+    (hv : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) v)
     (huC : HasCompactSupport u) (hvC : HasCompactSupport v) :
     (∫ ω, u (expInt W σ 0 t ω) * v (W t ω) ∂P) - u 0 * v 0 =
       ∫ s in Ioc (0 : ℝ) t,
