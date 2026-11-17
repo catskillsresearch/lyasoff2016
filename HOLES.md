@@ -2,8 +2,8 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-17T14:52:12Z
-**Holes:** 2 open+blocked · 1 open · 1 blocked · 37 done.
+**Updated:** 2026-11-17T15:09:33Z
+**Holes:** 0 open+blocked · 0 open · 0 blocked · 39 done.
 
 **Live board:** [`holes.html`](holes.html) + [`holes-graph.json`](holes-graph.json).
 
@@ -14,9 +14,7 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 
 ## Open now (Layer 0)
 
-| Id | Label | File |
-|---|---|---|
-| `jointFokkerPlanckAdjoint_eq_zero` | Adjoint = 0 | `Lyasoff2016/FokkerPlanck.lean:3868` |
+_None — every remaining hole is blocked or done._
 
 ## By section
 
@@ -35,7 +33,7 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | done | `scaling_relations` | Scaling | `Lyasoff2016/Auxiliary.lean:184` |
 | done | `girsanov_density` | Girsanov (2.2) | `Lyasoff2016/Auxiliary.lean:219` |
 
-### §3 — 2 hole(s)
+### §3 — 0 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
@@ -51,9 +49,9 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | done | `joint_dynkin_Aop_product` | Dynkin (3.5) | `Lyasoff2016/FokkerPlanck.lean:3230` |
 | done | `weak_joint_fokker_planck_product` | Weak FP product | `Lyasoff2016/FokkerPlanck.lean:3844` |
 | done | `eq_zero_of_integral_product_eq_zero` | Product fund. lemma | `Lyasoff2016/JointFokkerPlanckHelpers.lean:70` |
-| open | `jointFokkerPlanckAdjoint_eq_zero` | Adjoint = 0 | `Lyasoff2016/FokkerPlanck.lean:3868` |
-| blocked | `fokker_planck_joint` | FP (3.6b) | `Lyasoff2016/FokkerPlanck.lean:3895` |
-| done | `remark_3_2` | Rem 3.2 | `Lyasoff2016/FokkerPlanck.lean:3949` |
+| done | `jointFokkerPlanckAdjoint_eq_zero` | Adjoint = 0 | `Lyasoff2016/FokkerPlanck.lean:4015` |
+| done | `fokker_planck_joint` | FP (3.6b) | `Lyasoff2016/FokkerPlanck.lean:4035` |
+| done | `remark_3_2` | Rem 3.2 | `Lyasoff2016/FokkerPlanck.lean:4091` |
 
 ### §4 — 0 hole(s)
 

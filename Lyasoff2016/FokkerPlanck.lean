@@ -3864,25 +3864,165 @@ theorem weak_joint_fokker_planck_product (P : Measure Ω) [IsProbabilityMeasure 
     integral_jointA_product_eq_integral_adjoint σ φ hsm u v hu hv huC hvC hsupp
   exact hibp.symm.trans hdens
 
-/-- Pointwise vanishing of the adjoint from product weak identities. -/
+/-- C² on the open joint domain ⇒ the formal adjoint is continuous there. -/
+private lemma continuousOn_jointFokkerPlanckAdjoint
+    (σ : ℝ) {φ : ℝ → ℝ → ℝ}
+    (h2 : ContDiffOn ℝ 2 (Function.uncurry φ) jointDomain) :
+    ContinuousOn (fun p : ℝ × ℝ => jointFokkerPlanckAdjoint σ φ p.1 p.2) jointDomain := by
+  set F : ℝ × ℝ → ℝ := Function.uncurry φ
+  have hU : UniqueDiffOn ℝ jointDomain := isOpen_jointDomain.uniqueDiffOn
+  have h2' : ContDiffOn ℝ (1 + 1 : WithTop ℕ∞) F jointDomain := by
+    convert h2 using 1; norm_cast
+  have hdiff : DifferentiableOn ℝ F jointDomain :=
+    ((contDiffOn_succ_iff_fderivWithin hU).1 h2').1
+  have hG : ContDiffOn ℝ 1 (fderivWithin ℝ F jointDomain) jointDomain :=
+    ((contDiffOn_succ_iff_fderivWithin hU).1 h2').2.2
+  have cF : ContinuousOn F jointDomain := h2.continuousOn
+  -- Scalar first partials, then their Fréchet derivatives (second partials).
+  set px : ℝ × ℝ → ℝ :=
+    fun p => fderivWithin ℝ F jointDomain p ((1 : ℝ), (0 : ℝ))
+  set py : ℝ × ℝ → ℝ :=
+    fun p => fderivWithin ℝ F jointDomain p ((0 : ℝ), (1 : ℝ))
+  have hpx : ContDiffOn ℝ 1 px jointDomain :=
+    hG.clm_apply contDiffOn_const
+  have hpy : ContDiffOn ℝ 1 py jointDomain :=
+    hG.clm_apply contDiffOn_const
+  set pxx : ℝ × ℝ → ℝ :=
+    fun p => fderivWithin ℝ px jointDomain p ((1 : ℝ), (0 : ℝ))
+  set pyx : ℝ × ℝ → ℝ :=
+    fun p => fderivWithin ℝ py jointDomain p ((1 : ℝ), (0 : ℝ))
+  have cpx : ContinuousOn px jointDomain := hpx.continuousOn
+  have cpy : ContinuousOn py jointDomain := hpy.continuousOn
+  have cpxx : ContinuousOn pxx jointDomain :=
+    (hpx.continuousOn_fderivWithin hU (by norm_num)).clm_apply continuousOn_const
+  have cpyx : ContinuousOn pyx jointDomain :=
+    (hpy.continuousOn_fderivWithin hU (by norm_num)).clm_apply continuousOn_const
+  have heq : EqOn (fun p : ℝ × ℝ => jointFokkerPlanckAdjoint σ φ p.1 p.2)
+      (fun p =>
+        σ ^ 2 * p.1 ^ 2 / 2 * pxx p + σ * p.1 * pyx p
+          + (Real.exp (σ * p.2) + 3 * σ ^ 2 * p.1 / 2 - 1) * px p
+          + σ * py p + σ ^ 2 / 2 * F p) jointDomain := by
+    intro p hp
+    have hAt : DifferentiableAt ℝ F p :=
+      (hdiff p hp).differentiableAt (isOpen_jointDomain.mem_nhds hp)
+    have hpxAt : DifferentiableAt ℝ px p :=
+      (hpx.differentiableOn (by norm_num) p hp).differentiableAt
+        (isOpen_jointDomain.mem_nhds hp)
+    have hpyAt : DifferentiableAt ℝ py p :=
+      (hpy.differentiableOn (by norm_num) p hp).differentiableAt
+        (isOpen_jointDomain.mem_nhds hp)
+    have hfw : fderivWithin ℝ F jointDomain p = fderiv ℝ F p :=
+      fderivWithin_eq_fderiv (hU p hp) hAt
+    have h1 : HasDerivAt (fun z => φ z p.2) (px p) p.1 := by
+      have : px p = fderiv ℝ F p ((1 : ℝ), (0 : ℝ)) := by simp [px, hfw]
+      rw [this]
+      simpa [F, Function.uncurry] using hasDerivAt_slice_fst (F := F) hAt
+    have h2y : HasDerivAt (fun y' => φ p.1 y') (py p) p.2 := by
+      have : py p = fderiv ℝ F p ((0 : ℝ), (1 : ℝ)) := by simp [py, hfw]
+      rw [this]
+      simpa [F, Function.uncurry] using hasDerivAt_slice_snd (F := F) hAt
+    have hpxfw : fderivWithin ℝ px jointDomain p = fderiv ℝ px p :=
+      fderivWithin_eq_fderiv (hU p hp) hpxAt
+    have hpyfw : fderivWithin ℝ py jointDomain p = fderiv ℝ py p :=
+      fderivWithin_eq_fderiv (hU p hp) hpyAt
+    have h3 : HasDerivAt (deriv fun z => φ z p.2) (pxx p) p.1 := by
+      have heq' : deriv (fun z => φ z p.2) =ᶠ[𝓝 p.1] fun z => px (z, p.2) := by
+        filter_upwards [isOpen_Ioi.mem_nhds hp.1] with z hz
+        have hzmem : (z, p.2) ∈ jointDomain := ⟨hz, trivial⟩
+        have hAtz : DifferentiableAt ℝ F (z, p.2) :=
+          (hdiff (z, p.2) hzmem).differentiableAt (isOpen_jointDomain.mem_nhds hzmem)
+        have hfwz : fderivWithin ℝ F jointDomain (z, p.2) = fderiv ℝ F (z, p.2) :=
+          fderivWithin_eq_fderiv (hU (z, p.2) hzmem) hAtz
+        have : HasDerivAt (fun w => φ w p.2)
+            (fderiv ℝ F (z, p.2) ((1 : ℝ), (0 : ℝ))) z :=
+          by simpa [F, Function.uncurry] using hasDerivAt_slice_fst (F := F) hAtz
+        simpa [px, hfwz] using this.deriv
+      have hder : HasDerivAt (fun z => px (z, p.2)) (pxx p) p.1 := by
+        have : pxx p = fderiv ℝ px p ((1 : ℝ), (0 : ℝ)) := by simp [pxx, hpxfw]
+        rw [this]
+        exact hasDerivAt_slice_fst (F := px) hpxAt
+      exact hder.congr_of_eventuallyEq heq'
+    have h4 : HasDerivAt (fun z => deriv (fun y' => φ z y') p.2) (pyx p) p.1 := by
+      have heq' : (fun z => deriv (fun y' => φ z y') p.2) =ᶠ[𝓝 p.1]
+          fun z => py (z, p.2) := by
+        filter_upwards [isOpen_Ioi.mem_nhds hp.1] with z hz
+        have hzmem : (z, p.2) ∈ jointDomain := ⟨hz, trivial⟩
+        have hAtz : DifferentiableAt ℝ F (z, p.2) :=
+          (hdiff (z, p.2) hzmem).differentiableAt (isOpen_jointDomain.mem_nhds hzmem)
+        have hfwz : fderivWithin ℝ F jointDomain (z, p.2) = fderiv ℝ F (z, p.2) :=
+          fderivWithin_eq_fderiv (hU (z, p.2) hzmem) hAtz
+        have : HasDerivAt (fun y' => φ z y')
+            (fderiv ℝ F (z, p.2) ((0 : ℝ), (1 : ℝ))) p.2 :=
+          by simpa [F, Function.uncurry] using hasDerivAt_slice_snd (F := F) hAtz
+        simpa [py, hfwz] using this.deriv
+      have hder : HasDerivAt (fun z => py (z, p.2)) (pyx p) p.1 := by
+        have : pyx p = fderiv ℝ py p ((1 : ℝ), (0 : ℝ)) := by simp [pyx, hpyfw]
+        rw [this]
+        exact hasDerivAt_slice_fst (F := py) hpyAt
+      exact hder.congr_of_eventuallyEq heq'
+    unfold jointFokkerPlanckAdjoint
+    simp only [F, Function.uncurry]
+    rw [h3.deriv, h4.deriv, h1.deriv, h2y.deriv]
+  have hc : ContinuousOn (fun p : ℝ × ℝ =>
+      σ ^ 2 * p.1 ^ 2 / 2 * pxx p + σ * p.1 * pyx p
+        + (Real.exp (σ * p.2) + 3 * σ ^ 2 * p.1 / 2 - 1) * px p
+        + σ * py p + σ ^ 2 / 2 * F p) jointDomain := by
+    rw [continuousOn_iff_continuous_domRestrict]
+    have hpxc : Continuous (jointDomain.domRestrict px) :=
+      continuousOn_iff_continuous_domRestrict.1 cpx
+    have hpyc : Continuous (jointDomain.domRestrict py) :=
+      continuousOn_iff_continuous_domRestrict.1 cpy
+    have hpxxc : Continuous (jointDomain.domRestrict pxx) :=
+      continuousOn_iff_continuous_domRestrict.1 cpxx
+    have hpyxc : Continuous (jointDomain.domRestrict pyx) :=
+      continuousOn_iff_continuous_domRestrict.1 cpyx
+    have hFc : Continuous (jointDomain.domRestrict F) :=
+      continuousOn_iff_continuous_domRestrict.1 cF
+    have hx : Continuous fun q : ↑jointDomain => (q : ℝ × ℝ).1 :=
+      continuous_fst.comp continuous_subtype_val
+    have hy : Continuous fun q : ↑jointDomain => (q : ℝ × ℝ).2 :=
+      continuous_snd.comp continuous_subtype_val
+    have hterm1 : Continuous fun q : ↑jointDomain =>
+        (σ ^ 2 / 2) * (q : ℝ × ℝ).1 ^ 2 * jointDomain.domRestrict pxx q :=
+      (continuous_const.mul (hx.pow 2)).mul hpxxc
+    have hterm2 : Continuous fun q : ↑jointDomain =>
+        σ * (q : ℝ × ℝ).1 * jointDomain.domRestrict pyx q :=
+      (continuous_const.mul hx).mul hpyxc
+    have hcoeff : Continuous fun q : ↑jointDomain =>
+        Real.exp (σ * (q : ℝ × ℝ).2) + (3 * σ ^ 2 / 2) * (q : ℝ × ℝ).1 - 1 :=
+      ((Real.continuous_exp.comp (continuous_const.mul hy)).add
+        (continuous_const.mul hx)).sub continuous_const
+    have hterm3 : Continuous fun q : ↑jointDomain =>
+        (Real.exp (σ * (q : ℝ × ℝ).2) + (3 * σ ^ 2 / 2) * (q : ℝ × ℝ).1 - 1) *
+          jointDomain.domRestrict px q :=
+      hcoeff.mul hpxc
+    have hterm4 : Continuous fun q : ↑jointDomain =>
+        σ * jointDomain.domRestrict py q :=
+      continuous_const.mul hpyc
+    have hterm5 : Continuous fun q : ↑jointDomain =>
+        (σ ^ 2 / 2) * jointDomain.domRestrict F q :=
+      continuous_const.mul hFc
+    convert (((hterm1.add hterm2).add hterm3).add hterm4).add hterm5 using 1
+    ext q
+    simp [Set.domRestrict]
+    ring
+  exact ContinuousOn.congr hc heq
+
+/-- Pointwise vanishing of the adjoint from product weak identities.
+
+Nonnegativity / measurability of `φ` are required so the weak product identity can
+identify path expectations with `∫ (u⊗v)·adjoint` (cf. DensityVersions). -/
 theorem jointFokkerPlanckAdjoint_eq_zero (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (ht : 0 < t)
     (φ : ℝ → ℝ → ℝ) (hφ : IsJointDensity P W σ 0 t φ)
     (hsm : ∀ n : ℕ, ContDiffOn ℝ n (Function.uncurry φ) jointDomain)
+    (hφnn : ∀ x y, 0 ≤ φ x y)
+    (hφm : AEMeasurable (fun p : ℝ × ℝ => φ p.1 p.2) volume)
     (x y : ℝ) (hx : 0 < x) :
     jointFokkerPlanckAdjoint σ φ x y = 0 := by
   have hcont : ContinuousOn
-      (fun p : ℝ × ℝ => jointFokkerPlanckAdjoint σ φ p.1 p.2) jointDomain := by
-    -- C³ on the open joint domain ⇒ continuous second partials ⇒ continuous adjoint.
-    have h3 := hsm 3
-    -- Each term of `jointFokkerPlanckAdjoint` is continuous on `jointDomain`.
-    sorry
-  have hφnn : ∀ x y, 0 ≤ φ x y := fun _ _ => by
-    -- Continuous nonnegative version of the joint density (cf. DensityVersions).
-    sorry
-  have hφm : AEMeasurable (fun p : ℝ × ℝ => φ p.1 p.2) volume := by
-    -- Measurable version of the ContDiffOn density.
-    sorry
+      (fun p : ℝ × ℝ => jointFokkerPlanckAdjoint σ φ p.1 p.2) jointDomain :=
+    continuousOn_jointFokkerPlanckAdjoint σ (hsm 2)
   refine eq_zero_of_integral_product_eq_zero hcont ?_ hx
   intro u v hu hv huC hvC hts
   exact weak_joint_fokker_planck_product P W hW σ t ht φ hφ hsm hφnn hφm u v hu hv huC hvC hts
@@ -3896,6 +4036,8 @@ theorem fokker_planck_joint (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ�
     (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (ht : 0 < t)
     (φ : ℝ → ℝ → ℝ) (hφ : IsJointDensity P W σ 0 t φ)
     (hsm : ∀ n : ℕ, ContDiffOn ℝ n (Function.uncurry φ) (Ioi (0 : ℝ) ×ˢ univ))
+    (hφnn : ∀ x y, 0 ≤ φ x y)
+    (hφm : AEMeasurable (fun p : ℝ × ℝ => φ p.1 p.2) volume)
     (x y : ℝ) (hx : 0 < x) :
     deriv (fun x' =>
         σ ^ 2 * x' ^ 2 / 2 * deriv (fun z => φ z y) x'
@@ -3903,7 +4045,7 @@ theorem fokker_planck_joint (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ�
           + (Real.exp (σ * y) + σ ^ 2 * x' / 2 - 1) * φ x' y) x = 0 := by
   have hsm' : ∀ n : ℕ, ContDiffOn ℝ n (Function.uncurry φ) jointDomain := by
     simpa [jointDomain] using hsm
-  have hadj := jointFokkerPlanckAdjoint_eq_zero P W hW σ t ht φ hφ hsm' x y hx
+  have hadj := jointFokkerPlanckAdjoint_eq_zero P W hW σ t ht φ hφ hsm' hφnn hφm x y hx
   have hxmem : (x, y) ∈ jointDomain := mem_jointDomain hx
   have hnhds := isOpen_jointDomain.mem_nhds hxmem
   have hinner1 : ContDiffAt ℝ 1 (fun z : ℝ => (z, y)) x :=

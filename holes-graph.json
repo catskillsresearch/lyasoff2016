@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-17T14:52:12Z",
-  "sorryCount": 2,
+  "updated": "2026-11-17T15:09:33Z",
+  "sorryCount": 0,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
     "blocked": "Waiting on incomplete required proof-deps",
@@ -12,7 +12,7 @@
     "Done = no local sorry and every hard predecessor is done (no unproven\u2192proven).",
     "Blue = done. Green = open. Grey = blocked.",
     "Regenerate with: python3 scripts/build_holes.py",
-    "Open tips: jointFokkerPlanckAdjoint_eq_zero."
+    "Open tips: (none)."
   ],
   "nodes": [
     {
@@ -172,8 +172,8 @@
       "id": "jointFokkerPlanckAdjoint_eq_zero",
       "label": "Adjoint = 0",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:3868",
-      "status": "open",
+      "file": "Lyasoff2016/FokkerPlanck.lean:4015",
+      "status": "done",
       "blocker": null,
       "detail": "Pointwise vanishing of jointFokkerPlanckAdjoint on x>0."
     },
@@ -181,16 +181,16 @@
       "id": "fokker_planck_joint",
       "label": "FP (3.6b)",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:3895",
-      "status": "blocked",
-      "blocker": "needs jointFokkerPlanckAdjoint_eq_zero",
+      "file": "Lyasoff2016/FokkerPlanck.lean:4035",
+      "status": "done",
+      "blocker": null,
       "detail": "Joint density satisfies the divergence-form Fokker\u2013Planck PDE."
     },
     {
       "id": "remark_3_2",
       "label": "Rem 3.2",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:3949",
+      "file": "Lyasoff2016/FokkerPlanck.lean:4091",
       "status": "done",
       "blocker": null,
       "detail": "Reflection / running-max identity in law."
