@@ -50,45 +50,66 @@ theorem gFun_two_contDiff (t : ℝ) (_ht : t ≠ 0) :
   have h3 : ContDiff ℂ ⊤ fun _ : ℂ => (4 * π * I : ℂ) := contDiff_const
   convert h2.div h3 (fun _ => by simp [Complex.I_ne_zero, Real.pi_ne_zero]) using 1
 
-/- Paper: (5.7), residue recipe R.
-   Plain recap: residue contribution used when closing contours. -/
-def Rrec (p : ℕ) (t : ℝ) (_y : ℝ) (a : ℝ) : ℂ :=
-  gFun p t (a * Complex.I)
+/- Paper: p. 1081, (5.7), the residue recipe g ↦ R_{t,p}[g]:
+     R_{t,2}(y) = g(y),   R_{t,p}(y) = (1 / ((p−2) sinh y)) (d/dy) R_{t,p−1}(y)   (p ≥ 3).
+   Plain recap: R_{t,p}[g](y) is the residue at z = y of g(z) sinh z / (cosh z − cosh y)^{p−1}
+   (display (5.6)), produced recursively from the generic symbol g.
+   The recursion divides by sinh y, so for p ≥ 3 the value at y = 0 is Lean's `x / 0 = 0`
+   rather than the limit in (5.6); only y ≠ 0 is meaningful there. -/
+def Rrecipe (g : ℝ → ℂ) : ℕ → ℝ → ℂ
+  | 0 => g
+  | 1 => g
+  | 2 => g
+  | (p + 3) => fun y => deriv (Rrecipe g (p + 2)) y / (((p + 1 : ℕ) : ℂ) * Real.sinh y)
 
-/- Paper: (5.2)/(5.3), strip contour equation for the Laplace inversion.
-   Plain recap: after residue calculus on ζ_a the Laplace transform of the conditional
-   density equals the real-part integral against g_{t,p}(u−ia) sinh(u−ia) /
-   (cosh(u−ia)−cosh y)^{p−1}.  The opening angle a is an extra parameter of the claim
-   `g_solves_contour_equation`. -/
+/- Paper: (5.6)/(5.7), R_{t,p}(y) for the concrete choice g = g_{t,p} of (5.8).
+   PAPER NOTE: the skeleton's `Rrec p t y a := gFun p t (a i)` was not the paper's recipe
+   (R_{t,p} is a function of y and does not involve the contour parameter a). -/
+def Rrec (p : ℕ) (t : ℝ) (y : ℝ) : ℂ :=
+  Rrecipe (fun s : ℝ => gFun p t s) p y
+
+/-- (5.7) for p = 2: `R_{t,2} = g_{t,2}`. -/
+lemma Rrec_two (t y : ℝ) : Rrec 2 t y = gFun 2 t y := rfl
+
+/- Paper: p. 1080, (5.3), the integrand of the contour equation on the lower edge
+   u ↦ u − ia of the contour ζ_a (p. 1082):
+     g_{t,p}(u − ia) sinh(u − ia) / (cosh(u − ia) − cosh y)^{p−1}. -/
 def contourIntegrand (p : ℕ) (t a y u : ℝ) : ℂ :=
   gFun p t (u - I * a) * Complex.sinh (u - I * a) /
     (Complex.cosh (u - I * a) - Complex.cosh y) ^ (p - 1)
 
-def contourEq (p : ℕ) (t : ℝ) (y : ℝ) (a : ℝ) (φc : ℝ → ℝ → ℝ) : Prop :=
-  ∀ ξ ≥ 0, laplaceCond φc y ξ =
-    (∫ u : ℝ, ((-(4 : ℂ) / (ξ : ℂ)).cpow (p - 1) *
-      contourIntegrand p t a y u).re)
+/- Paper: p. 1080, (5.3), on the contour ζ = ζ_a of p. 1082, in the form of the display
+   on p. 1083 ("With a completely analogous calculation, (5.3) can be cast as"):
+     2 ∫_{−∞}^{∞} ℜ( g_{t,p}(u − ia) / (cosh(u − ia) − cosh y)^{p−1} · sinh(u − ia) ) du
+       = ((−4)^{p−2} / (p−2)!) e^{−2y²/t}.
+   Plain recap: ζ_a is the boundary of the strip {|ℑ z| < a}; since g_{t,p}(z̄) = −conj g_{t,p}(z)
+   the upper edge contributes the conjugate of the lower one, leaving twice the real part.
+   This is the only condition imposed on g_{t,p} (footnote 9).  The integrand is also
+   required to be integrable (pp. 1084–1085).
+   PAPER NOTE: earlier versions of `contourEq` took a density `φc` and equated
+   `laplaceCond φc y ξ` with `0`, resp. with `∫ ℜ((−4/ξ)^{p−1} · contourIntegrand)`.  Neither
+   is in the paper, and both are false for a genuine conditional density (at ξ = 0 they give
+   `∫ φc(x|y) dx = 0`).  (5.3) involves no density: it is a statement about g_{t,p}, the
+   contour ζ_a and y only. -/
+def contourEq (p : ℕ) (t : ℝ) (y : ℝ) (a : ℝ) : Prop :=
+  Integrable (fun u : ℝ => contourIntegrand p t a y u) ∧
+  2 * ∫ u : ℝ, (contourIntegrand p t a y u).re =
+    (-4 : ℝ) ^ (p - 2) / ((p - 2).factorial : ℝ) * Real.exp (-2 * y ^ 2 / t)
 
-/- Paper: p. 1083–1085.
-   Plain recap: g_{t,p} solves the contour equation for opening angles a ∈ [π/2, 3π/2].
-   PAPER NOTE: the skeleton quantified over an arbitrary φc; the intended claim is that
-   the true conditional density (and equivalently the π-formula candidate) satisfies the
-   contour equation. Hypotheses restored to the paper's meaning. -/
-/-- Classical contour/residue identity (Lyasoff pp. 1083–1085), taken as analytic input. -/
-axiom g_solves_contour_equation_classical (P : Measure Ω) [IsProbabilityMeasure P]
-    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0)
-    (hσ : 0 < σ) (ht : 0 < t) (p : ℕ) (hp : p = 2 ∨ p = 3 ∨ p = 4)
-    (y : ℝ) (a : ℝ) (ha : Real.pi / 2 ≤ a ∧ a ≤ 3 * Real.pi / 2)
-    (φc : ℝ → ℝ → ℝ) (hφc : IsCondDensity P W σ t φc) :
-    contourEq p t y a φc
+/- Paper: p. 1082–1085.
+   Plain recap: g_{t,p} of (5.8) solves the contour equation (5.3) on ζ_a for every opening
+   a ∈ [π/2, 3π/2] and every y ∈ ℝ (residues at z = ±y via (5.5)–(5.7); the vertical sides
+   cancel because g_{t,p} is even).
+   STATUS: not proved in Lean; the residue computation is taken as analytic input. -/
+/-- Classical contour/residue identity (Lyasoff pp. 1082–1085), taken as analytic input. -/
+axiom g_solves_contour_equation_classical (p : ℕ) (hp : p = 2 ∨ p = 3 ∨ p = 4)
+    (t : ℝ) (ht : 0 < t) (y : ℝ) (a : ℝ) (ha : Real.pi / 2 ≤ a ∧ a ≤ 3 * Real.pi / 2) :
+    contourEq p t y a
 
-theorem g_solves_contour_equation (P : Measure Ω) [IsProbabilityMeasure P]
-    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0)
-    (hσ : 0 < σ) (ht : 0 < t) (p : ℕ) (hp : p = 2 ∨ p = 3 ∨ p = 4)
-    (y : ℝ) (a : ℝ) (ha : Real.pi / 2 ≤ a ∧ a ≤ 3 * Real.pi / 2)
-    (φc : ℝ → ℝ → ℝ) (hφc : IsCondDensity P W σ t φc) :
-    contourEq p t y a φc :=
-  g_solves_contour_equation_classical P W hW σ t hσ ht p hp y a ha φc hφc
+theorem g_solves_contour_equation (p : ℕ) (hp : p = 2 ∨ p = 3 ∨ p = 4)
+    (t : ℝ) (ht : 0 < t) (y : ℝ) (a : ℝ) (ha : Real.pi / 2 ≤ a ∧ a ≤ 3 * Real.pi / 2) :
+    contourEq p t y a :=
+  g_solves_contour_equation_classical p hp t ht y a ha
 
 /- Paper: (5.9b)/(5.10b), π-formula for the conditional density, normalised so that
    `gaussianPDFReal 0 t y * (σ²)⁻¹ * piFormula p σ t (x σ²) (y σ)` is the joint density.

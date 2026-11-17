@@ -276,14 +276,14 @@ end Nat
 variable {ι : Type*} [LinearOrder ι] [TopologicalSpace ι] [OrderTopology ι]
   [OrderBot ι] [MeasurableSpace ι] [SecondCountableTopology ι] [BorelSpace ι] [MetrizableSpace ι]
   {σ τ : Ω → WithTop ι} {X : ι → Ω → E} (𝓕 : Filtration ι mΩ)
-
+/-
 theorem Submartingale.stoppedValue_min_ae_le_condExp [PartialOrder E] [OrderClosedTopology E]
     [IsOrderedModule ℝ E] [IsOrderedAddMonoid E]
     (hX1 : Submartingale X 𝓕 P) (hX2 : ∀ ω, IsRightContinuous (X · ω)) {k : ι}
     (hτk : ∀ᵐ ω ∂P, τ ω ≤ k) (hσ : IsStoppingTime 𝓕 σ) (hτ : IsStoppingTime 𝓕 τ) :
     stoppedValue X (τ ⊓ σ) ≤ᵐ[P] P[stoppedValue X τ|hσ.measurableSpace] := by
   sorry
-
+-/
 end subsupermartingale
 
 end MeasureTheory

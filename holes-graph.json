@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-17T11:30:57Z",
-  "sorryCount": 6,
+  "updated": "2026-11-17T12:03:19Z",
+  "sorryCount": 5,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
     "blocked": "Waiting on incomplete required proof-deps",
@@ -12,7 +12,7 @@
     "Done = no local sorry and every hard predecessor is done (no unproven\u2192proven).",
     "Blue = done. Green = open. Grey = blocked.",
     "Regenerate with: python3 scripts/build_holes.py",
-    "Open tips: ito_expInt_test_product, ito_timeReversed_expInt_test_product."
+    "Open tips: ito_timeReversed_expInt_test_product."
   ],
   "nodes": [
     {
@@ -127,8 +127,8 @@
       "id": "ito_expInt_test_product",
       "label": "Ito (3.4a)",
       "section": 3,
-      "file": "Lyasoff2016/JointFokkerPlanckIto.lean:98",
-      "status": "open",
+      "file": "Lyasoff2016/JointFokkerPlanckIto.lean:376",
+      "status": "done",
       "blocker": null,
       "detail": "Product-test Ito identity along (expInt, W)."
     },
@@ -136,7 +136,7 @@
       "id": "ito_timeReversed_expInt_test_product",
       "label": "Ito (3.4b)",
       "section": 3,
-      "file": "Lyasoff2016/JointFokkerPlanckIto.lean:192",
+      "file": "Lyasoff2016/JointFokkerPlanckIto.lean:416",
       "status": "open",
       "blocker": null,
       "detail": "Product-test Ito identity for the time-reversed functional."
@@ -147,7 +147,7 @@
       "section": 3,
       "file": "Lyasoff2016/FokkerPlanck.lean:3034",
       "status": "blocked",
-      "blocker": "needs ito_expInt_test_product, ito_timeReversed_expInt_test_product",
+      "blocker": "needs ito_timeReversed_expInt_test_product",
       "detail": "E[jointA(u\u2297v)] = 0 from the two Ito drifts."
     },
     {
@@ -244,7 +244,7 @@
       "id": "g_solves_contour_equation",
       "label": "g contour eq",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:85",
+      "file": "Lyasoff2016/IntegralReps.lean:109",
       "status": "done",
       "blocker": null,
       "detail": "g_{t,p} solves the contour equation for a \u2208 [\u03c0/2, 3\u03c0/2]."
@@ -253,7 +253,7 @@
       "id": "yor_formula_classical",
       "label": "Yor classical",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:210",
+      "file": "Lyasoff2016/IntegralReps.lean:231",
       "status": "done",
       "blocker": null,
       "detail": "Yor's joint density (1.1) as an independent classical input."
@@ -262,7 +262,7 @@
       "id": "remark_5_1",
       "label": "Rem 5.1",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:201",
+      "file": "Lyasoff2016/IntegralReps.lean:222",
       "status": "done",
       "blocker": null,
       "detail": "\u03c0-formula p=2, \u03c3=2 recovers Yor."
@@ -271,7 +271,7 @@
       "id": "pi_formula",
       "label": "\u03c0 / \u03c0/2",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:249",
+      "file": "Lyasoff2016/IntegralReps.lean:270",
       "status": "done",
       "blocker": null,
       "detail": "Joint density via \u03c0 and \u03c0/2 formulae for p=2,3,4."
@@ -280,7 +280,7 @@
       "id": "yor_formula",
       "label": "Yor via Rem 5.1",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:217",
+      "file": "Lyasoff2016/IntegralReps.lean:238",
       "status": "done",
       "blocker": null,
       "detail": "yor_formula := yor_formula_classical (or Rem 5.1 route)."

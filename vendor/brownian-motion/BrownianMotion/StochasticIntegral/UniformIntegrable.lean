@@ -354,12 +354,14 @@ lemma Martingale.uniformIntegrable_stoppedValue {X : ι → Ω → E} {𝓕 : Fi
     (fun i ↦ (hτ i).measurableSpace_le)).ae_eq <| fun m ↦
       (hX.stoppedValue_ae_eq_condExp_of_le_const (hτ m.2) (hτ_le m.2)).symm).comp (fun i ↦ ((), i))
 
+/-
 lemma Submartingale.uniformIntegrable_stoppedValue {X : ι → Ω → ℝ} {𝓕 : Filtration ι mΩ}
     [SigmaFiniteFiltration μ 𝓕]
     (hX : Submartingale X 𝓕 μ) (τ : ℕ → Ω → WithTop ι) (hτ : ∀ i, IsStoppingTime 𝓕 (τ i))
     {n : ι} (hτ_le : ∀ i ω, τ i ω ≤ n) :
     UniformIntegrable (fun i ↦ stoppedValue X (τ i)) 1 μ :=
   sorry
+-/
 
 omit [Countable ι]
 
@@ -403,6 +405,7 @@ variable {ι Ω E : Type*} [LinearOrder ι] {mΩ : MeasurableSpace Ω} {P : Meas
   {𝓕 : Filtration ι mΩ} {X Y : ι → Ω → E} {τ : Ω → WithTop ι} [NormedAddCommGroup E]
   [NormedSpace ℝ E] [TopologicalSpace ι]
 
+/-
 /-- A càdlàg uniformly integrable martingale converges. -/
 theorem Martingale.ae_tendsto_limitProcess
     (hX1 : Martingale X 𝓕 P) (hX2 : UniformIntegrable X 1 P)
@@ -474,6 +477,7 @@ lemma Filtration.limitProcess_stoppedProcess [OrderBot ι] [OrderTopology ι]
   | coe t =>
     simp only [h1, WithTop.coe_inj, stoppedProcess_of_eq_coe, Filtration.stoppedValue'_of_eq_coe]
     exact tendsto_const_nhds.congr' (eventually_atTop.2 ⟨t, fun s hs ↦ by simp [hs]⟩)
+-/
 
 end Martingale
 

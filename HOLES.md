@@ -2,8 +2,8 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-17T11:30:57Z
-**Holes:** 6 open+blocked · 2 open · 4 blocked · 33 done.
+**Updated:** 2026-11-17T12:03:19Z
+**Holes:** 5 open+blocked · 1 open · 4 blocked · 34 done.
 
 **Live board:** [`holes.html`](holes.html) + [`holes-graph.json`](holes-graph.json).
 
@@ -16,8 +16,7 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 
 | Id | Label | File |
 |---|---|---|
-| `ito_expInt_test_product` | Ito (3.4a) | `Lyasoff2016/JointFokkerPlanckIto.lean:98` |
-| `ito_timeReversed_expInt_test_product` | Ito (3.4b) | `Lyasoff2016/JointFokkerPlanckIto.lean:192` |
+| `ito_timeReversed_expInt_test_product` | Ito (3.4b) | `Lyasoff2016/JointFokkerPlanckIto.lean:416` |
 
 ## By section
 
@@ -36,7 +35,7 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | done | `scaling_relations` | Scaling | `Lyasoff2016/Auxiliary.lean:184` |
 | done | `girsanov_density` | Girsanov (2.2) | `Lyasoff2016/Auxiliary.lean:219` |
 
-### §3 — 6 hole(s)
+### §3 — 5 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
@@ -47,8 +46,8 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | done | `perpetuity_neg_moments` | E[A⁻ⁿ] | `Lyasoff2016/FokkerPlanck.lean:2752` |
 | done | `dufresne_theorem_sigma_one` | Dufresne σ=1 | `Lyasoff2016/FokkerPlanck.lean:2824` |
 | done | `dufresne_theorem` | Dufresne thm | `Lyasoff2016/FokkerPlanck.lean:2914` |
-| open | `ito_expInt_test_product` | Ito (3.4a) | `Lyasoff2016/JointFokkerPlanckIto.lean:98` |
-| open | `ito_timeReversed_expInt_test_product` | Ito (3.4b) | `Lyasoff2016/JointFokkerPlanckIto.lean:192` |
+| done | `ito_expInt_test_product` | Ito (3.4a) | `Lyasoff2016/JointFokkerPlanckIto.lean:376` |
+| open | `ito_timeReversed_expInt_test_product` | Ito (3.4b) | `Lyasoff2016/JointFokkerPlanckIto.lean:416` |
 | blocked | `joint_dynkin_Aop_product` | Dynkin (3.5) | `Lyasoff2016/FokkerPlanck.lean:3034` |
 | blocked | `weak_joint_fokker_planck_product` | Weak FP product | `Lyasoff2016/FokkerPlanck.lean:3049` |
 | done | `eq_zero_of_integral_product_eq_zero` | Product fund. lemma | `Lyasoff2016/JointFokkerPlanckHelpers.lean:70` |
@@ -70,11 +69,11 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 
 | Status | Id | Label | File |
 |---|---|---|---|
-| done | `g_solves_contour_equation` | g contour eq | `Lyasoff2016/IntegralReps.lean:85` |
-| done | `yor_formula_classical` | Yor classical | `Lyasoff2016/IntegralReps.lean:210` |
-| done | `remark_5_1` | Rem 5.1 | `Lyasoff2016/IntegralReps.lean:201` |
-| done | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:249` |
-| done | `yor_formula` | Yor via Rem 5.1 | `Lyasoff2016/IntegralReps.lean:217` |
+| done | `g_solves_contour_equation` | g contour eq | `Lyasoff2016/IntegralReps.lean:109` |
+| done | `yor_formula_classical` | Yor classical | `Lyasoff2016/IntegralReps.lean:231` |
+| done | `remark_5_1` | Rem 5.1 | `Lyasoff2016/IntegralReps.lean:222` |
+| done | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:270` |
+| done | `yor_formula` | Yor via Rem 5.1 | `Lyasoff2016/IntegralReps.lean:238` |
 
 ### §6 — 0 hole(s)
 
