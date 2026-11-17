@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-17T12:03:19Z",
-  "sorryCount": 5,
+  "updated": "2026-11-17T12:53:50Z",
+  "sorryCount": 4,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
     "blocked": "Waiting on incomplete required proof-deps",
@@ -12,7 +12,7 @@
     "Done = no local sorry and every hard predecessor is done (no unproven\u2192proven).",
     "Blue = done. Green = open. Grey = blocked.",
     "Regenerate with: python3 scripts/build_holes.py",
-    "Open tips: ito_timeReversed_expInt_test_product."
+    "Open tips: joint_dynkin_Aop_product."
   ],
   "nodes": [
     {
@@ -136,8 +136,8 @@
       "id": "ito_timeReversed_expInt_test_product",
       "label": "Ito (3.4b)",
       "section": 3,
-      "file": "Lyasoff2016/JointFokkerPlanckIto.lean:416",
-      "status": "open",
+      "file": "Lyasoff2016/JointFokkerPlanckIto.lean:953",
+      "status": "done",
       "blocker": null,
       "detail": "Product-test Ito identity for the time-reversed functional."
     },
@@ -146,8 +146,8 @@
       "label": "Dynkin (3.5)",
       "section": 3,
       "file": "Lyasoff2016/FokkerPlanck.lean:3034",
-      "status": "blocked",
-      "blocker": "needs ito_timeReversed_expInt_test_product",
+      "status": "open",
+      "blocker": null,
       "detail": "E[jointA(u\u2297v)] = 0 from the two Ito drifts."
     },
     {
