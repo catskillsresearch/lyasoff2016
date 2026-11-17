@@ -8,6 +8,7 @@ public import Lyasoff2016.JointLawLaplace
 public import Lyasoff2016.SmoothBump
 public import Lyasoff2016.YPlus
 public import Lyasoff2016.YMinus
+public import Lyasoff2016.HBranch
 public import Mathlib.MeasureTheory.Function.JacobianOneDim
 public import Mathlib.Topology.ContinuousMap.Weierstrass
 
@@ -20,343 +21,6 @@ noncomputable section
 namespace Lyasoff2016
 
 section TransportEquation
-
-private def ψBranch (sgn : Bool) (F : ℝ → ℝ) (v y : ℝ) : ℝ :=
-  if (if sgn then yCrit v < y else y < yCrit v) then Real.exp (-y) * F (charA v y) else 0
-
-private def hBranch (sgn : Bool) (F : ℝ → ℝ) (v y : ℝ) : ℝ :=
-  if (if sgn then yCrit v < y else y < yCrit v) then
-    2 * (Real.sinh y - v * Real.exp (-y)) * F (charA v y)
-  else 0
-
-private lemma abs_sinh_le_cosh (y : ℝ) : |Real.sinh y| ≤ Real.cosh y := by
-  rw [Real.sinh_eq, Real.cosh_eq, abs_div, abs_of_pos (two_pos : (0 : ℝ) < 2)]
-  refine div_le_div_of_nonneg_right ?_ two_pos.le
-  refine (abs_sub _ _).trans ?_
-  rw [abs_of_pos (Real.exp_pos _), abs_of_pos (Real.exp_pos _)]
-
-private lemma hBranch_eq_mul_ψBranch (sgn : Bool) (F : ℝ → ℝ) (v y : ℝ) :
-    hBranch sgn F v y = (Real.exp (2 * y) - 2 * v - 1) * ψBranch sgn F v y := by
-  have hmul : Real.exp (2 * y) * Real.exp (-y) = Real.exp y := by
-    rw [← Real.exp_add]; congr 1; ring
-  have halg : 2 * (Real.sinh y - v * Real.exp (-y)) * F (charA v y) =
-      (Real.exp (2 * y) - 2 * v - 1) * (Real.exp (-y) * F (charA v y)) := by
-    calc 2 * (Real.sinh y - v * Real.exp (-y)) * F (charA v y)
-        = (Real.exp y - Real.exp (-y) - 2 * v * Real.exp (-y)) * F (charA v y) := by
-            rw [Real.sinh_eq]; ring
-      _ = (Real.exp (2 * y) * Real.exp (-y) - Real.exp (-y) - 2 * v * Real.exp (-y)) * F (charA v y) := by
-            rw [hmul]
-      _ = (Real.exp (2 * y) - 2 * v - 1) * (Real.exp (-y) * F (charA v y)) := by ring
-  unfold hBranch ψBranch
-  cases sgn <;> simp only [Bool.false_eq_true, ↓reduceIte]
-  · split_ifs
-    · exact halg
-    · ring
-  · split_ifs
-    · exact halg
-    · ring
-
-private lemma branch_compactSupport_bound {F : ℝ → ℝ} (hFC : HasCompactSupport F) :
-    ∃ R > 0, ∀ sgn v, 0 ≤ v → ∀ y, R ≤ |y| →
-      ψBranch sgn F v y = 0 ∧ hBranch sgn F v y = 0 := by
-  obtain ⟨M, hM0, hM⟩ : ∃ M > 0, ∀ a, M ≤ |a| → F a = 0 := by
-    obtain ⟨M, hM⟩ := hFC.isCompact.isBounded.subset_closedBall (0 : ℝ)
-    refine ⟨max M 1 + 1, by positivity, fun a ha => ?_⟩
-    by_contra hne
-    have hmem : a ∈ tsupport F := subset_tsupport F hne
-    have := hM hmem
-    rw [Metric.mem_closedBall, dist_zero_right, Real.norm_eq_abs] at this
-    linarith [le_max_left M 1, le_max_right M 1]
-  refine ⟨max (Real.log (2 * (M + 1))) 1, by positivity, fun sgn v hv y hy => ?_⟩
-  have hlog : Real.log (2 * (M + 1)) ≤ |y| := (le_max_left _ _).trans hy
-  have hexp : 2 * (M + 1) ≤ Real.exp |y| := by
-    rw [← Real.exp_log (by positivity : 0 < 2 * (M + 1))]
-    exact Real.exp_le_exp.mpr hlog
-  have hA : M ≤ |charA v y| := by
-    have h1 := charA.lower_bound hv (y := y)
-    have h2 : 0 ≤ charA v y := (by positivity : 0 ≤ Real.exp |y| / 2).trans h1
-    rw [abs_of_nonneg h2]
-    linarith
-  have hF0 : F (charA v y) = 0 := hM (charA v y) hA
-  simp [ψBranch, hBranch, hF0]
-
-private lemma ψBranch_contDiff {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F)
-    {v₀ a₀ : ℝ} (_hv₀ : 0 ≤ v₀) (ha₀ : Real.sqrt (1 + 2 * v₀) < a₀)
-    (hF0 : ∀ a ≤ a₀, F a = 0) (sgn : Bool) {v : ℝ} (hv : 0 ≤ v) (hvv₀ : v ≤ v₀) :
-    ContDiff ℝ 3 (ψBranch sgn F v) := by
-  rw [contDiff_iff_contDiffAt]
-  intro y
-  have hcrit : charA v (yCrit v) < a₀ := by
-    rw [charA.yCrit hv]
-    exact lt_of_le_of_lt (Real.sqrt_le_sqrt (by linarith)) ha₀
-  rcases lt_trichotomy (yCrit v) y with hy | hy | hy
-  · have hF_smooth : ContDiffAt ℝ 3 (fun y' => Real.exp (-y') * F (charA v y')) y := by
-      have hA : ContDiff ℝ 3 (charA v) := by unfold charA; fun_prop
-      exact (contDiff_id.neg.exp.contDiffAt).mul ((hF.comp hA).contDiffAt)
-    cases sgn
-    · have h_ev : ψBranch false F v =ᶠ[𝓝 y] fun _ => (0 : ℝ) := by
-        filter_upwards [eventually_gt_nhds hy] with y' hy'
-        simp [ψBranch, not_lt.mpr hy'.le]
-      exact contDiffAt_const.congr_of_eventuallyEq h_ev
-    · have h_ev : ψBranch true F v =ᶠ[𝓝 y] fun y' => Real.exp (-y') * F (charA v y') := by
-        filter_upwards [eventually_gt_nhds hy] with y' hy'
-        simp [ψBranch, hy']
-      exact hF_smooth.congr_of_eventuallyEq h_ev
-  · have hAcont : Continuous (charA v) := by unfold charA; fun_prop
-    have h_nhds : {y' : ℝ | charA v y' < a₀} ∈ 𝓝 (yCrit v) :=
-      hAcont.continuousAt.preimage_mem_nhds (Iio_mem_nhds hcrit)
-    have h_ev : ψBranch sgn F v =ᶠ[𝓝 y] fun _ => (0 : ℝ) := by
-      rw [← hy]
-      filter_upwards [h_nhds] with y' hy'
-      simp [ψBranch, hF0 _ (le_of_lt hy')]
-    exact contDiffAt_const.congr_of_eventuallyEq h_ev
-  · have hF_smooth : ContDiffAt ℝ 3 (fun y' => Real.exp (-y') * F (charA v y')) y := by
-      have hA : ContDiff ℝ 3 (charA v) := by unfold charA; fun_prop
-      exact (contDiff_id.neg.exp.contDiffAt).mul ((hF.comp hA).contDiffAt)
-    cases sgn
-    · have h_ev : ψBranch false F v =ᶠ[𝓝 y] fun y' => Real.exp (-y') * F (charA v y') := by
-        filter_upwards [eventually_lt_nhds hy] with y' hy'
-        simp [ψBranch, hy']
-      exact hF_smooth.congr_of_eventuallyEq h_ev
-    · have h_ev : ψBranch true F v =ᶠ[𝓝 y] fun _ => (0 : ℝ) := by
-        filter_upwards [eventually_lt_nhds hy] with y' hy'
-        simp [ψBranch, not_lt.mpr hy'.le]
-      exact contDiffAt_const.congr_of_eventuallyEq h_ev
-
-private lemma ψBranch_hasCompactSupport {F : ℝ → ℝ} (hFC : HasCompactSupport F)
-    (sgn : Bool) {v : ℝ} (hv : 0 ≤ v) :
-    HasCompactSupport (ψBranch sgn F v) := by
-  obtain ⟨R, hR0, hR⟩ := branch_compactSupport_bound hFC
-  refine HasCompactSupport.of_support_subset_isCompact (isCompact_Icc (a := -R) (b := R)) ?_
-  intro y hy
-  by_contra hnot
-  have habs : R ≤ |y| := by
-    simp only [mem_Icc, not_and_or, not_le] at hnot
-    rcases hnot with h | h
-    · exact le_trans (by linarith) (neg_le_abs y)
-    · exact le_trans h.le (le_abs_self y)
-  exact hy (hR sgn v hv y habs).1
-
-private lemma hasDerivAt_hBranch_v {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F)
-    {v₀ a₀ : ℝ} (_hv₀ : 0 ≤ v₀) (_ha₀ : Real.sqrt (1 + 2 * v₀) < a₀)
-    (hF0 : ∀ a ≤ a₀, F a = 0) (sgn : Bool) {δ : ℝ}
-    (hδ : Real.sqrt (1 + 2 * (v₀ + δ)) < a₀) (_hδ0 : 0 < δ)
-    {v : ℝ} (hv : 0 < v) (hvv₀ : v < v₀ + δ) (y : ℝ) :
-    HasDerivAt (fun v' => hBranch sgn F v' y) (2 * deriv (ψBranch sgn F v) y) v := by
-  have hF1 : ContDiff ℝ 1 F := hF.of_le (by norm_num)
-  have hFdiff : Differentiable ℝ F := hF1.differentiable (by norm_num)
-  have hcrit : charA v (yCrit v) < a₀ := by
-    rw [charA.yCrit hv.le]
-    exact lt_of_le_of_lt (Real.sqrt_le_sqrt (by linarith)) hδ
-  have hyCrit_at : ContinuousAt yCrit v := by
-    have h12v : (1 + 2 * v) ≠ 0 := by linarith
-    exact continuousAt_const.mul (ContinuousAt.log (by fun_prop) h12v)
-  rcases lt_trichotomy (yCrit v) y with hy | hy | hy
-  · have h_ev_v : ∀ᶠ v' in 𝓝 v,
-        hBranch sgn F v' y = if sgn then 2 * (Real.sinh y - v' * Real.exp (-y)) * F (charA v' y) else 0 := by
-      filter_upwards [hyCrit_at.eventually (isOpen_Iio.mem_nhds hy)] with v' hv'
-      cases sgn <;> simp [hBranch, hv', not_lt.mpr hv'.le]
-    have h_ev_y : ψBranch sgn F v =ᶠ[𝓝 y]
-        if sgn then fun y' => Real.exp (-y') * F (charA v y') else fun _ => (0 : ℝ) := by
-      filter_upwards [eventually_gt_nhds hy] with y' hy'
-      cases sgn <;> simp [ψBranch, hy', not_lt.mpr hy'.le]
-    rw [h_ev_y.deriv_eq]
-    cases sgn
-    · simp only [Bool.false_eq_true, ↓reduceIte, deriv_const', mul_zero]
-      exact (hasDerivAt_const v (0 : ℝ)).congr_of_eventuallyEq h_ev_v
-    · simp only [↓reduceIte]
-      have hd_y : deriv (fun y' => Real.exp (-y') * F (charA v y')) y =
-          (-Real.exp (-y)) * F (charA v y) +
-          Real.exp (-y) * (deriv F (charA v y) * (Real.sinh y - v * Real.exp (-y))) := by
-        have h1 : HasDerivAt (fun y' => Real.exp (-y')) (-Real.exp (-y)) y := by
-          simpa using (hasDerivAt_id' y).neg.exp
-        have h2 : HasDerivAt (fun y' => F (charA v y'))
-            (deriv F (charA v y) * (Real.sinh y - v * Real.exp (-y))) y :=
-          (hFdiff (charA v y)).hasDerivAt.comp y (charA.hasDerivAt_y v y)
-        exact (h1.mul h2).deriv
-      rw [hd_y]
-      have hd_v : HasDerivAt (fun v' => 2 * (Real.sinh y - v' * Real.exp (-y)) * F (charA v' y))
-          (2 * (-Real.exp (-y)) * F (charA v y) +
-            2 * (Real.sinh y - v * Real.exp (-y)) * (deriv F (charA v y) * Real.exp (-y))) v := by
-        have h1 : HasDerivAt (fun v' => 2 * (Real.sinh y - v' * Real.exp (-y)))
-            (2 * (-Real.exp (-y))) v := by
-          have h := ((hasDerivAt_id' v).mul_const (Real.exp (-y))).const_sub (Real.sinh y)
-          convert h.const_mul 2 using 1; ring
-        have h2 : HasDerivAt (fun v' => F (charA v' y))
-            (deriv F (charA v y) * Real.exp (-y)) v :=
-          (hFdiff (charA v y)).hasDerivAt.comp v (charA.hasDerivAt_v v y)
-        exact h1.mul h2
-      refine hd_v.congr_of_eventuallyEq h_ev_v |>.congr_deriv ?_
-      ring
-  · have hA_cont_v : ContinuousAt (fun v' => charA v' y) v := by
-      unfold charA; fun_prop
-    have h_ev_v : ∀ᶠ v' in 𝓝 v, hBranch sgn F v' y = 0 := by
-      have h_nhds : {v' : ℝ | charA v' y < a₀} ∈ 𝓝 v :=
-        hA_cont_v.preimage_mem_nhds (Iio_mem_nhds (hy ▸ hcrit))
-      filter_upwards [h_nhds] with v' hv'
-      simp [hBranch, hF0 _ hv'.le]
-    have hA_cont_y : ContinuousAt (charA v) y := by unfold charA; fun_prop
-    have h_ev_y : ψBranch sgn F v =ᶠ[𝓝 y] fun _ => (0 : ℝ) := by
-      have h_nhds : {y' : ℝ | charA v y' < a₀} ∈ 𝓝 y :=
-        hA_cont_y.preimage_mem_nhds (Iio_mem_nhds (hy ▸ hcrit))
-      filter_upwards [h_nhds] with y' hy'
-      simp [ψBranch, hF0 _ hy'.le]
-    rw [h_ev_y.deriv_eq, deriv_const', mul_zero]
-    exact (hasDerivAt_const v (0 : ℝ)).congr_of_eventuallyEq h_ev_v
-  · have h_ev_v : ∀ᶠ v' in 𝓝 v,
-        hBranch sgn F v' y = if sgn then 0 else 2 * (Real.sinh y - v' * Real.exp (-y)) * F (charA v' y) := by
-      filter_upwards [hyCrit_at.eventually (isOpen_Ioi.mem_nhds hy)] with v' hv'
-      cases sgn <;> simp [hBranch, hv', not_lt.mpr hv'.le]
-    have h_ev_y : ψBranch sgn F v =ᶠ[𝓝 y]
-        if sgn then fun _ => (0 : ℝ) else fun y' => Real.exp (-y') * F (charA v y') := by
-      filter_upwards [eventually_lt_nhds hy] with y' hy'
-      cases sgn <;> simp [ψBranch, hy', not_lt.mpr hy'.le]
-    rw [h_ev_y.deriv_eq]
-    cases sgn
-    · simp only [Bool.false_eq_true, ↓reduceIte]
-      have hd_y : deriv (fun y' => Real.exp (-y') * F (charA v y')) y =
-          (-Real.exp (-y)) * F (charA v y) +
-          Real.exp (-y) * (deriv F (charA v y) * (Real.sinh y - v * Real.exp (-y))) := by
-        have h1 : HasDerivAt (fun y' => Real.exp (-y')) (-Real.exp (-y)) y := by
-          simpa using (hasDerivAt_id' y).neg.exp
-        have h2 : HasDerivAt (fun y' => F (charA v y'))
-            (deriv F (charA v y) * (Real.sinh y - v * Real.exp (-y))) y :=
-          (hFdiff (charA v y)).hasDerivAt.comp y (charA.hasDerivAt_y v y)
-        exact (h1.mul h2).deriv
-      rw [hd_y]
-      have hd_v : HasDerivAt (fun v' => 2 * (Real.sinh y - v' * Real.exp (-y)) * F (charA v' y))
-          (2 * (-Real.exp (-y)) * F (charA v y) +
-            2 * (Real.sinh y - v * Real.exp (-y)) * (deriv F (charA v y) * Real.exp (-y))) v := by
-        have h1 : HasDerivAt (fun v' => 2 * (Real.sinh y - v' * Real.exp (-y)))
-            (2 * (-Real.exp (-y))) v := by
-          have h := ((hasDerivAt_id' v).mul_const (Real.exp (-y))).const_sub (Real.sinh y)
-          convert h.const_mul 2 using 1; ring
-        have h2 : HasDerivAt (fun v' => F (charA v' y))
-            (deriv F (charA v y) * Real.exp (-y)) v :=
-          (hFdiff (charA v y)).hasDerivAt.comp v (charA.hasDerivAt_v v y)
-        exact h1.mul h2
-      refine hd_v.congr_of_eventuallyEq h_ev_v |>.congr_deriv ?_
-      ring
-    · simp only [↓reduceIte, deriv_const', mul_zero]
-      exact (hasDerivAt_const v (0 : ℝ)).congr_of_eventuallyEq h_ev_v
-
-private lemma hBranch_continuous {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F)
-    {v₀ a₀ : ℝ} (hv₀ : 0 ≤ v₀) (ha₀ : Real.sqrt (1 + 2 * v₀) < a₀)
-    (hF0 : ∀ a ≤ a₀, F a = 0) (sgn : Bool) {v : ℝ} (hv : 0 ≤ v) (hvv₀ : v ≤ v₀) :
-    Continuous (hBranch sgn F v) := by
-  have heq : hBranch sgn F v = fun y => (Real.exp (2 * y) - 2 * v - 1) * ψBranch sgn F v y := by
-    funext y; exact hBranch_eq_mul_ψBranch sgn F v y
-  rw [heq]
-  have hψc : Continuous (ψBranch sgn F v) :=
-    (ψBranch_contDiff hF hv₀ ha₀ hF0 sgn hv hvv₀).continuous
-  fun_prop
-
-private lemma deriv_ψBranch_continuous {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F)
-    {v₀ a₀ : ℝ} (hv₀ : 0 ≤ v₀) (ha₀ : Real.sqrt (1 + 2 * v₀) < a₀)
-    (hF0 : ∀ a ≤ a₀, F a = 0) (sgn : Bool) {v : ℝ} (hv : 0 ≤ v) (hvv₀ : v ≤ v₀) :
-    Continuous (deriv (ψBranch sgn F v)) := by
-  have hψ3 := ψBranch_contDiff hF hv₀ ha₀ hF0 sgn hv hvv₀
-  exact ((contDiff_succ_iff_deriv (n := 2)).mp hψ3).2.2.continuous
-
-private lemma deriv_ψBranch_bound {F : ℝ → ℝ} (hF : ContDiff ℝ 3 F) (_hFC : HasCompactSupport F)
-    {v₀ a₀ : ℝ} (hv₀ : 0 ≤ v₀) (ha₀ : Real.sqrt (1 + 2 * v₀) < a₀)
-    (hF0 : ∀ a ≤ a₀, F a = 0) (sgn : Bool) {R CF : ℝ} (hR0 : 0 < R) (hCF0 : 0 ≤ CF)
-    (hR : ∀ sgn' v', 0 ≤ v' → ∀ y, R ≤ |y| → ψBranch sgn' F v' y = 0 ∧ hBranch sgn' F v' y = 0)
-    (hF_bdd : ∀ a, |F a| ≤ CF) (hF'_bdd : ∀ a, |deriv F a| ≤ CF)
-    {v : ℝ} (hv : 0 ≤ v) (hvv₀ : v ≤ v₀) (y : ℝ) :
-    |deriv (ψBranch sgn F v) y| ≤
-      Real.exp R * CF + Real.exp R * CF * (Real.cosh R + v₀ * Real.exp R) := by
-  have hF1 : ContDiff ℝ 1 F := hF.of_le (by norm_num)
-  have hFdiff : Differentiable ℝ F := hF1.differentiable (by norm_num)
-  by_cases hyR : R < |y|
-  · have h_ev : ψBranch sgn F v =ᶠ[𝓝 y] fun _ => (0 : ℝ) := by
-      have h_nhds : {y' : ℝ | R < |y'|} ∈ 𝓝 y :=
-        isOpen_lt continuous_const continuous_abs |>.mem_nhds hyR
-      filter_upwards [h_nhds] with y' hy'
-      exact (hR sgn v hv y' hy'.le).1
-    rw [h_ev.deriv_eq, deriv_const', abs_zero]
-    have hc : 0 ≤ Real.cosh R + v₀ * Real.exp R := by positivity
-    positivity
-  · have hyR' : |y| ≤ R := not_lt.mp hyR
-    have hcrit : charA v (yCrit v) < a₀ := by
-      rw [charA.yCrit hv]
-      exact lt_of_le_of_lt (Real.sqrt_le_sqrt (by linarith)) ha₀
-    have hexp_le : Real.exp (-y) ≤ Real.exp R := Real.exp_le_exp.mpr ((neg_le_abs y).trans hyR')
-    have hfac_le : |Real.sinh y - v * Real.exp (-y)| ≤ Real.cosh R + v₀ * Real.exp R := by
-      calc |Real.sinh y - v * Real.exp (-y)|
-          ≤ |Real.sinh y| + |v * Real.exp (-y)| := abs_sub _ _
-        _ ≤ Real.cosh y + v * Real.exp (-y) := by
-            rw [abs_mul, abs_of_nonneg hv, abs_of_pos (Real.exp_pos _)]
-            exact add_le_add (abs_sinh_le_cosh y) le_rfl
-        _ ≤ Real.cosh R + v₀ * Real.exp R :=
-            add_le_add (Real.cosh_le_cosh.mpr (by rw [abs_of_pos hR0]; exact hyR'))
-              (mul_le_mul hvv₀ hexp_le (Real.exp_pos _).le hv₀)
-    have hval_le : |-Real.exp (-y) * F (charA v y) +
-          Real.exp (-y) * (deriv F (charA v y) * (Real.sinh y - v * Real.exp (-y)))| ≤
-        Real.exp R * CF + Real.exp R * CF * (Real.cosh R + v₀ * Real.exp R) := by
-      refine (abs_add_le _ _).trans (add_le_add ?_ ?_)
-      · rw [abs_mul, abs_neg, abs_of_pos (Real.exp_pos _)]
-        exact mul_le_mul hexp_le (hF_bdd _) (abs_nonneg _) (Real.exp_pos _).le
-      · rw [abs_mul, abs_of_pos (Real.exp_pos _), abs_mul]
-        calc Real.exp (-y) * (|deriv F (charA v y)| * |Real.sinh y - v * Real.exp (-y)|)
-            ≤ Real.exp R * (CF * (Real.cosh R + v₀ * Real.exp R)) :=
-              mul_le_mul hexp_le (mul_le_mul (hF'_bdd _) hfac_le (abs_nonneg _) hCF0)
-                (by positivity) (Real.exp_pos _).le
-          _ = Real.exp R * CF * (Real.cosh R + v₀ * Real.exp R) := by ring
-    rcases lt_trichotomy (yCrit v) y with hy | hy | hy
-    · have h_ev_y : ψBranch sgn F v =ᶠ[𝓝 y]
-          if sgn then fun y' => Real.exp (-y') * F (charA v y') else fun _ => (0 : ℝ) := by
-        filter_upwards [eventually_gt_nhds hy] with y' hy'
-        cases sgn <;> simp [ψBranch, hy', not_lt.mpr hy'.le]
-      rw [h_ev_y.deriv_eq]
-      cases sgn
-      · simp only [Bool.false_eq_true, ↓reduceIte, deriv_const', abs_zero]
-        have hc : 0 ≤ Real.cosh R + v₀ * Real.exp R := by positivity
-        positivity
-      · simp only [↓reduceIte]
-        have hd_y : deriv (fun y' => Real.exp (-y') * F (charA v y')) y =
-            (-Real.exp (-y)) * F (charA v y) +
-            Real.exp (-y) * (deriv F (charA v y) * (Real.sinh y - v * Real.exp (-y))) := by
-          have h1 : HasDerivAt (fun y' => Real.exp (-y')) (-Real.exp (-y)) y := by
-            simpa using (hasDerivAt_id' y).neg.exp
-          have h2 : HasDerivAt (fun y' => F (charA v y'))
-              (deriv F (charA v y) * (Real.sinh y - v * Real.exp (-y))) y :=
-            (hFdiff (charA v y)).hasDerivAt.comp y (charA.hasDerivAt_y v y)
-          exact (h1.mul h2).deriv
-        rw [hd_y]
-        exact hval_le
-    · have hA_cont_y : ContinuousAt (charA v) y := by unfold charA; fun_prop
-      have h_ev_y : ψBranch sgn F v =ᶠ[𝓝 y] fun _ => (0 : ℝ) := by
-        have h_nhds : {y' : ℝ | charA v y' < a₀} ∈ 𝓝 y :=
-          hA_cont_y.preimage_mem_nhds (Iio_mem_nhds (hy ▸ hcrit))
-        filter_upwards [h_nhds] with y' hy'
-        simp [ψBranch, hF0 _ hy'.le]
-      rw [h_ev_y.deriv_eq, deriv_const', abs_zero]
-      have hc : 0 ≤ Real.cosh R + v₀ * Real.exp R := by positivity
-      positivity
-    · have h_ev_y : ψBranch sgn F v =ᶠ[𝓝 y]
-          if sgn then fun _ => (0 : ℝ) else fun y' => Real.exp (-y') * F (charA v y') := by
-        filter_upwards [eventually_lt_nhds hy] with y' hy'
-        cases sgn <;> simp [ψBranch, hy', not_lt.mpr hy'.le]
-      rw [h_ev_y.deriv_eq]
-      cases sgn
-      · simp only [Bool.false_eq_true, ↓reduceIte]
-        have hd_y : deriv (fun y' => Real.exp (-y')) y = -Real.exp (-y) := by
-          simpa using ((hasDerivAt_id' y).neg.exp).deriv
-        have hd_y' : deriv (fun y' => Real.exp (-y') * F (charA v y')) y =
-            (-Real.exp (-y)) * F (charA v y) +
-            Real.exp (-y) * (deriv F (charA v y) * (Real.sinh y - v * Real.exp (-y))) := by
-          have h1 : HasDerivAt (fun y' => Real.exp (-y')) (-Real.exp (-y)) y := by
-            simpa using (hasDerivAt_id' y).neg.exp
-          have h2 : HasDerivAt (fun y' => F (charA v y'))
-              (deriv F (charA v y) * (Real.sinh y - v * Real.exp (-y))) y :=
-            (hFdiff (charA v y)).hasDerivAt.comp y (charA.hasDerivAt_y v y)
-          exact (h1.mul h2).deriv
-        rw [hd_y']
-        exact hval_le
-      · simp only [↓reduceIte, deriv_const', abs_zero]
-        have hc : 0 ≤ Real.cosh R + v₀ * Real.exp R := by positivity
-        positivity
 
 private lemma transport_branch_eq {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
     [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W)
@@ -388,7 +52,7 @@ private lemma transport_branch_eq {Ω : Type*} [MeasurableSpace Ω] {P : Measure
     rw [← hω t]
   rw [hBW_lhs, hBW_rhs]
   have hXmeas : Measurable (expInt B 2 0 t) := measurable_expInt_bm hBmeas hBcont 2 t
-  obtain ⟨R, hR0, hR⟩ := branch_compactSupport_bound hFC
+  obtain ⟨R, hR0, hR⟩ := hBranch.compactSupport_bound hFC
   obtain ⟨CF, _, hCF0, _, _, hF_bdd, hF'_bdd, _, _⟩ := contDiff_three_compactSupport_bounds hF hFC
   have ha₀2 : 1 + 2 * v₀ < a₀ ^ 2 := Real.lt_sq_of_sqrt_lt ha₀
   let δ : ℝ := (a₀ ^ 2 - (1 + 2 * v₀)) / 4
@@ -408,7 +72,7 @@ private lemma transport_branch_eq {Ω : Type*} [MeasurableSpace Ω] {P : Measure
   have hΦ_meas : ∀ v ∈ Icc (0 : ℝ) vMax, AEStronglyMeasurable (Φ v) P := by
     intro v ⟨hv0, hvM⟩
     have hc : Continuous (hBranch sgn F v) :=
-      hBranch_continuous hF hvMax0 hvMax_lt hF0 sgn hv0 hvM
+      hBranch.continuous hF hvMax0 hvMax_lt hF0 sgn hv0 hvM
     have hm1 : Measurable (fun ω => hBranch sgn F v (B t ω)) := hc.measurable.comp (hBmeas t)
     have hm2 : Measurable (fun ω => Real.exp (-v / expInt B 2 0 t ω)) :=
       Real.continuous_exp.measurable.comp (measurable_const.div hXmeas)
@@ -471,9 +135,9 @@ private lemma transport_branch_eq {Ω : Type*} [MeasurableSpace Ω] {P : Measure
         ((hΦ_bdd v ⟨hv0.le, hvvM.le⟩).mono fun ω hω => by simpa [Real.norm_eq_abs] using hω)
     have hΦ'_meas : AEStronglyMeasurable (Φ' v) P := by
       have hψc : Continuous (ψBranch sgn F v) :=
-        (ψBranch_contDiff hF hvMax0 hvMax_lt hF0 sgn hv0.le hvvM.le).continuous
+        (ψBranch.contDiff hF hvMax0 hvMax_lt hF0 sgn hv0.le hvvM.le).continuous
       have hψ'c : Continuous (deriv (ψBranch sgn F v)) :=
-        deriv_ψBranch_continuous hF hvMax0 hvMax_lt hF0 sgn hv0.le hvvM.le
+        ψBranch.deriv_continuous hF hvMax0 hvMax_lt hF0 sgn hv0.le hvvM.le
       have hm1 : Measurable (fun ω => ψBranch sgn F v (B t ω)) := hψc.measurable.comp (hBmeas t)
       have hm2 : Measurable (fun ω => deriv (ψBranch sgn F v) (B t ω)) := hψ'c.measurable.comp (hBmeas t)
       have hm3 : Measurable (B t) := hBmeas t
@@ -495,7 +159,8 @@ private lemma transport_branch_eq {Ω : Type*} [MeasurableSpace Ω] {P : Measure
       set y := B t ω
       have hd1 : |deriv (ψBranch sgn F v') y| ≤
           Real.exp R * CF + Real.exp R * CF * (Real.cosh R + vMax * Real.exp R) :=
-        deriv_ψBranch_bound hF hFC hvMax0 hvMax_lt hF0 sgn hR0 hCF0 hR hF_bdd hF'_bdd hv'0.le hv'M y
+        ψBranch.deriv_bound hF hFC hvMax0 hvMax_lt hF0 sgn hR0 hCF0
+          (fun sgn' v' hv' y hy => (hR sgn' v' hv' y hy).1) hF_bdd hF'_bdd hv'0.le hv'M y
       have hhexp1 : Real.exp (-v' / x) ≤ 1 :=
         Real.exp_le_one_iff.mpr (div_nonpos_of_nonpos_of_nonneg (neg_nonpos.mpr hv'0.le) hω.le)
       have hhexp2 : x⁻¹ * Real.exp (-v' / x) ≤ 1 / (Real.exp 1 * (v₁ / 2)) := by
@@ -525,7 +190,7 @@ private lemma transport_branch_eq {Ω : Type*} [MeasurableSpace Ω] {P : Measure
           (2 * (Real.cosh R + vMax * Real.exp R) * CF) * (1 / (Real.exp 1 * (v₁ / 2))) := by
         have heq_h : (2 * v' + 1 - Real.exp (2 * y)) / x * ψBranch sgn F v' y =
             -(hBranch sgn F v' y * x⁻¹) := by
-          rw [hBranch_eq_mul_ψBranch]; ring
+          rw [hBranch.eq_mul_ψBranch]; ring
         rw [heq_h, neg_mul, abs_neg, mul_assoc, abs_mul, abs_mul, abs_of_pos (inv_pos.mpr hω),
           abs_of_pos (Real.exp_pos _)]
         exact mul_le_mul (h_hBranch_bdd v' ⟨hv'0.le, hv'M⟩ y) hhexp2 (by positivity) (by positivity)
@@ -553,14 +218,14 @@ private lemma transport_branch_eq {Ω : Type*} [MeasurableSpace Ω] {P : Measure
       set x := expInt B 2 0 t ω
       set y := B t ω
       have h1 : HasDerivAt (fun u => hBranch sgn F u y) (2 * deriv (ψBranch sgn F v') y) v' :=
-        hasDerivAt_hBranch_v hF hv₀.le ha₀ hF0 sgn hδ hδ0 hv'0 hv'M y
+        hBranch.hasDerivAt_v hF hv₀.le ha₀ hF0 sgn hδ hδ0 hv'0 hv'M y
       have h2 : HasDerivAt (fun u => Real.exp (-u / x)) ((-1 / x) * Real.exp (-v' / x)) v' := by
         have hlin : HasDerivAt (fun u : ℝ => -u / x) (-1 / x) v' := by
           simpa using ((hasDerivAt_id' v').neg).div_const x
         simpa [mul_comm] using hlin.exp
       have hprod := h1.mul h2
       refine hprod.congr_deriv ?_
-      have heq_h := hBranch_eq_mul_ψBranch sgn F v' y
+      have heq_h := hBranch.eq_mul_ψBranch sgn F v' y
       rw [heq_h]
       dsimp only [Φ', x, y]
       simp only [div_eq_mul_inv, neg_mul]
@@ -569,8 +234,8 @@ private lemma transport_branch_eq {Ω : Type*} [MeasurableSpace Ω] {P : Measure
     have h_param := hasDerivAt_integral_of_dominated_loc_of_deriv_le hs_nhds hΦ_ev_meas hΦ_int
       hΦ'_meas h_bound (integrable_const K) h_diff
     have h_fp : ∫ ω, Φ' v ω ∂P = 0 := by
-      have hψ3 := ψBranch_contDiff hF hvMax0 hvMax_lt hF0 sgn hv0.le hvvM.le
-      have hψC := ψBranch_hasCompactSupport hFC sgn hv0.le
+      have hψ3 := ψBranch.contDiff hF hvMax0 hvMax_lt hF0 sgn hv0.le hvvM.le
+      have hψC := ψBranch.hasCompactSupport hFC sgn hv0.le
       exact jointLaw_two_dist_fp B hBbm t ht hv0 hψ3 hψC
     rw [h_fp] at h_param
     exact h_param.2
@@ -685,7 +350,7 @@ private lemma branch_eval_zero {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω
         hBranch sgn F v₀ y * gaussianPDFReal 0 t (Real.arcosh (charA v₀ y)) := by
   have hFcont : Continuous F := hF.continuous
   have h0cont : Continuous (hBranch sgn F 0) :=
-    hBranch_continuous hF hv₀.le ha₀ hF0 sgn le_rfl hv₀.le
+    hBranch.continuous hF hv₀.le ha₀ hF0 sgn le_rfl hv₀.le
   have hlaw : HasLaw (W t) (gaussianReal 0 t) P := hW.hasLaw_eval t
   have hmap : ∫ ω, hBranch sgn F 0 (W t ω) ∂P = ∫ y, hBranch sgn F 0 y ∂(gaussianReal 0 t) := by
     rw [← hlaw.map_eq, integral_map hlaw.aemeasurable h0cont.aestronglyMeasurable]

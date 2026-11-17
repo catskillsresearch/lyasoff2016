@@ -16,6 +16,7 @@ digraph Lyasoff2016_files {
   "Lyasoff2016.FokkerPlanck" [label="FokkerPlanck", fillcolor="#bbf7d0", color="#15803d"];
   "Lyasoff2016.Foliation" [label="Foliation", fillcolor="#bbf7d0", color="#15803d"];
   "Lyasoff2016.GammaMoment" [label="GammaMoment", fillcolor="#bfdbfe", color="#1d4ed8"];
+  "Lyasoff2016.HBranch" [label="HBranch", fillcolor="#bfdbfe", color="#1d4ed8"];
   "Lyasoff2016.IgDensity" [label="IgDensity", fillcolor="#bfdbfe", color="#1d4ed8"];
   "Lyasoff2016.IntegralMoments" [label="IntegralMoments", fillcolor="#bfdbfe", color="#1d4ed8"];
   "Lyasoff2016.IntegralReps" [label="IntegralReps", fillcolor="#bbf7d0", color="#15803d"];
@@ -25,6 +26,7 @@ digraph Lyasoff2016_files {
   "Lyasoff2016.JointLawLaplaceInv" [label="JointLawLaplaceInv", fillcolor="#bfdbfe", color="#1d4ed8"];
   "Lyasoff2016.MomentUniqueness" [label="MomentUniqueness", fillcolor="#bfdbfe", color="#1d4ed8"];
   "Lyasoff2016.Prop22Classical" [label="Prop22Classical", fillcolor="#bfdbfe", color="#1d4ed8"];
+  "Lyasoff2016.PsiBranch" [label="PsiBranch", fillcolor="#bfdbfe", color="#1d4ed8"];
   "Lyasoff2016.Setting" [label="Setting", fillcolor="#bbf7d0", color="#15803d"];
   "Lyasoff2016.SmoothBump" [label="SmoothBump", fillcolor="#bfdbfe", color="#1d4ed8"];
   "Lyasoff2016.SmoothStepLeft" [label="SmoothStepLeft", fillcolor="#bfdbfe", color="#1d4ed8"];
@@ -66,17 +68,20 @@ digraph Lyasoff2016_files {
   "Lyasoff2016.FokkerPlanck" -> "Lyasoff2016.MomentUniqueness";
   "Lyasoff2016.Foliation" -> "Lyasoff2016.FokkerPlanck";
   "Lyasoff2016.GammaMoment" -> "Lyasoff2016.IgDensity";
+  "Lyasoff2016.HBranch" -> "Lyasoff2016.PsiBranch";
   "Lyasoff2016.IgDensity" -> "Lyasoff2016.Setting";
   "Lyasoff2016.IntegralMoments" -> "Lyasoff2016.Setting";
   "Lyasoff2016.IntegralReps" -> "Lyasoff2016.Foliation";
   "Lyasoff2016.IntegralReps" -> "Lyasoff2016.YorClassical";
   "Lyasoff2016.JointFokkerPlanckIto" -> "Lyasoff2016.Setting";
   "Lyasoff2016.JointLawLaplace" -> "Lyasoff2016.DistFokkerPlanck";
+  "Lyasoff2016.JointLawLaplaceInv" -> "Lyasoff2016.HBranch";
   "Lyasoff2016.JointLawLaplaceInv" -> "Lyasoff2016.JointLawLaplace";
   "Lyasoff2016.JointLawLaplaceInv" -> "Lyasoff2016.SmoothBump";
   "Lyasoff2016.JointLawLaplaceInv" -> "Lyasoff2016.YMinus";
   "Lyasoff2016.JointLawLaplaceInv" -> "Lyasoff2016.YPlus";
   "Lyasoff2016.Prop22Classical" -> "Lyasoff2016.YorAnalytic";
+  "Lyasoff2016.PsiBranch" -> "Lyasoff2016.CharA";
   "Lyasoff2016.Setting" -> "Lyasoff2016.BMFunctionalLaw";
   "Lyasoff2016.Setting" -> "Lyasoff2016.TimeReversal";
   "Lyasoff2016.SmoothBump" -> "Lyasoff2016.SmoothStepLeft";
