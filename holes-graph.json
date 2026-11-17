@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-17T15:41:04Z",
-  "sorryCount": 0,
+  "updated": "2026-11-17T15:48:00Z",
+  "sorryCount": 10,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
     "blocked": "Waiting on incomplete required proof-deps",
@@ -12,7 +12,7 @@
     "Done = no local sorry and every hard predecessor is done (no unproven\u2192proven).",
     "Blue = done. Green = open. Grey = blocked.",
     "Regenerate with: python3 scripts/build_holes.py",
-    "Open tips: (none)."
+    "Open tips: g_solves_contour_equation, yor_formula_classical."
   ],
   "nodes": [
     {
@@ -244,8 +244,8 @@
       "id": "g_solves_contour_equation",
       "label": "g contour eq",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:109",
-      "status": "done",
+      "file": "Lyasoff2016/IntegralReps.lean:105",
+      "status": "open",
       "blocker": null,
       "detail": "g_{t,p} solves the contour equation for a \u2208 [\u03c0/2, 3\u03c0/2]."
     },
@@ -253,8 +253,8 @@
       "id": "yor_formula_classical",
       "label": "Yor classical",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:231",
-      "status": "done",
+      "file": "Lyasoff2016/IntegralReps.lean:227",
+      "status": "open",
       "blocker": null,
       "detail": "Yor's joint density (1.1) as an independent classical input."
     },
@@ -262,7 +262,7 @@
       "id": "remark_5_1",
       "label": "Rem 5.1",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:222",
+      "file": "Lyasoff2016/IntegralReps.lean:218",
       "status": "done",
       "blocker": null,
       "detail": "\u03c0-formula p=2, \u03c3=2 recovers Yor."
@@ -271,18 +271,18 @@
       "id": "pi_formula",
       "label": "\u03c0 / \u03c0/2",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:270",
-      "status": "done",
-      "blocker": null,
+      "file": "Lyasoff2016/IntegralReps.lean:258",
+      "status": "blocked",
+      "blocker": "needs g_solves_contour_equation, yor_formula_classical",
       "detail": "Joint density via \u03c0 and \u03c0/2 formulae for p=2,3,4."
     },
     {
       "id": "yor_formula",
       "label": "Yor via Rem 5.1",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:238",
-      "status": "done",
-      "blocker": null,
+      "file": "Lyasoff2016/IntegralReps.lean:234",
+      "status": "blocked",
+      "blocker": "needs yor_formula_classical",
       "detail": "yor_formula := yor_formula_classical (or Rem 5.1 route)."
     },
     {
@@ -316,54 +316,54 @@
       "id": "asian_price_formula",
       "label": "Asian price",
       "section": 6,
-      "file": "Lyasoff2016/Asian.lean:395",
-      "status": "done",
-      "blocker": null,
+      "file": "Lyasoff2016/Asian.lean:389",
+      "status": "blocked",
+      "blocker": "needs pi_formula",
       "detail": "Call = \u222c Re F from \u03c0/2-formula p=4."
     },
     {
       "id": "asian_delta",
       "label": "Asian delta",
       "section": 6,
-      "file": "Lyasoff2016/Asian.lean:502",
-      "status": "done",
-      "blocker": null,
+      "file": "Lyasoff2016/Asian.lean:490",
+      "status": "blocked",
+      "blocker": "needs asian_price_formula",
       "detail": "Strike derivative = \u222c Re F\u2032."
     },
     {
       "id": "table1_asian_enclosure",
       "label": "Table 1",
       "section": 6,
-      "file": "Lyasoff2016/TableClaim.lean:114",
-      "status": "done",
-      "blocker": null,
+      "file": "Lyasoff2016/TableClaim.lean:108",
+      "status": "blocked",
+      "blocker": "needs asian_price_formula",
       "detail": "Interval certificate for Table 1 (T=1/2, \u03c3=0.22)."
     },
     {
       "id": "table2_asian_enclosure",
       "label": "Table 2",
       "section": 6,
-      "file": "Lyasoff2016/TableClaim.lean:128",
-      "status": "done",
-      "blocker": null,
+      "file": "Lyasoff2016/TableClaim.lean:116",
+      "status": "blocked",
+      "blocker": "needs asian_price_formula",
       "detail": "Interval certificate for Table 2 (T=1/2, \u03c3=1/3)."
     },
     {
       "id": "table3_asian_enclosure",
       "label": "Table 3",
       "section": 6,
-      "file": "Lyasoff2016/TableClaim.lean:142",
-      "status": "done",
-      "blocker": null,
+      "file": "Lyasoff2016/TableClaim.lean:124",
+      "status": "blocked",
+      "blocker": "needs asian_price_formula",
       "detail": "Interval certificate for Table 3 (T=1, \u03c3=0.22)."
     },
     {
       "id": "table4_asian_enclosure",
       "label": "Table 4",
       "section": 6,
-      "file": "Lyasoff2016/TableClaim.lean:156",
-      "status": "done",
-      "blocker": null,
+      "file": "Lyasoff2016/TableClaim.lean:132",
+      "status": "blocked",
+      "blocker": "needs asian_price_formula",
       "detail": "Interval certificate for Table 4 (T=1, \u03c3=1/3)."
     }
   ],

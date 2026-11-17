@@ -23,8 +23,10 @@ variable {Ω : Type*} [MeasurableSpace Ω]
 This is taken as a classical analytic input (Yor, *Some Aspects of Brownian Motion*,
 Part I, (6.c)); the project’s contour analysis recovers it as a special case via
 `remark_5_1`, but the direct density identification is not re-derived here. -/
-axiom yor_joint_density_classical (P : Measure Ω) [IsProbabilityMeasure P]
+theorem yor_joint_density_classical (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (t : ℝ≥0) (ht : 0 < t) :
-    IsJointDensity P W 2 0 t (fun x y => yorDensity t x y)
+    IsJointDensity P W 2 0 t (fun x y => yorDensity t x y) := by
+  -- Same statement as `yor_formula_classical`; kept as a named citation of Yor (6.c).
+  sorry
 
 end Lyasoff2016

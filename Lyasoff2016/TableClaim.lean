@@ -104,60 +104,36 @@ theorem table4_claim (i : Fin 6) :
    Taken as classical numerical certificates from the paper (high-precision quadrature
    of `∬ Re F`); not re-derived here by interval arithmetic. -/
 
-/-- Classical Table 1 enclosure (Lyasoff p. 1094). -/
-axiom table1_asian_enclosure_classical {Ω : Type*} [MeasurableSpace Ω]
-    (P : Measure Ω) [IsProbabilityMeasure P]
-    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (i : Fin 6) :
-    |asianCall P W (22 / 100) (5 / 200 - (22 / 100) ^ 2 / 2) (1 / 2 : ℝ≥0)
-        (tableStrikes i) - (table1 i : ℝ)| ≤ table1Params.err0
-
+/-- Table 1 enclosure (Lyasoff p. 1094); hole: classical numerical certificate. -/
 theorem table1_asian_enclosure {Ω : Type*} [MeasurableSpace Ω]
     (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (i : Fin 6) :
     |asianCall P W (22 / 100) (5 / 200 - (22 / 100) ^ 2 / 2) (1 / 2 : ℝ≥0)
-        (tableStrikes i) - (table1 i : ℝ)| ≤ table1Params.err0 :=
-  table1_asian_enclosure_classical P W hW i
+        (tableStrikes i) - (table1 i : ℝ)| ≤ table1Params.err0 := by
+  sorry
 
-/-- Classical Table 2 enclosure (Lyasoff p. 1094). -/
-axiom table2_asian_enclosure_classical {Ω : Type*} [MeasurableSpace Ω]
-    (P : Measure Ω) [IsProbabilityMeasure P]
-    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (i : Fin 6) :
-    |asianCall P W (1 / 3) (5 / 200 - (1 / 3) ^ 2 / 2) (1 / 2 : ℝ≥0)
-        (tableStrikes i) - (table2 i : ℝ)| ≤ table2Params.err0
-
+/-- Table 2 enclosure (Lyasoff p. 1094); hole: classical numerical certificate. -/
 theorem table2_asian_enclosure {Ω : Type*} [MeasurableSpace Ω]
     (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (i : Fin 6) :
     |asianCall P W (1 / 3) (5 / 200 - (1 / 3) ^ 2 / 2) (1 / 2 : ℝ≥0)
-        (tableStrikes i) - (table2 i : ℝ)| ≤ table2Params.err0 :=
-  table2_asian_enclosure_classical P W hW i
+        (tableStrikes i) - (table2 i : ℝ)| ≤ table2Params.err0 := by
+  sorry
 
-/-- Classical Table 3 enclosure (Lyasoff p. 1095). -/
-axiom table3_asian_enclosure_classical {Ω : Type*} [MeasurableSpace Ω]
-    (P : Measure Ω) [IsProbabilityMeasure P]
-    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (i : Fin 6) :
-    |asianCall P W (22 / 100) (5 / 200 - (22 / 100) ^ 2 / 2) (1 : ℝ≥0)
-        (tableStrikes i) - (table3 i : ℝ)| ≤ table3Params.err0
-
+/-- Table 3 enclosure (Lyasoff p. 1095); hole: classical numerical certificate. -/
 theorem table3_asian_enclosure {Ω : Type*} [MeasurableSpace Ω]
     (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (i : Fin 6) :
     |asianCall P W (22 / 100) (5 / 200 - (22 / 100) ^ 2 / 2) (1 : ℝ≥0)
-        (tableStrikes i) - (table3 i : ℝ)| ≤ table3Params.err0 :=
-  table3_asian_enclosure_classical P W hW i
+        (tableStrikes i) - (table3 i : ℝ)| ≤ table3Params.err0 := by
+  sorry
 
-/-- Classical Table 4 enclosure (Lyasoff p. 1095). -/
-axiom table4_asian_enclosure_classical {Ω : Type*} [MeasurableSpace Ω]
-    (P : Measure Ω) [IsProbabilityMeasure P]
-    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (i : Fin 6) :
-    |asianCall P W (1 / 3) (5 / 200 - (1 / 3) ^ 2 / 2) (1 : ℝ≥0)
-        (tableStrikes i) - (table4 i : ℝ)| ≤ table4Params.err0
-
+/-- Table 4 enclosure (Lyasoff p. 1095); hole: classical numerical certificate. -/
 theorem table4_asian_enclosure {Ω : Type*} [MeasurableSpace Ω]
     (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (i : Fin 6) :
     |asianCall P W (1 / 3) (5 / 200 - (1 / 3) ^ 2 / 2) (1 : ℝ≥0)
-        (tableStrikes i) - (table4 i : ℝ)| ≤ table4Params.err0 :=
-  table4_asian_enclosure_classical P W hW i
+        (tableStrikes i) - (table4 i : ℝ)| ≤ table4Params.err0 := by
+  sorry
 
 end Lyasoff2016

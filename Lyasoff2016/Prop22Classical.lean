@@ -22,7 +22,7 @@ has controlled mixed partials at `0⁺`/`∞`, and Gaussian-weighted moment boun
 
 Taken as a classical analytic input of the paper; the present project uses the
 statement rather than re-deriving the Malliavin / heat-kernel construction. -/
-axiom prop_2_2_classical (P : Measure Ω) [IsProbabilityMeasure P]
+theorem prop_2_2_classical (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0)
     (hσ : 0 < σ) (ht : 0 < t) :
     ∃ φc : ℝ → ℝ → ℝ, IsCondDensity P W σ t φc ∧
@@ -34,6 +34,7 @@ axiom prop_2_2_classical (P : Measure Ω) [IsProbabilityMeasure P]
         (∫⁻ y, ENNReal.ofReal (Real.exp (-y ^ 2 / (2 * (t : ℝ)))) *
           ∫⁻ x in Ioi (0 : ℝ), ENNReal.ofReal |(x : ℝ) ^ (p : ℤ) * pd m n φc x y|) < ∞ ∧
         (∫⁻ y, ENNReal.ofReal (Real.exp (-y ^ 2 / (2 * (t : ℝ)))) *
-          ∫⁻ x in Ioi (0 : ℝ), ENNReal.ofReal |(x : ℝ) ^ (-(p : ℤ)) * pd m n φc x y|) < ∞)
+          ∫⁻ x in Ioi (0 : ℝ), ENNReal.ofReal |(x : ℝ) ^ (-(p : ℤ)) * pd m n φc x y|) < ∞) := by
+  sorry
 
 end Lyasoff2016

@@ -101,15 +101,11 @@ def contourEq (p : ℕ) (t : ℝ) (y : ℝ) (a : ℝ) : Prop :=
    a ∈ [π/2, 3π/2] and every y ∈ ℝ (residues at z = ±y via (5.5)–(5.7); the vertical sides
    cancel because g_{t,p} is even).
    STATUS: not proved in Lean; the residue computation is taken as analytic input. -/
-/-- Classical contour/residue identity (Lyasoff pp. 1082–1085), taken as analytic input. -/
-axiom g_solves_contour_equation_classical (p : ℕ) (hp : p = 2 ∨ p = 3 ∨ p = 4)
-    (t : ℝ) (ht : 0 < t) (y : ℝ) (a : ℝ) (ha : Real.pi / 2 ≤ a ∧ a ≤ 3 * Real.pi / 2) :
-    contourEq p t y a
-
+/-- Contour/residue identity (Lyasoff pp. 1082–1085); hole pending residue analysis. -/
 theorem g_solves_contour_equation (p : ℕ) (hp : p = 2 ∨ p = 3 ∨ p = 4)
     (t : ℝ) (ht : 0 < t) (y : ℝ) (a : ℝ) (ha : Real.pi / 2 ≤ a ∧ a ≤ 3 * Real.pi / 2) :
-    contourEq p t y a :=
-  g_solves_contour_equation_classical p hp t ht y a ha
+    contourEq p t y a := by
+  sorry
 
 /- Paper: (5.9b)/(5.10b), π-formula for the conditional density, normalised so that
    `gaussianPDFReal 0 t y * (σ²)⁻¹ * piFormula p σ t (x σ²) (y σ)` is the joint density.
@@ -230,8 +226,8 @@ theorem remark_5_1 (t : ℝ≥0) (x y : ℝ) (ht : 0 < t) (_hx : 0 < x) :
    at order `p = 2`; the contour derivation in §5 recovers it as a special case. -/
 theorem yor_formula_classical (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
     (hW : IsBM P W) (t : ℝ≥0) (ht : 0 < t) :
-    IsJointDensity P W 2 0 t (fun x y => yorDensity t x y) :=
-  yor_joint_density_classical P W hW t ht
+    IsJointDensity P W 2 0 t (fun x y => yorDensity t x y) := by
+  sorry
 
 /- Paper: p. 1061 (1.1) — Yor’s theorem via Remark 5.1 once the π-formula is known, or
    directly via `yor_formula_classical`. -/
@@ -258,23 +254,15 @@ theorem pi_formula_two_sigma_two (P : Measure Ω) [IsProbabilityMeasure P] (W : 
    Plain recap: both π/2 and π formulae equal the joint density for p = 2,3,4.
    Special case `p = 2`, `σ = 2` for the π-formula is also `pi_formula_two_sigma_two`
    (Yor + Remark 5.1). The general identification is classical analytic input. -/
-/-- Classical density identification for the π / π/2 formulae (Lyasoff pp. 1085–1086). -/
-axiom pi_formula_classical (P : Measure Ω) [IsProbabilityMeasure P]
-    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0)
-    (hσ : 0 < σ) (ht : 0 < t) (p : ℕ) (hp : p = 2 ∨ p = 3 ∨ p = 4) :
-    IsJointDensity P W σ 0 t (fun x y =>
-      gaussianPDFReal 0 t y * (σ ^ 2)⁻¹ * piHalfFormula p σ t (x * σ ^ 2) (y * σ)) ∧
-    IsJointDensity P W σ 0 t (fun x y =>
-      gaussianPDFReal 0 t y * (σ ^ 2)⁻¹ * piFormula p σ t (x * σ ^ 2) (y * σ))
-
+/-- Density identification for the π / π/2 formulae (Lyasoff pp. 1085–1086); hole. -/
 theorem pi_formula (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
     (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (hσ : 0 < σ) (ht : 0 < t) (p : ℕ)
     (hp : p = 2 ∨ p = 3 ∨ p = 4) :
     IsJointDensity P W σ 0 t (fun x y =>
       gaussianPDFReal 0 t y * (σ ^ 2)⁻¹ * piHalfFormula p σ t (x * σ ^ 2) (y * σ)) ∧
     IsJointDensity P W σ 0 t (fun x y =>
-      gaussianPDFReal 0 t y * (σ ^ 2)⁻¹ * piFormula p σ t (x * σ ^ 2) (y * σ)) :=
-  pi_formula_classical P W hW σ t hσ ht p hp
+      gaussianPDFReal 0 t y * (σ ^ 2)⁻¹ * piFormula p σ t (x * σ ^ 2) (y * σ)) := by
+  sorry
 
 /- Paper: Remark 5.5. -/
 theorem remark_5_5 :

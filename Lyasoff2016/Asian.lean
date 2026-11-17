@@ -383,21 +383,15 @@ def asianCall (P : Measure Ω) (W : ℝ≥0 → Ω → ℝ) (σ ν : ℝ) (t : �
    PAPER NOTE: stated as the iterated integral (inner `du`, outer `dw`), exactly as in
    (6.1); the skeleton integrated a `u`-independent integrand over all of ℝ × ℝ, which
    made the right-hand side meaningless. -/
-/-- Classical Asian pricing identity (Lyasoff pp. 1090–1093): the undiscounted call
-equals the double integral of `Re F` obtained from the π/2-formula of order 4
-after Girsanov drift and the change of variables `w = e^{σ y / 2}`. -/
-axiom asian_price_formula_classical (P : Measure Ω) [IsProbabilityMeasure P]
-    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
-    (hσ : 0 < σ) (ht : 0 < t) (hK : 0 ≤ K) :
-    asianCall P W σ ν t K =
-      ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (Ffun σ ν t K u w).re
-
+/-- Asian pricing identity (Lyasoff pp. 1090–1093): the undiscounted call equals the
+double integral of `Re F` from the π/2-formula of order 4 after Girsanov drift and
+`w = e^{σ y / 2}`. Hole: density → payoff reduction not yet formalized. -/
 theorem asian_price_formula (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
     (hW : IsBM P W) (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
     (hσ : 0 < σ) (ht : 0 < t) (hK : 0 ≤ K) :
     asianCall P W σ ν t K =
-      ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (Ffun σ ν t K u w).re :=
-  asian_price_formula_classical P W hW σ ν t K hσ ht hK
+      ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (Ffun σ ν t K u w).re := by
+  sorry
 
 /-- Consistency: at `K = 0` the pricing formula specialises. -/
 theorem asian_price_formula_k_zero (P : Measure Ω) [IsProbabilityMeasure P]
@@ -490,20 +484,14 @@ theorem hasDerivAt_integral_max_sub
   rw [← hident]
   exact hmain.2
 
-/-- Classical Asian delta identity (Lyasoff pp. 1091–1093): strike derivative of the
-call equals the double integral of `Re F'`, obtained by differentiating the pricing
-integrand under the integral sign (`SfunDerivC = ∂_k SfunC`). -/
-axiom asian_delta_classical (P : Measure Ω) [IsProbabilityMeasure P]
-    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
-    (hσ : 0 < σ) (ht : 0 < t) (hK : 0 < K) :
-    deriv (fun κ => asianCall P W σ ν t κ) K =
-      ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν t K u w).re
-
+/-- Asian delta identity (Lyasoff pp. 1091–1093): strike derivative of the call equals
+the double integral of `Re F'` (`SfunDerivC = ∂_k SfunC`). Hole: differentiation under
+the integral not yet formalized. -/
 theorem asian_delta (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
     (hW : IsBM P W) (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
     (hσ : 0 < σ) (ht : 0 < t) (hK : 0 < K) :
     deriv (fun κ => asianCall P W σ ν t κ) K =
-      ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν t K u w).re :=
-  asian_delta_classical P W hW σ ν t K hσ ht hK
+      ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν t K u w).re := by
+  sorry
 
 end Lyasoff2016

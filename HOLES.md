@@ -2,8 +2,8 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-17T15:41:04Z
-**Holes:** 0 open+blocked · 0 open · 0 blocked · 39 done.
+**Updated:** 2026-11-17T15:48:00Z
+**Holes:** 10 open+blocked · 2 open · 8 blocked · 29 done.
 
 **Live board:** [`holes.html`](holes.html) + [`holes-graph.json`](holes-graph.json).
 
@@ -14,7 +14,10 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 
 ## Open now (Layer 0)
 
-_None — every remaining hole is blocked or done._
+| Id | Label | File |
+|---|---|---|
+| `g_solves_contour_equation` | g contour eq | `Lyasoff2016/IntegralReps.lean:105` |
+| `yor_formula_classical` | Yor classical | `Lyasoff2016/IntegralReps.lean:227` |
 
 ## By section
 
@@ -63,29 +66,29 @@ _None — every remaining hole is blocked or done._
 | done | `prop_4_4` | Prop 4.4 | `Lyasoff2016/Foliation.lean:363` |
 | done | `theorem_4_5` | Thm 4.5 | `Lyasoff2016/Foliation.lean:410` |
 
-### §5 — 0 hole(s)
+### §5 — 4 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
-| done | `g_solves_contour_equation` | g contour eq | `Lyasoff2016/IntegralReps.lean:109` |
-| done | `yor_formula_classical` | Yor classical | `Lyasoff2016/IntegralReps.lean:231` |
-| done | `remark_5_1` | Rem 5.1 | `Lyasoff2016/IntegralReps.lean:222` |
-| done | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:270` |
-| done | `yor_formula` | Yor via Rem 5.1 | `Lyasoff2016/IntegralReps.lean:238` |
+| open | `g_solves_contour_equation` | g contour eq | `Lyasoff2016/IntegralReps.lean:105` |
+| open | `yor_formula_classical` | Yor classical | `Lyasoff2016/IntegralReps.lean:227` |
+| done | `remark_5_1` | Rem 5.1 | `Lyasoff2016/IntegralReps.lean:218` |
+| blocked | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:258` |
+| blocked | `yor_formula` | Yor via Rem 5.1 | `Lyasoff2016/IntegralReps.lean:234` |
 
-### §6 — 0 hole(s)
+### §6 — 6 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
 | done | `S_zero` | S_{0,p} | `Lyasoff2016/Asian.lean:92` |
 | done | `S_closed_form` | S_{k,p} | `Lyasoff2016/Asian.lean:166` |
 | done | `benchmark_k_zero` | k=0 benchmark | `Lyasoff2016/Asian.lean:331` |
-| done | `asian_price_formula` | Asian price | `Lyasoff2016/Asian.lean:395` |
-| done | `asian_delta` | Asian delta | `Lyasoff2016/Asian.lean:502` |
-| done | `table1_asian_enclosure` | Table 1 | `Lyasoff2016/TableClaim.lean:114` |
-| done | `table2_asian_enclosure` | Table 2 | `Lyasoff2016/TableClaim.lean:128` |
-| done | `table3_asian_enclosure` | Table 3 | `Lyasoff2016/TableClaim.lean:142` |
-| done | `table4_asian_enclosure` | Table 4 | `Lyasoff2016/TableClaim.lean:156` |
+| blocked | `asian_price_formula` | Asian price | `Lyasoff2016/Asian.lean:389` |
+| blocked | `asian_delta` | Asian delta | `Lyasoff2016/Asian.lean:490` |
+| blocked | `table1_asian_enclosure` | Table 1 | `Lyasoff2016/TableClaim.lean:108` |
+| blocked | `table2_asian_enclosure` | Table 2 | `Lyasoff2016/TableClaim.lean:116` |
+| blocked | `table3_asian_enclosure` | Table 3 | `Lyasoff2016/TableClaim.lean:124` |
+| blocked | `table4_asian_enclosure` | Table 4 | `Lyasoff2016/TableClaim.lean:132` |
 
 ## Dependency sketch
 
