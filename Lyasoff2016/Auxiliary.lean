@@ -8,7 +8,7 @@ public import Lyasoff2016.IntegralMoments
 public import Lyasoff2016.BrownianScaling
 public import Lyasoff2016.DensityVersions
 public import Lyasoff2016.CameronMartin
-public import Lyasoff2016.Prop22Classical
+public import Lyasoff2016.YorAnalytic
 
 
 @[expose] public section
@@ -73,7 +73,7 @@ theorem prop_2_2 (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω �
           ∫⁻ x in Ioi (0 : ℝ), ENNReal.ofReal |(x : ℝ) ^ (p : ℤ) * pd m n φc x y|) < ∞ ∧
         (∫⁻ y, ENNReal.ofReal (Real.exp (-y ^ 2 / (2 * (t : ℝ)))) *
           ∫⁻ x in Ioi (0 : ℝ), ENNReal.ofReal |(x : ℝ) ^ (-(p : ℤ)) * pd m n φc x y|) < ∞) :=
-  prop_2_2_classical P W hW σ t hσ ht
+  prop_2_2_constructive P W hW σ t hσ ht
 
 /- Paper: p. 1065, ψ_{σ,ν} the infinite-horizon density.
    Plain recap: density of ∫₀^∞ e^{σ W_s + ν s} ds. -/

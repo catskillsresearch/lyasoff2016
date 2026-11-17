@@ -3401,19 +3401,468 @@ theorem joint_dynkin_Aop_product (P : Measure Ω) [IsProbabilityMeasure P]
       (tendsto_nhds_of_eventually_eq heq)
   exact hm_eq.trans hg_t
 
-/-- Weak adjoint identity against product test functions, via `IsJointDensity`. -/
+/-- Path expectation of a continuous functional of `(expInt, W_t)` equals the
+`jointLaw` integral. -/
+private lemma integral_jointLaw_eq_path
+    (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0)
+    (H : ℝ × ℝ → ℝ) (hH : Continuous H) :
+    ∫ ω, H (expInt W σ 0 t ω, W t ω) ∂P = ∫ p, H p ∂jointLaw P W σ 0 t := by
+  classical
+  set B : ℝ≥0 → Ω → ℝ := hW.toIsPreBrownianReal.mk W
+  have hBmeas : ∀ s, Measurable (B s) := hW.toIsPreBrownianReal.measurable_mk
+  have hBcont : ∀ ω, Continuous fun s : ℝ≥0 => B s ω := hW.toIsPreBrownianReal.continuous_mk
+  have hBW : ∀ᵐ ω ∂P, ∀ s, B s ω = W s ω := hW.mk_ae_forall_eq
+  have hL : ∫ ω, H (expInt W σ 0 t ω, W t ω) ∂P =
+      ∫ ω, H (expInt B σ 0 t ω, B t ω) ∂P := by
+    refine integral_congr_ae ?_
+    filter_upwards [hBW] with ω hω
+    have hX : expInt W σ 0 t ω = expInt B σ 0 t ω := by
+      simp only [expInt]
+      refine intervalIntegral.integral_congr fun r _ => ?_
+      rw [hω r.toNNReal]
+    rw [hX, hω t]
+  have hLaw : jointLaw P W σ 0 t = jointLaw P B σ 0 t := by
+    simp only [jointLaw]
+    refine Measure.map_congr ?_
+    filter_upwards [hBW] with ω hω
+    have hX : expInt W σ 0 t ω = expInt B σ 0 t ω := by
+      simp only [expInt]
+      refine intervalIntegral.integral_congr fun r _ => ?_
+      rw [hω r.toNNReal]
+    exact Prod.ext hX (hω t).symm
+  have hB : ∫ ω, H (expInt B σ 0 t ω, B t ω) ∂P =
+      ∫ p, H p ∂jointLaw P B σ 0 t := by
+    simp only [jointLaw]
+    exact (integral_map
+      ((measurable_expInt_of_continuous_path hBmeas hBcont σ t).prodMk (hBmeas t)).aemeasurable
+      hH.aestronglyMeasurable).symm
+  rw [hLaw]
+  exact hL.trans hB
+
+/-- `jointLaw` integral of continuous `H` against an `IsJointDensity` equals `∫ H · φ`. -/
+private lemma integral_jointLaw_eq_density
+    (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (σ : ℝ) (t : ℝ≥0)
+    (φ : ℝ → ℝ → ℝ) (hφ : IsJointDensity P W σ 0 t φ)
+    (hφnn : ∀ x y, 0 ≤ φ x y)
+    (hφm : AEMeasurable (fun p : ℝ × ℝ => φ p.1 p.2) volume)
+    (H : ℝ × ℝ → ℝ) (_hH : Continuous H) :
+    ∫ p, H p ∂jointLaw P W σ 0 t = ∫ p, H p * φ p.1 p.2 := by
+  unfold IsJointDensity at hφ
+  rw [hφ]
+  have hnn : AEMeasurable (fun p : ℝ × ℝ => (φ p.1 p.2).toNNReal) volume :=
+    continuous_real_toNNReal.measurable.comp_aemeasurable hφm
+  have heq : (fun p : ℝ × ℝ => ENNReal.ofReal (φ p.1 p.2)) =
+      fun p => (((φ p.1 p.2).toNNReal : ℝ≥0) : ℝ≥0∞) := by
+    funext p
+    simp [ENNReal.ofReal_eq_coe_nnreal (hφnn p.1 p.2), Real.toNNReal_of_nonneg (hφnn p.1 p.2)]
+  rw [heq, integral_withDensity_eq_integral_smul₀ hnn]
+  refine integral_congr_ae (ae_of_all _ fun p => ?_)
+  simp [NNReal.smul_def, Real.coe_toNNReal _ (hφnn p.1 p.2), mul_comm]
+
+/-- Pure x-derivative integrates to 0 for a compactly supported C¹ function on ℝ. -/
+private lemma integral_deriv_eq_zero_of_hasCompactSupport
+    {f : ℝ → ℝ} (hf : ContDiff ℝ 1 f) (hC : HasCompactSupport f) :
+    ∫ x, deriv f x = 0 := by
+  have hIic := hC.integral_Iic_deriv_eq hf (0 : ℝ)
+  have hIoi := hC.integral_Ioi_deriv_eq hf (0 : ℝ)
+  have hint : Integrable (deriv f) :=
+    (hf.continuous_deriv le_rfl).integrable_of_hasCompactSupport hC.deriv
+  calc ∫ x, deriv f x
+      = ∫ x in (Iic (0 : ℝ) ∪ Ioi 0), deriv f x := by
+          rw [← setIntegral_univ, Iic_union_Ioi]
+    _ = (∫ x in Iic (0 : ℝ), deriv f x) + ∫ x in Ioi (0 : ℝ), deriv f x :=
+          setIntegral_union (Iic_disjoint_Ioi (le_rfl : (0 : ℝ) ≤ 0))
+            measurableSet_Ioi hint.integrableOn hint.integrableOn
+    _ = f 0 + (-f 0) := by rw [hIic, hIoi]
+    _ = 0 := by ring
+
+/-- Slice derivative in the first variable from a Fréchet derivative on `ℝ × ℝ`. -/
+private lemma hasDerivAt_slice_fst {F : ℝ × ℝ → ℝ} {x y : ℝ}
+    (hF : DifferentiableAt ℝ F (x, y)) :
+    HasDerivAt (fun z => F (z, y)) (fderiv ℝ F (x, y) ((1 : ℝ), (0 : ℝ))) x :=
+  hF.hasFDerivAt.comp_hasDerivAt x ((hasDerivAt_id' x).prodMk (hasDerivAt_const x y))
+
+/-- Slice derivative in the second variable from a Fréchet derivative on `ℝ × ℝ`. -/
+private lemma hasDerivAt_slice_snd {F : ℝ × ℝ → ℝ} {x y : ℝ}
+    (hF : DifferentiableAt ℝ F (x, y)) :
+    HasDerivAt (fun z => F (x, z)) (fderiv ℝ F (x, y) ((0 : ℝ), (1 : ℝ))) y :=
+  hF.hasFDerivAt.comp_hasDerivAt y ((hasDerivAt_const y x).prodMk (hasDerivAt_id' y))
+
+/-- A derivative of the `x`-slice is a line derivative in the direction `(1, 0)`. -/
+private lemma hasLineDerivAt_fst_of_slice {G : ℝ × ℝ → ℝ} {G' : ℝ} {p : ℝ × ℝ}
+    (h : HasDerivAt (fun z => G (z, p.2)) G' p.1) :
+    HasLineDerivAt ℝ G G' p ((1 : ℝ), (0 : ℝ)) := by
+  have h0 : HasDerivAt (fun z => G (z, p.2)) G' (p.1 + 0) := by simpa using h
+  have h' := h0.comp_const_add p.1 0
+  have hfun : (fun t : ℝ => G (p + t • ((1 : ℝ), (0 : ℝ)))) = fun t => G (p.1 + t, p.2) := by
+    funext t; congr 1; ext <;> simp
+  show HasDerivAt (fun t : ℝ => G (p + t • ((1 : ℝ), (0 : ℝ)))) G' 0
+  rw [hfun]; exact h'
+
+/-- A derivative of the `y`-slice is a line derivative in the direction `(0, 1)`. -/
+private lemma hasLineDerivAt_snd_of_slice {G : ℝ × ℝ → ℝ} {G' : ℝ} {p : ℝ × ℝ}
+    (h : HasDerivAt (fun z => G (p.1, z)) G' p.2) :
+    HasLineDerivAt ℝ G G' p ((0 : ℝ), (1 : ℝ)) := by
+  have h0 : HasDerivAt (fun z => G (p.1, z)) G' (p.2 + 0) := by simpa using h
+  have h' := h0.comp_const_add p.2 0
+  have hfun : (fun t : ℝ => G (p + t • ((0 : ℝ), (1 : ℝ)))) = fun t => G (p.1, p.2 + t) := by
+    funext t; congr 1; ext <;> simp
+  show HasDerivAt (fun t : ℝ => G (p + t • ((0 : ℝ), (1 : ℝ)))) G' 0
+  rw [hfun]; exact h'
+
+/-- A directional derivative of an integrable function on the plane integrates to zero
+(boundary-term-free integration by parts against the constant `1`). -/
+private lemma integral_eq_zero_of_hasLineDerivAt {G G' : ℝ × ℝ → ℝ} (w : ℝ × ℝ)
+    (h : ∀ p, HasLineDerivAt ℝ G (G' p) p w)
+    (hG : Integrable G) (hG' : Integrable G') :
+    ∫ p, G' p = 0 := by
+  have key := integral_bilinear_hasLineDerivAt_right_eq_neg_left_of_integrable
+    (μ := (volume : Measure (ℝ × ℝ))) (B := ContinuousLinearMap.mul ℝ ℝ)
+    (f := G) (f' := G') (g := fun _ => (1 : ℝ)) (g' := fun _ => (0 : ℝ)) (v := w)
+    (by simpa using hG') (by simp) (by simpa using hG)
+    (fun p _ => h p) (fun p _ => by
+      show HasDerivAt (fun _ : ℝ => (1 : ℝ)) 0 0
+      exact hasDerivAt_const _ _)
+  simpa using key
+
+/-- Continuous compactly supported tensor times a continuous coefficient is integrable. -/
+private lemma integrable_tensor_mul {f g : ℝ → ℝ} (hf : Continuous f) (hg : Continuous g)
+    (hfC : HasCompactSupport f) (hgC : HasCompactSupport g)
+    {C : ℝ × ℝ → ℝ} (hC : Continuous C) :
+    Integrable (fun p : ℝ × ℝ => f p.1 * g p.2 * C p) :=
+  (((hf.comp continuous_fst).mul (hg.comp continuous_snd)).mul hC).integrable_of_hasCompactSupport
+    ((hasCompactSupport_tensor hfC hgC).mul_right (f' := C))
+
+/-- `jointA` on a product test, grouped by derivatives of `u`. -/
+private lemma jointA_product_expand (σ : ℝ) (u v : ℝ → ℝ)
+    (hu : ContDiff ℝ 2 u) (hv : ContDiff ℝ 2 v) (x y : ℝ) :
+    jointA σ (fun x y => u x * v y) x y =
+      σ ^ 2 * x ^ 2 / 2 * (deriv (deriv u) x * v y)
+        + σ * x * (deriv u x * deriv v y)
+        + (σ ^ 2 * x / 2 + 1 - Real.exp (σ * y)) * (deriv u x * v y) := by
+  rw [jointA_eq_drift_diff σ u v hu hv x y]; ring
+
+/-- Formal adjoint IBP for product tests against a globally `C²` density.
+
+Flux form: with `ϕ = u ⊗ v`, `a = σ²x²/2`, `b = σx`,
+`jointA ϕ · ψ − ϕ · adjoint ψ = ∂ₓ(a ∂ₓϕ ψ − ϕ · jointFlux ψ) + ∂ᵧ(b ∂ₓϕ ψ)`,
+and both divergence terms integrate to zero by compact support. -/
+private lemma integral_jointA_product_eq_integral_adjoint_of_contDiff
+    (σ : ℝ) (ψ : ℝ → ℝ → ℝ) (hψ : ContDiff ℝ 2 (Function.uncurry ψ))
+    (u v : ℝ → ℝ) (hu : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) u)
+    (hv : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) v)
+    (huC : HasCompactSupport u) (hvC : HasCompactSupport v) :
+    ∫ p : ℝ × ℝ, jointA σ (fun x y => u x * v y) p.1 p.2 * ψ p.1 p.2
+      = ∫ p : ℝ × ℝ, u p.1 * v p.2 * jointFokkerPlanckAdjoint σ ψ p.1 p.2 := by
+  -- First and second partials of `ψ` as globally continuous functions on the plane.
+  obtain ⟨px, hpx_def⟩ : ∃ px : ℝ × ℝ → ℝ,
+      px = fun p => fderiv ℝ (Function.uncurry ψ) p ((1 : ℝ), (0 : ℝ)) := ⟨_, rfl⟩
+  obtain ⟨py, hpy_def⟩ : ∃ py : ℝ × ℝ → ℝ,
+      py = fun p => fderiv ℝ (Function.uncurry ψ) p ((0 : ℝ), (1 : ℝ)) := ⟨_, rfl⟩
+  have hψd : Differentiable ℝ (Function.uncurry ψ) := hψ.differentiable (by norm_num)
+  have hpx : ContDiff ℝ 1 px := by
+    rw [hpx_def]
+    exact (hψ.fderiv_right (m := 1) (by norm_num)).clm_apply contDiff_const
+  have hpy : ContDiff ℝ 1 py := by
+    rw [hpy_def]
+    exact (hψ.fderiv_right (m := 1) (by norm_num)).clm_apply contDiff_const
+  have hpxd : Differentiable ℝ px := hpx.differentiable (by norm_num)
+  have hpyd : Differentiable ℝ py := hpy.differentiable (by norm_num)
+  obtain ⟨pxx, hpxx_def⟩ : ∃ pxx : ℝ × ℝ → ℝ,
+      pxx = fun p => fderiv ℝ px p ((1 : ℝ), (0 : ℝ)) := ⟨_, rfl⟩
+  obtain ⟨pyx, hpyx_def⟩ : ∃ pyx : ℝ × ℝ → ℝ,
+      pyx = fun p => fderiv ℝ py p ((1 : ℝ), (0 : ℝ)) := ⟨_, rfl⟩
+  have cψ : Continuous fun p : ℝ × ℝ => ψ p.1 p.2 := hψ.continuous
+  have cpx : Continuous px := hpx.continuous
+  have cpy : Continuous py := hpy.continuous
+  have cpxx : Continuous pxx := by
+    rw [hpxx_def]
+    exact (hpx.continuous_fderiv (by norm_num)).clm_apply continuous_const
+  have cpyx : Continuous pyx := by
+    rw [hpyx_def]
+    exact (hpy.continuous_fderiv (by norm_num)).clm_apply continuous_const
+  -- Slice derivatives of `ψ`, matching the `deriv` expressions in `jointFlux`/adjoint.
+  have h1 : ∀ x y, HasDerivAt (fun z => ψ z y) (px (x, y)) x := fun x y => by
+    rw [hpx_def]
+    exact hasDerivAt_slice_fst (F := Function.uncurry ψ) (hψd (x, y))
+  have h2 : ∀ x y, HasDerivAt (fun y' => ψ x y') (py (x, y)) y := fun x y => by
+    rw [hpy_def]
+    exact hasDerivAt_slice_snd (F := Function.uncurry ψ) (hψd (x, y))
+  have h1f : ∀ y, deriv (fun z => ψ z y) = fun z => px (z, y) := fun y =>
+    funext fun z => (h1 z y).deriv
+  have h2f : ∀ y, (fun z => deriv (fun y' => ψ z y') y) = fun z => py (z, y) := fun y =>
+    funext fun z => (h2 z y).deriv
+  have h3 : ∀ x y, HasDerivAt (deriv fun z => ψ z y) (pxx (x, y)) x := fun x y => by
+    rw [h1f y, hpxx_def]
+    exact hasDerivAt_slice_fst (F := px) (hpxd (x, y))
+  have h4 : ∀ x y, HasDerivAt (fun z => deriv (fun y' => ψ z y') y) (pyx (x, y)) x :=
+    fun x y => by
+      rw [h2f y, hpyx_def]
+      exact hasDerivAt_slice_fst (F := py) (hpyd (x, y))
+  have hflux : ∀ x y, jointFlux σ ψ x y =
+      σ ^ 2 * x ^ 2 / 2 * px (x, y) + σ * x * py (x, y)
+        + (Real.exp (σ * y) + σ ^ 2 * x / 2 - 1) * ψ x y := fun x y => by
+    unfold jointFlux
+    rw [(h1 x y).deriv, (h2 x y).deriv]
+  have hadj : ∀ x y, jointFokkerPlanckAdjoint σ ψ x y =
+      σ ^ 2 * x ^ 2 / 2 * pxx (x, y) + σ * x * pyx (x, y)
+        + (Real.exp (σ * y) + 3 * σ ^ 2 * x / 2 - 1) * px (x, y) + σ * py (x, y)
+        + σ ^ 2 / 2 * ψ x y := fun x y => by
+    unfold jointFokkerPlanckAdjoint
+    rw [(h3 x y).deriv, (h4 x y).deriv, (h1 x y).deriv, (h2 x y).deriv]
+  have cflux : Continuous fun p : ℝ × ℝ => jointFlux σ ψ p.1 p.2 := by
+    simp only [hflux]; fun_prop
+  have cadj : Continuous fun p : ℝ × ℝ => jointFokkerPlanckAdjoint σ ψ p.1 p.2 := by
+    simp only [hadj]; fun_prop
+  have hfl : ∀ x y, HasDerivAt (fun z => jointFlux σ ψ z y)
+      (jointFokkerPlanckAdjoint σ ψ x y) x := fun x y =>
+    hasDerivAt_jointFlux σ ψ x y (h1 x y).differentiableAt.hasDerivAt
+      (h3 x y).differentiableAt.hasDerivAt (h4 x y).differentiableAt.hasDerivAt
+  -- Regularity of the test functions.
+  have hu2 : ContDiff ℝ 2 u := hu.of_le (by decide)
+  have hv2 : ContDiff ℝ 2 v := hv.of_le (by decide)
+  have hu' : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (deriv u) := (contDiff_infty_iff_deriv.mp hu).2
+  have hu'' : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (deriv (deriv u)) :=
+    (contDiff_infty_iff_deriv.mp hu').2
+  have hv' : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (deriv v) := (contDiff_infty_iff_deriv.mp hv).2
+  have hud : ∀ x, HasDerivAt u (deriv u x) x := fun x =>
+    ((contDiff_infty_iff_deriv.mp hu).1 x).hasDerivAt
+  have hu'd : ∀ x, HasDerivAt (deriv u) (deriv (deriv u) x) x := fun x =>
+    ((contDiff_infty_iff_deriv.mp hu').1 x).hasDerivAt
+  have hvd : ∀ y, HasDerivAt v (deriv v y) y := fun y =>
+    ((contDiff_infty_iff_deriv.mp hv).1 y).hasDerivAt
+  have cu : Continuous u := hu.continuous
+  have cv : Continuous v := hv.continuous
+  have cu' : Continuous (deriv u) := hu'.continuous
+  have cu'' : Continuous (deriv (deriv u)) := hu''.continuous
+  have cv' : Continuous (deriv v) := hv'.continuous
+  have hu'C : HasCompactSupport (deriv u) := huC.deriv
+  have hu''C : HasCompactSupport (deriv (deriv u)) := huC.deriv.deriv
+  have hv'C : HasCompactSupport (deriv v) := hvC.deriv
+  -- `x`-divergence term: `A = ∂ₓ G₁` with `G₁ = a ∂ₓϕ ψ − ϕ · jointFlux ψ`.
+  obtain ⟨A, hA⟩ : ∃ A : ℝ × ℝ → ℝ, ∀ p, A p =
+      deriv (deriv u) p.1 * v p.2 * (σ ^ 2 * p.1 ^ 2 / 2 * ψ p.1 p.2)
+        + deriv u p.1 * v p.2 *
+            (σ ^ 2 * p.1 * ψ p.1 p.2 + σ ^ 2 * p.1 ^ 2 / 2 * px p - jointFlux σ ψ p.1 p.2)
+        - u p.1 * v p.2 * jointFokkerPlanckAdjoint σ ψ p.1 p.2 := ⟨_, fun _ => rfl⟩
+  have iA : Integrable A := by
+    rw [show A = _ from funext hA]
+    exact ((integrable_tensor_mul cu'' cv hu''C hvC
+        (C := fun q : ℝ × ℝ => σ ^ 2 * q.1 ^ 2 / 2 * ψ q.1 q.2) (by fun_prop)).add
+        (integrable_tensor_mul cu' cv hu'C hvC
+          (C := fun q : ℝ × ℝ => σ ^ 2 * q.1 * ψ q.1 q.2 + σ ^ 2 * q.1 ^ 2 / 2 * px q
+            - jointFlux σ ψ q.1 q.2) (by fun_prop))).sub
+        (integrable_tensor_mul cu cv huC hvC cadj)
+  have hx0 : ∫ p, A p = 0 := by
+    refine integral_eq_zero_of_hasLineDerivAt ((1 : ℝ), (0 : ℝ))
+      (G := fun q : ℝ × ℝ => deriv u q.1 * v q.2 * (σ ^ 2 * q.1 ^ 2 / 2 * ψ q.1 q.2)
+        - u q.1 * v q.2 * jointFlux σ ψ q.1 q.2) ?_ ?_ iA
+    · intro p
+      apply hasLineDerivAt_fst_of_slice
+      have hpoly : HasDerivAt (fun z : ℝ => σ ^ 2 * z ^ 2 / 2) (σ ^ 2 * p.1) p.1 := by
+        have := ((hasDerivAt_pow 2 p.1).const_mul (σ ^ 2)).div_const 2
+        refine this.congr_deriv ?_
+        simp; ring
+      have key := (((hu'd p.1).mul_const (v p.2)).fun_mul
+        (hpoly.fun_mul (h1 p.1 p.2))).fun_sub (((hud p.1).mul_const (v p.2)).fun_mul (hfl p.1 p.2))
+      exact key.congr_deriv (by rw [hA]; ring)
+    · exact (integrable_tensor_mul cu' cv hu'C hvC
+        (C := fun q : ℝ × ℝ => σ ^ 2 * q.1 ^ 2 / 2 * ψ q.1 q.2) (by fun_prop)).sub
+        (integrable_tensor_mul cu cv huC hvC cflux)
+  -- `y`-divergence term: `B = ∂ᵧ G₂` with `G₂ = b ∂ₓϕ ψ`.
+  obtain ⟨B, hB⟩ : ∃ B : ℝ × ℝ → ℝ, ∀ p, B p =
+      deriv u p.1 * deriv v p.2 * (σ * p.1 * ψ p.1 p.2)
+        + deriv u p.1 * v p.2 * (σ * p.1 * py p) := ⟨_, fun _ => rfl⟩
+  have iB : Integrable B := by
+    rw [show B = _ from funext hB]
+    exact (integrable_tensor_mul cu' cv' hu'C hv'C
+        (C := fun q : ℝ × ℝ => σ * q.1 * ψ q.1 q.2) (by fun_prop)).add
+        (integrable_tensor_mul cu' cv hu'C hvC
+          (C := fun q : ℝ × ℝ => σ * q.1 * py q) (by fun_prop))
+  have hy0 : ∫ p, B p = 0 := by
+    refine integral_eq_zero_of_hasLineDerivAt ((0 : ℝ), (1 : ℝ))
+      (G := fun q : ℝ × ℝ => deriv u q.1 * v q.2 * (σ * q.1 * ψ q.1 q.2)) ?_ ?_ iB
+    · intro p
+      apply hasLineDerivAt_snd_of_slice
+      have key := ((hvd p.2).const_mul (deriv u p.1)).fun_mul
+        ((h2 p.1 p.2).const_mul (σ * p.1))
+      exact key.congr_deriv (by rw [hB])
+    · exact integrable_tensor_mul cu' cv hu'C hvC
+        (C := fun q : ℝ × ℝ => σ * q.1 * ψ q.1 q.2) (by fun_prop)
+  -- Pointwise flux identity, then integrate.
+  have hpt : ∀ p : ℝ × ℝ,
+      jointA σ (fun x y => u x * v y) p.1 p.2 * ψ p.1 p.2
+        - u p.1 * v p.2 * jointFokkerPlanckAdjoint σ ψ p.1 p.2 = A p + B p := by
+    intro p
+    rw [hA, hB, jointA_product_expand σ u v hu2 hv2, hflux]
+    ring
+  have iL : Integrable fun p : ℝ × ℝ =>
+      jointA σ (fun x y => u x * v y) p.1 p.2 * ψ p.1 p.2 := by
+    have hexp : (fun p : ℝ × ℝ => jointA σ (fun x y => u x * v y) p.1 p.2 * ψ p.1 p.2) =
+        fun p : ℝ × ℝ =>
+          deriv (deriv u) p.1 * v p.2 * (σ ^ 2 * p.1 ^ 2 / 2 * ψ p.1 p.2)
+          + deriv u p.1 * deriv v p.2 * (σ * p.1 * ψ p.1 p.2)
+          + deriv u p.1 * v p.2 *
+              ((σ ^ 2 * p.1 / 2 + 1 - Real.exp (σ * p.2)) * ψ p.1 p.2) := by
+      funext p
+      rw [jointA_product_expand σ u v hu2 hv2]; ring
+    rw [hexp]
+    exact ((integrable_tensor_mul cu'' cv hu''C hvC
+        (C := fun q : ℝ × ℝ => σ ^ 2 * q.1 ^ 2 / 2 * ψ q.1 q.2) (by fun_prop)).add
+      (integrable_tensor_mul cu' cv' hu'C hv'C
+        (C := fun q : ℝ × ℝ => σ * q.1 * ψ q.1 q.2) (by fun_prop))).add
+      (integrable_tensor_mul cu' cv hu'C hvC
+        (C := fun q : ℝ × ℝ => (σ ^ 2 * q.1 / 2 + 1 - Real.exp (σ * q.2)) * ψ q.1 q.2)
+        (by fun_prop))
+  have iR : Integrable fun p : ℝ × ℝ =>
+      u p.1 * v p.2 * jointFokkerPlanckAdjoint σ ψ p.1 p.2 :=
+    integrable_tensor_mul cu cv huC hvC cadj
+  have hdiff : ∫ p : ℝ × ℝ, (jointA σ (fun x y => u x * v y) p.1 p.2 * ψ p.1 p.2
+      - u p.1 * v p.2 * jointFokkerPlanckAdjoint σ ψ p.1 p.2) = 0 := by
+    rw [integral_congr_ae (ae_of_all _ hpt), integral_add iA iB, hx0, hy0, add_zero]
+  rw [integral_sub iL iR] at hdiff
+  exact sub_eq_zero.mp hdiff
+
+/-- Formal adjoint IBP for product tests with compact support in `jointDomain`.
+`∫ jointA(u⊗v) · φ = ∫ (u⊗v) · jointFokkerPlanckAdjoint(φ)`.
+
+`φ` is only smooth on the open half-plane, so it is first multiplied by an `x`-cutoff `χ`
+that equals `1` near `tsupport u` and vanishes near `x ≤ 0`; the cut-off density is globally
+`C²`, both integrands are unchanged, and the global flux-form IBP applies. -/
+private lemma integral_jointA_product_eq_integral_adjoint
+    (σ : ℝ) (φ : ℝ → ℝ → ℝ)
+    (hsm : ∀ n : ℕ, ContDiffOn ℝ n (Function.uncurry φ) jointDomain)
+    (u v : ℝ → ℝ) (hu : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) u)
+    (hv : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) v)
+    (huC : HasCompactSupport u) (hvC : HasCompactSupport v)
+    (hsupp : tsupport (fun p : ℝ × ℝ => u p.1 * v p.2) ⊆ jointDomain) :
+    ∫ p : ℝ × ℝ, jointA σ (fun x y => u x * v y) p.1 p.2 * φ p.1 p.2
+      = ∫ p : ℝ × ℝ, u p.1 * v p.2 * jointFokkerPlanckAdjoint σ φ p.1 p.2 := by
+  have hu2 : ContDiff ℝ 2 u := hu.of_le (by decide)
+  have hv2 : ContDiff ℝ 2 v := hv.of_le (by decide)
+  -- Degenerate case `v ≡ 0`: both integrands vanish identically.
+  by_cases hv0 : ∀ y, v y = 0
+  · have hv'0 : ∀ y, deriv v y = 0 := by
+      have hvf : v = fun _ => 0 := funext hv0
+      intro y
+      rw [hvf]; simp
+    have hL : ∀ p : ℝ × ℝ, jointA σ (fun x y => u x * v y) p.1 p.2 * φ p.1 p.2 = 0 :=
+      fun p => by
+        rw [jointA_product_expand σ u v hu2 hv2, hv0, hv'0]; ring
+    have hR : ∀ p : ℝ × ℝ, u p.1 * v p.2 * jointFokkerPlanckAdjoint σ φ p.1 p.2 = 0 :=
+      fun p => by
+        rw [hv0]; ring
+    simp only [hL, hR]
+  obtain ⟨y₀, hy₀⟩ := not_forall.mp hv0
+  -- The support of `u` stays inside the open half-line.
+  have hsu : tsupport u ⊆ Ioi (0 : ℝ) := by
+    intro x hx
+    have hmem : (x, y₀) ∈ tsupport (fun p : ℝ × ℝ => u p.1 * v p.2) := by
+      have hcont : Continuous fun z : ℝ => (z, y₀) := by fun_prop
+      have hmaps : MapsTo (fun z : ℝ => (z, y₀)) (Function.support u)
+          (Function.support fun p : ℝ × ℝ => u p.1 * v p.2) :=
+        fun z hz => mul_ne_zero hz hy₀
+      exact hmaps.closure hcont hx
+    exact (hsupp hmem).1
+  obtain ⟨a, ha, hau⟩ : ∃ a : ℝ, 0 < a ∧ tsupport u ⊆ Ioi (2 * a) := by
+    rcases (tsupport u).eq_empty_or_nonempty with he | hne
+    · exact ⟨1, one_pos, by simp [he]⟩
+    · obtain ⟨m, hm, hmin⟩ := huC.isCompact.exists_isLeast hne
+      have hm0 : 0 < m := hsu hm
+      refine ⟨m / 3, by positivity, fun x hx => ?_⟩
+      have := hmin hx
+      simp only [mem_Ioi]
+      linarith
+  -- Smooth cutoff in `x`: zero on `(-∞, a]`, one on `[2a, ∞)`.
+  obtain ⟨χ, hχs, hχ0, hχ1⟩ : ∃ χ : ℝ → ℝ, ContDiff ℝ 2 χ ∧
+      (∀ x, x ≤ a → χ x = 0) ∧ (∀ x, 2 * a ≤ x → χ x = 1) := by
+    refine ⟨fun x => Real.smoothTransition ((x - a) / a), ?_, fun x hx => ?_, fun x hx => ?_⟩
+    · exact Real.smoothTransition.contDiff.comp (by fun_prop)
+    · exact Real.smoothTransition.zero_of_nonpos
+        (div_nonpos_of_nonpos_of_nonneg (by linarith) ha.le)
+    · exact Real.smoothTransition.one_of_one_le (by rw [le_div_iff₀ ha]; linarith)
+  obtain ⟨ψ, hψdef⟩ : ∃ ψ : ℝ → ℝ → ℝ, ∀ x y, ψ x y = χ x * φ x y := ⟨_, fun _ _ => rfl⟩
+  have hψs : ContDiff ℝ 2 (Function.uncurry ψ) := by
+    rw [contDiff_iff_contDiffAt]
+    intro p
+    rcases lt_or_ge 0 p.1 with hp | hp
+    · have hpmem : p ∈ jointDomain := ⟨hp, trivial⟩
+      have hφAt : ContDiffAt ℝ 2 (Function.uncurry φ) p :=
+        ((hsm 2).contDiffWithinAt hpmem).contDiffAt (isOpen_jointDomain.mem_nhds hpmem)
+      have hχAt : ContDiffAt ℝ 2 (fun q : ℝ × ℝ => χ q.1) p :=
+        (hχs.comp contDiff_fst).contDiffAt
+      refine (hχAt.mul hφAt).congr_of_eventuallyEq (Eventually.of_forall fun q => ?_)
+      simp [Function.uncurry, hψdef]
+    · have hev : Function.uncurry ψ =ᶠ[𝓝 p] fun _ => 0 := by
+        filter_upwards [(isOpen_lt continuous_fst continuous_const).mem_nhds
+          (show p.1 < a by linarith)] with q hq
+        simp [Function.uncurry, hψdef, hχ0 q.1 (le_of_lt hq)]
+      exact contDiffAt_const.congr_of_eventuallyEq hev
+  have key := integral_jointA_product_eq_integral_adjoint_of_contDiff σ ψ hψs u v hu hv huC hvC
+  have hu'0 : ∀ x, x ∉ tsupport u → deriv u x = 0 := fun x hx =>
+    image_eq_zero_of_notMem_tsupport fun h => hx (tsupport_deriv_subset h)
+  have hu''0 : ∀ x, x ∉ tsupport u → deriv (deriv u) x = 0 := fun x hx =>
+    image_eq_zero_of_notMem_tsupport fun h =>
+      hx (tsupport_deriv_subset (tsupport_deriv_subset h))
+  -- The cutoff does not change either integrand.
+  have hL : ∀ p : ℝ × ℝ, jointA σ (fun x y => u x * v y) p.1 p.2 * φ p.1 p.2 =
+      jointA σ (fun x y => u x * v y) p.1 p.2 * ψ p.1 p.2 := by
+    intro p
+    by_cases hp : p.1 ∈ tsupport u
+    · rw [hψdef, hχ1 p.1 (le_of_lt (hau hp)), one_mul]
+    · rw [jointA_product_expand σ u v hu2 hv2, hu'0 _ hp, hu''0 _ hp]; ring
+  have hR : ∀ p : ℝ × ℝ, u p.1 * v p.2 * jointFokkerPlanckAdjoint σ φ p.1 p.2 =
+      u p.1 * v p.2 * jointFokkerPlanckAdjoint σ ψ p.1 p.2 := by
+    intro p
+    by_cases hp : u p.1 = 0
+    · rw [hp]; ring
+    · have hpt : p.1 ∈ tsupport u := subset_tsupport _ hp
+      have hN : ∀ᶠ z in 𝓝 p.1, ψ z = φ z := by
+        filter_upwards [isOpen_Ioi.mem_nhds (hau hpt)] with z hz
+        funext y
+        rw [hψdef, hχ1 z (le_of_lt hz), one_mul]
+      have e0 : ψ p.1 = φ p.1 := hN.self_of_nhds
+      have e1 : (fun z => ψ z p.2) =ᶠ[𝓝 p.1] fun z => φ z p.2 :=
+        hN.mono fun z hz => congrFun hz p.2
+      have e2 : (fun z => deriv (fun y' => ψ z y') p.2) =ᶠ[𝓝 p.1]
+          fun z => deriv (fun y' => φ z y') p.2 :=
+        hN.mono fun z hz => by simp only [hz]
+      have hadj : jointFokkerPlanckAdjoint σ ψ p.1 p.2 =
+          jointFokkerPlanckAdjoint σ φ p.1 p.2 := by
+        unfold jointFokkerPlanckAdjoint
+        rw [e1.deriv.deriv_eq, e2.deriv_eq, e1.deriv_eq, e0]
+      rw [hadj]
+  exact (integral_congr_ae (ae_of_all _ hL)).trans
+    (key.trans (integral_congr_ae (ae_of_all _ hR)).symm)
+
+/-- Weak adjoint identity against product test functions, via `IsJointDensity`.
+
+Nonnegativity of `φ` is required so `ENNReal.ofReal ∘ φ` recovers `φ` (cf.
+`scaling_relations_of_nonneg` / DensityVersions). -/
 theorem weak_joint_fokker_planck_product (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (ht : 0 < t)
     (φ : ℝ → ℝ → ℝ) (hφ : IsJointDensity P W σ 0 t φ)
     (hsm : ∀ n : ℕ, ContDiffOn ℝ n (Function.uncurry φ) jointDomain)
+    (hφnn : ∀ x y, 0 ≤ φ x y)
+    (hφm : AEMeasurable (fun p : ℝ × ℝ => φ p.1 p.2) volume)
     (u v : ℝ → ℝ) (hu : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) u) (hv : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) v)
     (huC : HasCompactSupport u) (hvC : HasCompactSupport v)
     (hsupp : tsupport (fun p : ℝ × ℝ => u p.1 * v p.2) ⊆ jointDomain) :
     ∫ p : ℝ × ℝ, u p.1 * v p.2 * jointFokkerPlanckAdjoint σ φ p.1 p.2 = 0 := by
   have hdyn := joint_dynkin_Aop_product P W hW σ t ht u v hu hv huC hvC
-  -- E[jointA] = ∫∫ jointA · φ via `IsJointDensity`; IBP on jointDomain (boundary vanishes by
-  -- `hsupp`) yields the adjoint pairing.
-  sorry
+  set H : ℝ × ℝ → ℝ := fun p => jointA σ (fun x y => u x * v y) p.1 p.2
+  have hHc : Continuous H := continuous_jointA_product σ hu hv
+  have hpath : ∫ ω, H (expInt W σ 0 t ω, W t ω) ∂P = 0 := by
+    simpa [H] using hdyn
+  have hlaw : ∫ p, H p ∂jointLaw P W σ 0 t = 0 :=
+    (integral_jointLaw_eq_path P W hW σ t H hHc).symm.trans hpath
+  have hdens : ∫ p, H p * φ p.1 p.2 = 0 :=
+    (integral_jointLaw_eq_density P W σ t φ hφ hφnn hφm H hHc).symm.trans hlaw
+  have hibp :=
+    integral_jointA_product_eq_integral_adjoint σ φ hsm u v hu hv huC hvC hsupp
+  exact hibp.symm.trans hdens
 
 /-- Pointwise vanishing of the adjoint from product weak identities. -/
 theorem jointFokkerPlanckAdjoint_eq_zero (P : Measure Ω) [IsProbabilityMeasure P]
@@ -3428,9 +3877,15 @@ theorem jointFokkerPlanckAdjoint_eq_zero (P : Measure Ω) [IsProbabilityMeasure 
     have h3 := hsm 3
     -- Each term of `jointFokkerPlanckAdjoint` is continuous on `jointDomain`.
     sorry
+  have hφnn : ∀ x y, 0 ≤ φ x y := fun _ _ => by
+    -- Continuous nonnegative version of the joint density (cf. DensityVersions).
+    sorry
+  have hφm : AEMeasurable (fun p : ℝ × ℝ => φ p.1 p.2) volume := by
+    -- Measurable version of the ContDiffOn density.
+    sorry
   refine eq_zero_of_integral_product_eq_zero hcont ?_ hx
   intro u v hu hv huC hvC hts
-  exact weak_joint_fokker_planck_product P W hW σ t ht φ hφ hsm u v hu hv huC hvC hts
+  exact weak_joint_fokker_planck_product P W hW σ t ht φ hφ hsm hφnn hφm u v hu hv huC hvC hts
 
 /- Paper: p. 1070, (3.6b).
    Plain recap: the joint density φ satisfies the divergence-form PDE
