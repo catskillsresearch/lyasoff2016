@@ -17,7 +17,8 @@ public import Lyasoff2016.FokkerPlanck
 public import Lyasoff2016.Foliation
 public import Lyasoff2016.IntegralReps
 public import Lyasoff2016.Asian
-public import Lyasoff2016.Tables
+public import Lyasoff2016.TableParams
+public import Lyasoff2016.TableClaim
 
 @[expose] public section
 

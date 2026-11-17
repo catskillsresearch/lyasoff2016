@@ -245,25 +245,25 @@ NODES: dict[str, dict] = {
     "table1_asian_enclosure": {
         "label": "Table 1",
         "section": 6,
-        "file": "Lyasoff2016/Tables.lean",
+        "file": "Lyasoff2016/TableClaim.lean",
         "detail": "Interval certificate for Table 1 (T=1/2, σ=0.22).",
     },
     "table2_asian_enclosure": {
         "label": "Table 2",
         "section": 6,
-        "file": "Lyasoff2016/Tables.lean",
+        "file": "Lyasoff2016/TableClaim.lean",
         "detail": "Interval certificate for Table 2 (T=1/2, σ=1/3).",
     },
     "table3_asian_enclosure": {
         "label": "Table 3",
         "section": 6,
-        "file": "Lyasoff2016/Tables.lean",
+        "file": "Lyasoff2016/TableClaim.lean",
         "detail": "Interval certificate for Table 3 (T=1, σ=0.22).",
     },
     "table4_asian_enclosure": {
         "label": "Table 4",
         "section": 6,
-        "file": "Lyasoff2016/Tables.lean",
+        "file": "Lyasoff2016/TableClaim.lean",
         "detail": "Interval certificate for Table 4 (T=1, σ=1/3).",
     },
 }

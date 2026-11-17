@@ -2,7 +2,7 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-17T15:09:33Z
+**Updated:** 2026-11-17T15:41:04Z
 **Holes:** 0 open+blocked · 0 open · 0 blocked · 39 done.
 
 **Live board:** [`holes.html`](holes.html) + [`holes-graph.json`](holes-graph.json).
@@ -82,10 +82,10 @@ _None — every remaining hole is blocked or done._
 | done | `benchmark_k_zero` | k=0 benchmark | `Lyasoff2016/Asian.lean:331` |
 | done | `asian_price_formula` | Asian price | `Lyasoff2016/Asian.lean:395` |
 | done | `asian_delta` | Asian delta | `Lyasoff2016/Asian.lean:502` |
-| done | `table1_asian_enclosure` | Table 1 | `Lyasoff2016/Tables.lean:142` |
-| done | `table2_asian_enclosure` | Table 2 | `Lyasoff2016/Tables.lean:156` |
-| done | `table3_asian_enclosure` | Table 3 | `Lyasoff2016/Tables.lean:170` |
-| done | `table4_asian_enclosure` | Table 4 | `Lyasoff2016/Tables.lean:184` |
+| done | `table1_asian_enclosure` | Table 1 | `Lyasoff2016/TableClaim.lean:114` |
+| done | `table2_asian_enclosure` | Table 2 | `Lyasoff2016/TableClaim.lean:128` |
+| done | `table3_asian_enclosure` | Table 3 | `Lyasoff2016/TableClaim.lean:142` |
+| done | `table4_asian_enclosure` | Table 4 | `Lyasoff2016/TableClaim.lean:156` |
 
 ## Dependency sketch
 
