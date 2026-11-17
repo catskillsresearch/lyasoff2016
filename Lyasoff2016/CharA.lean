@@ -117,7 +117,7 @@ theorem deriv_neg_iff {v : ℝ} (hv : 0 ≤ v) (y : ℝ) :
   · intro h
     have h2 : Real.exp (2 * y) - (1 + 2 * v) < 0 := by
       by_contra hge
-      push_neg at hge
+      push Not at hge
       have : 0 ≤ Real.exp (-y) * (Real.exp (2 * y) - (1 + 2 * v)) / 2 := by positivity
       linarith
     have h3 : Real.exp (2 * y) < Real.exp (2 * Lyasoff2016.yCrit v) := by

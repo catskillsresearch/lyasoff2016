@@ -107,7 +107,7 @@ theorem hasCompactSupport {F : ℝ → ℝ} (hFC : HasCompactSupport F)
   by_contra hnot
   have habs : R ≤ |y| := by
     change ¬(-R ≤ y ∧ y ≤ R) at hnot
-    push_neg at hnot
+    push Not at hnot
     by_cases hyR : -R ≤ y
     · exact le_trans (hnot hyR).le (le_abs_self y)
     · exact le_trans (by linarith [lt_of_not_ge hyR]) (neg_le_abs y)

@@ -48,7 +48,7 @@ theorem hasCompactSupport {a b c d : ℝ} (hab : a < b) (hcd : c < d) :
   intro x hx
   by_contra hnot
   change ¬(a ≤ x ∧ x ≤ d) at hnot
-  push_neg at hnot
+  push Not at hnot
   by_cases hax : a ≤ x
   · exact hx (zero_of_not_mem hab hcd (Or.inr (hnot hax).le))
   · exact hx (zero_of_not_mem hab hcd (Or.inl (le_of_lt (lt_of_not_ge hax))))
