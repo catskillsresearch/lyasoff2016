@@ -2,8 +2,8 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-16T22:18:51Z
-**Holes:** 16 open+blocked · 5 open · 11 blocked · 17 done.
+**Updated:** 2026-11-17T00:12:09Z
+**Holes:** 15 open+blocked · 5 open · 10 blocked · 18 done.
 
 **Live board:** [`holes.html`](holes.html) + [`holes-graph.json`](holes-graph.json).
 
@@ -17,8 +17,8 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | Id | Label | File |
 |---|---|---|
 | `prop_2_2` | Prop 2.2 | `Lyasoff2016/Auxiliary.lean:58` |
-| `perpetuity_inv_moment` | E[A⁻¹]=−ν | `Lyasoff2016/FokkerPlanck.lean:679` |
-| `fokker_planck_joint` | FP (3.6b) | `Lyasoff2016/FokkerPlanck.lean:821` |
+| `perpetuity_neg_moments` | E[A⁻ⁿ] | `Lyasoff2016/FokkerPlanck.lean:1361` |
+| `fokker_planck_joint` | FP (3.6b) | `Lyasoff2016/FokkerPlanck.lean:1492` |
 | `g_solves_contour_equation` | g contour eq | `Lyasoff2016/IntegralReps.lean:71` |
 | `yor_formula_classical` | Yor classical | `Lyasoff2016/IntegralReps.lean:197` |
 
@@ -39,19 +39,19 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | done | `scaling_relations` | Scaling | `Lyasoff2016/Auxiliary.lean:178` |
 | done | `girsanov_density` | Girsanov (2.2) | `Lyasoff2016/Auxiliary.lean:213` |
 
-### §3 — 5 hole(s)
+### §3 — 4 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
 | done | `infinite_integral_finite` | ∫₀^∞ finite | `Lyasoff2016/FokkerPlanck.lean:78` |
 | done | `Z_stationary` | Z stationary | `Lyasoff2016/FokkerPlanck.lean:420` |
 | done | `dufresne_zero_flux` | Zero-flux ODE | `Lyasoff2016/FokkerPlanck.lean:436` |
-| open | `perpetuity_inv_moment` | E[A⁻¹]=−ν | `Lyasoff2016/FokkerPlanck.lean:679` |
-| blocked | `perpetuity_neg_moments` | E[A⁻ⁿ] | `Lyasoff2016/FokkerPlanck.lean:690` |
-| blocked | `dufresne_theorem_sigma_one` | Dufresne σ=1 | `Lyasoff2016/FokkerPlanck.lean:735` |
-| blocked | `dufresne_theorem` | Dufresne thm | `Lyasoff2016/FokkerPlanck.lean:742` |
-| open | `fokker_planck_joint` | FP (3.6b) | `Lyasoff2016/FokkerPlanck.lean:821` |
-| done | `remark_3_2` | Rem 3.2 | `Lyasoff2016/FokkerPlanck.lean:839` |
+| done | `perpetuity_inv_moment` | E[A⁻¹]=−ν | `Lyasoff2016/FokkerPlanck.lean:1173` |
+| open | `perpetuity_neg_moments` | E[A⁻ⁿ] | `Lyasoff2016/FokkerPlanck.lean:1361` |
+| blocked | `dufresne_theorem_sigma_one` | Dufresne σ=1 | `Lyasoff2016/FokkerPlanck.lean:1406` |
+| blocked | `dufresne_theorem` | Dufresne thm | `Lyasoff2016/FokkerPlanck.lean:1413` |
+| open | `fokker_planck_joint` | FP (3.6b) | `Lyasoff2016/FokkerPlanck.lean:1492` |
+| done | `remark_3_2` | Rem 3.2 | `Lyasoff2016/FokkerPlanck.lean:1510` |
 
 ### §4 — 0 hole(s)
 

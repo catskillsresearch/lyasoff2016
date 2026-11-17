@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-16T22:18:51Z",
-  "sorryCount": 16,
+  "updated": "2026-11-17T00:12:09Z",
+  "sorryCount": 15,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
     "blocked": "Waiting on incomplete required proof-deps",
@@ -12,7 +12,7 @@
     "Done = no local sorry and every hard predecessor is done (no unproven\u2192proven).",
     "Blue = done. Green = open. Grey = blocked.",
     "Regenerate with: python3 scripts/build_holes.py",
-    "Open tips: prop_2_2, perpetuity_inv_moment, fokker_planck_joint, g_solves_contour_equation, yor_formula_classical."
+    "Open tips: prop_2_2, perpetuity_neg_moments, fokker_planck_joint, g_solves_contour_equation, yor_formula_classical."
   ],
   "nodes": [
     {
@@ -91,8 +91,8 @@
       "id": "perpetuity_inv_moment",
       "label": "E[A\u207b\u00b9]=\u2212\u03bd",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:679",
-      "status": "open",
+      "file": "Lyasoff2016/FokkerPlanck.lean:1173",
+      "status": "done",
       "blocker": null,
       "detail": "First reciprocal moment via Dynkin/stationarity of Z and L(log)."
     },
@@ -100,16 +100,16 @@
       "id": "perpetuity_neg_moments",
       "label": "E[A\u207b\u207f]",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:690",
-      "status": "blocked",
-      "blocker": "needs perpetuity_inv_moment",
+      "file": "Lyasoff2016/FokkerPlanck.lean:1361",
+      "status": "open",
+      "blocker": null,
       "detail": "All reciprocal moments match the inverse-Gamma moments."
     },
     {
       "id": "dufresne_theorem_sigma_one",
       "label": "Dufresne \u03c3=1",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:735",
+      "file": "Lyasoff2016/FokkerPlanck.lean:1406",
       "status": "blocked",
       "blocker": "needs perpetuity_neg_moments",
       "detail": "Unit-volatility law of A is igMeasure(\u22122\u03bd, 2)."
@@ -118,7 +118,7 @@
       "id": "dufresne_theorem",
       "label": "Dufresne thm",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:742",
+      "file": "Lyasoff2016/FokkerPlanck.lean:1413",
       "status": "blocked",
       "blocker": "needs dufresne_theorem_sigma_one",
       "detail": "General \u03c3 via Brownian scaling from \u03c3=1."
@@ -127,7 +127,7 @@
       "id": "fokker_planck_joint",
       "label": "FP (3.6b)",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:821",
+      "file": "Lyasoff2016/FokkerPlanck.lean:1492",
       "status": "open",
       "blocker": null,
       "detail": "Joint density satisfies the divergence-form Fokker\u2013Planck PDE."
@@ -136,7 +136,7 @@
       "id": "remark_3_2",
       "label": "Rem 3.2",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:839",
+      "file": "Lyasoff2016/FokkerPlanck.lean:1510",
       "status": "done",
       "blocker": null,
       "detail": "Reflection / running-max identity in law."

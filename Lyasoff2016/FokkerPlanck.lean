@@ -668,20 +668,691 @@ theorem indepFun_prod_copies {P : Measure Ω} [IsProbabilityMeasure P]
     aemeasurable_pi_iff.mpr fun j => hW.toIsPreBrownianReal.aemeasurable j.1
   exact indepFun_prod₀ hI hJ
 
-/-- Stationarity of `Z` plus `L(log) = ν + x⁻¹` gives the first reciprocal moment
-`E[A⁻¹] = -ν`.
+/-! ### Reciprocal moment `E[A⁻¹] = -ν`
 
-Proof plan (product-BM helpers `isBM_prod_*` / `indepFun_prod_copies` above):
-on `P.prod P` take independent copies `W₁,W₂`, apply `Z_stationary_sigma_one`,
-use the pathwise identity `log Z_t − log A = νt − B_t + ∫₀ᵗ Z_s⁻¹`
-(chain rule on the finite-variation factor; drift = `dufresneGenerator ν log`),
-take expectations and conclude `E[A⁻¹] = -ν`. -/
+Pathwise calculus on continuous BM paths plus stationarity of `Z` (no Itô package for `Z`).
+Consistency check: `dufresneGenerator_log` gives the same drift `ν + x⁻¹`. -/
+
+/-- The Dufresne perpetuity is strictly positive a.s.: continuous paths make the integrand
+bounded below by a positive constant on `[0,1]`, so the improper integral is positive. -/
+theorem ae_perpetuity_pos (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
+    (hW : IsBM P W) (ν : ℝ) (hν : ν < 0) :
+    ∀ᵐ ω ∂P, 0 < ∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s) := by
+  filter_upwards [ae_integrableOn_exp_bm P W hW 1 ν one_pos hν, hW.cont] with ω hint hcont
+  set f : ℝ → ℝ := fun s => Real.exp (W s.toNNReal ω + ν * s)
+  have hfcont : Continuous f := by
+    apply Real.continuous_exp.comp
+    fun_prop
+  have hintf : IntegrableOn f (Ioi 0) := by
+    convert hint using 1
+    funext s; simp [f]
+  obtain ⟨x, _hx, hxmin⟩ :=
+    isCompact_Icc.exists_isMinOn (nonempty_Icc.2 (zero_le_one : (0 : ℝ) ≤ 1)) hfcont.continuousOn
+  set m : ℝ := f x
+  have hm0 : 0 < m := Real.exp_pos _
+  have hIoc : m ≤ ∫ s in Ioc (0 : ℝ) 1, f s := by
+    have hint' : IntegrableOn f (Ioc (0 : ℝ) 1) := hfcont.integrableOn_Ioc
+    have hm_int : IntegrableOn (fun _ : ℝ => m) (Ioc (0 : ℝ) 1) volume :=
+      integrableOn_const (by simp) (by simp)
+    have hle : ∀ s ∈ Ioc (0 : ℝ) 1, m ≤ f s := fun s hs => hxmin ⟨hs.1.le, hs.2⟩
+    calc m = ∫ _s in Ioc (0 : ℝ) 1, m := by
+          rw [setIntegral_const, Measure.real, Real.volume_Ioc, sub_zero, ENNReal.toReal_ofReal,
+            one_smul]
+          · exact zero_le_one
+      _ ≤ ∫ s in Ioc (0 : ℝ) 1, f s :=
+          setIntegral_mono_on hm_int hint' measurableSet_Ioc hle
+  have hIoi : ∫ s in Ioc (0 : ℝ) 1, f s ≤ ∫ s in Ioi (0 : ℝ), f s :=
+    setIntegral_mono_set hintf (Eventually.of_forall fun _ => (Real.exp_pos _).le)
+      (Eventually.of_forall fun _ hs => (show _ ∈ Ioc (0 : ℝ) 1 from hs).1)
+  exact hm0.trans_le (hIoc.trans hIoi)
+
+/-- Path-space perpetuity functional. -/
+def perpetuityPath (ν : ℝ) (x : C(ℝ≥0, ℝ)) : ℝ :=
+  ∫ s in Ioi (0 : ℝ), Real.exp (x s.toNNReal + ν * s)
+
+theorem measurable_perpetuityPath (ν : ℝ) : Measurable (perpetuityPath ν) :=
+  measurable_pathSetIntegral (fun s w => Real.exp (w + ν * s)) (by fun_prop) (Ioi 0)
+
+/-- The map `ω ↦ ∫₀^∞ e^{W_s+νs} ds` is a.e. equal to `perpetuityPath ν ∘ bmPath`. -/
+theorem aemeasurable_perpetuity (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
+    (hW : IsBM P W) (ν : ℝ) :
+    AEMeasurable (fun ω => ∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s)) P := by
+  refine AEMeasurable.congr
+    ((measurable_perpetuityPath ν).comp (measurable_bmPath hW)).aemeasurable ?_
+  filter_upwards [bmPath_ae_eq hW] with ω hω
+  simp only [Function.comp_apply, perpetuityPath]
+  congr 1
+  funext s
+  rw [hω]
+
+/-- Deterministic pathwise identity: writing `Y_t = A + ∫₀ᵗ e^{-νs+B_s}` and
+`Z_t = e^{νt−B_t} Y_t`, one has `log Z_t − log A = νt − B_t + ∫₀ᵗ Z_s⁻¹` by ordinary calculus. -/
+theorem pathwise_log_Z_identity (B : ℝ≥0 → ℝ) (hBcont : Continuous B) (_hB0 : B 0 = 0)
+    (A : ℝ) (hA : 0 < A) (ν : ℝ) (t : ℝ≥0) :
+    let Y : ℝ≥0 → ℝ := fun u =>
+      A + ∫ s in (0 : ℝ)..(u : ℝ), Real.exp (-ν * s + B s.toNNReal)
+    let Z : ℝ≥0 → ℝ := fun u => Real.exp (ν * (u : ℝ) - B u) * Y u
+    Real.log (Z t) - Real.log A =
+      ν * (t : ℝ) - B t + ∫ s in (0 : ℝ)..(t : ℝ), (Z s.toNNReal)⁻¹ := by
+  intro Y Z
+  set g : ℝ → ℝ := fun s => Real.exp (-ν * s + B s.toNNReal)
+  have hgcont : Continuous g := by
+    simp only [g]
+    fun_prop
+  have hgInt : ∀ a b, IntervalIntegrable g volume a b := fun _ _ => hgcont.intervalIntegrable _ _
+  -- Define as a pointwise sum so `HasDerivAt.add` unifies directly with `YR`.
+  set YR : ℝ → ℝ := (fun _ => A) + fun x => ∫ s in (0 : ℝ)..x, g s
+  have hYR_apply : ∀ x, YR x = A + ∫ s in (0 : ℝ)..x, g s := fun x => rfl
+  have hYRpos : ∀ x : ℝ≥0, 0 < YR x := fun x => by
+    have : 0 ≤ ∫ s in (0 : ℝ)..(x : ℝ), g s :=
+      intervalIntegral.integral_nonneg (NNReal.coe_nonneg x) fun _ _ => (Real.exp_pos _).le
+    rw [hYR_apply]; linarith [hA]
+  have hZ_eq : ∀ u : ℝ≥0, Z u = Real.exp (ν * (u : ℝ) - B u) * YR u := fun u => by
+    simp only [Z, Y, hYR_apply, g]
+  have hYRderiv : ∀ x : ℝ, 0 ≤ x → HasDerivAt YR (g x) x := by
+    intro x _hx
+    convert (hasDerivAt_const x A).add
+      (intervalIntegral.integral_hasDerivAt_right (hgInt 0 x)
+        (hgcont.stronglyMeasurableAtFilter volume (nhds x)) hgcont.continuousAt)
+    simp
+  have hprim : Continuous YR :=
+    continuous_const.add (intervalIntegral.continuous_primitive hgInt 0)
+  have hlogY : Real.log (YR t) - Real.log A =
+      ∫ s in (0 : ℝ)..(t : ℝ), (YR s)⁻¹ * g s := by
+    have h0 : YR 0 = A := by simp [YR]
+    have hder : ∀ x ∈ Ioo (0 : ℝ) (t : ℝ), HasDerivAt (fun y => Real.log (YR y))
+        ((YR x)⁻¹ * g x) x := by
+      intro x hx
+      have hx0 : 0 ≤ x := hx.1.le
+      have hpos : YR x ≠ 0 := by
+        have : 0 < YR x.toNNReal := hYRpos _
+        simpa [Real.coe_toNNReal x hx0] using this.ne'
+      have hd := (hYRderiv x hx0).log hpos
+      convert hd using 1
+      field_simp
+    have hcontOn : ContinuousOn (fun y => Real.log (YR y)) (Icc (0 : ℝ) t) := by
+      apply hprim.continuousOn.log
+      intro y hy
+      have : 0 < YR y.toNNReal := hYRpos _
+      simpa [Real.coe_toNNReal y hy.1] using this.ne'
+    have hinter : IntervalIntegrable (fun s => (YR s)⁻¹ * g s) volume 0 (t : ℝ) := by
+      have hc : ContinuousOn (fun s => (YR s)⁻¹ * g s) (uIcc (0 : ℝ) t) := by
+        rw [uIcc_of_le (NNReal.coe_nonneg t)]
+        apply ContinuousOn.mul
+        · exact (hprim.continuousOn.inv₀ fun y hy => by
+            have : 0 < YR y.toNNReal := hYRpos _
+            simpa [Real.coe_toNNReal y hy.1] using this.ne')
+        · exact hgcont.continuousOn
+      exact hc.intervalIntegrable
+    have hFTC := intervalIntegral.integral_eq_sub_of_hasDerivAt_of_le
+      (NNReal.coe_nonneg t) hcontOn hder hinter
+    simpa [h0] using hFTC.symm
+  have hintegrand : ∀ s ∈ uIcc (0 : ℝ) (t : ℝ),
+      (YR s)⁻¹ * g s = (Z s.toNNReal)⁻¹ := by
+    intro s hs
+    have hsI : s ∈ Icc (0 : ℝ) t := by
+      simpa [uIcc_of_le (NNReal.coe_nonneg t)] using hs
+    have hs0 : 0 ≤ s := hsI.1
+    have hZs : Z s.toNNReal = Real.exp (ν * s - B s.toNNReal) * YR s := by
+      simp [hZ_eq, Real.coe_toNNReal s hs0]
+    have hge : g s = Real.exp (-(ν * s - B s.toNNReal)) := by
+      simp only [g]; congr 1; ring
+    calc (YR s)⁻¹ * g s
+        = (YR s)⁻¹ * Real.exp (-(ν * s - B s.toNNReal)) := by rw [hge]
+      _ = (YR s * Real.exp (ν * s - B s.toNNReal))⁻¹ := by
+            rw [Real.exp_neg, mul_comm (YR s)⁻¹, ← mul_inv_rev]
+      _ = (Real.exp (ν * s - B s.toNNReal) * YR s)⁻¹ := by rw [mul_comm]
+      _ = (Z s.toNNReal)⁻¹ := by rw [hZs]
+  have hIntEq : ∫ s in (0 : ℝ)..(t : ℝ), (YR s)⁻¹ * g s =
+      ∫ s in (0 : ℝ)..(t : ℝ), (Z s.toNNReal)⁻¹ :=
+    intervalIntegral.integral_congr hintegrand
+  have hlogZ : Real.log (Z t) = ν * (t : ℝ) - B t + Real.log (YR t) := by
+    have hZt : Z t = Real.exp (ν * (t : ℝ) - B t) * YR t := hZ_eq t
+    have hYpos' : 0 < YR t := hYRpos t
+    rw [hZt, Real.log_mul (Real.exp_pos _).ne' hYpos'.ne', Real.log_exp]
+  calc Real.log (Z t) - Real.log A
+      = ν * (t : ℝ) - B t + Real.log (YR t) - Real.log A := by rw [hlogZ]
+    _ = ν * (t : ℝ) - B t + (Real.log (YR t) - Real.log A) := by ring
+    _ = ν * (t : ℝ) - B t + ∫ s in (0 : ℝ)..(t : ℝ), (YR s)⁻¹ * g s := by rw [hlogY]
+    _ = ν * (t : ℝ) - B t + ∫ s in (0 : ℝ)..(t : ℝ), (Z s.toNNReal)⁻¹ := by rw [hIntEq]
+
+/-- Truncated logarithm: bounded measurable approximation to `log` on `(0, ∞)`. -/
+def truncLog (n : ℕ) (x : ℝ) : ℝ :=
+  if 0 < x then max (-(n : ℝ)) (min (n : ℝ) (Real.log x)) else 0
+
+theorem measurable_truncLog (n : ℕ) : Measurable (truncLog n) := by
+  refine Measurable.ite measurableSet_Ioi ?_ measurable_const
+  exact Measurable.max measurable_const <|
+    Measurable.min measurable_const Real.measurable_log
+
+theorem abs_truncLog_le (n : ℕ) (x : ℝ) : |truncLog n x| ≤ n := by
+  simp only [truncLog]
+  split_ifs with hx
+  · refine abs_le.2 ⟨le_max_left _ _, max_le (neg_le_self (Nat.cast_nonneg n)) (min_le_left _ _)⟩
+  · simp
+
+theorem tendsto_truncLog (x : ℝ) (hx : 0 < x) :
+    Tendsto (fun n : ℕ => truncLog n x) atTop (nhds (Real.log x)) := by
+  have h : ∀ᶠ n : ℕ in atTop, truncLog n x = Real.log x := by
+    filter_upwards [eventually_ge_atTop (Nat.ceil |Real.log x|)] with n hn
+    have h1 : |Real.log x| ≤ n := (Nat.le_ceil _).trans (Nat.cast_le.2 hn)
+    have hlo : -(n : ℝ) ≤ Real.log x := (abs_le.1 h1).1
+    have hhi : Real.log x ≤ n := (abs_le.1 h1).2
+    simp only [truncLog, hx, ite_true, min_eq_right hhi, max_eq_right hlo]
+  exact tendsto_nhds_of_eventually_eq h
+
+/-- Finite-horizon lower bound: `A ≥ e^ν ∫₀¹ e^{W_s} ds` a.s. when `ν < 0`. -/
+theorem ae_perpetuity_ge_expInt (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
+    (hW : IsBM P W) (ν : ℝ) (hν : ν < 0) :
+    ∀ᵐ ω ∂P,
+      Real.exp ν * expInt W 1 0 1 ω ≤
+        ∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s) := by
+  filter_upwards [ae_integrableOn_exp_bm P W hW 1 ν one_pos hν, hW.cont] with ω hint _hcont
+  set f : ℝ → ℝ := fun s => Real.exp (W s.toNNReal ω + ν * s)
+  have hfcont : Continuous f := by
+    apply Real.continuous_exp.comp
+    fun_prop
+  have hintf : IntegrableOn f (Ioi 0) := by
+    convert hint using 1; funext s; simp [f]
+  have hlow : ∀ s ∈ Ioc (0 : ℝ) 1, Real.exp ν * Real.exp (W s.toNNReal ω) ≤ f s := by
+    intro s hs
+    have : ν ≤ ν * s := by nlinarith [hν, hs.1.le, hs.2]
+    simp only [f, ← Real.exp_add]
+    exact Real.exp_le_exp.2 (by linarith)
+  have hInt : Real.exp ν * expInt W 1 0 1 ω =
+      ∫ s in Ioc (0 : ℝ) 1, Real.exp ν * Real.exp (W s.toNNReal ω) := by
+    simp only [expInt, zero_mul, add_zero, one_mul]
+    have h01 : (0 : ℝ) ≤ (1 : ℝ) := zero_le_one
+    rw [← intervalIntegral.integral_const_mul, show (1 : ℝ≥0) = (1 : ℝ) from rfl,
+      intervalIntegral.integral_of_le h01]
+  have hIoc : Real.exp ν * expInt W 1 0 1 ω ≤ ∫ s in Ioc (0 : ℝ) 1, f s := by
+    rw [hInt]
+    refine setIntegral_mono_on ?_ hfcont.integrableOn_Ioc measurableSet_Ioc hlow
+    exact (continuous_const.mul (by fun_prop : Continuous fun s : ℝ =>
+      Real.exp (W s.toNNReal ω))).integrableOn_Ioc
+  have hIoi : ∫ s in Ioc (0 : ℝ) 1, f s ≤ ∫ s in Ioi (0 : ℝ), f s :=
+    setIntegral_mono_set hintf (Eventually.of_forall fun _ => (Real.exp_pos _).le)
+      (Eventually.of_forall fun _ hs => (show _ ∈ Ioc (0 : ℝ) 1 from hs).1)
+  exact hIoc.trans hIoi
+
+/-- Integrability of the reciprocal perpetuity: bound by the finite-horizon negative moment. -/
+theorem integrable_inv_perpetuity (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
+    (hW : IsBM P W) (ν : ℝ) (hν : ν < 0) :
+    Integrable (fun ω => (∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s))⁻¹) P := by
+  have hfin := expInt_zpow_neg_integrable P W hW 1 1 one_pos one_pos 1
+  have hge := ae_perpetuity_ge_expInt P W hW ν hν
+  have hmeas := aemeasurable_perpetuity P W hW ν
+  refine Integrable.mono' (hfin.const_mul (Real.exp (-ν))) hmeas.inv.aestronglyMeasurable ?_
+  filter_upwards [hge, hW.cont] with ω hgeω _hcont
+  set A := ∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s)
+  set E1 := expInt W 1 0 1 ω
+  have hEpos : 0 < E1 := by
+    have hc : Continuous fun s : ℝ => Real.exp (W s.toNNReal ω) := by fun_prop
+    have hInt := intervalIntegral.integral_pos (by norm_num : (0 : ℝ) < 1) hc.continuousOn
+      (fun _ _ => (Real.exp_pos _).le)
+      ⟨0, ⟨le_rfl, zero_le_one⟩, by simpa using Real.exp_pos (W 0 ω)⟩
+    simpa [E1, expInt] using hInt
+  have hApos : 0 < A := lt_of_lt_of_le (mul_pos (Real.exp_pos ν) hEpos) hgeω
+  have hbound : A⁻¹ ≤ Real.exp (-ν) * E1⁻¹ := by
+    have h1 : A⁻¹ ≤ (Real.exp ν * E1)⁻¹ :=
+      inv_anti₀ (mul_pos (Real.exp_pos ν) hEpos) hgeω
+    calc A⁻¹ ≤ (Real.exp ν)⁻¹ * E1⁻¹ := by rwa [mul_inv] at h1
+      _ = Real.exp (-ν) * E1⁻¹ := by rw [Real.exp_neg]
+  rw [Real.norm_eq_abs, abs_of_pos (inv_pos.2 hApos)]
+  simpa [zpow_neg, pow_one, E1] using hbound
+
+/-- Brownian evaluation is integrable (Gaussian moments). -/
+theorem integrable_BM_eval (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
+    (hW : IsBM P W) (t : ℝ≥0) : Integrable (W t) P :=
+  (hW.toIsPreBrownianReal.hasLaw_eval t).integrable_comp (f := id)
+    ((memLp_id_gaussianReal (μ := 0) (v := t) 2).integrable (by norm_num))
+
+/-- Mean-zero property of Brownian motion. -/
+theorem integral_BM_eval (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
+    (hW : IsBM P W) (t : ℝ≥0) : ∫ ω, W t ω ∂P = 0 := by
+  have h := (hW.toIsPreBrownianReal.hasLaw_eval t).integral_comp
+    (f := fun x : ℝ => x) continuous_id.aestronglyMeasurable
+  simpa using h.trans integral_id_gaussianReal
+
+/-- `Zproc` is a.e. measurable (path-integral construction). -/
+theorem aemeasurable_Zproc (P : Measure Ω) [IsProbabilityMeasure P]
+    (W B : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (hB : IsBM P B)
+    (ν : ℝ) (_hν : ν < 0) (t : ℝ≥0) :
+    AEMeasurable (Zproc W B 1 ν t) P := by
+  have hAae := aemeasurable_perpetuity P W hW ν
+  have hBt := hB.toIsPreBrownianReal.aemeasurable t
+  have hIm : Measurable fun ω =>
+      ∫ u in (0 : ℝ)..(t : ℝ), Real.exp (-ν * u + bmPath hB ω u.toNNReal) :=
+    (measurable_pathIntegral (fun u b => Real.exp (-ν * u + b)) (by fun_prop) t).comp
+      (measurable_bmPath hB)
+  have hI : AEMeasurable
+      (fun ω => ∫ u in (0 : ℝ)..(t : ℝ), Real.exp (-ν * u + B u.toNNReal ω)) P := by
+    refine hIm.aemeasurable.congr ?_
+    filter_upwards [bmPath_ae_eq hB] with ω hp
+    refine intervalIntegral.integral_congr fun u hu => ?_
+    have huI : u ∈ Icc (0 : ℝ) t := by
+      simpa [uIcc_of_le (NNReal.coe_nonneg t)] using hu
+    simp [hp u.toNNReal, Real.coe_toNNReal u huI.1]
+  have hexp : AEMeasurable (fun ω => Real.exp (ν * (t : ℝ) - B t ω)) P :=
+    Real.measurable_exp.comp_aemeasurable <|
+      ((measurable_const : Measurable fun _ => ν * (t : ℝ)).aemeasurable).sub hBt
+  refine (hexp.mul (hAae.add hI)).congr ?_
+  filter_upwards with ω
+  simp [Zproc, one_mul]
+
+/-- Reciprocal moments of `Z_t` and `A` agree by stationarity. -/
+theorem integral_inv_Zproc_eq (P : Measure Ω) [IsProbabilityMeasure P]
+    (W B : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (hB : IsBM P B)
+    (hWB : IndepFun (fun ω => fun t : ℝ≥0 => W t ω) (fun ω => fun t : ℝ≥0 => B t ω) P)
+    (ν : ℝ) (hν : ν < 0) (t : ℝ≥0) :
+    ∫ ω, (Zproc W B 1 ν t ω)⁻¹ ∂P =
+      ∫ ω, (∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s))⁻¹ ∂P := by
+  set A : Ω → ℝ := fun ω => ∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s)
+  have hAinv := integrable_inv_perpetuity P W hW ν hν
+  have hApos := ae_perpetuity_pos P W hW ν hν
+  have hZae := aemeasurable_Zproc P W B hW hB ν hν t
+  have hmaps := Z_stationary_sigma_one P W B hW hB hWB ν hν t
+  have hm0 : Measurable fun x : ℝ => ENNReal.ofReal x⁻¹ :=
+    ENNReal.measurable_ofReal.comp measurable_inv
+  have hAae := aemeasurable_perpetuity P W hW ν
+  have hmomL : ∫⁻ ω, ENNReal.ofReal (Zproc W B 1 ν t ω)⁻¹ ∂P =
+      ∫⁻ ω, ENNReal.ofReal (A ω)⁻¹ ∂P := by
+    calc ∫⁻ ω, ENNReal.ofReal (Zproc W B 1 ν t ω)⁻¹ ∂P
+        = ∫⁻ x, ENNReal.ofReal x⁻¹ ∂(P.map (Zproc W B 1 ν t)) :=
+          (lintegral_map' hm0.aemeasurable hZae).symm
+      _ = ∫⁻ x, ENNReal.ofReal x⁻¹ ∂(P.map A) := by
+          simpa [A, one_mul] using congrArg (fun μ => ∫⁻ x, ENNReal.ofReal x⁻¹ ∂μ) hmaps
+      _ = ∫⁻ ω, ENNReal.ofReal (A ω)⁻¹ ∂P := lintegral_map' hm0.aemeasurable hAae
+  have hZpos : ∀ᵐ ω ∂P, 0 < Zproc W B 1 ν t ω := by
+    filter_upwards [hApos] with ω hAp
+    have hinter :
+        0 ≤ ∫ u in (0 : ℝ)..(t : ℝ), Real.exp (-ν * u + B u.toNNReal ω) :=
+      intervalIntegral.integral_nonneg (NNReal.coe_nonneg t) fun _ _ => (Real.exp_pos _).le
+    have hY : 0 < A ω + ∫ u in (0 : ℝ)..(t : ℝ), Real.exp (-ν * u + B u.toNNReal ω) := by
+      linarith [hAp]
+    simpa [Zproc, A, one_mul] using mul_pos (Real.exp_pos _) hY
+  have hnnZ : 0 ≤ᵐ[P] fun ω => (Zproc W B 1 ν t ω)⁻¹ := by
+    filter_upwards [hZpos] with ω hp; exact (inv_pos.2 hp).le
+  have hnnA : 0 ≤ᵐ[P] fun ω => (A ω)⁻¹ := by
+    filter_upwards [hApos] with ω hp; exact (inv_pos.2 hp).le
+  have hZinv : Integrable (fun ω => (Zproc W B 1 ν t ω)⁻¹) P := by
+    refine ⟨hZae.inv.aestronglyMeasurable, ?_⟩
+    rw [hasFiniteIntegral_iff_ofReal hnnZ, hmomL]
+    exact (hasFiniteIntegral_iff_ofReal hnnA).1 hAinv.hasFiniteIntegral
+  apply (ENNReal.ofReal_eq_ofReal_iff (integral_nonneg_of_ae hnnZ)
+    (integral_nonneg_of_ae hnnA)).1
+  calc ENNReal.ofReal (∫ ω, (Zproc W B 1 ν t ω)⁻¹ ∂P)
+      = ∫⁻ ω, ENNReal.ofReal (Zproc W B 1 ν t ω)⁻¹ ∂P :=
+        ofReal_integral_eq_lintegral_ofReal hZinv hnnZ
+    _ = ∫⁻ ω, ENNReal.ofReal (A ω)⁻¹ ∂P := hmomL
+    _ = ENNReal.ofReal (∫ ω, (A ω)⁻¹ ∂P) :=
+        (ofReal_integral_eq_lintegral_ofReal hAinv hnnA).symm
+
+/-- Slice integrability of `Z_t⁻¹` (same L¹ norm as `A⁻¹` by stationarity). -/
+theorem integrable_inv_Zproc (P : Measure Ω) [IsProbabilityMeasure P]
+    (W B : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (hB : IsBM P B)
+    (hWB : IndepFun (fun ω => fun t : ℝ≥0 => W t ω) (fun ω => fun t : ℝ≥0 => B t ω) P)
+    (ν : ℝ) (hν : ν < 0) (t : ℝ≥0) :
+    Integrable (fun ω => (Zproc W B 1 ν t ω)⁻¹) P := by
+  have hAinv := integrable_inv_perpetuity P W hW ν hν
+  have hApos := ae_perpetuity_pos P W hW ν hν
+  have hZae := aemeasurable_Zproc P W B hW hB ν hν t
+  have hmaps := Z_stationary_sigma_one P W B hW hB hWB ν hν t
+  set A : Ω → ℝ := fun ω => ∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s)
+  have hm0 : Measurable fun x : ℝ => ENNReal.ofReal x⁻¹ :=
+    ENNReal.measurable_ofReal.comp measurable_inv
+  have hAae := aemeasurable_perpetuity P W hW ν
+  have hmomL : ∫⁻ ω, ENNReal.ofReal (Zproc W B 1 ν t ω)⁻¹ ∂P =
+      ∫⁻ ω, ENNReal.ofReal (A ω)⁻¹ ∂P := by
+    calc ∫⁻ ω, ENNReal.ofReal (Zproc W B 1 ν t ω)⁻¹ ∂P
+        = ∫⁻ x, ENNReal.ofReal x⁻¹ ∂(P.map (Zproc W B 1 ν t)) :=
+          (lintegral_map' hm0.aemeasurable hZae).symm
+      _ = ∫⁻ x, ENNReal.ofReal x⁻¹ ∂(P.map A) := by
+          simpa [A, one_mul] using congrArg (fun μ => ∫⁻ x, ENNReal.ofReal x⁻¹ ∂μ) hmaps
+      _ = ∫⁻ ω, ENNReal.ofReal (A ω)⁻¹ ∂P := lintegral_map' hm0.aemeasurable hAae
+  have hZpos : ∀ᵐ ω ∂P, 0 < Zproc W B 1 ν t ω := by
+    filter_upwards [hApos] with ω hAp
+    have hinter :
+        0 ≤ ∫ u in (0 : ℝ)..(t : ℝ), Real.exp (-ν * u + B u.toNNReal ω) :=
+      intervalIntegral.integral_nonneg (NNReal.coe_nonneg t) fun _ _ => (Real.exp_pos _).le
+    have hY : 0 < A ω + ∫ u in (0 : ℝ)..(t : ℝ), Real.exp (-ν * u + B u.toNNReal ω) := by
+      linarith [hAp]
+    simpa [Zproc, A, one_mul] using mul_pos (Real.exp_pos _) hY
+  have hnnZ : 0 ≤ᵐ[P] fun ω => (Zproc W B 1 ν t ω)⁻¹ := by
+    filter_upwards [hZpos] with ω hp; exact (inv_pos.2 hp).le
+  have hnnA : 0 ≤ᵐ[P] fun ω => (A ω)⁻¹ := by
+    filter_upwards [hApos] with ω hp; exact (inv_pos.2 hp).le
+  refine ⟨hZae.inv.aestronglyMeasurable, ?_⟩
+  rw [hasFiniteIntegral_iff_ofReal hnnZ, hmomL]
+  exact (hasFiniteIntegral_iff_ofReal hnnA).1 hAinv.hasFiniteIntegral
+
+/-- Path-space reciprocal used for joint measurability of `Z⁻¹`. -/
+def invZFromPaths (ν : ℝ) (s : ℝ≥0) (w b : C(ℝ≥0, ℝ)) : ℝ :=
+  let A := perpetuityPath ν w
+  let Y := A + ∫ u in (0 : ℝ)..(s : ℝ), Real.exp (-ν * u + b u.toNNReal)
+  let Zv := Real.exp (ν * (s : ℝ) - b s) * Y
+  if 0 < A then Zv⁻¹ else 0
+
+theorem continuous_invZFromPaths_time (ν : ℝ) (w b : C(ℝ≥0, ℝ)) :
+    Continuous fun s : ℝ≥0 => invZFromPaths ν s w b := by
+  classical
+  simp only [invZFromPaths]
+  by_cases hA : 0 < perpetuityPath ν w
+  · simp only [hA, ite_true]
+    have hYpos : ∀ s : ℝ≥0, 0 <
+        perpetuityPath ν w +
+          ∫ u in (0 : ℝ)..(s : ℝ), Real.exp (-ν * u + b u.toNNReal) := fun s => by
+      have : 0 ≤ ∫ u in (0 : ℝ)..(s : ℝ), Real.exp (-ν * u + b u.toNNReal) :=
+        intervalIntegral.integral_nonneg (NNReal.coe_nonneg s) fun _ _ => (Real.exp_pos _).le
+      linarith [hA]
+    refine Continuous.inv₀ ?_ fun s =>
+      (mul_pos (Real.exp_pos _) (hYpos s)).ne'
+    have hc : Continuous fun u : ℝ => Real.exp (-ν * u + b u.toNNReal) := by fun_prop
+    have hprim :
+        Continuous fun s : ℝ≥0 => ∫ u in (0 : ℝ)..(s : ℝ), Real.exp (-ν * u + b u.toNNReal) :=
+      (intervalIntegral.continuous_primitive
+          (μ := volume) (fun _ _ => hc.intervalIntegrable _ _) 0).comp continuous_subtype_val
+    exact (by fun_prop : Continuous fun s : ℝ≥0 => Real.exp (ν * (s : ℝ) - b s)).mul <|
+      continuous_const.add hprim
+  · simp only [hA, ite_false]
+    exact continuous_const
+
+theorem measurable_invZFromPaths (ν : ℝ) (s : ℝ≥0) :
+    Measurable fun p : C(ℝ≥0, ℝ) × C(ℝ≥0, ℝ) => invZFromPaths ν s p.1 p.2 := by
+  have hA : Measurable fun p : C(ℝ≥0, ℝ) × C(ℝ≥0, ℝ) => perpetuityPath ν p.1 :=
+    (measurable_perpetuityPath ν).comp measurable_fst
+  have hI : Measurable fun p : C(ℝ≥0, ℝ) × C(ℝ≥0, ℝ) =>
+      ∫ u in (0 : ℝ)..(s : ℝ), Real.exp (-ν * u + p.2 u.toNNReal) :=
+    (measurable_pathIntegral (fun u b => Real.exp (-ν * u + b)) (by fun_prop) s).comp
+      measurable_snd
+  have hY := hA.add hI
+  have hexp : Measurable fun p : C(ℝ≥0, ℝ) × C(ℝ≥0, ℝ) =>
+      Real.exp (ν * (s : ℝ) - p.2 s) :=
+    Real.measurable_exp.comp <|
+      (measurable_const : Measurable fun _ => ν * (s : ℝ)).sub
+        (ContinuousMap.measurable_eval s |>.comp measurable_snd)
+  have hZv := hexp.mul hY
+  refine Measurable.ite (measurableSet_lt measurable_const hA) hZv.inv measurable_const
+
+/-- Joint integrability of `(s, ω) ↦ Z_s(ω)⁻¹` on `(0, t] × Ω`, for Fubini. -/
+theorem integrable_uncurry_inv_Zproc (P : Measure Ω) [IsProbabilityMeasure P]
+    (W B : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (hB : IsBM P B)
+    (hWB : IndepFun (fun ω => fun t : ℝ≥0 => W t ω) (fun ω => fun t : ℝ≥0 => B t ω) P)
+    (ν : ℝ) (hν : ν < 0) (t : ℝ≥0) :
+    Integrable (Function.uncurry
+      (fun s : ℝ => fun ω => (Zproc W B 1 ν s.toNNReal ω)⁻¹))
+      ((volume.restrict (uIoc (0 : ℝ) (t : ℝ))).prod P) := by
+  classical
+  set fMeas : ℝ × Ω → ℝ := fun p =>
+    invZFromPaths ν p.1.toNNReal (bmPath hW p.2) (bmPath hB p.2)
+  have hfMeas' : Measurable fMeas :=
+    measurable_uncurry_of_continuous_of_measurable
+      (u := fun s : ℝ => fun ω : Ω =>
+        invZFromPaths ν s.toNNReal (bmPath hW ω) (bmPath hB ω))
+      (fun ω =>
+        (continuous_invZFromPaths_time ν (bmPath hW ω) (bmPath hB ω)).comp
+          continuous_real_toNNReal)
+      (fun s =>
+        (measurable_invZFromPaths ν s.toNNReal).comp
+          ((measurable_bmPath hW).prodMk (measurable_bmPath hB)))
+  have hae : fMeas =ᵐ[(volume.restrict (uIoc (0 : ℝ) (t : ℝ))).prod P]
+      Function.uncurry (fun s : ℝ => fun ω => (Zproc W B 1 ν s.toNNReal ω)⁻¹) := by
+    have hWae := bmPath_ae_eq hW
+    have hBae := bmPath_ae_eq hB
+    have hApos := ae_perpetuity_pos P W hW ν hν
+    have hmod := (Measure.quasiMeasurePreserving_snd
+      (μ := volume.restrict (uIoc (0 : ℝ) (t : ℝ))) (ν := P)).ae
+      ((hWae.and hBae).and hApos)
+    filter_upwards [hmod] with p hp
+    have hWw : ∀ u : ℝ≥0, bmPath hW p.2 u = W u p.2 := hp.1.1
+    have hBb : ∀ u : ℝ≥0, bmPath hB p.2 u = B u p.2 := hp.1.2
+    have hAp : 0 < ∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal p.2 + ν * s) := hp.2
+    set τ : ℝ≥0 := p.1.toNNReal
+    have hAeq : perpetuityPath ν (bmPath hW p.2) =
+        ∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal p.2 + ν * s) := by
+      simp only [perpetuityPath]
+      congr 1; funext s; rw [hWw]
+    have hIeq :
+        ∫ u in (0 : ℝ)..(τ : ℝ), Real.exp (-ν * u + bmPath hB p.2 u.toNNReal) =
+          ∫ u in (0 : ℝ)..(τ : ℝ), Real.exp (-ν * u + B u.toNNReal p.2) :=
+      intervalIntegral.integral_congr fun u _ => by rw [hBb]
+    have hBeq : bmPath hB p.2 τ = B τ p.2 := hBb _
+    have hApos' : 0 < perpetuityPath ν (bmPath hW p.2) := by rwa [hAeq]
+    change invZFromPaths ν τ (bmPath hW p.2) (bmPath hB p.2) =
+      (Zproc W B 1 ν τ p.2)⁻¹
+    unfold invZFromPaths
+    rw [if_pos hApos']
+    simp only [Zproc, one_mul, hAeq, hIeq, hBeq]
+  have hasm : AEStronglyMeasurable
+      (Function.uncurry (fun s : ℝ => fun ω => (Zproc W B 1 ν s.toNNReal ω)⁻¹))
+      ((volume.restrict (uIoc (0 : ℝ) (t : ℝ))).prod P) :=
+    hfMeas'.aestronglyMeasurable.congr hae
+  rw [integrable_prod_iff hasm]
+  refine ⟨?_, ?_⟩
+  · refine ae_restrict_of_forall_mem measurableSet_uIoc fun s hs => ?_
+    have hs0 : 0 ≤ s := by
+      rw [uIoc_of_le (NNReal.coe_nonneg t)] at hs
+      exact hs.1.le
+    simpa [Function.uncurry, Real.coe_toNNReal s hs0] using
+      integrable_inv_Zproc P W B hW hB hWB ν hν s.toNNReal
+  · have hvol : volume (uIoc (0 : ℝ) (t : ℝ)) < ∞ := by
+      rw [uIoc_of_le (NNReal.coe_nonneg t), Real.volume_Ioc]
+      simp
+    haveI : IsFiniteMeasure (volume.restrict (uIoc (0 : ℝ) (t : ℝ))) :=
+      ⟨by simpa [Measure.restrict_apply MeasurableSet.univ] using hvol⟩
+    set c : ℝ := ∫ ω, (∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s))⁻¹ ∂P
+    have hc : Integrable (fun _ : ℝ => c) (volume.restrict (uIoc (0 : ℝ) (t : ℝ))) :=
+      integrable_const c
+    refine hc.congr ?_
+    refine ae_restrict_of_forall_mem measurableSet_uIoc fun s hs => ?_
+    have hs0 : 0 ≤ s := by
+      rw [uIoc_of_le (NNReal.coe_nonneg t)] at hs
+      exact hs.1.le
+    have hnn : 0 ≤ᵐ[P] fun ω => (Zproc W B 1 ν s.toNNReal ω)⁻¹ := by
+      have hApos := ae_perpetuity_pos P W hW ν hν
+      filter_upwards [hApos] with ω hAp
+      have hinter :
+          0 ≤ ∫ u in (0 : ℝ)..(s.toNNReal : ℝ), Real.exp (-ν * u + B u.toNNReal ω) :=
+        intervalIntegral.integral_nonneg (NNReal.coe_nonneg _) fun _ _ => (Real.exp_pos _).le
+      have hY : 0 <
+          (∫ u in Ioi (0 : ℝ), Real.exp (W u.toNNReal ω + ν * u)) +
+            ∫ u in (0 : ℝ)..(s.toNNReal : ℝ), Real.exp (-ν * u + B u.toNNReal ω) := by
+        linarith [hAp]
+      exact (inv_pos.2 (by simpa [Zproc, one_mul] using mul_pos (Real.exp_pos _) hY)).le
+    simp only [Function.uncurry, Real.norm_eq_abs, c]
+    have habs : ∫ ω, |(Zproc W B 1 ν s.toNNReal ω)⁻¹| ∂P =
+        ∫ ω, (Zproc W B 1 ν s.toNNReal ω)⁻¹ ∂P :=
+      integral_congr_ae <| by
+        filter_upwards [hnn] with ω hω; exact abs_of_nonneg hω
+    rw [habs]
+    exact (integral_inv_Zproc_eq P W B hW hB hWB ν hν s.toNNReal).symm
+
+/-- Stationarity of `Z` plus the pathwise log identity give `E[A⁻¹] = -ν`.
+
+Uses truncated logs + DCT so that only `Integrable A⁻¹` (not `Integrable log A`) is required. -/
 theorem perpetuity_inv_moment (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (ν : ℝ) (hν : ν < 0) :
     ∫⁻ ω, ENNReal.ofReal
         ((∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s))⁻¹) ∂P =
       ENNReal.ofReal (-ν) := by
-  sorry
+  classical
+  set Q : Measure (Ω × Ω) := P.prod P
+  set W1 : ℝ≥0 → Ω × Ω → ℝ := fun t p => W t p.1
+  set Bproc : ℝ≥0 → Ω × Ω → ℝ := fun t p => W t p.2
+  have hW1 : IsBM Q W1 := isBM_prod_fst hW
+  have hB : IsBM Q Bproc := isBM_prod_snd hW
+  have hWB := indepFun_prod_copies (W := W) hW
+  set A : Ω × Ω → ℝ := fun p =>
+    ∫ s in Ioi (0 : ℝ), Real.exp (W1 s.toNNReal p + ν * s)
+  set A0 : Ω → ℝ := fun ω =>
+    ∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s)
+  have hA_fst : A = A0 ∘ Prod.fst := by
+    funext p; simp [A, A0, W1, Function.comp]
+  have hAinv : Integrable (fun p => (A p)⁻¹) Q := by
+    simpa [A, W1] using integrable_inv_perpetuity Q W1 hW1 ν hν
+  have hApos : ∀ᵐ p ∂Q, 0 < A p := by
+    simpa [A, W1] using ae_perpetuity_pos Q W1 hW1 ν hν
+  set Z1 : Ω × Ω → ℝ := Zproc W1 Bproc 1 ν 1
+  have hstat : Q.map Z1 = Q.map A := by
+    simpa [Z1, A, W1, Bproc, one_mul] using
+      Z_stationary_sigma_one Q W1 Bproc hW1 hB hWB ν hν 1
+  have htransfer :
+      (∫⁻ p, ENNReal.ofReal (A p)⁻¹ ∂Q) = ∫⁻ ω, ENNReal.ofReal (A0 ω)⁻¹ ∂P := by
+    have hfst : MeasurePreserving Prod.fst Q P := measurePreserving_fst (μ := P) (ν := P)
+    set A0m : Ω → ℝ := fun ω => perpetuityPath ν (bmPath hW ω)
+    have hm : Measurable fun ω => ENNReal.ofReal (A0m ω)⁻¹ :=
+      ENNReal.measurable_ofReal.comp
+        ((measurable_perpetuityPath ν).comp (measurable_bmPath hW)).inv
+    have hAe : A0 =ᵐ[P] A0m := by
+      filter_upwards [bmPath_ae_eq hW] with ω hω
+      simp [A0, A0m, perpetuityPath, hω]
+    have hQe : (fun p => ENNReal.ofReal (A p)⁻¹) =ᵐ[Q]
+        fun p => ENNReal.ofReal (A0m p.1)⁻¹ := by
+      rw [hA_fst]
+      filter_upwards [hfst.quasiMeasurePreserving.ae hAe] with p hp
+      simp [Function.comp, hp]
+    rw [lintegral_congr_ae hQe, hfst.lintegral_comp hm]
+    exact lintegral_congr_ae <| by
+      filter_upwards [hAe] with ω hω; simp [hω]
+  have hid : ∀ᵐ p ∂Q,
+      Real.log (Z1 p) - Real.log (A p) =
+        ν * (1 : ℝ) - Bproc 1 p +
+          ∫ s in (0 : ℝ)..(1 : ℝ), (Zproc W1 Bproc 1 ν s.toNNReal p)⁻¹ := by
+    filter_upwards [hApos, hB.cont, hB.eval_zero_ae_eq_zero] with p hAp hBcont hB0
+    simpa [Z1, Zproc, A, W1, Bproc, one_mul] using
+      pathwise_log_Z_identity (fun t => Bproc t p) hBcont hB0 (A p) hAp ν 1
+  have hmain : ∫ p, (A p)⁻¹ ∂Q = -ν := by
+    have hEB := integral_BM_eval Q Bproc hB 1
+    have hBint := integrable_BM_eval Q Bproc hB 1
+    have hmomR : ∀ s : ℝ≥0, ∫ p, (Zproc W1 Bproc 1 ν s p)⁻¹ ∂Q = ∫ p, (A p)⁻¹ ∂Q :=
+      fun s => by simpa [A, W1] using integral_inv_Zproc_eq Q W1 Bproc hW1 hB hWB ν hν s
+    have hZae := aemeasurable_Zproc Q W1 Bproc hW1 hB ν hν
+    have hid' : ∀ᵐ p ∂Q,
+        ∫ s in (0 : ℝ)..(1 : ℝ), (Zproc W1 Bproc 1 ν s.toNNReal p)⁻¹ =
+          Real.log (Z1 p) - Real.log (A p) - ν + Bproc 1 p := by
+      filter_upwards [hid] with p hp; linarith [hp]
+    have hZpos : ∀ᵐ p ∂Q, ∀ s : ℝ≥0, 0 < Zproc W1 Bproc 1 ν s p := by
+      filter_upwards [hApos] with p hAp s
+      have hinter :
+          0 ≤ ∫ u in (0 : ℝ)..(s : ℝ), Real.exp (-ν * u + Bproc u.toNNReal p) :=
+        intervalIntegral.integral_nonneg (NNReal.coe_nonneg s) fun _ _ => (Real.exp_pos _).le
+      have hY : 0 < A p + ∫ u in (0 : ℝ)..(s : ℝ), Real.exp (-ν * u + Bproc u.toNNReal p) := by
+        linarith [hAp]
+      simpa [Zproc, one_mul] using mul_pos (Real.exp_pos _) hY
+    have hint :
+        Integrable (Function.uncurry
+          (fun s : ℝ => fun p => (Zproc W1 Bproc 1 ν s.toNNReal p)⁻¹))
+          ((volume.restrict (uIoc (0 : ℝ) (1 : ℝ))).prod Q) :=
+      integrable_uncurry_inv_Zproc Q W1 Bproc hW1 hB hWB ν hν 1
+    have hIntZ : Integrable
+        (fun p => ∫ s in (0 : ℝ)..(1 : ℝ), (Zproc W1 Bproc 1 ν s.toNNReal p)⁻¹) Q := by
+      have hset : Integrable
+          (fun p => ∫ s in uIoc (0 : ℝ) (1 : ℝ),
+            (Zproc W1 Bproc 1 ν s.toNNReal p)⁻¹) Q := by
+        simpa [Function.uncurry] using hint.integral_prod_right
+      convert hset using 1
+      funext p
+      simp [intervalIntegral.intervalIntegral_eq_integral_uIoc,
+        uIoc_of_le (zero_le_one : (0 : ℝ) ≤ 1), one_smul]
+    have hFub :
+        ∫ p, (∫ s in (0 : ℝ)..(1 : ℝ), (Zproc W1 Bproc 1 ν s.toNNReal p)⁻¹) ∂Q =
+          ∫ p, (A p)⁻¹ ∂Q := by
+      have hswap :=
+        intervalIntegral_integral_swap
+          (f := fun s p => (Zproc W1 Bproc 1 ν s.toNNReal p)⁻¹) hint
+      -- hswap : ∫s ∫p = ∫p (∫s)
+      rw [← hswap]
+      have hpoint : ∀ s ∈ uIcc (0 : ℝ) (1 : ℝ),
+          ∫ p, (Zproc W1 Bproc 1 ν s.toNNReal p)⁻¹ ∂Q = ∫ p, (A p)⁻¹ ∂Q := by
+        intro s hs
+        have hsI : s ∈ Icc (0 : ℝ) 1 := by
+          simpa [uIcc_of_le (zero_le_one : (0 : ℝ) ≤ 1)] using hs
+        simpa [Real.coe_toNNReal s hsI.1] using hmomR s.toNNReal
+      calc ∫ s in (0 : ℝ)..(1 : ℝ), ∫ p, (Zproc W1 Bproc 1 ν s.toNNReal p)⁻¹ ∂Q
+          = ∫ s in (0 : ℝ)..(1 : ℝ), ∫ p, (A p)⁻¹ ∂Q :=
+            intervalIntegral.integral_congr hpoint
+        _ = ∫ p, (A p)⁻¹ ∂Q := by
+            rw [intervalIntegral.integral_of_le (zero_le_one : (0 : ℝ) ≤ 1),
+              setIntegral_const, Measure.real, Real.volume_Ioc, sub_zero,
+              ENNReal.toReal_ofReal zero_le_one, one_smul]
+    have hlogdiff : Integrable (fun p => Real.log (Z1 p) - Real.log (A p)) Q := by
+      refine ((hIntZ.add (integrable_const ν)).sub hBint).congr ?_
+      filter_upwards [hid'] with p hp
+      have h :
+          (∫ s in (0 : ℝ)..(1 : ℝ), (Zproc W1 Bproc 1 ν s.toNNReal p)⁻¹) + ν - Bproc 1 p =
+            Real.log (Z1 p) - Real.log (A p) := by linarith [hp]
+      exact h
+    have hElog : ∫ p, Real.log (Z1 p) - Real.log (A p) ∂Q = 0 := by
+      have hZi : ∀ n, Integrable (fun p => truncLog n (Z1 p)) Q := fun n =>
+        Integrable.of_bound
+          ((measurable_truncLog n).comp_aemeasurable (hZae 1)).aestronglyMeasurable n
+          (Eventually.of_forall fun p => abs_truncLog_le n _)
+      have hAi : ∀ n, Integrable (fun p => truncLog n (A p)) Q := fun n =>
+        Integrable.of_bound
+          ((measurable_truncLog n).comp_aemeasurable
+            (aemeasurable_perpetuity Q W1 hW1 ν)).aestronglyMeasurable n
+          (Eventually.of_forall fun p => abs_truncLog_le n _)
+      have htrunc : ∀ n, ∫ p, truncLog n (Z1 p) ∂Q = ∫ p, truncLog n (A p) ∂Q := by
+        intro n
+        have hm := measurable_truncLog n
+        calc ∫ p, truncLog n (Z1 p) ∂Q
+            = ∫ x, truncLog n x ∂(Q.map Z1) :=
+              (integral_map (hZae 1) hm.aestronglyMeasurable).symm
+          _ = ∫ x, truncLog n x ∂(Q.map A) := by rw [hstat]
+          _ = ∫ p, truncLog n (A p) ∂Q :=
+              integral_map (aemeasurable_perpetuity Q W1 hW1 ν) hm.aestronglyMeasurable
+      have htend :
+          Tendsto (fun n => ∫ p, truncLog n (Z1 p) - truncLog n (A p) ∂Q) atTop
+            (nhds (∫ p, Real.log (Z1 p) - Real.log (A p) ∂Q)) := by
+        refine tendsto_integral_of_dominated_convergence
+          (fun p => |Real.log (Z1 p) - Real.log (A p)|)
+          (fun n =>
+            (((measurable_truncLog n).comp_aemeasurable (hZae 1)).sub
+              ((measurable_truncLog n).comp_aemeasurable
+                (aemeasurable_perpetuity Q W1 hW1 ν))).aestronglyMeasurable)
+          hlogdiff.abs ?_ ?_
+        · intro n
+          filter_upwards [hZpos, hApos] with p hpZ hpA
+          have hx : 0 < Z1 p := hpZ 1
+          have hy : 0 < A p := hpA
+          change |truncLog n (Z1 p) - truncLog n (A p)| ≤ |Real.log (Z1 p) - Real.log (A p)|
+          simp only [truncLog, hx, hy, ite_true]
+          have hLip : LipschitzWith 1
+              (fun t : ℝ => max (-(n : ℝ)) (min (n : ℝ) t)) :=
+            (LipschitzWith.id (α := ℝ)).const_min (n : ℝ) |>.const_max (-(n : ℝ))
+          have := hLip.dist_le_mul (Real.log (Z1 p)) (Real.log (A p))
+          simpa [Real.dist_eq, NNReal.coe_one, one_mul] using this
+        · filter_upwards [hZpos, hApos] with p hpZ hpA
+          exact (tendsto_truncLog _ (hpZ 1)).sub (tendsto_truncLog _ hpA)
+      have hzero : ∀ n, ∫ p, truncLog n (Z1 p) - truncLog n (A p) ∂Q = 0 := fun n => by
+        rw [integral_sub (hZi n) (hAi n), htrunc n, sub_self]
+      exact tendsto_nhds_unique htend (tendsto_const_nhds.congr fun n => (hzero n).symm)
+    have hsplit :
+        ∫ p, Real.log (Z1 p) - Real.log (A p) - ν + Bproc 1 p ∂Q = -ν := by
+      have h1 : Integrable (fun p => Real.log (Z1 p) - Real.log (A p) + (-ν)) Q :=
+        hlogdiff.add (integrable_const _)
+      have heq :
+          (fun p => Real.log (Z1 p) - Real.log (A p) - ν + Bproc 1 p) =ᵐ[Q]
+            fun p => (Real.log (Z1 p) - Real.log (A p) + (-ν)) + Bproc 1 p :=
+        Eventually.of_forall fun p => by ring
+      rw [integral_congr_ae heq, integral_add h1 hBint, hEB, add_zero,
+        integral_add hlogdiff (integrable_const (-ν)), hElog, zero_add,
+        MeasureTheory.integral_const]
+      simp [Measure.real]
+    calc ∫ p, (A p)⁻¹ ∂Q
+        = ∫ p, (∫ s in (0 : ℝ)..(1 : ℝ), (Zproc W1 Bproc 1 ν s.toNNReal p)⁻¹) ∂Q :=
+          hFub.symm
+      _ = ∫ p, Real.log (Z1 p) - Real.log (A p) - ν + Bproc 1 p ∂Q :=
+          integral_congr_ae hid'
+      _ = -ν := hsplit
+  have hnn : 0 ≤ᵐ[Q] fun p => (A p)⁻¹ := by
+    filter_upwards [hApos] with p hp; exact (inv_pos.2 hp).le
+  have hlin : ∫⁻ p, ENNReal.ofReal (A p)⁻¹ ∂Q = ENNReal.ofReal (∫ p, (A p)⁻¹ ∂Q) :=
+    (ofReal_integral_eq_lintegral_ofReal hAinv hnn).symm
+  calc ∫⁻ ω, ENNReal.ofReal (A0 ω)⁻¹ ∂P
+      = ∫⁻ p, ENNReal.ofReal (A p)⁻¹ ∂Q := htransfer.symm
+    _ = ENNReal.ofReal (∫ p, (A p)⁻¹ ∂Q) := hlin
+    _ = ENNReal.ofReal (-ν) := by rw [hmain]
 
 /-- Classical reciprocal-Gamma moments of the unit-volatility perpetuity:
 `E[A^{-n}] = gammaMoment (-2ν) 2 n` for `A = ∫₀^∞ e^{W_s+νs} ds`.

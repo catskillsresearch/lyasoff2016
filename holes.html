@@ -280,12 +280,19 @@
     }
 
     function ranks(data) {
+      // Hard edges always set layout depth. Soft edges also do when the source is
+      // already done, so paper-order follow-ons (e.g. g contour under Thm 4.5) sit
+      // below their foundations — without letting unfinished tips pull done nodes down.
+      const byId = Object.fromEntries(data.nodes.map(n => [n.id, n]));
       const ids = data.nodes.map(n => n.id);
       const preds = new Map(ids.map(id => [id, []]));
       for (const e of data.edges) {
-        if (!isHard(e)) continue;
         if (!preds.has(e.to)) continue;
-        preds.get(e.to).push(e.from);
+        if (isHard(e)) {
+          preds.get(e.to).push(e.from);
+        } else if (e.kind === "soft" && byId[e.from] && nodeStatus(byId[e.from]) === "done") {
+          preds.get(e.to).push(e.from);
+        }
       }
       const depth = new Map();
       const visiting = new Set();
