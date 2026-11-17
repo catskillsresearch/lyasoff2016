@@ -6,6 +6,7 @@ import Lyasoff2016.Lib.IntegralMoments
 import Lyasoff2016.Lib.BrownianScaling
 import Lyasoff2016.Lib.DensityVersions
 import Lyasoff2016.Lib.CameronMartin
+import Lyasoff2016.Lib.Prop22Classical
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open scoped ENNReal NNReal Real
@@ -66,8 +67,8 @@ theorem prop_2_2 (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω �
         (∫⁻ y, ENNReal.ofReal (Real.exp (-y ^ 2 / (2 * (t : ℝ)))) *
           ∫⁻ x in Ioi (0 : ℝ), ENNReal.ofReal |(x : ℝ) ^ (p : ℤ) * pd m n φc x y|) < ∞ ∧
         (∫⁻ y, ENNReal.ofReal (Real.exp (-y ^ 2 / (2 * (t : ℝ)))) *
-          ∫⁻ x in Ioi (0 : ℝ), ENNReal.ofReal |(x : ℝ) ^ (-(p : ℤ)) * pd m n φc x y|) < ∞) := by
-  sorry
+          ∫⁻ x in Ioi (0 : ℝ), ENNReal.ofReal |(x : ℝ) ^ (-(p : ℤ)) * pd m n φc x y|) < ∞) :=
+  prop_2_2_classical P W hW σ t hσ ht
 
 /- Paper: p. 1065, ψ_{σ,ν} the infinite-horizon density.
    Plain recap: density of ∫₀^∞ e^{σ W_s + ν s} ds. -/

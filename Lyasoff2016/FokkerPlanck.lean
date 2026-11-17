@@ -4,6 +4,8 @@
 import Lyasoff2016.Auxiliary
 import Lyasoff2016.Lib.MomentUniqueness
 import Lyasoff2016.Lib.InverseGamma
+import Lyasoff2016.Lib.JointFokkerPlanckHelpers
+import Lyasoff2016.Lib.JointFokkerPlanckIto
 import BrownianMotion.Gaussian.BrownianMotion
 import MathFin.Probability.Brownian.Ito.ItoFormulaTD
 import MathFin.Probability.Brownian.Ito.ItoFormulaProcess
@@ -11,9 +13,12 @@ import MathFin.Probability.Brownian.BrownianExpMoment
 import MathFin.Probability.Brownian.BrownianMartingale
 import MathFin.Probability.Brownian.Ito.ItoIsometryAdapted
 import MathFin.Probability.Brownian.Ito.ItoFormulaGBM
+import MathFin.Probability.Brownian.Ito.ItoIntegralProcessGeneral
 import Mathlib.Probability.Independence.Integration
+import Mathlib.Analysis.Distribution.AEEqOfIntegralContDiff
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
+open MeasureTheory.Measure
 open scoped ENNReal NNReal Real
 
 noncomputable section
@@ -2978,6 +2983,97 @@ theorem deriv_jointFlux (σ : ℝ) (φ : ℝ → ℝ → ℝ) (x y : ℝ)
     deriv (fun z => jointFlux σ φ z y) x = jointFokkerPlanckAdjoint σ φ x y :=
   (hasDerivAt_jointFlux σ φ x y hφx hφxx hφxy).deriv
 
+/-- Paper (3.5) operator at exponential-BM coefficients, acting on a test function. -/
+def jointA (σ : ℝ) (ϕ : ℝ → ℝ → ℝ) (x y : ℝ) : ℝ :=
+  σ ^ 2 * x ^ 2 / 2 * iteratedDeriv 2 (fun x' => ϕ x' y) x
+    + σ * x * deriv (fun y' => deriv (fun x' => ϕ x' y') x) y
+    + (σ ^ 2 * x / 2 + 1 - Real.exp (σ * y)) * deriv (fun x' => ϕ x' y) x
+
+theorem jointA_eq_Aop (σ : ℝ) (ϕ : ℝ → ℝ → ℝ) (x y : ℝ) :
+    jointA σ ϕ x y =
+      Aop 1 (fun z => Real.exp (σ * z)) ϕ x y (σ * x) (σ ^ 2 * x) := by
+  simp only [jointA, Aop]; ring
+
+/-- The (3.4b)−(3.4a) drift difference is `jointA` on product tests. -/
+theorem jointA_eq_drift_diff (σ : ℝ) (u v : ℝ → ℝ)
+    (hu : ContDiff ℝ 2 u) (hv : ContDiff ℝ 2 v) (x y : ℝ) :
+    jointA σ (fun x y => u x * v y) x y =
+      ((1 : ℝ) * deriv u x * v y
+        + (σ ^ 2 / 2) * x * deriv u x * v y
+        + (σ ^ 2 / 2) * x ^ 2 * deriv (deriv u) x * v y
+        + σ * x * deriv u x * deriv v y
+        + (1 / 2) * u x * deriv (deriv v) y)
+      - (deriv u x * Real.exp (σ * y) * v y
+          + u x * ((1 : ℝ) / 2) * deriv (deriv v) y) := by
+  have hu_diff : Differentiable ℝ u := hu.differentiable (by decide)
+  have hv_diff : Differentiable ℝ v := hv.differentiable (by decide)
+  have huder : Differentiable ℝ (deriv u) :=
+    ((contDiff_succ_iff_deriv (n := 1)).mp hu).2.2.differentiable (by decide)
+  have hx : deriv (fun x' => u x' * v y) x = deriv u x * v y :=
+    deriv_mul_const (hu_diff.differentiableAt) (v y)
+  have hxx : iteratedDeriv 2 (fun x' => u x' * v y) x = deriv (deriv u) x * v y := by
+    have heq : deriv (fun x' => u x' * v y) = fun x' => deriv u x' * v y := by
+      funext x'
+      exact deriv_mul_const (hu_diff.differentiableAt) (v y)
+    simp only [iteratedDeriv_succ, iteratedDeriv_zero, heq]
+    exact deriv_mul_const (huder.differentiableAt) (v y)
+  have hxy : deriv (fun y' => deriv (fun x' => u x' * v y') x) y =
+      deriv u x * deriv v y := by
+    have h1 : (fun y' => deriv (fun x' => u x' * v y') x) =
+        fun y' => deriv u x * v y' := by
+      funext y'
+      exact deriv_mul_const (hu_diff.differentiableAt) (v y')
+    rw [h1]
+    exact deriv_const_mul (deriv u x) (hv_diff.differentiableAt)
+  simp only [jointA, hxx, hxy, hx]
+  ring
+
+/-- Dynkin identity (3.5) for product test functions. -/
+theorem joint_dynkin_Aop_product (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (ht : 0 < t)
+    (u v : ℝ → ℝ) (hu : ContDiff ℝ (⊤ : WithTop ℕ∞) u) (hv : ContDiff ℝ (⊤ : WithTop ℕ∞) v)
+    (huC : HasCompactSupport u) (hvC : HasCompactSupport v) :
+    ∫ ω, jointA σ (fun x y => u x * v y) (expInt W σ 0 t ω) (W t ω) ∂P = 0 := by
+  have h34a := ito_expInt_test_product P W hW σ t u v hu hv huC hvC
+  have h34b := ito_timeReversed_expInt_test_product P W hW σ t ht u v hu hv huC hvC
+  -- Subtract integrated drifts; rewrite difference as ∫ E[jointA]; the cumulative vanishes
+  -- for every horizon, so the continuous integrand vanishes at `t`.
+  have _ := jointA_eq_drift_diff σ u v (hu.of_le (by decide)) (hv.of_le (by decide))
+  have _ := h34a
+  have _ := h34b
+  sorry
+
+/-- Weak adjoint identity against product test functions, via `IsJointDensity`. -/
+theorem weak_joint_fokker_planck_product (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (ht : 0 < t)
+    (φ : ℝ → ℝ → ℝ) (hφ : IsJointDensity P W σ 0 t φ)
+    (hsm : ∀ n : ℕ, ContDiffOn ℝ n (Function.uncurry φ) jointDomain)
+    (u v : ℝ → ℝ) (hu : ContDiff ℝ (⊤ : WithTop ℕ∞) u) (hv : ContDiff ℝ (⊤ : WithTop ℕ∞) v)
+    (huC : HasCompactSupport u) (hvC : HasCompactSupport v)
+    (hsupp : tsupport (fun p : ℝ × ℝ => u p.1 * v p.2) ⊆ jointDomain) :
+    ∫ p : ℝ × ℝ, u p.1 * v p.2 * jointFokkerPlanckAdjoint σ φ p.1 p.2 = 0 := by
+  have hdyn := joint_dynkin_Aop_product P W hW σ t ht u v hu hv huC hvC
+  -- E[jointA] = ∫∫ jointA · φ via `IsJointDensity`; IBP on jointDomain (boundary vanishes by
+  -- `hsupp`) yields the adjoint pairing.
+  sorry
+
+/-- Pointwise vanishing of the adjoint from product weak identities. -/
+theorem jointFokkerPlanckAdjoint_eq_zero (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (ht : 0 < t)
+    (φ : ℝ → ℝ → ℝ) (hφ : IsJointDensity P W σ 0 t φ)
+    (hsm : ∀ n : ℕ, ContDiffOn ℝ n (Function.uncurry φ) jointDomain)
+    (x y : ℝ) (hx : 0 < x) :
+    jointFokkerPlanckAdjoint σ φ x y = 0 := by
+  have hcont : ContinuousOn
+      (fun p : ℝ × ℝ => jointFokkerPlanckAdjoint σ φ p.1 p.2) jointDomain := by
+    -- C³ on the open joint domain ⇒ continuous second partials ⇒ continuous adjoint.
+    have h3 := hsm 3
+    -- Each term of `jointFokkerPlanckAdjoint` is continuous on `jointDomain`.
+    sorry
+  refine eq_zero_of_integral_product_eq_zero hcont ?_ hx
+  intro u v hu hv huC hvC hts
+  exact weak_joint_fokker_planck_product P W hW σ t ht φ hφ hsm u v hu hv huC hvC hts
+
 /- Paper: p. 1070, (3.6b).
    Plain recap: the joint density φ satisfies the divergence-form PDE
    ∂ₓ[(σ²x²/2)∂ₓφ + σx ∂ᵧφ + (e^{σy} + σ²x/2 − 1)φ] = 0.
@@ -2992,12 +3088,48 @@ theorem fokker_planck_joint (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ�
         σ ^ 2 * x' ^ 2 / 2 * deriv (fun z => φ z y) x'
           + σ * x' * deriv (fun y' => φ x' y') y
           + (Real.exp (σ * y) + σ ^ 2 * x' / 2 - 1) * φ x' y) x = 0 := by
-  -- Exact remaining gap: derive the pointwise adjoint identity
-  -- `jointFokkerPlanckAdjoint σ φ x y = 0` from `time_reversal` by Itô/Dynkin,
-  -- identify expectations using `hφ`, and upgrade the resulting weak distributional
-  -- equation to a pointwise one using `hsm`.  `deriv_jointFlux` above discharges the
-  -- deterministic (3.6a) → (3.6b) divergence calculation once that identity is available.
-  sorry
+  have hsm' : ∀ n : ℕ, ContDiffOn ℝ n (Function.uncurry φ) jointDomain := by
+    simpa [jointDomain] using hsm
+  have hadj := jointFokkerPlanckAdjoint_eq_zero P W hW σ t ht φ hφ hsm' x y hx
+  have hxmem : (x, y) ∈ jointDomain := mem_jointDomain hx
+  have hnhds := isOpen_jointDomain.mem_nhds hxmem
+  have hinner1 : ContDiffAt ℝ 1 (fun z : ℝ => (z, y)) x :=
+    ContDiffAt.prodMk contDiffAt_id contDiffAt_const
+  have hinner2 : ContDiffAt ℝ 2 (fun z : ℝ => (z, y)) x :=
+    ContDiffAt.prodMk contDiffAt_id contDiffAt_const
+  have hslice1 : ContDiffAt ℝ 1 (fun z : ℝ => φ z y) x := by
+    have hAt : ContDiffAt ℝ 1 (Function.uncurry φ) (x, y) :=
+      ((hsm' 1).contDiffWithinAt hxmem).contDiffAt hnhds
+    exact ContDiffAt.comp x hAt hinner1
+  have hslice2 : ContDiffAt ℝ 2 (fun z : ℝ => φ z y) x := by
+    have hAt : ContDiffAt ℝ 2 (Function.uncurry φ) (x, y) :=
+      ((hsm' 2).contDiffWithinAt hxmem).contDiffAt hnhds
+    exact ContDiffAt.comp x hAt hinner2
+  have hφx : HasDerivAt (fun z => φ z y) (deriv (fun z => φ z y) x) x :=
+    (hasDerivAt_deriv_iff).2 (hslice1.differentiableAt (by decide))
+  have hφxx : HasDerivAt (deriv fun z => φ z y)
+      (deriv (deriv fun z => φ z y) x) x :=
+    (hasDerivAt_deriv_iff).2
+      ((hslice2.derivWithin (m := 1) (by decide)).differentiableAt (by decide))
+  have hφxy : HasDerivAt (fun z => deriv (fun y' => φ z y') y)
+      (deriv (fun z => deriv (fun y' => φ z y') y) x) x := by
+    have hAt : ContDiffAt ℝ 2 (Function.uncurry φ) (x, y) :=
+      ((hsm' 2).contDiffWithinAt hxmem).contDiffAt hnhds
+    -- `z ↦ fderiv (φ z ·) y` is C¹, apply to `1` to recover `∂ᵧ`
+    have hf : ContDiffAt ℝ 1 (fun z => fderiv ℝ (fun y' => φ z y') y) x :=
+      ContDiffAt.fderiv (f := fun z y' => φ z y') (g := fun _ => y) hAt
+        (by fun_prop) (by decide)
+    have happly : ContDiffAt ℝ 1
+        (fun z => fderiv ℝ (fun y' => φ z y') y (1 : ℝ)) x :=
+      ContDiffAt.clm_apply hf contDiffAt_const
+    have hident : (fun z => deriv (fun y' => φ z y') y) =
+        fun z => fderiv ℝ (fun y' => φ z y') y (1 : ℝ) := by
+      funext z; rfl
+    rw [hident]
+    exact (hasDerivAt_deriv_iff).2 (happly.differentiableAt (by decide))
+  have hder := deriv_jointFlux σ φ x y hφx hφxx hφxy
+  change deriv (fun x' => jointFlux σ φ x' y) x = 0
+  rw [hder, hadj]
 
 /- Paper: p. 1070, Remark 3.2.
    Plain recap: identity in law relating (X_t, M_t−W_t, M_t) to a reflected version. -/

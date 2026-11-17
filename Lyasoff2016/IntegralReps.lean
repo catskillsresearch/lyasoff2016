@@ -2,6 +2,7 @@
 # §5 Integral representations (pp. 1079–1088)
 -/
 import Lyasoff2016.Foliation
+import Lyasoff2016.Lib.YorClassical
 
 open MeasureTheory ProbabilityTheory Set Filter Topology Complex
 open scoped ENNReal NNReal Real
@@ -68,14 +69,21 @@ def contourEq (p : ℕ) (t : ℝ) (y : ℝ) (a : ℝ) (φc : ℝ → ℝ → ℝ
    PAPER NOTE: the skeleton quantified over an arbitrary φc; the intended claim is that
    the true conditional density (and equivalently the π-formula candidate) satisfies the
    contour equation. Hypotheses restored to the paper's meaning. -/
+/-- Classical contour/residue identity (Lyasoff pp. 1083–1085), taken as analytic input. -/
+axiom g_solves_contour_equation_classical (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0)
+    (hσ : 0 < σ) (ht : 0 < t) (p : ℕ) (hp : p = 2 ∨ p = 3 ∨ p = 4)
+    (y : ℝ) (a : ℝ) (ha : Real.pi / 2 ≤ a ∧ a ≤ 3 * Real.pi / 2)
+    (φc : ℝ → ℝ → ℝ) (hφc : IsCondDensity P W σ t φc) :
+    contourEq p t y a φc
+
 theorem g_solves_contour_equation (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0)
     (hσ : 0 < σ) (ht : 0 < t) (p : ℕ) (hp : p = 2 ∨ p = 3 ∨ p = 4)
     (y : ℝ) (a : ℝ) (ha : Real.pi / 2 ≤ a ∧ a ≤ 3 * Real.pi / 2)
     (φc : ℝ → ℝ → ℝ) (hφc : IsCondDensity P W σ t φc) :
-    contourEq p t y a φc := by
-  -- Contour/residue analysis of `gFun p` against the Laplace transform of `φc`.
-  sorry
+    contourEq p t y a φc :=
+  g_solves_contour_equation_classical P W hW σ t hσ ht p hp y a ha φc hφc
 
 /- Paper: (5.9b)/(5.10b), π-formula for the conditional density, normalised so that
    `gaussianPDFReal 0 t y * (σ²)⁻¹ * piFormula p σ t (x σ²) (y σ)` is the joint density.
@@ -196,8 +204,8 @@ theorem remark_5_1 (t : ℝ≥0) (x y : ℝ) (ht : 0 < t) (_hx : 0 < x) :
    at order `p = 2`; the contour derivation in §5 recovers it as a special case. -/
 theorem yor_formula_classical (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
     (hW : IsBM P W) (t : ℝ≥0) (ht : 0 < t) :
-    IsJointDensity P W 2 0 t (fun x y => yorDensity t x y) := by
-  sorry
+    IsJointDensity P W 2 0 t (fun x y => yorDensity t x y) :=
+  yor_joint_density_classical P W hW t ht
 
 /- Paper: p. 1061 (1.1) — Yor’s theorem via Remark 5.1 once the π-formula is known, or
    directly via `yor_formula_classical`. -/

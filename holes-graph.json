@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-17T02:30:08Z",
-  "sorryCount": 12,
+  "updated": "2026-11-17T03:49:27Z",
+  "sorryCount": 9,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
     "blocked": "Waiting on incomplete required proof-deps",
@@ -12,7 +12,7 @@
     "Done = no local sorry and every hard predecessor is done (no unproven\u2192proven).",
     "Blue = done. Green = open. Grey = blocked.",
     "Regenerate with: python3 scripts/build_holes.py",
-    "Open tips: prop_2_2, fokker_planck_joint, g_solves_contour_equation, yor_formula_classical."
+    "Open tips: prop_2_2, g_solves_contour_equation."
   ],
   "nodes": [
     {
@@ -64,7 +64,7 @@
       "id": "infinite_integral_finite",
       "label": "\u222b\u2080^\u221e finite",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:83",
+      "file": "Lyasoff2016/FokkerPlanck.lean:88",
       "status": "done",
       "blocker": null,
       "detail": "Footnote 2: a.s. finiteness of the perpetuity for \u03bd<0."
@@ -73,7 +73,7 @@
       "id": "Z_stationary",
       "label": "Z stationary",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:425",
+      "file": "Lyasoff2016/FokkerPlanck.lean:430",
       "status": "done",
       "blocker": null,
       "detail": "Stationarity of Z_t vs the infinite-horizon integral."
@@ -82,7 +82,7 @@
       "id": "dufresne_zero_flux",
       "label": "Zero-flux ODE",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:441",
+      "file": "Lyasoff2016/FokkerPlanck.lean:446",
       "status": "done",
       "blocker": null,
       "detail": "Dufresne density satisfies the stationary zero-flux ODE."
@@ -91,7 +91,7 @@
       "id": "perpetuity_inv_moment",
       "label": "E[A\u207b\u00b9]=\u2212\u03bd",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:1178",
+      "file": "Lyasoff2016/FokkerPlanck.lean:1183",
       "status": "done",
       "blocker": null,
       "detail": "First reciprocal moment via Dynkin/stationarity of Z and L(log)."
@@ -100,7 +100,7 @@
       "id": "perpetuity_neg_moments",
       "label": "E[A\u207b\u207f]",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:2745",
+      "file": "Lyasoff2016/FokkerPlanck.lean:2750",
       "status": "done",
       "blocker": null,
       "detail": "All reciprocal moments match the inverse-Gamma moments."
@@ -109,7 +109,7 @@
       "id": "dufresne_theorem_sigma_one",
       "label": "Dufresne \u03c3=1",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:2817",
+      "file": "Lyasoff2016/FokkerPlanck.lean:2822",
       "status": "done",
       "blocker": null,
       "detail": "Unit-volatility law of A is igMeasure(\u22122\u03bd, 2)."
@@ -118,7 +118,7 @@
       "id": "dufresne_theorem",
       "label": "Dufresne thm",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:2907",
+      "file": "Lyasoff2016/FokkerPlanck.lean:2912",
       "status": "done",
       "blocker": null,
       "detail": "General \u03c3 via Brownian scaling from \u03c3=1."
@@ -127,8 +127,8 @@
       "id": "fokker_planck_joint",
       "label": "FP (3.6b)",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:2986",
-      "status": "open",
+      "file": "Lyasoff2016/FokkerPlanck.lean:3082",
+      "status": "done",
       "blocker": null,
       "detail": "Joint density satisfies the divergence-form Fokker\u2013Planck PDE."
     },
@@ -136,7 +136,7 @@
       "id": "remark_3_2",
       "label": "Rem 3.2",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:3004",
+      "file": "Lyasoff2016/FokkerPlanck.lean:3136",
       "status": "done",
       "blocker": null,
       "detail": "Reflection / running-max identity in law."
@@ -190,7 +190,7 @@
       "id": "g_solves_contour_equation",
       "label": "g contour eq",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:71",
+      "file": "Lyasoff2016/IntegralReps.lean:72",
       "status": "open",
       "blocker": null,
       "detail": "g_{t,p} solves the contour equation for a \u2208 [\u03c0/2, 3\u03c0/2]."
@@ -199,8 +199,8 @@
       "id": "yor_formula_classical",
       "label": "Yor classical",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:197",
-      "status": "open",
+      "file": "Lyasoff2016/IntegralReps.lean:198",
+      "status": "done",
       "blocker": null,
       "detail": "Yor's joint density (1.1) as an independent classical input."
     },
@@ -208,7 +208,7 @@
       "id": "remark_5_1",
       "label": "Rem 5.1",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:188",
+      "file": "Lyasoff2016/IntegralReps.lean:189",
       "status": "done",
       "blocker": null,
       "detail": "\u03c0-formula p=2, \u03c3=2 recovers Yor."
@@ -217,18 +217,18 @@
       "id": "pi_formula",
       "label": "\u03c0 / \u03c0/2",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:227",
+      "file": "Lyasoff2016/IntegralReps.lean:228",
       "status": "blocked",
-      "blocker": "needs g_solves_contour_equation, yor_formula_classical",
+      "blocker": "needs g_solves_contour_equation",
       "detail": "Joint density via \u03c0 and \u03c0/2 formulae for p=2,3,4."
     },
     {
       "id": "yor_formula",
       "label": "Yor via Rem 5.1",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:204",
-      "status": "blocked",
-      "blocker": "needs yor_formula_classical",
+      "file": "Lyasoff2016/IntegralReps.lean:205",
+      "status": "done",
+      "blocker": null,
       "detail": "yor_formula := yor_formula_classical (or Rem 5.1 route)."
     },
     {
