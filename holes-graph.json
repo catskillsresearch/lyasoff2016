@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-17T21:13:19Z",
-  "sorryCount": 14,
+  "updated": "2026-11-17T21:21:02Z",
+  "sorryCount": 7,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
     "blocked": "Waiting on incomplete required proof-deps",
@@ -12,7 +12,7 @@
     "Done = no local sorry and every hard predecessor is done (no unproven\u2192proven).",
     "Blue = done. Green = open. Grey = blocked.",
     "Regenerate with: python3 scripts/build_holes.py",
-    "Open tips: dufresne_zero_flux, pi_formula, S_zero."
+    "Open tips: pi_formula."
   ],
   "nodes": [
     {
@@ -82,8 +82,8 @@
       "id": "dufresne_zero_flux",
       "label": "Zero-flux ODE",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean",
-      "status": "open",
+      "file": "Lyasoff2016/Dufresne.lean:216",
+      "status": "done",
       "blocker": null,
       "detail": "Dufresne density satisfies the stationary zero-flux ODE."
     },
@@ -92,8 +92,8 @@
       "label": "E[A\u207b\u00b9]=\u2212\u03bd",
       "section": 3,
       "file": "Lyasoff2016/FokkerPlanck.lean:782",
-      "status": "blocked",
-      "blocker": "needs dufresne_zero_flux",
+      "status": "done",
+      "blocker": null,
       "detail": "First reciprocal moment via Dynkin/stationarity of Z and L(log)."
     },
     {
@@ -101,8 +101,8 @@
       "label": "E[A\u207b\u207f]",
       "section": 3,
       "file": "Lyasoff2016/FokkerPlanck.lean:2318",
-      "status": "blocked",
-      "blocker": "needs perpetuity_inv_moment",
+      "status": "done",
+      "blocker": null,
       "detail": "All reciprocal moments match the inverse-Gamma moments."
     },
     {
@@ -110,8 +110,8 @@
       "label": "Dufresne \u03c3=1",
       "section": 3,
       "file": "Lyasoff2016/FokkerPlanck.lean:2390",
-      "status": "blocked",
-      "blocker": "needs perpetuity_neg_moments",
+      "status": "done",
+      "blocker": null,
       "detail": "Unit-volatility law of A is igMeasure(\u22122\u03bd, 2)."
     },
     {
@@ -119,8 +119,8 @@
       "label": "Dufresne thm",
       "section": 3,
       "file": "Lyasoff2016/FokkerPlanck.lean:2480",
-      "status": "blocked",
-      "blocker": "needs dufresne_theorem_sigma_one",
+      "status": "done",
+      "blocker": null,
       "detail": "General \u03c3 via Brownian scaling from \u03c3=1."
     },
     {
@@ -289,8 +289,8 @@
       "id": "S_zero",
       "label": "S_{0,p}",
       "section": 6,
-      "file": "Lyasoff2016/Asian.lean",
-      "status": "open",
+      "file": "Lyasoff2016/Sfun.lean:205",
+      "status": "done",
       "blocker": null,
       "detail": "Closed form of S at k=0 via Gamma."
     },
@@ -298,9 +298,9 @@
       "id": "S_closed_form",
       "label": "S_{k,p}",
       "section": 6,
-      "file": "Lyasoff2016/Asian.lean",
-      "status": "blocked",
-      "blocker": "needs S_zero",
+      "file": "Lyasoff2016/Sfun.lean:210",
+      "status": "done",
+      "blocker": null,
       "detail": "Incomplete-Gamma closed form of S_{k,p}."
     },
     {
@@ -318,7 +318,7 @@
       "section": 6,
       "file": "Lyasoff2016/Asian.lean:82",
       "status": "blocked",
-      "blocker": "needs pi_formula, S_closed_form",
+      "blocker": "needs pi_formula",
       "detail": "Call = \u222c Re F from \u03c0/2-formula p=4."
     },
     {

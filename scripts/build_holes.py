@@ -73,7 +73,7 @@ NODES: dict[str, dict] = {
     "dufresne_zero_flux": {
         "label": "Zero-flux ODE",
         "section": 3,
-        "file": "Lyasoff2016/FokkerPlanck.lean",
+        "file": "Lyasoff2016/Dufresne.lean",
         "detail": "Dufresne density satisfies the stationary zero-flux ODE.",
     },
     "perpetuity_inv_moment": {
@@ -215,13 +215,13 @@ NODES: dict[str, dict] = {
     "S_zero": {
         "label": "S_{0,p}",
         "section": 6,
-        "file": "Lyasoff2016/Asian.lean",
+        "file": "Lyasoff2016/Sfun.lean",
         "detail": "Closed form of S at k=0 via Gamma.",
     },
     "S_closed_form": {
         "label": "S_{k,p}",
         "section": 6,
-        "file": "Lyasoff2016/Asian.lean",
+        "file": "Lyasoff2016/Sfun.lean",
         "detail": "Incomplete-Gamma closed form of S_{k,p}.",
     },
     "benchmark_k_zero": {

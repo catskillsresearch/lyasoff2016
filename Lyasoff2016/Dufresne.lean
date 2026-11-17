@@ -212,6 +212,12 @@ theorem eq_igDensity_one (ν : ℝ) :
 
 end dufresne
 
+/-- Board-facing alias of `dufresne.zero_flux`. -/
+theorem dufresne_zero_flux (σ ν : ℝ) (hσ : 0 < σ) (x : ℝ) (hx : 0 < x) :
+    σ ^ 2 / 2 * deriv (fun z => z ^ 2 * dufresne σ ν z) x
+      - (1 + (ν + σ ^ 2 / 2) * x) * dufresne σ ν x = 0 :=
+  dufresne.zero_flux σ ν hσ x hx
+
 /-- The logarithmic derivative implied by the zero-flux ODE:
 `(x² ψ)' / (x² ψ) = (2/σ²)(x⁻² + (ν + σ²/2) x⁻¹)` wherever `ψ x ≠ 0`. -/
 theorem zero_flux_logDeriv (σ ν : ℝ) (hσ : 0 < σ) (ψ : ℝ → ℝ) (x : ℝ) (hx : 0 < x)

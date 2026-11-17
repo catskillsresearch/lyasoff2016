@@ -201,4 +201,18 @@ theorem closed_form (k p : ℕ) (α : ℝ) (hk : 0 < (k : ℝ)) (hp : 3 ≤ p) (
 
 end Sfun
 
+/-- Board-facing alias of `Sfun.zero`. -/
+theorem S_zero (p : ℕ) (α : ℝ) (hp : 3 ≤ p) (hα : 0 < α) :
+    Sfun 0 p α = α ^ (-((p : ℝ) - 2)) * Real.Gamma ((p : ℝ) - 2) :=
+  Sfun.zero p α hp hα
+
+/-- Board-facing alias of `Sfun.closed_form`. -/
+theorem S_closed_form (k p : ℕ) (α : ℝ) (hk : 0 < (k : ℝ)) (hp : 3 ≤ p) (hα : 0 < α) :
+    Sfun k p α =
+      (k : ℝ) * α ^ (-((p : ℝ) - 1)) * upperGamma ((p : ℝ) - 1) (α / k) -
+        α ^ (-((p : ℝ) - 2)) * upperGamma ((p : ℝ) - 2) (α / k) -
+        (k : ℝ) * α ^ (-((p : ℝ) - 1)) * Real.Gamma ((p : ℝ) - 1) +
+        α ^ (-((p : ℝ) - 2)) * Real.Gamma ((p : ℝ) - 2) :=
+  Sfun.closed_form k p α hk hp hα
+
 end Lyasoff2016

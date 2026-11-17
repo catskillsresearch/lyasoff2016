@@ -2,8 +2,8 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-17T21:13:19Z
-**Holes:** 14 open+blocked · 3 open · 11 blocked · 25 done.
+**Updated:** 2026-11-17T21:21:02Z
+**Holes:** 7 open+blocked · 1 open · 6 blocked · 32 done.
 
 **Live board:** [`holes.html`](holes.html) + [`holes-graph.json`](holes-graph.json).
 
@@ -16,9 +16,7 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 
 | Id | Label | File |
 |---|---|---|
-| `dufresne_zero_flux` | Zero-flux ODE | `Lyasoff2016/FokkerPlanck.lean` |
 | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:157` |
-| `S_zero` | S_{0,p} | `Lyasoff2016/Asian.lean` |
 
 ## By section
 
@@ -37,17 +35,17 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | done | `scaling_relations` | Scaling | `Lyasoff2016/Auxiliary.lean:184` |
 | done | `girsanov_density` | Girsanov (2.2) | `Lyasoff2016/Auxiliary.lean:219` |
 
-### §3 — 5 hole(s)
+### §3 — 0 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
 | done | `infinite_integral_finite` | ∫₀^∞ finite | `Lyasoff2016/FokkerPlanck.lean:97` |
 | done | `Z_stationary` | Z stationary | `Lyasoff2016/FokkerPlanck.lean:318` |
-| open | `dufresne_zero_flux` | Zero-flux ODE | `Lyasoff2016/FokkerPlanck.lean` |
-| blocked | `perpetuity_inv_moment` | E[A⁻¹]=−ν | `Lyasoff2016/FokkerPlanck.lean:782` |
-| blocked | `perpetuity_neg_moments` | E[A⁻ⁿ] | `Lyasoff2016/FokkerPlanck.lean:2318` |
-| blocked | `dufresne_theorem_sigma_one` | Dufresne σ=1 | `Lyasoff2016/FokkerPlanck.lean:2390` |
-| blocked | `dufresne_theorem` | Dufresne thm | `Lyasoff2016/FokkerPlanck.lean:2480` |
+| done | `dufresne_zero_flux` | Zero-flux ODE | `Lyasoff2016/Dufresne.lean:216` |
+| done | `perpetuity_inv_moment` | E[A⁻¹]=−ν | `Lyasoff2016/FokkerPlanck.lean:782` |
+| done | `perpetuity_neg_moments` | E[A⁻ⁿ] | `Lyasoff2016/FokkerPlanck.lean:2318` |
+| done | `dufresne_theorem_sigma_one` | Dufresne σ=1 | `Lyasoff2016/FokkerPlanck.lean:2390` |
+| done | `dufresne_theorem` | Dufresne thm | `Lyasoff2016/FokkerPlanck.lean:2480` |
 | done | `ito_expInt_test_product` | Ito (3.4a) | `Lyasoff2016/JointFokkerPlanckIto.lean:378` |
 | done | `ito_timeReversed_expInt_test_product` | Ito (3.4b) | `Lyasoff2016/JointFokkerPlanckIto.lean:886` |
 | done | `joint_dynkin_Aop_product` | Dynkin (3.5) | `Lyasoff2016/FokkerPlanck.lean:2541` |
@@ -77,12 +75,12 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | open | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:157` |
 | done | `yor_formula` | Yor via Rem 5.1 | `Lyasoff2016/IntegralReps.lean:133` |
 
-### §6 — 8 hole(s)
+### §6 — 6 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
-| open | `S_zero` | S_{0,p} | `Lyasoff2016/Asian.lean` |
-| blocked | `S_closed_form` | S_{k,p} | `Lyasoff2016/Asian.lean` |
+| done | `S_zero` | S_{0,p} | `Lyasoff2016/Sfun.lean:205` |
+| done | `S_closed_form` | S_{k,p} | `Lyasoff2016/Sfun.lean:210` |
 | done | `benchmark_k_zero` | k=0 benchmark | `Lyasoff2016/Asian.lean:30` |
 | blocked | `asian_price_formula` | Asian price | `Lyasoff2016/Asian.lean:82` |
 | blocked | `asian_delta` | Asian delta | `Lyasoff2016/Asian.lean:176` |
