@@ -2,8 +2,8 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-17T15:48:00Z
-**Holes:** 10 open+blocked · 2 open · 8 blocked · 29 done.
+**Updated:** 2026-11-17T15:54:34Z
+**Holes:** 8 open+blocked · 1 open · 7 blocked · 31 done.
 
 **Live board:** [`holes.html`](holes.html) + [`holes-graph.json`](holes-graph.json).
 
@@ -17,7 +17,6 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | Id | Label | File |
 |---|---|---|
 | `g_solves_contour_equation` | g contour eq | `Lyasoff2016/IntegralReps.lean:105` |
-| `yor_formula_classical` | Yor classical | `Lyasoff2016/IntegralReps.lean:227` |
 
 ## By section
 
@@ -66,15 +65,15 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | done | `prop_4_4` | Prop 4.4 | `Lyasoff2016/Foliation.lean:363` |
 | done | `theorem_4_5` | Thm 4.5 | `Lyasoff2016/Foliation.lean:410` |
 
-### §5 — 4 hole(s)
+### §5 — 2 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
 | open | `g_solves_contour_equation` | g contour eq | `Lyasoff2016/IntegralReps.lean:105` |
-| open | `yor_formula_classical` | Yor classical | `Lyasoff2016/IntegralReps.lean:227` |
+| done | `yor_formula_classical` | Yor classical | `Lyasoff2016/IntegralReps.lean:226` |
 | done | `remark_5_1` | Rem 5.1 | `Lyasoff2016/IntegralReps.lean:218` |
-| blocked | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:258` |
-| blocked | `yor_formula` | Yor via Rem 5.1 | `Lyasoff2016/IntegralReps.lean:234` |
+| blocked | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:257` |
+| done | `yor_formula` | Yor via Rem 5.1 | `Lyasoff2016/IntegralReps.lean:233` |
 
 ### §6 — 6 hole(s)
 

@@ -1,10 +1,10 @@
 /-
-Classical citation of Yor’s joint density formula (Yor 1992, (6.c)), used by
-`yor_formula_classical` as an external analytic input independent of the §5 contour route.
+Yor’s joint density formula (Yor 1992, (6.c) / Lyasoff (1.1)), wired to the
+constructive Laplace/FP proof in `YorJointDensity`.
 -/
 module
 
-public import Lyasoff2016.Setting
+public import Lyasoff2016.YorJointDensity
 
 
 @[expose] public section
@@ -17,16 +17,13 @@ namespace Lyasoff2016
 
 variable {Ω : Type*} [MeasurableSpace Ω]
 
-/-- Classical theorem: for Brownian motion, the law of
-`(∫₀ᵗ exp(2 W_s) ds, W_t)` admits the Yor density (1.1) / [33, (6.c)].
+/-- Yor’s joint density: the law of `(∫₀ᵗ exp(2 W_s) ds, W_t)` admits the density (1.1).
 
-This is taken as a classical analytic input (Yor, *Some Aspects of Brownian Motion*,
-Part I, (6.c)); the project’s contour analysis recovers it as a special case via
-`remark_5_1`, but the direct density identification is not re-derived here. -/
+Proved constructively as `yor_joint_density` (Laplace transform of the joint law via
+the Fokker–Planck stack); kept under this name as the classical citation point. -/
 theorem yor_joint_density_classical (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (t : ℝ≥0) (ht : 0 < t) :
-    IsJointDensity P W 2 0 t (fun x y => yorDensity t x y) := by
-  -- Same statement as `yor_formula_classical`; kept as a named citation of Yor (6.c).
-  sorry
+    IsJointDensity P W 2 0 t (fun x y => yorDensity t x y) :=
+  yor_joint_density P W hW t ht
 
 end Lyasoff2016

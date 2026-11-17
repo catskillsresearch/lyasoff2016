@@ -1,9 +1,10 @@
 /-
-Classical citation of Lyasoff Prop. 2.2 (conditional density regularity).
+Lyasoff Prop. 2.2 (conditional density regularity), wired to the constructive
+proof `prop_2_2_constructive` in `YorAnalytic`.
 -/
 module
 
-public import Lyasoff2016.Setting
+public import Lyasoff2016.YorAnalytic
 
 
 @[expose] public section
@@ -16,12 +17,12 @@ namespace Lyasoff2016
 
 variable {Ω : Type*} [MeasurableSpace Ω]
 
-/-- Classical Prop. 2.2 (Lyasoff 2016, p. 1065): existence of a conditional density
+/-- Prop. 2.2 (Lyasoff 2016, p. 1065): existence of a conditional density
 `φc` of `expInt` given `W_t` that is `C^∞` on `{x > 0}`, vanishes at the origin,
 has controlled mixed partials at `0⁺`/`∞`, and Gaussian-weighted moment bounds.
 
-Taken as a classical analytic input of the paper; the present project uses the
-statement rather than re-deriving the Malliavin / heat-kernel construction. -/
+Proved constructively as `prop_2_2_constructive` (Yor conditional density analysis);
+kept under this name as a classical citation point. -/
 theorem prop_2_2_classical (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0)
     (hσ : 0 < σ) (ht : 0 < t) :
@@ -34,7 +35,7 @@ theorem prop_2_2_classical (P : Measure Ω) [IsProbabilityMeasure P]
         (∫⁻ y, ENNReal.ofReal (Real.exp (-y ^ 2 / (2 * (t : ℝ)))) *
           ∫⁻ x in Ioi (0 : ℝ), ENNReal.ofReal |(x : ℝ) ^ (p : ℤ) * pd m n φc x y|) < ∞ ∧
         (∫⁻ y, ENNReal.ofReal (Real.exp (-y ^ 2 / (2 * (t : ℝ)))) *
-          ∫⁻ x in Ioi (0 : ℝ), ENNReal.ofReal |(x : ℝ) ^ (-(p : ℤ)) * pd m n φc x y|) < ∞) := by
-  sorry
+          ∫⁻ x in Ioi (0 : ℝ), ENNReal.ofReal |(x : ℝ) ^ (-(p : ℤ)) * pd m n φc x y|) < ∞) :=
+  prop_2_2_constructive P W hW σ t hσ ht
 
 end Lyasoff2016

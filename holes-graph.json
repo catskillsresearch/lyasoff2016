@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-17T15:48:00Z",
-  "sorryCount": 10,
+  "updated": "2026-11-17T15:54:34Z",
+  "sorryCount": 8,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
     "blocked": "Waiting on incomplete required proof-deps",
@@ -12,7 +12,7 @@
     "Done = no local sorry and every hard predecessor is done (no unproven\u2192proven).",
     "Blue = done. Green = open. Grey = blocked.",
     "Regenerate with: python3 scripts/build_holes.py",
-    "Open tips: g_solves_contour_equation, yor_formula_classical."
+    "Open tips: g_solves_contour_equation."
   ],
   "nodes": [
     {
@@ -253,8 +253,8 @@
       "id": "yor_formula_classical",
       "label": "Yor classical",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:227",
-      "status": "open",
+      "file": "Lyasoff2016/IntegralReps.lean:226",
+      "status": "done",
       "blocker": null,
       "detail": "Yor's joint density (1.1) as an independent classical input."
     },
@@ -271,18 +271,18 @@
       "id": "pi_formula",
       "label": "\u03c0 / \u03c0/2",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:258",
+      "file": "Lyasoff2016/IntegralReps.lean:257",
       "status": "blocked",
-      "blocker": "needs g_solves_contour_equation, yor_formula_classical",
+      "blocker": "needs g_solves_contour_equation",
       "detail": "Joint density via \u03c0 and \u03c0/2 formulae for p=2,3,4."
     },
     {
       "id": "yor_formula",
       "label": "Yor via Rem 5.1",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:234",
-      "status": "blocked",
-      "blocker": "needs yor_formula_classical",
+      "file": "Lyasoff2016/IntegralReps.lean:233",
+      "status": "done",
+      "blocker": null,
       "detail": "yor_formula := yor_formula_classical (or Rem 5.1 route)."
     },
     {

@@ -221,13 +221,12 @@ theorem remark_5_1 (t : ℝ≥0) (x y : ℝ) (ht : 0 < t) (_hx : 0 < x) :
       yorDensity t x y :=
   remark_5_1_aux t x y ht
 
-/- Paper: p. 1061 (1.1) — Yor’s classical joint density (independent of the contour analysis).
-   Plain recap: this is the classical input used by Remark 5.1 to identify the π-formula
-   at order `p = 2`; the contour derivation in §5 recovers it as a special case. -/
+/- Paper: p. 1061 (1.1) — Yor’s joint density (wired to the constructive Laplace/FP proof).
+   Plain recap: used by Remark 5.1 to identify the π-formula at order `p = 2`. -/
 theorem yor_formula_classical (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
     (hW : IsBM P W) (t : ℝ≥0) (ht : 0 < t) :
-    IsJointDensity P W 2 0 t (fun x y => yorDensity t x y) := by
-  sorry
+    IsJointDensity P W 2 0 t (fun x y => yorDensity t x y) :=
+  yor_joint_density_classical P W hW t ht
 
 /- Paper: p. 1061 (1.1) — Yor’s theorem via Remark 5.1 once the π-formula is known, or
    directly via `yor_formula_classical`. -/
