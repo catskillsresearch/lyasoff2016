@@ -5,7 +5,7 @@ module
 
 public import Lyasoff2016.Auxiliary
 public import Lyasoff2016.MomentUniqueness
-public import Lyasoff2016.InverseGamma
+public import Lyasoff2016.GammaMoment
 public import Lyasoff2016.JointFokkerPlanckHelpers
 public import Lyasoff2016.JointFokkerPlanckIto
 public import Lyasoff2016.ExpectedIto
@@ -2751,7 +2751,7 @@ theorem perpetuity_neg_moment_succ (P : Measure Ω) [IsProbabilityMeasure P]
 
 /-- Classical reciprocal-Gamma moments of the unit-volatility perpetuity:
 `E[A^{-n}] = gammaMoment (-2ν) 2 n` for `A = ∫₀^∞ e^{W_s+νs} ds`.
-Together with `measure_eq_of_moments` and `lintegral_inv_pow_igMeasure` this identifies
+Together with `measure_eq_of_moments` and `gammaMoment.lintegral_inv_pow_igMeasure` this identifies
 `law(A)` with `igMeasure (-2ν) 2` (= `dufresne 1 ν`). -/
 theorem perpetuity_neg_moments (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (ν : ℝ) (hν : ν < 0) (n : ℕ) :
@@ -2795,7 +2795,7 @@ theorem perpetuity_neg_moments (P : Measure Ω) [IsProbabilityMeasure P]
         filter_upwards [ae_perpetuity_pos P W hW ν hν] with ω hp
         exact pow_nonneg (inv_pos.2 hp).le _
       have hposγ : 0 ≤ gammaMoment (-2 * ν) 2 (n + 1) :=
-        gammaMoment_nonneg (by linarith : 0 < -2 * ν) (by norm_num : (0 : ℝ) < 2) (n + 1)
+        gammaMoment.nonneg (by linarith : 0 < -2 * ν) (by norm_num : (0 : ℝ) < 2) (n + 1)
       have hihB : ∫ ω,
             (∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s))⁻¹ ^ (n + 1) ∂P =
           gammaMoment (-2 * ν) 2 (n + 1) := by
@@ -2849,7 +2849,7 @@ theorem dufresne_theorem_sigma_one (P : Measure Ω) [IsProbabilityMeasure P]
   have hAinvMeas : Measurable Ainv := hAmeas.inv
   let ρ₁ : Measure ℝ := P.map Ainv
   let ρ₂ : Measure ℝ := (igMeasure β a).map Inv.inv
-  have : IsProbabilityMeasure (igMeasure β a) := isProbabilityMeasure_igMeasure hβ ha
+  have : IsProbabilityMeasure (igMeasure β a) := igDensity.isProbabilityMeasure_measure hβ ha
   have : IsProbabilityMeasure ρ₁ :=
     (inferInstance : AEMeasurable Ainv P → IsProbabilityMeasure ρ₁) hAinvMeas.aemeasurable
   have : IsProbabilityMeasure ρ₂ := inferInstance
@@ -2858,7 +2858,7 @@ theorem dufresne_theorem_sigma_one (P : Measure Ω) [IsProbabilityMeasure P]
     rw [ae_map_iff hAinvMeas.aemeasurable measurableSet_Ici]
     filter_upwards [hApos] with ω hω
     exact (inv_pos.2 hω).le
-  have hpos₂ : ∀ᵐ y ∂ρ₂, 0 ≤ y := ae_nonneg_map_inv_igMeasure β a
+  have hpos₂ : ∀ᵐ y ∂ρ₂, 0 ≤ y := igDensity.ae_nonneg_map_inv_measure β a
   have hmom : ∀ n : ℕ,
       ∫⁻ y, ENNReal.ofReal (y ^ n) ∂ρ₁ = ∫⁻ y, ENNReal.ofReal (y ^ n) ∂ρ₂ := by
     intro n
@@ -2868,7 +2868,7 @@ theorem dufresne_theorem_sigma_one (P : Measure Ω) [IsProbabilityMeasure P]
       exact lintegral_map (by fun_prop) hAinvMeas
     have hR : ∫⁻ y, ENNReal.ofReal (y ^ n) ∂ρ₂ =
         ENNReal.ofReal (gammaMoment β a n) :=
-      lintegral_inv_pow_igMeasure hβ ha n
+      gammaMoment.lintegral_inv_pow_igMeasure hβ ha n
     have hL' : ∫⁻ ω, ENNReal.ofReal (Ainv ω ^ n) ∂P =
         ∫⁻ ω, ENNReal.ofReal
           ((∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s))⁻¹ ^ n) ∂P := by
@@ -2882,7 +2882,7 @@ theorem dufresne_theorem_sigma_one (P : Measure Ω) [IsProbabilityMeasure P]
     intro s hs
     have hs' : s < a := hs.2
     dsimp [ρ₂]
-    rw [lintegral_exp_inv_igMeasure hβ ha hs']
+    rw [igDensity.lintegral_exp_inv_measure hβ ha hs']
     exact ENNReal.ofReal_ne_top
   have hρ : ρ₁ = ρ₂ :=
     measure_eq_of_moments hpos₁ hpos₂ ha hmom hfin
