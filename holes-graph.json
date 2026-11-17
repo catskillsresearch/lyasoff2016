@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-17T02:09:47Z",
-  "sorryCount": 14,
+  "updated": "2026-11-17T02:30:08Z",
+  "sorryCount": 12,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
     "blocked": "Waiting on incomplete required proof-deps",
@@ -12,7 +12,7 @@
     "Done = no local sorry and every hard predecessor is done (no unproven\u2192proven).",
     "Blue = done. Green = open. Grey = blocked.",
     "Regenerate with: python3 scripts/build_holes.py",
-    "Open tips: prop_2_2, dufresne_theorem_sigma_one, fokker_planck_joint, g_solves_contour_equation, yor_formula_classical."
+    "Open tips: prop_2_2, fokker_planck_joint, g_solves_contour_equation, yor_formula_classical."
   ],
   "nodes": [
     {
@@ -110,7 +110,7 @@
       "label": "Dufresne \u03c3=1",
       "section": 3,
       "file": "Lyasoff2016/FokkerPlanck.lean:2817",
-      "status": "open",
+      "status": "done",
       "blocker": null,
       "detail": "Unit-volatility law of A is igMeasure(\u22122\u03bd, 2)."
     },
@@ -118,16 +118,16 @@
       "id": "dufresne_theorem",
       "label": "Dufresne thm",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:2824",
-      "status": "blocked",
-      "blocker": "needs dufresne_theorem_sigma_one",
+      "file": "Lyasoff2016/FokkerPlanck.lean:2907",
+      "status": "done",
+      "blocker": null,
       "detail": "General \u03c3 via Brownian scaling from \u03c3=1."
     },
     {
       "id": "fokker_planck_joint",
       "label": "FP (3.6b)",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:2903",
+      "file": "Lyasoff2016/FokkerPlanck.lean:2986",
       "status": "open",
       "blocker": null,
       "detail": "Joint density satisfies the divergence-form Fokker\u2013Planck PDE."
@@ -136,7 +136,7 @@
       "id": "remark_3_2",
       "label": "Rem 3.2",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:2921",
+      "file": "Lyasoff2016/FokkerPlanck.lean:3004",
       "status": "done",
       "blocker": null,
       "detail": "Reflection / running-max identity in law."

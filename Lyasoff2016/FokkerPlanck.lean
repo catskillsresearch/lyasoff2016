@@ -2817,9 +2817,92 @@ From `perpetuity_neg_moments`, compare the law of `A⁻¹` to the Gamma law via
 theorem dufresne_theorem_sigma_one (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (ν : ℝ) (hν : ν < 0) :
     IsInftyDensity P W 1 ν (dufresne 1 ν) := by
-  -- Gap: discharge via `perpetuity_neg_moments` + `measure_eq_of_moments` after
-  -- identifying `P.map perpetuity` with the inverse-gamma law of `A⁻¹`.
-  sorry
+  set β : ℝ := -2 * ν
+  set a : ℝ := 2
+  have hβ : 0 < β := by simp [β]; linarith
+  have ha : 0 < a := by norm_num [a]
+  -- Measurable representative of the perpetuity (ae-equal to the BM-path integral)
+  let A : Ω → ℝ := perpetuityPath ν ∘ bmPath hW
+  have hAmeas : Measurable A := (measurable_perpetuityPath ν).comp (measurable_bmPath hW)
+  have hAeq : (fun ω => ∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s)) =ᵐ[P] A := by
+    filter_upwards [bmPath_ae_eq hW] with ω hω
+    simp only [A, Function.comp_apply, perpetuityPath]
+    congr 1
+    funext s
+    rw [hω]
+  have hApos : ∀ᵐ ω ∂P, 0 < A ω := by
+    filter_upwards [ae_perpetuity_pos P W hW ν hν, hAeq] with ω hpos heq
+    rwa [← heq]
+  have hAne : ∀ᵐ ω ∂P, A ω ≠ 0 := hApos.mono fun _ h => h.ne'
+  let Ainv : Ω → ℝ := fun ω => (A ω)⁻¹
+  have hAinvMeas : Measurable Ainv := hAmeas.inv
+  let ρ₁ : Measure ℝ := P.map Ainv
+  let ρ₂ : Measure ℝ := (igMeasure β a).map Inv.inv
+  have : IsProbabilityMeasure (igMeasure β a) := isProbabilityMeasure_igMeasure hβ ha
+  have : IsProbabilityMeasure ρ₁ :=
+    (inferInstance : AEMeasurable Ainv P → IsProbabilityMeasure ρ₁) hAinvMeas.aemeasurable
+  have : IsProbabilityMeasure ρ₂ := inferInstance
+  have hpos₁ : ∀ᵐ y ∂ρ₁, 0 ≤ y := by
+    dsimp [ρ₁]
+    rw [ae_map_iff hAinvMeas.aemeasurable measurableSet_Ici]
+    filter_upwards [hApos] with ω hω
+    exact (inv_pos.2 hω).le
+  have hpos₂ : ∀ᵐ y ∂ρ₂, 0 ≤ y := ae_nonneg_map_inv_igMeasure β a
+  have hmom : ∀ n : ℕ,
+      ∫⁻ y, ENNReal.ofReal (y ^ n) ∂ρ₁ = ∫⁻ y, ENNReal.ofReal (y ^ n) ∂ρ₂ := by
+    intro n
+    have hL : ∫⁻ y, ENNReal.ofReal (y ^ n) ∂ρ₁ =
+        ∫⁻ ω, ENNReal.ofReal (Ainv ω ^ n) ∂P := by
+      dsimp [ρ₁]
+      exact lintegral_map (by fun_prop) hAinvMeas
+    have hR : ∫⁻ y, ENNReal.ofReal (y ^ n) ∂ρ₂ =
+        ENNReal.ofReal (gammaMoment β a n) :=
+      lintegral_inv_pow_igMeasure hβ ha n
+    have hL' : ∫⁻ ω, ENNReal.ofReal (Ainv ω ^ n) ∂P =
+        ∫⁻ ω, ENNReal.ofReal
+          ((∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s))⁻¹ ^ n) ∂P := by
+      refine lintegral_congr_ae ?_
+      filter_upwards [hAeq] with ω heq
+      simp only [Ainv, heq]
+    rw [hL, hL', hR]
+    simpa [β, a] using perpetuity_neg_moments P W hW ν hν n
+  have hfin : ∀ s ∈ Ico (0 : ℝ) a,
+      ∫⁻ y, ENNReal.ofReal (Real.exp (s * y)) ∂ρ₂ ≠ ∞ := by
+    intro s hs
+    have hs' : s < a := hs.2
+    dsimp [ρ₂]
+    rw [lintegral_exp_inv_igMeasure hβ ha hs']
+    exact ENNReal.ofReal_ne_top
+  have hρ : ρ₁ = ρ₂ :=
+    measure_eq_of_moments hpos₁ hpos₂ ha hmom hfin
+  have hρ₁' : ρ₁ = (P.map A).map Inv.inv := by
+    dsimp only [ρ₁]
+    change P.map Ainv = (P.map A).map Inv.inv
+    rw [show Ainv = Inv.inv ∘ A from rfl]
+    exact (Measure.map_map measurable_inv hAmeas).symm
+  have hinv_comp : Inv.inv ∘ Inv.inv = (id : ℝ → ℝ) := funext fun _ => inv_inv _
+  have hA_inv_inv : ((P.map A).map Inv.inv).map Inv.inv = P.map A := by
+    rw [Measure.map_map measurable_inv measurable_inv, hinv_comp, Measure.map_id]
+  have hig_inv_inv : ((igMeasure β a).map Inv.inv).map Inv.inv = igMeasure β a := by
+    rw [Measure.map_map measurable_inv measurable_inv, hinv_comp, Measure.map_id]
+  have hlaw : P.map A = igMeasure β a := by
+    calc P.map A
+        = ((P.map A).map Inv.inv).map Inv.inv := hA_inv_inv.symm
+      _ = ρ₁.map Inv.inv := by rw [← hρ₁']
+      _ = ρ₂.map Inv.inv := by rw [hρ]
+      _ = ((igMeasure β a).map Inv.inv).map Inv.inv := rfl
+      _ = igMeasure β a := hig_inv_inv
+  unfold IsInftyDensity
+  have hone :
+      (fun ω => ∫ s in Ioi (0 : ℝ), Real.exp (1 * W s.toNNReal ω + ν * s)) =ᵐ[P]
+        (fun ω => ∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s)) :=
+    Eventually.of_forall fun ω => by
+      simp only [one_mul]
+  have h1mul :
+      (fun ω => ∫ s in Ioi (0 : ℝ), Real.exp (1 * W s.toNNReal ω + ν * s)) =ᵐ[P] A :=
+    hone.trans hAeq
+  rw [Measure.map_congr h1mul, hlaw, dufresne_eq_igDensity_one ν]
+  rfl
 
 theorem dufresne_theorem (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
     (hW : IsBM P W) (σ ν : ℝ) (hσ : 0 < σ) (hν : ν < 0) :
