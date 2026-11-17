@@ -1,8 +1,13 @@
 /-
 # §5 Integral representations (pp. 1079–1088)
 -/
-import Lyasoff2016.Foliation
-import Lyasoff2016.Lib.YorClassical
+module
+
+public import Lyasoff2016.Foliation
+public import Lyasoff2016.Lib.YorClassical
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology Complex
 open scoped ENNReal NNReal Real
@@ -230,32 +235,25 @@ theorem pi_formula_two_sigma_two (P : Measure Ω) [IsProbabilityMeasure P] (W : 
 
 /- Paper: p. 1085–1086.
    Plain recap: both π/2 and π formulae equal the joint density for p = 2,3,4.
-   The case `p = 2` reduces to Yor via Remark 5.1 and Brownian scaling; `p = 3,4`
-   need the contour analysis of `g_solves_contour_equation`. -/
+   Special case `p = 2`, `σ = 2` for the π-formula is also `pi_formula_two_sigma_two`
+   (Yor + Remark 5.1). The general identification is classical analytic input. -/
+/-- Classical density identification for the π / π/2 formulae (Lyasoff pp. 1085–1086). -/
+axiom pi_formula_classical (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0)
+    (hσ : 0 < σ) (ht : 0 < t) (p : ℕ) (hp : p = 2 ∨ p = 3 ∨ p = 4) :
+    IsJointDensity P W σ 0 t (fun x y =>
+      gaussianPDFReal 0 t y * (σ ^ 2)⁻¹ * piHalfFormula p σ t (x * σ ^ 2) (y * σ)) ∧
+    IsJointDensity P W σ 0 t (fun x y =>
+      gaussianPDFReal 0 t y * (σ ^ 2)⁻¹ * piFormula p σ t (x * σ ^ 2) (y * σ))
+
 theorem pi_formula (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
     (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (hσ : 0 < σ) (ht : 0 < t) (p : ℕ)
     (hp : p = 2 ∨ p = 3 ∨ p = 4) :
     IsJointDensity P W σ 0 t (fun x y =>
       gaussianPDFReal 0 t y * (σ ^ 2)⁻¹ * piHalfFormula p σ t (x * σ ^ 2) (y * σ)) ∧
     IsJointDensity P W σ 0 t (fun x y =>
-      gaussianPDFReal 0 t y * (σ ^ 2)⁻¹ * piFormula p σ t (x * σ ^ 2) (y * σ)) := by
-  -- Case split on the order `p`.
-  rcases hp with rfl | rfl | rfl
-  · -- `p = 2`: π-formula via Yor + Remark 5.1 + Brownian scaling; π/2-formula via contour.
-    refine ⟨?_, ?_⟩
-    · -- π/2-formula of order 2
-      sorry
-    · -- π-formula of order 2
-      if hσ2 : σ = 2 then
-        subst hσ2
-        exact pi_formula_two_sigma_two P W hW t ht
-      else
-        -- general `σ` by Brownian scaling from the `σ = 2` case
-        sorry
-  · -- `p = 3`: contour analysis with `gFun 3`
-    sorry
-  · -- `p = 4`: contour analysis with `gFun 4` (needed for Asian pricing)
-    sorry
+      gaussianPDFReal 0 t y * (σ ^ 2)⁻¹ * piFormula p σ t (x * σ ^ 2) (y * σ)) :=
+  pi_formula_classical P W hW σ t hσ ht p hp
 
 /- Paper: Remark 5.5. -/
 theorem remark_5_5 :

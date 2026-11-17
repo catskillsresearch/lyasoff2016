@@ -6,10 +6,15 @@ Released under Apache 2.0 license.
 
 Paper-position comments use journal page numbers 1061–1096.
 -/
-import Mathlib
-import Mathlib.Probability.BrownianMotion.Basic
-import Lyasoff2016.Lib.TimeReversal
-import Lyasoff2016.Lib.BMFunctionalLaw
+module
+
+public import Mathlib
+public import Mathlib.Probability.BrownianMotion.Basic
+public import Lyasoff2016.Lib.TimeReversal
+public import Lyasoff2016.Lib.BMFunctionalLaw
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open scoped ENNReal NNReal Real

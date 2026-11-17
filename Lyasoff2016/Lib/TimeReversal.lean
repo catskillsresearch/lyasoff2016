@@ -5,7 +5,14 @@ Used by `time_reversal` (paper (1.3), p. 1063).
 The process coincides with `s ↦ W_t − W_{t−s}` on `[0, t]` and with `W` thereafter,
 so that the result remains a Brownian motion on all of `ℝ≥0`.
 -/
-import Mathlib.Probability.BrownianMotion.Basic
+module
+
+public import Mathlib.Probability.BrownianMotion.Basic
+public import Mathlib.Probability.Distributions.Gaussian.IsGaussianProcess.Basic
+public import Mathlib.Probability.Distributions.Gaussian.HasGaussianLaw.Basic
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open scoped NNReal
@@ -20,14 +27,17 @@ variable {Ω : Type*} [MeasurableSpace Ω]
 def timeReversed (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) : ℝ≥0 → Ω → ℝ :=
   fun s ω => if s ≤ t then W t ω - W (t - s) ω else W s ω
 
+omit [MeasurableSpace Ω] in
 theorem timeReversed_zero (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) (ω : Ω) :
     timeReversed W t 0 ω = 0 := by
   simp [timeReversed]
 
+omit [MeasurableSpace Ω] in
 theorem timeReversed_eq_on_Icc (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) {s : ℝ≥0} (hs : s ≤ t) (ω : Ω) :
     timeReversed W t s ω = W t ω - W (t - s) ω := by
   simp [timeReversed, hs]
 
+omit [MeasurableSpace Ω] in
 theorem timeReversed_eq_of_gt (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) {s : ℝ≥0} (hs : ¬ s ≤ t) (ω : Ω) :
     timeReversed W t s ω = W s ω := by
   simp [timeReversed, hs]
@@ -82,10 +92,12 @@ theorem covariance_timeReversed_le (P : Measure Ω) [IsProbabilityMeasure P] (W 
   convert hsm using 1
   ring
 
+omit [MeasurableSpace Ω] in
 private theorem timeReversed_eq_fun_le (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) {s : ℝ≥0} (hs : s ≤ t) :
     timeReversed W t s = fun ω => W t ω - W (t - s) ω :=
   funext fun ω => timeReversed_eq_on_Icc W t hs ω
 
+omit [MeasurableSpace Ω] in
 private theorem timeReversed_eq_fun_gt (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) {s : ℝ≥0} (hs : ¬ s ≤ t) :
     timeReversed W t s = W s :=
   funext fun ω => timeReversed_eq_of_gt W t hs ω

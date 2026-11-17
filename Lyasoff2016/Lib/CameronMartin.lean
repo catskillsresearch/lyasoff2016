@@ -14,9 +14,14 @@ Cameron–Martin–Girsanov for a constant drift, at the level of path functiona
 * `jointDensity_girsanov_posPart`: the pointwise identity (2.2) between continuous densities,
   for their positive parts.
 -/
-import Lyasoff2016.Lib.BrownianScaling
-import MathFin.Probability.Brownian.Girsanov.GirsanovConstantTheta
-import MathFin.Probability.Brownian.ExpMartingaleBrownian
+module
+
+public import Lyasoff2016.Lib.BrownianScaling
+public import MathFin.Probability.Brownian.Girsanov.GirsanovConstantTheta
+public import MathFin.Probability.Brownian.ExpMartingaleBrownian
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open scoped ENNReal NNReal Real

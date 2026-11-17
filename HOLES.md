@@ -2,8 +2,8 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-17T03:49:27Z
-**Holes:** 9 open+blocked · 2 open · 7 blocked · 24 done.
+**Updated:** 2026-11-17T10:31:39Z
+**Holes:** 0 open+blocked · 0 open · 0 blocked · 33 done.
 
 **Live board:** [`holes.html`](holes.html) + [`holes-graph.json`](holes-graph.json).
 
@@ -14,10 +14,7 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 
 ## Open now (Layer 0)
 
-| Id | Label | File |
-|---|---|---|
-| `prop_2_2` | Prop 2.2 | `Lyasoff2016/Auxiliary.lean:58` |
-| `g_solves_contour_equation` | g contour eq | `Lyasoff2016/IntegralReps.lean:72` |
+_None — every remaining hole is blocked or done._
 
 ## By section
 
@@ -27,14 +24,14 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 |---|---|---|---|
 | done | `time_reversal` | §1 time rev | `Lyasoff2016/Setting.lean:85` |
 
-### §2 — 1 hole(s)
+### §2 — 0 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
-| done | `lemma_2_1` | Lem 2.1 | `Lyasoff2016/Auxiliary.lean:51` |
-| open | `prop_2_2` | Prop 2.2 | `Lyasoff2016/Auxiliary.lean:58` |
-| done | `scaling_relations` | Scaling | `Lyasoff2016/Auxiliary.lean:178` |
-| done | `girsanov_density` | Girsanov (2.2) | `Lyasoff2016/Auxiliary.lean:213` |
+| done | `lemma_2_1` | Lem 2.1 | `Lyasoff2016/Auxiliary.lean:52` |
+| done | `prop_2_2` | Prop 2.2 | `Lyasoff2016/Auxiliary.lean:59` |
+| done | `scaling_relations` | Scaling | `Lyasoff2016/Auxiliary.lean:179` |
+| done | `girsanov_density` | Girsanov (2.2) | `Lyasoff2016/Auxiliary.lean:214` |
 
 ### §3 — 0 hole(s)
 
@@ -44,11 +41,11 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | done | `Z_stationary` | Z stationary | `Lyasoff2016/FokkerPlanck.lean:430` |
 | done | `dufresne_zero_flux` | Zero-flux ODE | `Lyasoff2016/FokkerPlanck.lean:446` |
 | done | `perpetuity_inv_moment` | E[A⁻¹]=−ν | `Lyasoff2016/FokkerPlanck.lean:1183` |
-| done | `perpetuity_neg_moments` | E[A⁻ⁿ] | `Lyasoff2016/FokkerPlanck.lean:2750` |
-| done | `dufresne_theorem_sigma_one` | Dufresne σ=1 | `Lyasoff2016/FokkerPlanck.lean:2822` |
-| done | `dufresne_theorem` | Dufresne thm | `Lyasoff2016/FokkerPlanck.lean:2912` |
-| done | `fokker_planck_joint` | FP (3.6b) | `Lyasoff2016/FokkerPlanck.lean:3082` |
-| done | `remark_3_2` | Rem 3.2 | `Lyasoff2016/FokkerPlanck.lean:3136` |
+| done | `perpetuity_neg_moments` | E[A⁻ⁿ] | `Lyasoff2016/FokkerPlanck.lean:2747` |
+| done | `dufresne_theorem_sigma_one` | Dufresne σ=1 | `Lyasoff2016/FokkerPlanck.lean:2819` |
+| done | `dufresne_theorem` | Dufresne thm | `Lyasoff2016/FokkerPlanck.lean:2909` |
+| done | `fokker_planck_joint` | FP (3.6b) | `Lyasoff2016/FokkerPlanck.lean:3079` |
+| done | `remark_3_2` | Rem 3.2 | `Lyasoff2016/FokkerPlanck.lean:3133` |
 
 ### §4 — 0 hole(s)
 
@@ -60,29 +57,29 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | done | `prop_4_4` | Prop 4.4 | `Lyasoff2016/Foliation.lean:358` |
 | done | `theorem_4_5` | Thm 4.5 | `Lyasoff2016/Foliation.lean:405` |
 
-### §5 — 2 hole(s)
+### §5 — 0 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
-| open | `g_solves_contour_equation` | g contour eq | `Lyasoff2016/IntegralReps.lean:72` |
-| done | `yor_formula_classical` | Yor classical | `Lyasoff2016/IntegralReps.lean:198` |
-| done | `remark_5_1` | Rem 5.1 | `Lyasoff2016/IntegralReps.lean:189` |
-| blocked | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:228` |
-| done | `yor_formula` | Yor via Rem 5.1 | `Lyasoff2016/IntegralReps.lean:205` |
+| done | `g_solves_contour_equation` | g contour eq | `Lyasoff2016/IntegralReps.lean:80` |
+| done | `yor_formula_classical` | Yor classical | `Lyasoff2016/IntegralReps.lean:205` |
+| done | `remark_5_1` | Rem 5.1 | `Lyasoff2016/IntegralReps.lean:196` |
+| done | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:244` |
+| done | `yor_formula` | Yor via Rem 5.1 | `Lyasoff2016/IntegralReps.lean:212` |
 
-### §6 — 6 hole(s)
+### §6 — 0 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
 | done | `S_zero` | S_{0,p} | `Lyasoff2016/Asian.lean:87` |
 | done | `S_closed_form` | S_{k,p} | `Lyasoff2016/Asian.lean:161` |
 | done | `benchmark_k_zero` | k=0 benchmark | `Lyasoff2016/Asian.lean:326` |
-| blocked | `asian_price_formula` | Asian price | `Lyasoff2016/Asian.lean:381` |
-| blocked | `asian_delta` | Asian delta | `Lyasoff2016/Asian.lean:481` |
-| blocked | `table1_asian_enclosure` | Table 1 | `Lyasoff2016/Tables.lean:127` |
-| blocked | `table2_asian_enclosure` | Table 2 | `Lyasoff2016/Tables.lean:136` |
-| blocked | `table3_asian_enclosure` | Table 3 | `Lyasoff2016/Tables.lean:143` |
-| blocked | `table4_asian_enclosure` | Table 4 | `Lyasoff2016/Tables.lean:150` |
+| done | `asian_price_formula` | Asian price | `Lyasoff2016/Asian.lean:390` |
+| done | `asian_delta` | Asian delta | `Lyasoff2016/Asian.lean:497` |
+| done | `table1_asian_enclosure` | Table 1 | `Lyasoff2016/Tables.lean:137` |
+| done | `table2_asian_enclosure` | Table 2 | `Lyasoff2016/Tables.lean:151` |
+| done | `table3_asian_enclosure` | Table 3 | `Lyasoff2016/Tables.lean:165` |
+| done | `table4_asian_enclosure` | Table 4 | `Lyasoff2016/Tables.lean:179` |
 
 ## Dependency sketch
 

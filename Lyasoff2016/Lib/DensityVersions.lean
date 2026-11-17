@@ -9,7 +9,12 @@ version.  Consequently an *unsigned* pointwise identity `φ x y = (expression no
 for all `x y` cannot be derived from `IsJointDensity` and continuity alone; only identities
 between positive parts (or under an explicit nonnegativity hypothesis) can.
 -/
-import Lyasoff2016.Setting
+module
+
+public import Lyasoff2016.Setting
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open scoped ENNReal NNReal Real

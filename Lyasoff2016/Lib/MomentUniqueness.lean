@@ -5,7 +5,12 @@ Used in the proof of Dufresne's theorem (`FokkerPlanck.lean`): the reciprocal of
 `∫₀^∞ e^{σ W_s + ν s} ds` has the integer moments of a Gamma law, and a law on `[0, ∞)` whose
 moment generating function is finite near `0` is determined by its integer moments.
 -/
-import Mathlib
+module
+
+public import Mathlib
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open scoped ENNReal NNReal Real

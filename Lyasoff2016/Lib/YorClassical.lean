@@ -2,7 +2,12 @@
 Classical citation of Yor’s joint density formula (Yor 1992, (6.c)), used by
 `yor_formula_classical` as an external analytic input independent of the §5 contour route.
 -/
-import Lyasoff2016.Setting
+module
+
+public import Lyasoff2016.Setting
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set
 open scoped NNReal

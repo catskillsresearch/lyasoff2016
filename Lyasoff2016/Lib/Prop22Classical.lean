@@ -1,7 +1,12 @@
 /-
 Classical citation of Lyasoff Prop. 2.2 (conditional density regularity).
 -/
-import Lyasoff2016.Setting
+module
+
+public import Lyasoff2016.Setting
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open scoped NNReal ENNReal

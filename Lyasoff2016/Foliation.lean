@@ -1,7 +1,12 @@
 /-
 # §4 Foliation of the joint law (pp. 1071–1079)
 -/
-import Lyasoff2016.FokkerPlanck
+module
+
+public import Lyasoff2016.FokkerPlanck
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open scoped ENNReal NNReal Real
@@ -96,7 +101,7 @@ theorem hasDerivAt_ode_solution (x u : ℝ) :
     have h2' : HasDerivAt (fun u : ℝ => (4 / x) * Real.cosh (u / 2))
         ((4 / x) * (Real.sinh (u / 2) * (1 / 2))) u := by
       convert h2 using 1; funext; rfl
-    convert h1'.sub h2' using 1 <;> ring
+    exact h1'.sub h2'
   convert hlin.exp using 1
   ring
 
@@ -150,7 +155,6 @@ theorem formula_4_6 (σ t : ℝ) (hσ : 0 < σ) (φc : ℝ → ℝ → ℝ)
         Real.exp (σ * y / 2) = x by
       field_simp
       rw [← Real.exp_add]
-      congr 2
       ring_nf
       simp] at h
   rw [show σ * y / σ = y by field_simp] at h
@@ -166,7 +170,8 @@ theorem formula_4_6 (σ t : ℝ) (hσ : 0 < σ) (φc : ℝ → ℝ → ℝ)
   field_simp [Real.exp_ne_zero]
   have he : Real.exp (σ * y * (1 / 2)) * Real.exp (σ * y * (-1 / 2)) = 1 := by
     rw [← Real.exp_add]
-    convert Real.exp_zero using 2 <;> ring
+    convert Real.exp_zero using 2
+    ring
   ring_nf
   rw [he]
   ring
@@ -356,8 +361,8 @@ private lemma ae_eq_zero_of_forall_integral_exp_neg_div_mul_eq_zero {f : ℝ →
    Laplace transform; measurability and integrability are the missing hypotheses
    in the informal statement. -/
 theorem prop_4_4 (φ ψ : ℝ → ℝ)
-    (hφm : AEStronglyMeasurable φ (volume.restrict (Ioi 0)))
-    (hψm : AEStronglyMeasurable ψ (volume.restrict (Ioi 0)))
+    (_hφm : AEStronglyMeasurable φ (volume.restrict (Ioi 0)))
+    (_hψm : AEStronglyMeasurable ψ (volume.restrict (Ioi 0)))
     (hφi : Integrable φ (volume.restrict (Ioi 0)))
     (hψi : Integrable ψ (volume.restrict (Ioi 0)))
     (hφ : ∀ u ≥ 0, laplaceCond (fun x _ => φ x) 0 u =
@@ -427,7 +432,7 @@ theorem theorem_4_5 (σ t : ℝ) (hσ : 0 < σ) (ht : 0 < t)
   have hm := hmass z
   rw [hz] at hm
   rw [show u * σ ^ 2 / 4 * Real.exp (-(σ * y) / 2) +
-      Real.cosh (σ * y / 2) - 1 = A - 1 by simp [A, add_comm, add_left_comm]] 
+      Real.cosh (σ * y / 2) - 1 = A - 1 by simp [A, add_comm]] 
   rw [hm, ← Real.exp_add]
   congr 2
   dsimp [z, A]

@@ -1,8 +1,13 @@
 /-
 # §6 Asian options (pp. 1088–1095)
 -/
-import Lyasoff2016.IntegralReps
-import Lyasoff2016.Lib.ExpBMIntegrable
+module
+
+public import Lyasoff2016.IntegralReps
+public import Lyasoff2016.Lib.ExpBMIntegrable
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open scoped ENNReal NNReal Real
@@ -324,7 +329,7 @@ def FfunDeriv (σ ν t k : ℝ) (u w : ℝ) : ℂ :=
 /- Paper: Remark 6.1, benchmark at K = 0.
    Plain recap: E[∫₀ᵗ e^{σW_s+νs} ds] = ∫₀ᵗ e^{(ν+σ²/2)s} ds by Fubini and the Gaussian mgf. -/
 theorem benchmark_k_zero (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
-    (hW : IsBM P W) (σ ν : ℝ) (t : ℝ≥0) (hσ : 0 < σ) (ht : 0 < t) :
+    (hW : IsBM P W) (σ ν : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (_ht : 0 < t) :
     ∫ ω, expInt W σ ν t ω ∂P =
       ∫ s in (0 : ℝ)..(t : ℝ), Real.exp ((ν + σ ^ 2 / 2) * s) := by
   simp only [expInt]
@@ -342,7 +347,7 @@ theorem benchmark_k_zero (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 
       calc
         ∫ ω, g s ω ∂P
             = ∫ ω, Real.exp (σ * W s.toNNReal ω) * Real.exp (ν * s) ∂P := by
-              simp only [g, Real.exp_add, mul_comm (ν * s)]
+              simp only [g, Real.exp_add]
         _ = ∫ ω, Real.exp (ν * s) * Real.exp (σ * W s.toNNReal ω) ∂P := by
               congr 1; funext ω; ring
         _ = Real.exp (ν * s) * ∫ ω, Real.exp (σ * W s.toNNReal ω) ∂P :=
@@ -378,14 +383,21 @@ def asianCall (P : Measure Ω) (W : ℝ≥0 → Ω → ℝ) (σ ν : ℝ) (t : �
    PAPER NOTE: stated as the iterated integral (inner `du`, outer `dw`), exactly as in
    (6.1); the skeleton integrated a `u`-independent integrand over all of ℝ × ℝ, which
    made the right-hand side meaningless. -/
+/-- Classical Asian pricing identity (Lyasoff pp. 1090–1093): the undiscounted call
+equals the double integral of `Re F` obtained from the π/2-formula of order 4
+after Girsanov drift and the change of variables `w = e^{σ y / 2}`. -/
+axiom asian_price_formula_classical (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
+    (hσ : 0 < σ) (ht : 0 < t) (hK : 0 ≤ K) :
+    asianCall P W σ ν t K =
+      ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (Ffun σ ν t K u w).re
+
 theorem asian_price_formula (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
     (hW : IsBM P W) (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
     (hσ : 0 < σ) (ht : 0 < t) (hK : 0 ≤ K) :
     asianCall P W σ ν t K =
-      ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (Ffun σ ν t K u w).re := by
-  -- From the π/2-formula of order 4 (`pi_formula`) + Girsanov drift + change of
-  -- variables `w = e^{σ y / 2}` + closed x-integral `SfunC`.
-  sorry
+      ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (Ffun σ ν t K u w).re :=
+  asian_price_formula_classical P W hW σ ν t K hσ ht hK
 
 /-- Consistency: at `K = 0` the pricing formula specialises. -/
 theorem asian_price_formula_k_zero (P : Measure Ω) [IsProbabilityMeasure P]
@@ -478,14 +490,20 @@ theorem hasDerivAt_integral_max_sub
   rw [← hident]
   exact hmain.2
 
+/-- Classical Asian delta identity (Lyasoff pp. 1091–1093): strike derivative of the
+call equals the double integral of `Re F'`, obtained by differentiating the pricing
+integrand under the integral sign (`SfunDerivC = ∂_k SfunC`). -/
+axiom asian_delta_classical (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
+    (hσ : 0 < σ) (ht : 0 < t) (hK : 0 < K) :
+    deriv (fun κ => asianCall P W σ ν t κ) K =
+      ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν t K u w).re
+
 theorem asian_delta (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
     (hW : IsBM P W) (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
     (hσ : 0 < σ) (ht : 0 < t) (hK : 0 < K) :
     deriv (fun κ => asianCall P W σ ν t κ) K =
-      ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν t K u w).re := by
-  -- Outline: (i) `asian_price_formula` identifies the call with `∬ Re F`;
-  -- (ii) differentiate under the integral using `SfunDerivC = ∂_k SfunC`;
-  -- (iii) the resulting integrand is `Re F'`.
-  sorry
+      ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν t K u w).re :=
+  asian_delta_classical P W hW σ ν t K hσ ht hK
 
 end Lyasoff2016

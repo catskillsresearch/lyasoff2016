@@ -13,7 +13,8 @@ public import Mathlib.Analysis.Calculus.BumpFunction.FiniteDimension
 public import Mathlib.MeasureTheory.Integral.Prod
 public import Mathlib.Topology.Algebra.Support
 
-public section
+
+@[expose] public section
 
 open MeasureTheory Set Filter Topology Metric Function
 open MeasureTheory.Measure

@@ -5,7 +5,12 @@ Used to justify the Fubini swap in the `K = 0` benchmark of Remark 6.1 (p. 1092)
 `IsBrownianReal` only gives a.s. continuous paths, so joint measurability is obtained from the
 continuous modification `IsPreBrownianReal.mk`, which agrees with `W` off a `P`-null set.
 -/
-import Lyasoff2016.Setting
+module
+
+public import Lyasoff2016.Setting
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open scoped ENNReal NNReal Real

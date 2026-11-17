@@ -1,15 +1,20 @@
 /-
 Ito identities for product test functions along `(expInt, W)`, used by `fokker_planck_joint`.
 -/
-import Lyasoff2016.Setting
-import MathFin.Probability.Brownian.Ito.ItoFormulaTD
-import MathFin.Probability.Brownian.Ito.ItoFormulaCLM
-import MathFin.Probability.Brownian.Ito.ItoFormulaAdaptedProcess
-import MathFin.Probability.Brownian.Ito.ItoProductRule
-import MathFin.Probability.Brownian.Ito.ItoIntegralProcessGeneral
-import MathFin.Probability.Brownian.Ito.ItoIntegralLocalisedPredictable
-import MathFin.Probability.Brownian.Ito.ItoIntegralBrownian
-import Mathlib.Analysis.Calculus.ContDiff.Basic
+module
+
+public import Lyasoff2016.Setting
+public import MathFin.Probability.Brownian.Ito.ItoFormulaTD
+public import MathFin.Probability.Brownian.Ito.ItoFormulaCLM
+public import MathFin.Probability.Brownian.Ito.ItoFormulaAdaptedProcess
+public import MathFin.Probability.Brownian.Ito.ItoProductRule
+public import MathFin.Probability.Brownian.Ito.ItoIntegralProcessGeneral
+public import MathFin.Probability.Brownian.Ito.ItoIntegralLocalisedPredictable
+public import MathFin.Probability.Brownian.Ito.ItoIntegralBrownian
+public import Mathlib.Analysis.Calculus.ContDiff.Basic
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open MeasureTheory.Measure
@@ -81,7 +86,8 @@ theorem pathwise_u_expInt_ftc (B : ℝ≥0 → ℝ) (hBcont : Continuous B)
   have hX0 : X 0 = 0 := by simp [X, intervalIntegral.integral_same]
   calc
     u (∫ s in (0 : ℝ)..(t : ℝ), Real.exp (σ * B s.toNNReal)) - u 0
-        = (u ∘ X) t - (u ∘ X) 0 := by simp [Function.comp_apply, X, g, hX0]
+        = (u ∘ X) t - (u ∘ X) 0 := by
+          simp only [Function.comp_apply, X, g, hX0]
       _ = ∫ s in (0 : ℝ)..(t : ℝ), deriv u (X s) * g s := by simpa using hFTC.symm
       _ = ∫ s in (0 : ℝ)..(t : ℝ),
             deriv u (∫ r in (0 : ℝ)..s, Real.exp (σ * B r.toNNReal)) *
@@ -158,7 +164,7 @@ theorem ito_expInt_test_product (P : Measure Ω) [IsProbabilityMeasure P]
     refine intervalIntegral.integral_congr fun s hs => ?_
     have hsI : s ∈ Icc (0 : ℝ) t := by
       simpa [uIcc_of_le (NNReal.coe_nonneg t)] using hs
-    simp [hpath s.toNNReal, Real.coe_toNNReal s hsI.1]
+    simp [hpath s.toNNReal]
   have hterm :
       (∫ ω, u (expInt W σ 0 t ω) * v (W t ω) ∂P) =
         ∫ ω, u (expInt B σ 0 t ω) * v (B t ω) ∂P := by

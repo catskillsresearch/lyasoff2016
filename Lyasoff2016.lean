@@ -9,10 +9,15 @@ Formalization of
 Vendored dependencies (verbatim under `vendor/`): BrownianMotion,
 kolmogorov_extension4, formal-mathfin. Mathlib via Lake.
 -/
-import Lyasoff2016.Setting
-import Lyasoff2016.Auxiliary
-import Lyasoff2016.FokkerPlanck
-import Lyasoff2016.Foliation
-import Lyasoff2016.IntegralReps
-import Lyasoff2016.Asian
-import Lyasoff2016.Tables
+module
+
+public import Lyasoff2016.Setting
+public import Lyasoff2016.Auxiliary
+public import Lyasoff2016.FokkerPlanck
+public import Lyasoff2016.Foliation
+public import Lyasoff2016.IntegralReps
+public import Lyasoff2016.Asian
+public import Lyasoff2016.Tables
+
+@[expose] public section
+

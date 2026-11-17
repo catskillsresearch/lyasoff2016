@@ -1,21 +1,26 @@
 /-
 # §3 Fokker–Planck characterization (pp. 1067–1071)
 -/
-import Lyasoff2016.Auxiliary
-import Lyasoff2016.Lib.MomentUniqueness
-import Lyasoff2016.Lib.InverseGamma
-import Lyasoff2016.Lib.JointFokkerPlanckHelpers
-import Lyasoff2016.Lib.JointFokkerPlanckIto
-import BrownianMotion.Gaussian.BrownianMotion
-import MathFin.Probability.Brownian.Ito.ItoFormulaTD
-import MathFin.Probability.Brownian.Ito.ItoFormulaProcess
-import MathFin.Probability.Brownian.BrownianExpMoment
-import MathFin.Probability.Brownian.BrownianMartingale
-import MathFin.Probability.Brownian.Ito.ItoIsometryAdapted
-import MathFin.Probability.Brownian.Ito.ItoFormulaGBM
-import MathFin.Probability.Brownian.Ito.ItoIntegralProcessGeneral
-import Mathlib.Probability.Independence.Integration
-import Mathlib.Analysis.Distribution.AEEqOfIntegralContDiff
+module
+
+public import Lyasoff2016.Auxiliary
+public import Lyasoff2016.Lib.MomentUniqueness
+public import Lyasoff2016.Lib.InverseGamma
+public import Lyasoff2016.Lib.JointFokkerPlanckHelpers
+public import Lyasoff2016.Lib.JointFokkerPlanckIto
+public import BrownianMotion.Gaussian.BrownianMotion
+public import MathFin.Probability.Brownian.Ito.ItoFormulaTD
+public import MathFin.Probability.Brownian.Ito.ItoFormulaProcess
+public import MathFin.Probability.Brownian.BrownianExpMoment
+public import MathFin.Probability.Brownian.BrownianMartingale
+public import MathFin.Probability.Brownian.Ito.ItoIsometryAdapted
+public import MathFin.Probability.Brownian.Ito.ItoFormulaGBM
+public import MathFin.Probability.Brownian.Ito.ItoIntegralProcessGeneral
+public import Mathlib.Probability.Independence.Integration
+public import Mathlib.Analysis.Distribution.AEEqOfIntegralContDiff
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open MeasureTheory.Measure
@@ -472,7 +477,7 @@ theorem dufresne_zero_flux (σ ν : ℝ) (hσ : 0 < σ) (x : ℝ) (hx : 0 < x) :
       (C * x ^ (-p) * Real.exp (-a / x) * ((2 - p) * x + a)) x := by
     have h := h1.mul ((h2.const_mul C).mul h4)
     convert h using 1
-    simp only [ψ, Pi.mul_apply]
+    simp only [Pi.mul_apply]
     rw [Real.rpow_sub_one hx0]
     field_simp
     ring
@@ -942,7 +947,7 @@ theorem aemeasurable_Zproc (P : Measure Ω) [IsProbabilityMeasure P]
     refine intervalIntegral.integral_congr fun u hu => ?_
     have huI : u ∈ Icc (0 : ℝ) t := by
       simpa [uIcc_of_le (NNReal.coe_nonneg t)] using hu
-    simp [hp u.toNNReal, Real.coe_toNNReal u huI.1]
+    simp [hp u.toNNReal]
   have hexp : AEMeasurable (fun ω => Real.exp (ν * (t : ℝ) - B t ω)) P :=
     Real.measurable_exp.comp_aemeasurable <|
       ((measurable_const : Measurable fun _ => ν * (t : ℝ)).aemeasurable).sub hBt
@@ -1131,7 +1136,7 @@ theorem integrable_uncurry_inv_Zproc (P : Measure Ω) [IsProbabilityMeasure P]
     change invZFromPaths ν τ (bmPath hW p.2) (bmPath hB p.2) =
       (Zproc W B 1 ν τ p.2)⁻¹
     unfold invZFromPaths
-    rw [if_pos hApos']
+    rw [ite_eq_left hApos']
     simp only [Zproc, one_mul, hAeq, hIeq, hBeq]
   have hasm : AEStronglyMeasurable
       (Function.uncurry (fun s : ℝ => fun ω => (Zproc W B 1 ν s.toNNReal ω)⁻¹))
@@ -1148,8 +1153,8 @@ theorem integrable_uncurry_inv_Zproc (P : Measure Ω) [IsProbabilityMeasure P]
   · have hvol : volume (uIoc (0 : ℝ) (t : ℝ)) < ∞ := by
       rw [uIoc_of_le (NNReal.coe_nonneg t), Real.volume_Ioc]
       simp
-    haveI : IsFiniteMeasure (volume.restrict (uIoc (0 : ℝ) (t : ℝ))) :=
-      ⟨by simpa [Measure.restrict_apply MeasurableSet.univ] using hvol⟩
+    have : IsFiniteMeasure (volume.restrict (uIoc (0 : ℝ) (t : ℝ))) :=
+      ⟨by simp [Measure.restrict_apply MeasurableSet.univ]⟩
     set c : ℝ := ∫ ω, (∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s))⁻¹ ∂P
     have hc : Integrable (fun _ : ℝ => c) (volume.restrict (uIoc (0 : ℝ) (t : ℝ))) :=
       integrable_const c
@@ -1262,8 +1267,7 @@ theorem perpetuity_inv_moment (P : Measure Ω) [IsProbabilityMeasure P]
         simpa [Function.uncurry] using hint.integral_prod_right
       convert hset using 1
       funext p
-      simp [intervalIntegral.intervalIntegral_eq_integral_uIoc,
-        uIoc_of_le (zero_le_one : (0 : ℝ) ≤ 1), one_smul]
+      simp [intervalIntegral.intervalIntegral_eq_integral_uIoc]
     have hFub :
         ∫ p, (∫ s in (0 : ℝ)..(1 : ℝ), (Zproc W1 Bproc 1 ν s.toNNReal p)⁻¹) ∂Q =
           ∫ p, (A p)⁻¹ ∂Q := by
@@ -1382,7 +1386,7 @@ theorem dufresneGenerator_log (ν x : ℝ) (hx : 0 < x) :
   ring
 
 /-- Formal computation: `L(y ↦ (y^k)⁻¹)(x) = (k²/2 - k ν)(x^k)⁻¹ - k (x^{k+1})⁻¹` for `x > 0`. -/
-theorem dufresneGenerator_zpow (ν : ℝ) (k : ℕ) (hk : 0 < k) (x : ℝ) (hx : 0 < x) :
+theorem dufresneGenerator_zpow (ν : ℝ) (k : ℕ) (_hk : 0 < k) (x : ℝ) (hx : 0 < x) :
     dufresneGenerator ν (fun y => (y ^ k)⁻¹) x =
       ((k : ℝ) ^ 2 / 2 - (k : ℝ) * ν) * (x ^ k)⁻¹ - (k : ℝ) * (x ^ (k + 1))⁻¹ := by
   have hx0 : x ≠ 0 := hx.ne'
@@ -1406,7 +1410,7 @@ theorem dufresneGenerator_zpow (ν : ℝ) (k : ℕ) (hk : 0 < k) (x : ℝ) (hx :
     rw [Filter.EventuallyEq.deriv_eq hnhd, deriv_const_mul_field']
     -- (-k) * ((-k) - 1) * x^(-k-2) = k(k+1) x^(-k-2)
     simp only [deriv_zpow, Int.cast_neg, Int.cast_sub, Int.cast_natCast]
-    ring
+    ring_nf
   -- Rewrite negative zpowers as reciprocal nat-powers for the algebra
   have hz1 : x ^ (-(k : ℤ) - 1) = (x ^ (k + 1))⁻¹ := by
     rw [show -(k : ℤ) - 1 = -((k + 1 : ℕ) : ℤ) by omega, zpow_neg, zpow_natCast]
@@ -1455,7 +1459,7 @@ theorem integrable_pow_inv_perpetuity (P : Measure Ω) [IsProbabilityMeasure P]
         (expInt W 1 0 1 ω)⁻¹ ^ (k + 1)) P := by
       refine (hfin.const_mul (Real.exp (-ν * (k + 1 : ℝ)))).congr ?_
       filter_upwards with ω
-      simp only [zpow_neg, zpow_natCast, Pi.mul_apply]
+      simp only [zpow_neg, zpow_natCast]
       ring
     refine Integrable.mono' hfin' (hmeas.inv.pow_const (k + 1)).aestronglyMeasurable ?_
     filter_upwards [hge, hW.cont] with ω hgeω _hcont
@@ -1581,7 +1585,7 @@ theorem pathwise_pow_inv_Y_identity (B : ℝ≥0 → ℝ) (_hBcont : Continuous 
     cases k with
     | zero => cases hk
     | succ m =>
-      simp [pow_succ, Nat.succ_sub_succ_eq_sub, Nat.sub_zero, pow_two]
+      simp [pow_succ]
       field_simp [hpos]
       ring
   have hinter : IntervalIntegrable
@@ -1698,8 +1702,8 @@ theorem integrable_uncurry_pow_inv_Zproc (P : Measure Ω) [IsProbabilityMeasure 
     simpa [Function.uncurry, Real.coe_toNNReal s hs0] using hZ
   · have hvol : volume (uIoc (0 : ℝ) (t : ℝ)) < ∞ := by
       rw [uIoc_of_le (NNReal.coe_nonneg t), Real.volume_Ioc]; simp
-    haveI : IsFiniteMeasure (volume.restrict (uIoc (0 : ℝ) (t : ℝ))) :=
-      ⟨by simpa [Measure.restrict_apply MeasurableSet.univ] using hvol⟩
+    have : IsFiniteMeasure (volume.restrict (uIoc (0 : ℝ) (t : ℝ))) :=
+      ⟨by simp [Measure.restrict_apply MeasurableSet.univ]⟩
     set c : ℝ :=
       ∫ ω, (∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s))⁻¹ ^ k ∂P
     have hc : Integrable (fun _ : ℝ => c) (volume.restrict (uIoc (0 : ℝ) (t : ℝ))) :=
@@ -1753,7 +1757,7 @@ theorem pathwise_Zpow_eq_wald_mul (B : ℝ≥0 → ℝ) (A : ℝ) (hA : 0 < A)
           (Real.exp (((k : ℝ) ^ 2 / 2 - (k : ℝ) * ν) * (u : ℝ)) * Y⁻¹ ^ k) := by
           rw [← mul_assoc, ← Real.exp_add]
           congr 1
-          ring
+          ring_nf
 
 /-- Pathwise Wald–log factorization: `Z_t^{-k} = A^{-k} N_t H_t` with
 `N` the Wald exponential and `H_t = exp(c t - k ∫₀ᵗ Z^{-1})`. -/
@@ -1795,7 +1799,7 @@ theorem pathwise_Zpow_eq_wald_H (B : ℝ≥0 → ℝ) (hBcont : Continuous B) (h
   simp only [N, H, c]
   rw [mul_assoc, ← Real.exp_add]
   congr 1
-  ring
+  ring_nf
 
 /-- Pathwise FTC for the finite-variation factor `H` in `pathwise_Zpow_eq_wald_H`. -/
 theorem pathwise_H_ftc (B : ℝ≥0 → ℝ) (hBcont : Continuous B) (_hB0 : B 0 = 0)
@@ -2300,14 +2304,14 @@ theorem pathwise_Zpow_drift_identity (B : ℝ≥0 → ℝ) (hBcont : Continuous 
     let Z : ℝ≥0 → ℝ := fun u => Real.exp (ν * (u : ℝ) - B u) * Y u
     let N : ℝ≥0 → ℝ := fun u => Real.exp ((k : ℝ) * B u - (k : ℝ) ^ 2 * (u : ℝ) / 2)
     let c : ℝ := (k : ℝ) ^ 2 / 2 - (k : ℝ) * ν
-    let H : ℝ≥0 → ℝ := fun u =>
-      Real.exp (c * (u : ℝ) - (k : ℝ) * ∫ s in (0 : ℝ)..(u : ℝ), (Z s.toNNReal)⁻¹)
     (Z t)⁻¹ ^ k - A⁻¹ ^ k =
       A⁻¹ ^ k * (N t - 1) +
         ∫ s in (0 : ℝ)..(t : ℝ),
           Real.exp ((k : ℝ) * (B t - B s.toNNReal) - (k : ℝ) ^ 2 * ((t : ℝ) - s) / 2) *
             (c * (Z s.toNNReal)⁻¹ ^ k - (k : ℝ) * (Z s.toNNReal)⁻¹ ^ (k + 1)) := by
-  intro Y Z N c H
+  intro Y Z N c
+  let H : ℝ≥0 → ℝ := fun u =>
+    Real.exp (c * (u : ℝ) - (k : ℝ) * ∫ s in (0 : ℝ)..(u : ℝ), (Z s.toNNReal)⁻¹)
   have hfact := pathwise_Zpow_eq_wald_H B hBcont hB0 A hA ν k t
   have hH := pathwise_H_ftc B hBcont hB0 A hA ν k t
   have hZeq : ∀ u : ℝ≥0, (Z u)⁻¹ ^ k = A⁻¹ ^ k * N u * H u := fun u =>
@@ -2441,7 +2445,7 @@ theorem integrable_uncurry_waldIncrement_mul_Zpow (P : Measure Ω) [IsProbabilit
         invZFromPaths ν τ (bmPath hW1 p.2) (bmPath hB p.2) =
           (Zproc W1 Bproc 1 ν τ p.2)⁻¹ := by
       simp only [invZFromPaths, Zproc, one_mul]
-      rw [if_pos hApos', hAeq, hIeq, hBeqτ]
+      rw [ite_eq_left hApos', hAeq, hIeq, hBeqτ]
     simp only [Function.uncurry, fPath, waldIncrementFromPaths]
     rw [hBb 1, hBb τ, hinv]
     simp [τ]
@@ -2554,7 +2558,7 @@ theorem perpetuity_neg_moment_succ (P : Measure Ω) [IsProbabilityMeasure P]
       have hid :=
         pathwise_Zpow_drift_identity (fun u => Bproc u p) hBcont hB0 (A p) hAp ν k 1
       convert hid using 1 <;>
-        simp [Zproc, A, W1, Bproc, one_mul, N, Dfun, η, c, Real.coe_toNNReal]
+        simp [Zproc, A, W1, Bproc, one_mul, N, Dfun, η, c]
     set fA : Ω → ℝ := fun ω =>
       (∫ s in Ioi (0 : ℝ), Real.exp (W s.toNNReal ω + ν * s))⁻¹ ^ k
     set gN : Ω → ℝ := fun ω =>
@@ -2595,8 +2599,7 @@ theorem perpetuity_neg_moment_succ (P : Measure Ω) [IsProbabilityMeasure P]
             ((volume.restrict (uIoc (0 : ℝ) (1 : ℝ))).prod Q) from by
           simpa [Dfun, Q, W1, Bproc] using huncurry_k).integral_prod_right
       refine h.congr (Eventually.of_forall fun p => ?_)
-      simp [Dfun, intervalIntegral.intervalIntegral_eq_integral_uIoc,
-        uIoc_of_le (by norm_num : (0 : ℝ) ≤ 1), one_smul]
+      simp [Dfun, intervalIntegral.intervalIntegral_eq_integral_uIoc]
     have hk1I : Integrable
         (fun p => ∫ s in (0 : ℝ)..(1 : ℝ),
           Dfun s p * (Zproc W1 Bproc 1 ν s.toNNReal p)⁻¹ ^ (k + 1)) Q := by
@@ -2606,8 +2609,7 @@ theorem perpetuity_neg_moment_succ (P : Measure Ω) [IsProbabilityMeasure P]
             ((volume.restrict (uIoc (0 : ℝ) (1 : ℝ))).prod Q) from by
           simpa [Dfun, Q, W1, Bproc] using huncurry_k1).integral_prod_right
       refine h.congr (Eventually.of_forall fun p => ?_)
-      simp [Dfun, intervalIntegral.intervalIntegral_eq_integral_uIoc,
-        uIoc_of_le (by norm_num : (0 : ℝ) ≤ 1), one_smul]
+      simp [Dfun, intervalIntegral.intervalIntegral_eq_integral_uIoc]
     have hpath_lin : ∀ᵐ p ∂Q,
         ∫ s in (0 : ℝ)..(1 : ℝ), Dfun s p * η s.toNNReal p =
           c * (∫ s in (0 : ℝ)..(1 : ℝ),
@@ -2882,7 +2884,7 @@ theorem dufresne_theorem_sigma_one (P : Measure Ω) [IsProbabilityMeasure P]
     measure_eq_of_moments hpos₁ hpos₂ ha hmom hfin
   have hρ₁' : ρ₁ = (P.map A).map Inv.inv := by
     dsimp only [ρ₁]
-    change P.map Ainv = (P.map A).map Inv.inv
+    show P.map Ainv = (P.map A).map Inv.inv
     rw [show Ainv = Inv.inv ∘ A from rfl]
     exact (Measure.map_map measurable_inv hAmeas).symm
   have hinv_comp : Inv.inv ∘ Inv.inv = (id : ℝ → ℝ) := funext fun _ => inv_inv _
@@ -3080,7 +3082,7 @@ theorem jointFokkerPlanckAdjoint_eq_zero (P : Measure Ω) [IsProbabilityMeasure 
    PAPER NOTE: the skeleton placed the zeroth-order term outside ∂ₓ; restored to the
    paper's bracketed form (what §4 integrates in x). -/
 theorem fokker_planck_joint (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
-    (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (hσ : 0 < σ) (ht : 0 < t)
+    (hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (ht : 0 < t)
     (φ : ℝ → ℝ → ℝ) (hφ : IsJointDensity P W σ 0 t φ)
     (hsm : ∀ n : ℕ, ContDiffOn ℝ n (Function.uncurry φ) (Ioi (0 : ℝ) ×ˢ univ))
     (x y : ℝ) (hx : 0 < x) :
@@ -3134,7 +3136,7 @@ theorem fokker_planck_joint (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ�
 /- Paper: p. 1070, Remark 3.2.
    Plain recap: identity in law relating (X_t, M_t−W_t, M_t) to a reflected version. -/
 theorem remark_3_2 (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
-    (hW : IsBM P W) (t : ℝ≥0) (ht : 0 < t) :
+    (hW : IsBM P W) (t : ℝ≥0) (_ht : 0 < t) :
     P.map (fun ω =>
       (expInt W 1 0 t ω,
         (⨆ s : Icc (0 : ℝ≥0) t, W s ω) - W t ω,

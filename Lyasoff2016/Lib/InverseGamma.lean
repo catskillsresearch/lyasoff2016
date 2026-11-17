@@ -1,8 +1,13 @@
 /-
 Inverse-Gamma / Gamma reciprocal helpers for Dufresne’s theorem.
 -/
-import Lyasoff2016.Setting
-import Lyasoff2016.Lib.MomentUniqueness
+module
+
+public import Lyasoff2016.Setting
+public import Lyasoff2016.Lib.MomentUniqueness
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open scoped ENNReal NNReal Real

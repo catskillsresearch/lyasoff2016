@@ -1,12 +1,17 @@
 /-
 # §2 Auxiliary results (pp. 1064–1066)
 -/
-import Lyasoff2016.Setting
-import Lyasoff2016.Lib.IntegralMoments
-import Lyasoff2016.Lib.BrownianScaling
-import Lyasoff2016.Lib.DensityVersions
-import Lyasoff2016.Lib.CameronMartin
-import Lyasoff2016.Lib.Prop22Classical
+module
+
+public import Lyasoff2016.Setting
+public import Lyasoff2016.Lib.IntegralMoments
+public import Lyasoff2016.Lib.BrownianScaling
+public import Lyasoff2016.Lib.DensityVersions
+public import Lyasoff2016.Lib.CameronMartin
+public import Lyasoff2016.Lib.Prop22Classical
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open scoped ENNReal NNReal Real
@@ -212,7 +217,7 @@ theorem girsanov_density_unsigned_obstruction (P : Measure Ω) (W : ℝ≥0 → 
    Continuous nonnegative versions of the densities are assumed so a.e. identities become
    pointwise. PAPER NOTE: nonnegativity as in `scaling_relations`. -/
 theorem girsanov_density (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
-    (hW : IsBM P W) (σ μ : ℝ) (t : ℝ≥0) (hσ : 0 < σ) (ht : 0 < t)
+    (hW : IsBM P W) (σ μ : ℝ) (t : ℝ≥0) (hσ : 0 < σ) (_ht : 0 < t)
     (φμ φ0 : ℝ → ℝ → ℝ) (h1 : IsJointDensity P W σ μ t φμ)
     (h0 : IsJointDensity P W σ 0 t φ0)
     (hcont : Continuous (Function.uncurry φμ) ∧ Continuous (Function.uncurry φ0))

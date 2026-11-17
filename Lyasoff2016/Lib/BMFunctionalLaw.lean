@@ -2,8 +2,13 @@
 Equality of laws of continuous path functionals of Brownian motions,
 and the pathwise time-reversal change of variables for (1.3).
 -/
-import BrownianMotion.Gaussian.BrownianMotion
-import Lyasoff2016.Lib.TimeReversal
+module
+
+public import BrownianMotion.Gaussian.BrownianMotion
+public import Lyasoff2016.Lib.TimeReversal
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open scoped NNReal
@@ -138,6 +143,7 @@ private theorem toNNReal_of_mem_Icc {t : ℝ≥0} {u : ℝ} (hu : u ∈ Icc (0 :
   Real.toNNReal_le_iff_le_coe.mpr hu.2
 
 /- Pathwise change of variables: Ψ(W)(ω) = Φ(timeReversed W t)(ω) for each coordinate. -/
+omit [MeasurableSpace Ω] in
 theorem timeReversed_integral_eq
     (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) (ω : Ω) (V : ℝ → ℝ → ℝ) :
     (∫ s in (0 : ℝ)..(t : ℝ), V ((t : ℝ) - s) (W t ω - W s.toNNReal ω)) =
@@ -158,8 +164,8 @@ theorem timeReversed_integral_eq
   have hsub :
       (∫ s in (0 : ℝ)..(t : ℝ), f ((t : ℝ) - s)) =
       ∫ u in (0 : ℝ)..(t : ℝ), f u := by
-    simpa [sub_self, sub_zero] using
-      (intervalIntegral.integral_comp_sub_left (f := f) (a := (0 : ℝ)) (b := (t : ℝ)) (t : ℝ))
+    simp [sub_self, sub_zero,
+      intervalIntegral.integral_comp_sub_left (f := f) (a := (0 : ℝ)) (b := (t : ℝ)) (t : ℝ)]
   change (∫ s in (0 : ℝ)..(t : ℝ), f ((t : ℝ) - s)) =
     ∫ s in (0 : ℝ)..(t : ℝ), V s (timeReversed W t s.toNNReal ω) at *
   rw [hsub]
@@ -173,6 +179,7 @@ theorem timeReversed_integral_eq
   rw [htr, toNNReal_sub_of_mem_Icc huI]
 
 /- Bundle the pathwise identity for the Fin n-valued functional used in (1.3). -/
+omit [MeasurableSpace Ω] in
 theorem timeReversed_functional_eq
     (W : ℝ≥0 → Ω → ℝ) (t : ℝ≥0) (ω : Ω) (n : ℕ) (V : Fin n → ℝ → ℝ → ℝ)
     (hW0 : W 0 ω = 0) :

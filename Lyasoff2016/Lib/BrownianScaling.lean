@@ -15,7 +15,12 @@ Brownian scaling for the exponential functionals of the paper (p. 1066).
 `φ` may be negative where the law has no mass (e.g. on `x < 0`).  This is why the pointwise
 statements are about `max φ 0`.
 -/
-import Lyasoff2016.Setting
+module
+
+public import Lyasoff2016.Setting
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open scoped ENNReal NNReal Real

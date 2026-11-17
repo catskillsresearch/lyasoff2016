@@ -1,11 +1,16 @@
-import Lyasoff2016.Setting
-import BrownianMotion.Gaussian.BrownianMotion
-import BrownianMotion.Auxiliary.Martingale
-import BrownianMotion.StochasticIntegral.DoobLp
-import MathFin.Probability.Brownian.Ito.ItoFormulaLocalized
-import MathFin.Probability.Brownian.Ito.ItoIntegralProcessGeneral
-import Mathlib.MeasureTheory.Integral.Layercake
-import Mathlib.Probability.Distributions.Gaussian.Real
+module
+
+public import Lyasoff2016.Setting
+public import BrownianMotion.Gaussian.BrownianMotion
+public import BrownianMotion.Auxiliary.Martingale
+public import BrownianMotion.StochasticIntegral.DoobLp
+public import MathFin.Probability.Brownian.Ito.ItoFormulaLocalized
+public import MathFin.Probability.Brownian.Ito.ItoIntegralProcessGeneral
+public import Mathlib.MeasureTheory.Integral.Layercake
+public import Mathlib.Probability.Distributions.Gaussian.Real
+
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Set Filter Topology
 open scoped Interval NNReal ENNReal
@@ -139,7 +144,8 @@ lemma ciSup_Iic_eq_iSup_denseSeq (g : ℝ≥0 → ℝ) (hg : Continuous g) (t : 
       rintro _ ⟨n, rfl⟩
       exact le_ciSup hbdd' n
     have hi := hall i
-    rwa [min_eq_left i.2] at hi
+    have hmin : min (i : ℝ≥0) t = i := min_eq_left i.2
+    rwa [hmin] at hi
   · exact le_ciSup hbdd ⟨min (TopologicalSpace.denseSeq ℝ≥0 n) t, mem_Iic.2 (min_le_right _ _)⟩
 
 /-- The pathwise time integral of `exp (c * B)` is in `L²` (in particular a.e. measurable). -/
