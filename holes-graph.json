@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-17T00:12:09Z",
-  "sorryCount": 15,
+  "updated": "2026-11-17T02:09:47Z",
+  "sorryCount": 14,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
     "blocked": "Waiting on incomplete required proof-deps",
@@ -12,7 +12,7 @@
     "Done = no local sorry and every hard predecessor is done (no unproven\u2192proven).",
     "Blue = done. Green = open. Grey = blocked.",
     "Regenerate with: python3 scripts/build_holes.py",
-    "Open tips: prop_2_2, perpetuity_neg_moments, fokker_planck_joint, g_solves_contour_equation, yor_formula_classical."
+    "Open tips: prop_2_2, dufresne_theorem_sigma_one, fokker_planck_joint, g_solves_contour_equation, yor_formula_classical."
   ],
   "nodes": [
     {
@@ -64,7 +64,7 @@
       "id": "infinite_integral_finite",
       "label": "\u222b\u2080^\u221e finite",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:78",
+      "file": "Lyasoff2016/FokkerPlanck.lean:83",
       "status": "done",
       "blocker": null,
       "detail": "Footnote 2: a.s. finiteness of the perpetuity for \u03bd<0."
@@ -73,7 +73,7 @@
       "id": "Z_stationary",
       "label": "Z stationary",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:420",
+      "file": "Lyasoff2016/FokkerPlanck.lean:425",
       "status": "done",
       "blocker": null,
       "detail": "Stationarity of Z_t vs the infinite-horizon integral."
@@ -82,7 +82,7 @@
       "id": "dufresne_zero_flux",
       "label": "Zero-flux ODE",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:436",
+      "file": "Lyasoff2016/FokkerPlanck.lean:441",
       "status": "done",
       "blocker": null,
       "detail": "Dufresne density satisfies the stationary zero-flux ODE."
@@ -91,7 +91,7 @@
       "id": "perpetuity_inv_moment",
       "label": "E[A\u207b\u00b9]=\u2212\u03bd",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:1173",
+      "file": "Lyasoff2016/FokkerPlanck.lean:1178",
       "status": "done",
       "blocker": null,
       "detail": "First reciprocal moment via Dynkin/stationarity of Z and L(log)."
@@ -100,8 +100,8 @@
       "id": "perpetuity_neg_moments",
       "label": "E[A\u207b\u207f]",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:1361",
-      "status": "open",
+      "file": "Lyasoff2016/FokkerPlanck.lean:2745",
+      "status": "done",
       "blocker": null,
       "detail": "All reciprocal moments match the inverse-Gamma moments."
     },
@@ -109,16 +109,16 @@
       "id": "dufresne_theorem_sigma_one",
       "label": "Dufresne \u03c3=1",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:1406",
-      "status": "blocked",
-      "blocker": "needs perpetuity_neg_moments",
+      "file": "Lyasoff2016/FokkerPlanck.lean:2817",
+      "status": "open",
+      "blocker": null,
       "detail": "Unit-volatility law of A is igMeasure(\u22122\u03bd, 2)."
     },
     {
       "id": "dufresne_theorem",
       "label": "Dufresne thm",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:1413",
+      "file": "Lyasoff2016/FokkerPlanck.lean:2824",
       "status": "blocked",
       "blocker": "needs dufresne_theorem_sigma_one",
       "detail": "General \u03c3 via Brownian scaling from \u03c3=1."
@@ -127,7 +127,7 @@
       "id": "fokker_planck_joint",
       "label": "FP (3.6b)",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:1492",
+      "file": "Lyasoff2016/FokkerPlanck.lean:2903",
       "status": "open",
       "blocker": null,
       "detail": "Joint density satisfies the divergence-form Fokker\u2013Planck PDE."
@@ -136,7 +136,7 @@
       "id": "remark_3_2",
       "label": "Rem 3.2",
       "section": 3,
-      "file": "Lyasoff2016/FokkerPlanck.lean:1510",
+      "file": "Lyasoff2016/FokkerPlanck.lean:2921",
       "status": "done",
       "blocker": null,
       "detail": "Reflection / running-max identity in law."
