@@ -28,3 +28,4 @@ scripts/__pycache__/
 sources/pages/
 sources/ocr_*.log
 .venv-ocr
+.cache

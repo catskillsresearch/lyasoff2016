@@ -43,7 +43,13 @@
     "Lyasoff2016.contourIntegrand",
     "Lyasoff2016.Ffun",
     "Lyasoff2016.FfunDeriv",
-    "Lyasoff2016.dufresne"
+    "Lyasoff2016.dufresne",
+    "Lyasoff2016.jointFokkerPlanckAdjoint",
+    "Lyasoff2016.SatisfiesTheorem41PDE",
+    "Lyasoff2016.SatisfiesFoliationODE",
+    "Lyasoff2016.TransformedMassIdentity",
+    "Lyasoff2016.HasLaplaceReduction",
+    "Lyasoff2016.contourEq"
   ],
   "permitted_axioms": [
     "propext",

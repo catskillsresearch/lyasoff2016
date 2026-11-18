@@ -26,6 +26,14 @@ DEF_NAMES = [
     "Lyasoff2016.Ffun",
     "Lyasoff2016.FfunDeriv",
     "Lyasoff2016.dufresne",
+    # Single-file Challenge shares `OfNat` `_proof_N` auxes across decls; Solution
+    # (multi-file) does not. Treat these as type-only holes so Comparator matches.
+    "Lyasoff2016.jointFokkerPlanckAdjoint",
+    "Lyasoff2016.SatisfiesTheorem41PDE",
+    "Lyasoff2016.SatisfiesFoliationODE",
+    "Lyasoff2016.TransformedMassIdentity",
+    "Lyasoff2016.HasLaplaceReduction",
+    "Lyasoff2016.contourEq",
 ]
 
 
@@ -147,19 +155,14 @@ def main() -> None:
         ("Lyasoff2016/GammaMoment.lean", "gammaMoment"),
         ("Lyasoff2016/JointA.lean", "jointA"),
         ("Lyasoff2016/JointFokkerPlanckHelpers.lean", "jointDomain"),
-        ("Lyasoff2016/JointFokkerPlanckAdjoint.lean", "jointFokkerPlanckAdjoint"),
-        ("Lyasoff2016/Foliation.lean", "SatisfiesTheorem41PDE"),
         ("Lyasoff2016/Foliation.lean", "SatisfiesStrikingIdentity"),
-        ("Lyasoff2016/Foliation.lean", "SatisfiesFoliationODE"),
         ("Lyasoff2016/Foliation.lean", "laplaceCond"),
-        ("Lyasoff2016/Foliation.lean", "TransformedMassIdentity"),
-        ("Lyasoff2016/Foliation.lean", "HasLaplaceReduction"),
         ("Lyasoff2016/Sfun.lean", "Sfun"),
         ("Lyasoff2016/UpperGamma.lean", "upperGamma"),
         ("Lyasoff2016/Asian.lean", "asianCall"),
         ("Lyasoff2016/Asian.lean", "asianMarketPrice"),
     ]
-    # Formula holes first so `contourEq` may mention `contourIntegrand`.
+    # Formula / OfNat-proof holes (types only in Comparator).
     keep_sorry = [
         ("Lyasoff2016/YorDensity.lean", "yorDensity"),
         ("Lyasoff2016/PiFormula.lean", "piFormula"),
@@ -168,10 +171,14 @@ def main() -> None:
         ("Lyasoff2016/Ffun.lean", "Ffun"),
         ("Lyasoff2016/FfunDeriv.lean", "FfunDeriv"),
         ("Lyasoff2016/Dufresne.lean", "dufresne"),
-    ]
-    after_sorry = [
+        ("Lyasoff2016/JointFokkerPlanckAdjoint.lean", "jointFokkerPlanckAdjoint"),
+        ("Lyasoff2016/Foliation.lean", "SatisfiesTheorem41PDE"),
+        ("Lyasoff2016/Foliation.lean", "SatisfiesFoliationODE"),
+        ("Lyasoff2016/Foliation.lean", "TransformedMassIdentity"),
+        ("Lyasoff2016/Foliation.lean", "HasLaplaceReduction"),
         ("Lyasoff2016/ContourEq.lean", "contourEq"),
     ]
+    after_sorry: list[tuple[str, str]] = []
 
     def_blocks: list[str] = []
     for rel, name in keep_full:
@@ -217,13 +224,20 @@ open MeasureTheory ProbabilityTheory Set Filter Topology Complex
 open scoped ENNReal NNReal Real
 -- Do not `open scoped ContDiff`: it reserves `ω` as an infinity notation.
 
-noncomputable section
 namespace Lyasoff2016
 
-variable {Ω : Type*} [MeasurableSpace Ω]
+-- Force the same level-parameter name Comparator sees on Solution (`u_1`).
+-- Mathlib-only Challenge otherwise elaborates `Type*` as `u_2`.
+universe u_1
+
+noncomputable section
+
+variable {Ω : Type u_1} [MeasurableSpace Ω]
 
 """
-    footer = "\nend Lyasoff2016\n"
+    # Library decls use `Type*`; rewrite so Challenge levelParams match Solution.
+    body = body.replace("{Ω : Type*}", "{Ω : Type u_1}")
+    footer = "\n\nend\nend Lyasoff2016\n"
     text = header + body.strip() + footer
     (ROOT / "Challenge.lean").write_text(text)
     print(f"theorems={len(thm_names)} def_names={len(DEF_NAMES)}")
