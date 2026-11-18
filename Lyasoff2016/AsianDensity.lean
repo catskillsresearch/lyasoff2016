@@ -10,6 +10,8 @@ Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
   `IsJointDensity` does not clamp anything).
 * `asianKernel_fubini`: for fixed `y`, the `u`-integral of `ℜ F` is the `x`-integral of the
   payoff against the Girsanov-tilted π/2-density of order `4`.
+* `asianKernelDeriv_fubini`: the analogous fixed-`y` identity for the strike derivative
+  `ℜ F'`, with density integrand carrying the expected minus sign.
 * `integral_Ioi_comp_exp_affine`: the substitution `w = e^{σy/2 − νt/2}`.
 -/
 module
@@ -17,6 +19,7 @@ module
 public import Lyasoff2016.PiHalfFormulaHigher
 public import Lyasoff2016.CameronMartin
 public import Lyasoff2016.Ffun
+public import Lyasoff2016.FfunDeriv
 public import Lyasoff2016.GFunDecay
 
 
@@ -449,6 +452,212 @@ theorem asianKernel_fubini {σ : ℝ} (hσ : 0 < σ) (ν : ℝ) (t : ℝ≥0) (h
   constructor
   · have h1 : Integrable (fun x => ∫ u in Ioi (0 : ℝ), (k x u).re)
         (volume.restrict (Ioi K)) := hkre.integral_prod_left
+    refine (h1.const_mul (σ * w / 2)).congr ?_
+    refine (ae_restrict_iff' measurableSet_Ioi).mpr (ae_of_all _ fun x hx => ?_)
+    simp only
+    rw [hinner x hx]
+    field_simp
+  · have hjac : σ / 2 * w * (2 / (σ * w)) = 1 := by
+      field_simp
+    rw [hswap, hcongr, ← mul_assoc, hjac, one_mul]
+
+/-- Paper p. 1091: fixed-`y` Fubini for the strike derivative of the Asian kernel.  Relative
+to `asianKernel_fubini`, differentiating the payoff removes `(x - K)` and contributes a minus
+sign through `SfunDerivC`. -/
+theorem asianKernelDeriv_fubini {σ : ℝ} (hσ : 0 < σ) (ν : ℝ) (t : ℝ≥0) (ht : 0 < t) {K : ℝ}
+    (hK : 0 ≤ K) (y : ℝ) :
+    IntegrableOn (fun x => -(Real.exp (ν / σ * y - (ν / σ) ^ 2 * (t : ℝ) / 2) *
+        (gaussianPDFReal 0 t y * (σ ^ 2)⁻¹ * piHalfFormula 4 σ t (x * σ ^ 2) (y * σ))))
+      (Ioi K) ∧
+    σ / 2 * Real.exp (σ * y / 2 - ν * (t : ℝ) / 2) *
+        ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν t K u (Real.exp (σ * y / 2 - ν * (t : ℝ) / 2))).re =
+      ∫ x in Ioi K, -(Real.exp (ν / σ * y - (ν / σ) ^ 2 * (t : ℝ) / 2) *
+        (gaussianPDFReal 0 t y * (σ ^ 2)⁻¹ * piHalfFormula 4 σ t (x * σ ^ 2) (y * σ))) := by
+  have htR : (0 : ℝ) < t := ht
+  have hσ0 : σ ≠ 0 := hσ.ne'
+  have hT : (0 : ℝ) < σ ^ 2 * t := by positivity
+  set w : ℝ := Real.exp (σ * y / 2 - ν * (t : ℝ) / 2) with hw
+  have hwpos : 0 < w := Real.exp_pos _
+  set E : ℝ := Real.exp (ν / σ * y - (ν / σ) ^ 2 * (t : ℝ) / 2) with hE
+  set G : ℝ → ℂ := fun u => gFun 4 (σ ^ 2 * t) (u - I * (π / 2)) with hG
+  have hGc : Continuous G :=
+    ((gFun.contDiff 4 (σ ^ 2 * t)).continuous).comp (by fun_prop)
+  set a : ℝ := (2 * Real.exp (y * σ) + 2) / σ ^ 2 with ha
+  have hapos : 0 < a := by positivity
+  set β : ℝ := 4 * Real.exp (y * σ / 2) / σ ^ 2 with hβ
+  set cst : ℝ := 8 * √2 * (σ ^ 6)⁻¹ * Real.exp (y * σ * 3 / 2) / √(π * t) with hcst
+  have hw2 : w ^ 2 * Real.exp (ν * t) = Real.exp (y * σ) := by
+    rw [hw, ← Real.exp_nat_mul, ← Real.exp_add]
+    congr 1
+    push_cast
+    ring
+  have hw1 : w * Real.exp (ν * t / 2) = Real.exp (y * σ / 2) := by
+    rw [hw, ← Real.exp_add]
+    congr 1
+    ring
+  have hw3 : w ^ 3 * Real.exp (ν * 4 * t / 2 - ν * t / 2) = Real.exp (y * σ * 3 / 2) := by
+    rw [hw, ← Real.exp_nat_mul, ← Real.exp_add]
+    congr 1
+    push_cast
+    ring
+  have hB : Bfun σ ν t w = 2 / (σ * w) * E := by
+    have hpow : w ^ (2 * ν / σ ^ 2 - 1) =
+        Real.exp ((σ * y / 2 - ν * (t : ℝ) / 2) * (2 * ν / σ ^ 2 - 1)) := by
+      rw [hw, Real.exp_mul]
+    have hsplit : Real.exp ((σ * y / 2 - ν * (t : ℝ) / 2) * (2 * ν / σ ^ 2 - 1)) *
+        Real.exp (ν ^ 2 * t / (2 * σ ^ 2)) = E / w := by
+      rw [hE, hw, ← Real.exp_add, ← Real.exp_sub]
+      congr 1
+      field_simp
+      ring
+    unfold Bfun
+    rw [hpow, mul_assoc, hsplit]
+    field_simp
+  have hA : ∀ u : ℝ, Afun σ ν t u w = (a : ℂ) + ((β * Real.sinh u : ℝ) : ℂ) * I := by
+    intro u
+    rw [Afun.eq]
+    have h1 : (2 * w ^ 2 * Real.exp (ν * t) + 2) / σ ^ 2 = a := by
+      rw [ha, ← hw2]
+      ring
+    have h2 : 4 * w * Real.exp (ν * t / 2) * Real.sinh u / σ ^ 2 = β * Real.sinh u := by
+      rw [hβ, ← hw1]
+      ring
+    rw [h1, h2]
+  have hC : ∀ u : ℝ, Cfun 4 σ ν t u w = ((cst * Real.cosh u : ℝ) : ℂ) * I := by
+    intro u
+    unfold Cfun
+    have hz1 : σ ^ (-2 * ((4 : ℕ) : ℤ) + 2) = (σ ^ 6)⁻¹ := by
+      rw [show (-2 * ((4 : ℕ) : ℤ) + 2) = -((6 : ℕ) : ℤ) by norm_num, zpow_neg, zpow_natCast]
+    have hz2 : w ^ (((4 : ℕ) : ℤ) - 1) = w ^ 3 := by
+      rw [show (((4 : ℕ) : ℤ) - 1) = ((3 : ℕ) : ℤ) by norm_num, zpow_natCast]
+    rw [hz1, hz2, hcst, ← hw3]
+    push_cast
+    ring
+  set kD : ℝ → ℝ → ℂ := fun x u =>
+    -(((x ^ 4)⁻¹ : ℝ) : ℂ) *
+        cexp (-((a : ℂ) + ((β * Real.sinh u : ℝ) : ℂ) * I) / x) *
+      (((2 / (σ * w) * E : ℝ) : ℂ) * (((cst * Real.cosh u : ℝ) : ℂ) * I) * G u) with hkD
+  have hkDnorm : ∀ x u, ‖kD x u‖ = (|(x ^ 4)⁻¹| * Real.exp (-a / x)) *
+      (|2 / (σ * w) * E| * |cst| * (Real.cosh u * ‖G u‖)) := by
+    intro x u
+    have hre : (-((a : ℂ) + ((β * Real.sinh u : ℝ) : ℂ) * I) / (x : ℂ)).re = -a / x := by
+      rw [Complex.div_ofReal_re]
+      simp
+    simp only [hkD, norm_mul, norm_neg, Complex.norm_real, Real.norm_eq_abs, Complex.norm_exp,
+      hre, Complex.norm_I, mul_one, abs_mul, abs_of_pos (Real.cosh_pos u)]
+    ring
+  have hkDm : Measurable (Function.uncurry kD) := by
+    simp only [hkD]
+    fun_prop
+  have hF1 : IntegrableOn (fun x : ℝ => |(x ^ 4)⁻¹| * Real.exp (-a / x)) (Ioi K) := by
+    have hbase := (integrableOn_inv_pow_exp_neg_div (p := 4) (by norm_num) hapos).mono_set
+      (Ioi_subset_Ioi hK)
+    refine hbase.congr_fun (fun x hx => ?_) measurableSet_Ioi
+    have hx0 : 0 < x := lt_of_le_of_lt hK hx
+    simp [zpow_neg, abs_of_pos (inv_pos.mpr (pow_pos hx0 4))]
+  have hF2 : IntegrableOn
+      (fun u : ℝ => |2 / (σ * w) * E| * |cst| * (Real.cosh u * ‖G u‖)) (Ioi 0) :=
+    ((GFunDecay.integrable_cosh_mul_norm_gFun_piHalf (p := 4)
+      (Or.inr (Or.inr rfl)) hT).const_mul _).integrableOn
+  have hkDint : Integrable (Function.uncurry kD)
+      ((volume.restrict (Ioi K)).prod (volume.restrict (Ioi 0))) := by
+    refine (Integrable.mul_prod hF1 hF2).mono' hkDm.aestronglyMeasurable (ae_of_all _ fun z => ?_)
+    exact (hkDnorm z.1 z.2).le
+  have hkDre : Integrable (Function.uncurry fun x u => (kD x u).re)
+      ((volume.restrict (Ioi K)).prod (volume.restrict (Ioi 0))) := hkDint.re
+  have hFD : ∀ u : ℝ, FfunDeriv σ ν t K u w = ∫ x in Ioi K, kD x u := by
+    intro u
+    have hS : SfunDerivC K 4 (Afun σ ν t u w) =
+        ∫ x in Ioi K, -(((x ^ 4)⁻¹ : ℝ) : ℂ) *
+          cexp (-((a : ℂ) + ((β * Real.sinh u : ℝ) : ℂ) * I) / x) := by
+      unfold SfunDerivC
+      rw [hA u, ← integral_neg]
+      refine setIntegral_congr_fun measurableSet_Ioi fun x _ => ?_
+      simp only [zpow_neg, zpow_natCast]
+      ring
+    simp only [hkD]
+    rw [integral_mul_const, ← hS, ← hC u, ← hB]
+    unfold FfunDeriv
+    simp only [hG]
+    ring
+  have hinner : ∀ x ∈ Ioi K, ∫ u in Ioi (0 : ℝ), (kD x u).re =
+      2 / (σ * w) * (-(E *
+        (gaussianPDFReal 0 t y * (σ ^ 2)⁻¹ * piHalfFormula 4 σ t (x * σ ^ 2) (y * σ)))) := by
+    intro x hx
+    have hx0 : 0 < x := lt_of_le_of_lt hK hx
+    have hxσ : 0 < x * σ ^ 2 := by positivity
+    have hpt : ∀ u : ℝ, (kD x u).re =
+        (-((x ^ 4)⁻¹) * (2 / (σ * w) * E) * cst * Real.exp (-a / x)) *
+          (Real.cosh u *
+            (I * cexp (-I * ((4 / ((x * σ ^ 2 : ℝ) : ℂ)) * Real.exp (y * σ / 2) *
+              Real.sinh u)) * gFun 4 (t * σ ^ 2) (u - I * (π / 2))).re) := by
+      intro u
+      have hexp : cexp (-((a : ℂ) + ((β * Real.sinh u : ℝ) : ℂ) * I) / x) =
+          ((Real.exp (-a / x) : ℝ) : ℂ) *
+            cexp (-I * ((4 / ((x * σ ^ 2 : ℝ) : ℂ)) * Real.exp (y * σ / 2) *
+              Real.sinh u)) := by
+        rw [Complex.ofReal_exp, ← Complex.exp_add]
+        congr 1
+        rw [hβ]
+        push_cast
+        field_simp
+        ring
+      have hkk : kD x u =
+          ((-((x ^ 4)⁻¹) * (2 / (σ * w) * E) * cst * Real.exp (-a / x) *
+            Real.cosh u : ℝ) : ℂ) *
+          (I * cexp (-I * ((4 / ((x * σ ^ 2 : ℝ) : ℂ)) * Real.exp (y * σ / 2) *
+            Real.sinh u)) * gFun 4 (t * σ ^ 2) (u - I * (π / 2))) := by
+        simp only [hkD, hG]
+        rw [hexp, mul_comm (σ ^ 2) (t : ℝ)]
+        push_cast
+        ring
+      rw [hkk, Complex.re_ofReal_mul]
+      ring
+    rw [setIntegral_congr_fun measurableSet_Ioi (fun u _ => hpt u), integral_const_mul,
+      piHalfFormula, ite_eq_left hxσ]
+    generalize (∫ u in Ioi (0 : ℝ), Real.cosh u *
+      (I * cexp (-I * ((4 / ((x * σ ^ 2 : ℝ) : ℂ)) * Real.exp (y * σ / 2) *
+        Real.sinh u)) * gFun 4 (t * σ ^ 2) (u - I * (π / 2))).re) = J
+    have hbig : Real.exp (y * σ * (((4 : ℕ) : ℝ) - 1) / 2 + (y * σ) ^ 2 / (2 * (t * σ ^ 2)) -
+        2 * (Real.exp (y * σ) + 1) / (x * σ ^ 2)) =
+        Real.exp (y * σ * 3 / 2) * Real.exp (y ^ 2 / (2 * t)) * Real.exp (-a / x) := by
+      rw [← Real.exp_add, ← Real.exp_add]
+      congr 1
+      rw [ha]
+      push_cast
+      field_simp
+      ring
+    have hs : √(π * t) ≠ 0 := by positivity
+    have hgauss : gaussianPDFReal 0 t y =
+        √2 / (2 * √(π * t)) * (Real.exp (y ^ 2 / (2 * t)))⁻¹ := by
+      have hsq : √(2 * π * t) = √2 * √(π * t) := by
+        rw [mul_assoc, Real.sqrt_mul (by norm_num)]
+      have h2 : √2 * √2 = 2 := Real.mul_self_sqrt (by norm_num)
+      have h20 : √2 ≠ 0 := by positivity
+      have hinv : (√2 * √(π * t))⁻¹ = √2 / (2 * √(π * t)) := by
+        field_simp
+        linarith
+      have harg : -(y - 0) ^ 2 / (2 * (t : ℝ)) = -(y ^ 2 / (2 * t)) := by ring
+      rw [gaussianPDFReal_def]
+      simp only
+      rw [harg, Real.exp_neg, hsq, hinv]
+    rw [hbig, hgauss, hcst]
+    field_simp
+    ring
+  have hswap : ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν t K u w).re =
+      ∫ x in Ioi K, ∫ u in Ioi (0 : ℝ), (kD x u).re := by
+    rw [integral_integral_swap hkDre]
+    refine integral_congr_ae ?_
+    filter_upwards [hkDint.prod_left_ae] with u hu
+    rw [hFD u]
+    exact (Complex.reCLM.integral_comp_comm hu).symm
+  have hcongr : ∫ x in Ioi K, ∫ u in Ioi (0 : ℝ), (kD x u).re =
+      2 / (σ * w) * ∫ x in Ioi K, -(E *
+        (gaussianPDFReal 0 t y * (σ ^ 2)⁻¹ * piHalfFormula 4 σ t (x * σ ^ 2) (y * σ))) := by
+    rw [setIntegral_congr_fun measurableSet_Ioi hinner, integral_const_mul]
+  constructor
+  · have h1 : Integrable (fun x => ∫ u in Ioi (0 : ℝ), (kD x u).re)
+        (volume.restrict (Ioi K)) := hkDre.integral_prod_left
     refine (h1.const_mul (σ * w / 2)).congr ?_
     refine (ae_restrict_iff' measurableSet_Ioi).mpr (ae_of_all _ fun x hx => ?_)
     simp only

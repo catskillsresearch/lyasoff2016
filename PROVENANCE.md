@@ -39,17 +39,19 @@ done holes. Offline axiom audit (`scripts/validate_chart_axioms.sh`):
 
 | Class | Count | Axioms |
 | --- | ---: | --- |
-| Comparator family | 33 | ⊆ `{propext, Quot.sound, Classical.choice}` |
-| Classical certificates | 5 | also depend on project axioms |
+| Comparator family | 34 | ⊆ `{propext, Quot.sound, Classical.choice}` |
+| Classical certificates | 4 | also depend on project axioms |
 
 **Project rule: no Lean `axiom`.** Classical/numerical gaps are `sorry`
 theorems tracked on the holes board.
 
-The five classical chart certificates are `asian_delta` (needs open hole
-`hasDerivAt_integral_Re_Ffun`; `SfunC.hasDerivAt` is proved) and
-`table1`–`table4_asian_enclosure` (need `table*_asian_enclosure_classical`).
-Palomar Comparator permits only `propext` / `Quot.sound` / `Classical.choice`,
-so those five chart entries are **outside** `comparator.json` and recorded in
+The four remaining classical chart certificates are
+`table1`–`table4_asian_enclosure` (which need
+`table*_asian_enclosure_classical`). `asian_delta` and its former open
+dependency `hasDerivAt_integral_Re_Ffun` are now proved by the
+tilted-density/Girsanov route and are axioms-clean. Palomar Comparator permits
+only `propext` / `Quot.sound` / `Classical.choice`; the four numerical chart
+entries are **outside** `comparator.json` and recorded in
 `formalization.yaml` `known_gaps`. Density-identity theorems remain
 axioms-clean (no classical citation axioms for density IDs).
 

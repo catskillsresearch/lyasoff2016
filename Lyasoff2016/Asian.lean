@@ -293,15 +293,200 @@ theorem hasDerivAt_integral_max_sub
   exact hmain.2
 
 /-- Differentiation under `∬ Re F` in the strike (Lyasoff §6 / (6.1)).
-Pointwise `∂_k Re F = Re F'` is `hasDerivAt_Ffun_re`; this open hole isolates the
-classical justification for passing the derivative under the double improper integral
-on `(0, ∞)²`. No `axiom` — left as `sorry`. -/
-theorem hasDerivAt_integral_Re_Ffun (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
+Rather than seeking an absolute `(u,w)` majorant (which does not exist for every drift),
+the proof identifies the integral locally with the call price, differentiates the payoff
+expectation, and identifies `∬ Re F'` with the same tail probability through the
+Girsanov-tilted order-4 density. -/
+theorem hasDerivAt_integral_Re_Ffun
+    (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W)
+    (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
     (hσ : 0 < σ) (ht : 0 < t) (hK : 0 < K) :
     HasDerivAt
       (fun κ => ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (Ffun σ ν (t : ℝ) κ u w).re)
       (∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν (t : ℝ) K u w).re) K := by
-  sorry
+  have hν : σ * (ν / σ) = ν := by field_simp
+  have hp4 : (4 : ℕ) = 2 ∨ (4 : ℕ) = 3 ∨ (4 : ℕ) = 4 := Or.inr (Or.inr rfl)
+  set f₀ : ℝ → ℝ → ℝ := fun x y =>
+    gaussianPDFReal 0 t y * (σ ^ 2)⁻¹ * piHalfFormula 4 σ t (x * σ ^ 2) (y * σ) with hf₀
+  have hdens : IsJointDensity P W σ 0 t f₀ :=
+    pi_half_formula_general P W hW σ t hσ ht 4 hp4
+  have hf₀m : Measurable (fun q : ℝ × ℝ => f₀ q.1 q.2) :=
+    (((measurable_gaussianPDFReal 0 t).comp measurable_snd).mul_const _).mul
+      ((measurable_piHalfFormula 4 σ t).comp
+        (show Measurable (fun q : ℝ × ℝ => (q.1 * σ ^ 2, q.2 * σ)) by fun_prop))
+  have hH := aemeasurable_jointMap P W hW σ ν t
+  have hX : AEMeasurable (expInt W σ ν t) P := hH.fst
+  have hXint : Integrable (expInt W σ ν t) P := by
+    have h := (integrable_uncurry_exp_bm P W hW σ ν t).integral_prod_right
+    refine h.congr (ae_of_all _ fun ω => ?_)
+    simp [expInt, intervalIntegral.intervalIntegral_eq_integral_uIoc]
+  have hint : ∀ᶠ κ in nhds K,
+      Integrable (fun ω => max (expInt W σ ν t ω - κ) 0) P := by
+    filter_upwards with κ
+    refine Integrable.mono' (hXint.norm.add (integrable_const |κ|))
+      (((hX.sub_const κ).max aemeasurable_const).aestronglyMeasurable) ?_
+    filter_upwards with ω
+    change |max (expInt W σ ν t ω - κ) 0| ≤ |expInt W σ ν t ω| + |κ|
+    by_cases hpay : 0 ≤ expInt W σ ν t ω - κ
+    · rw [max_eq_left hpay, abs_of_nonneg hpay]
+      exact (le_abs_self (expInt W σ ν t ω - κ)).trans
+        (abs_sub (expInt W σ ν t ω) κ)
+    · rw [max_eq_right (le_of_not_ge hpay), abs_zero]
+      exact add_nonneg (abs_nonneg _) (abs_nonneg _)
+  have hcont : ∀ κ, P {ω | expInt W σ ν t ω = κ} = 0 := by
+    intro κ
+    let V : Set (ℝ × ℝ) := {κ} ×ˢ (Set.univ : Set ℝ)
+    have hVm : MeasurableSet V := (measurableSet_singleton κ).prod MeasurableSet.univ
+    have hV0 : (volume : Measure (ℝ × ℝ)) V = 0 := by
+      rw [Measure.volume_eq_prod, Measure.prod_apply hVm]
+      have hae : ∀ᵐ x : ℝ ∂volume, x ≠ κ := by
+        rw [ae_iff]
+        rw [show {a : ℝ | ¬a ≠ κ} = {κ} by ext x; simp]
+        simp
+      have hz : (fun x : ℝ => (volume : Measure ℝ) (Prod.mk x ⁻¹' V)) =ᵐ[volume] 0 := by
+        filter_upwards [hae] with x hx
+        simp [V, hx]
+      rw [lintegral_congr_ae hz]
+      simp
+    have hd0 : jointLaw P W σ 0 t V = 0 := by
+      unfold IsJointDensity at hdens
+      rw [hdens, withDensity_apply _ hVm]
+      exact setLIntegral_measure_zero V (fun a => ENNReal.ofReal (f₀ a.1 a.2)) hV0
+    set pay0 : ℝ × ℝ → ℝ≥0∞ := V.indicator (fun _ => 1) with hpay0
+    have hpay0m : Measurable pay0 := Measurable.indicator measurable_const hVm
+    have hG := lintegral_jointLaw_girsanov P W hW σ (ν / σ) t pay0 hpay0m
+    rw [hν] at hG
+    have hshift : (fun q : ℝ × ℝ =>
+        pay0 (q.1, q.2 - ν / σ * (t : ℝ)) *
+          ENNReal.ofReal (Real.exp (ν / σ * q.2 - (ν / σ) ^ 2 * (t : ℝ) / 2))) =ᵐ[
+          jointLaw P W σ 0 t] 0 := by
+      have hnotmem : ∀ᵐ q ∂jointLaw P W σ 0 t, q ∉ V := by
+        rw [ae_iff]
+        rw [show {q : ℝ × ℝ | ¬q ∉ V} = V by ext q; simp]
+        exact hd0
+      filter_upwards [hnotmem] with q hq
+      have hq1 : q.1 ≠ κ := by simpa [V] using hq
+      simp [pay0, V, hq1]
+    have hJL0 : jointLaw P W σ ν t V = 0 := by
+      have hleft : ∫⁻ p, pay0 p ∂jointLaw P W σ ν t = jointLaw P W σ ν t V := by
+        simp [pay0, hVm]
+      rw [← hleft, hG, lintegral_congr_ae hshift]
+      simp
+    unfold jointLaw at hJL0
+    rw [Measure.map_apply_of_aemeasurable hH hVm] at hJL0
+    have hpre :
+        (fun ω => (expInt W σ ν t ω, W t ω)) ⁻¹' V =
+          {ω | expInt W σ ν t ω = κ} := by
+      ext ω
+      simp [V]
+    rw [hpre] at hJL0
+    exact hJL0
+  have hcall :
+      HasDerivAt (fun κ => asianCall P W σ ν t κ)
+        (-(P {ω | K < expInt W σ ν t ω}).toReal) K :=
+    hasDerivAt_integral_max_sub P hX K hcont hint
+
+  set tail : ℝ × ℝ → ℝ≥0∞ := fun p => (Ioi K).indicator (fun _ => 1) p.1 with htail
+  have htailm : Measurable tail :=
+    Measurable.indicator measurable_const measurableSet_Ioi |>.comp measurable_fst
+  set I2 : ℝ × ℝ → ℝ≥0∞ := fun q =>
+    tail q * ENNReal.ofReal (Real.exp (ν / σ * q.2 - (ν / σ) ^ 2 * (t : ℝ) / 2)) *
+      ENNReal.ofReal (f₀ q.1 q.2) with hI2
+  have hGm : Measurable (fun q : ℝ × ℝ => tail (q.1, q.2 - ν / σ * (t : ℝ)) *
+      ENNReal.ofReal (Real.exp (ν / σ * q.2 - (ν / σ) ^ 2 * (t : ℝ) / 2))) :=
+    (htailm.comp (by fun_prop)).mul (by fun_prop)
+  have hI2m : Measurable I2 := (htailm.mul (by fun_prop)).mul hf₀m.ennreal_ofReal
+  have hprob :
+      P {ω | K < expInt W σ ν t ω} = ∫⁻ q, I2 q := by
+    have hmap : P {ω | K < expInt W σ ν t ω} =
+        ∫⁻ p, tail p ∂jointLaw P W σ ν t := by
+      have hSm : MeasurableSet (Ioi K ×ˢ (Set.univ : Set ℝ)) :=
+        measurableSet_Ioi.prod MeasurableSet.univ
+      have happly := Measure.map_apply_of_aemeasurable hH hSm
+      have hpre :
+          (fun ω => (expInt W σ ν t ω, W t ω)) ⁻¹' (Ioi K ×ˢ (Set.univ : Set ℝ)) =
+            {ω | K < expInt W σ ν t ω} := by
+        ext ω
+        simp
+      rw [← hpre, ← happly]
+      unfold jointLaw
+      have htail_ind :
+          tail = (Ioi K ×ˢ (Set.univ : Set ℝ)).indicator 1 := by
+        funext p
+        by_cases hp : p.1 ∈ Ioi K <;> simp [tail, hp]
+      rw [htail_ind, lintegral_indicator_one hSm]
+    rw [hmap]
+    have hG := lintegral_jointLaw_girsanov P W hW σ (ν / σ) t tail htailm
+    rw [hν] at hG
+    rw [hG]
+    unfold IsJointDensity at hdens
+    rw [hdens]
+    refine (lintegral_withDensity_eq_lintegral_mul _ hf₀m.ennreal_ofReal hGm).trans ?_
+    refine lintegral_congr fun q => ?_
+    simp only [Pi.mul_apply, hI2, tail]
+    rw [mul_comm]
+  have hstep3 : ∫⁻ q, I2 q = ∫⁻ y, ∫⁻ x, I2 (x, y) := by
+    rw [Measure.volume_eq_prod, lintegral_prod_symm _ hI2m.aemeasurable]
+  set φ : ℝ → ℝ → ℝ := fun y x =>
+    Real.exp (ν / σ * y - (ν / σ) ^ 2 * (t : ℝ) / 2) * f₀ x y with hφ
+  set R : ℝ → ℝ := fun y => ∫ x in Ioi K, φ y x with hR
+  set Q : ℝ → ℝ := fun y => ∫ x in Ioi K, -(φ y x) with hQ
+  have hfub := fun y => asianKernelDeriv_fubini hσ ν t ht hK.le y
+  have hnn := piHalfFormula_ae_nonneg P W hW hσ t ht hp4
+  have hinner : ∀ᵐ y ∂(volume : Measure ℝ),
+      ∫⁻ x, I2 (x, y) = ENNReal.ofReal (R y) ∧ 0 ≤ R y ∧ Q y = -(R y) := by
+    filter_upwards [hnn] with y hy
+    have hφnn : 0 ≤ᵐ[volume.restrict (Ioi K)] φ y := by
+      filter_upwards [ae_restrict_of_ae hy] with x hx
+      exact mul_nonneg (Real.exp_pos _).le
+        (mul_nonneg (mul_nonneg (gaussianPDFReal_nonneg 0 t y) (by positivity)) hx)
+    have hRnn : 0 ≤ R y := integral_nonneg_of_ae hφnn
+    have hpt : ∀ x, I2 (x, y) = (Ioi K).indicator (fun x => ENNReal.ofReal (φ y x)) x := by
+      intro x
+      by_cases hx : K < x
+      · have hx' : x ∈ Ioi K := hx
+        rw [Set.indicator_of_mem hx']
+        simp only [hI2, tail, hφ, Set.indicator_of_mem hx', one_mul]
+        rw [ENNReal.ofReal_mul (Real.exp_pos _).le]
+      · have hx' : x ∉ Ioi K := hx
+        rw [Set.indicator_of_notMem hx']
+        simp [hI2, tail, Set.indicator_of_notMem hx']
+    refine ⟨?_, hRnn, ?_⟩
+    · rw [lintegral_congr hpt, lintegral_indicator measurableSet_Ioi]
+      have hφint : IntegrableOn (φ y) (Ioi K) := by
+        simpa [φ, f₀] using (hfub y).1.neg
+      exact (ofReal_integral_eq_lintegral_ofReal hφint hφnn).symm
+    · rw [hQ, hR, ← integral_neg]
+  have hstep4 : ∫⁻ y, ∫⁻ x, I2 (x, y) = ∫⁻ y, ENNReal.ofReal (R y) :=
+    lintegral_congr_ae (hinner.mono fun y hy => hy.1)
+  have hRm : AEStronglyMeasurable R volume := by
+    have hm : Measurable (fun y => (∫⁻ x, I2 (x, y)).toReal) :=
+      (Measurable.lintegral_prod_left' hI2m).ennreal_toReal
+    refine (hm.aemeasurable.congr ?_).aestronglyMeasurable
+    filter_upwards [hinner] with y hy
+    rw [hy.1, ENNReal.toReal_ofReal hy.2.1]
+  have hRreal : ∫ y, R y = (∫⁻ y, ENNReal.ofReal (R y)).toReal :=
+    integral_eq_lintegral_of_nonneg_ae (hinner.mono fun y hy => hy.2.1) hRm
+  have hQeq : ∫ y, Q y = -(∫⁻ y, ENNReal.ofReal (R y)).toReal := by
+    rw [integral_congr_ae (hinner.mono fun y hy => hy.2.2), integral_neg, hRreal]
+  have hrhs :
+      ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν t K u w).re =
+        ∫ y, Q y := by
+    rw [integral_Ioi_comp_exp_affine hσ (ν * (t : ℝ) / 2)
+      (fun w => ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν t K u w).re)]
+    exact integral_congr_ae (ae_of_all _ fun y => (hfub y).2)
+  have hderivIntegral :
+      ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν t K u w).re =
+        -(P {ω | K < expInt W σ ν t ω}).toReal := by
+    rw [hrhs, hQeq, hprob, hstep3, hstep4]
+  have heq :
+      (fun κ => ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ),
+          (Ffun σ ν (t : ℝ) κ u w).re) =ᶠ[nhds K]
+        (fun κ => asianCall P W σ ν t κ) := by
+    filter_upwards [eventually_ge_nhds hK] with κ hκ
+    exact (asian_price_formula P W hW σ ν t κ hσ ht hκ).symm
+  rw [hderivIntegral]
+  exact hcall.congr_of_eventuallyEq heq
 
 /-- Asian delta identity (Lyasoff pp. 1091–1093): strike derivative of the call equals
 the double integral of `Re F'` (`SfunDerivC = ∂_k SfunC`). -/
@@ -315,6 +500,6 @@ theorem asian_delta (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → �
         fun κ => ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (Ffun σ ν (t : ℝ) κ u w).re := by
     filter_upwards [eventually_ge_nhds hK] with κ hκ
     exact asian_price_formula P W hW σ ν t κ hσ ht hκ
-  exact (hasDerivAt_integral_Re_Ffun σ ν t K hσ ht hK).congr_of_eventuallyEq heq |>.deriv
+  exact (hasDerivAt_integral_Re_Ffun P W hW σ ν t K hσ ht hK).congr_of_eventuallyEq heq |>.deriv
 
 end Lyasoff2016

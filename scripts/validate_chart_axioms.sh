@@ -20,11 +20,11 @@ path.unlink(missing_ok=True)
 permitted = {"propext", "Classical.choice", "Quot.sound"}
 bad = []
 ok = []
-for line in out.splitlines():
-    m = re.match(r"'Lyasoff2016\.(\w+)' depends on axioms: \[(.*)\]", line)
-    if not m:
-        # multi-line axiom lists
-        continue
+# Parse whole declarations rather than lines: Lean may wrap an axiom list or
+# place the next `#print axioms` result on the same output line.
+for m in re.finditer(
+    r"'Lyasoff2016\.([^']+)' depends on axioms: \[(.*?)\]", out, flags=re.S
+):
     name, axs = m.group(1), m.group(2)
     items = {a.strip() for a in axs.split(",") if a.strip()}
     extra = sorted(items - permitted)
@@ -33,30 +33,9 @@ for line in out.splitlines():
     else:
         ok.append(name)
 
-# Also parse multi-line forms
-cur = None
-buf = []
-for line in out.splitlines():
-    m = re.match(r"'Lyasoff2016\.(\w+)' depends on axioms: \[(.*)\]$", line)
-    if m and m.group(2).endswith("]"):
-        continue  # already handled single-line
-    m2 = re.match(r"'Lyasoff2016\.(\w+)' depends on axioms: \[(.*)$", line)
-    if m2:
-        cur = m2.group(1)
-        buf = [m2.group(2)]
-        continue
-    if cur is not None:
-        buf.append(line.strip())
-        if "]" in line:
-            body = " ".join(buf).rstrip("]")
-            items = {a.strip().strip(",") for a in body.split(",") if a.strip().strip(",")}
-            extra = sorted(items - permitted)
-            # dedupe against single-line pass
-            if extra and not any(n == cur for n, _ in bad):
-                bad.append((cur, extra))
-            elif not extra and cur not in ok:
-                ok.append(cur)
-            cur = None
+for m in re.finditer(r"'Lyasoff2016\.([^']+)' does not depend on any axioms", out):
+    if m.group(1) not in ok:
+        ok.append(m.group(1))
 
 print(f"chart theorems: {len(names)}")
 print(f"Palomar-clean: {len(ok)}")
@@ -66,16 +45,11 @@ for n, extra in bad:
 if len(ok) + len(bad) < len(names):
     print("warning: could not classify all theorems; raw output tail:")
     print("\n".join(out.splitlines()[-20:]))
-# Nonzero exit only if a theorem outside the known classical five has extras
-known = {
-    "asian_delta",
-    "table1_asian_enclosure",
-    "table2_asian_enclosure",
-    "table3_asian_enclosure",
-    "table4_asian_enclosure",
-}
+# Nonzero exit only if a completed theorem has extra axioms. Open/blocked
+# nodes are already disclosed by the generated holes board.
+known = {n["id"] for n in g["nodes"] if n["status"] != "done"}
 unexpected = [(n, e) for n, e in bad if n not in known]
 if unexpected:
-    raise SystemExit("unexpected extra axioms beyond classical chart certificates")
-print("OK: every chart theorem is either Palomar-clean or a disclosed classical certificate")
+    raise SystemExit("unexpected extra axioms outside disclosed proof holes")
+print("OK: every completed chart theorem is Palomar-clean")
 PY

@@ -9,16 +9,16 @@ project:
     options", Finance Stoch. 20 (2016) 1061–1096. Framing: rigorous
     reconstruction/verification of the paper’s joint-density, Fokker–Planck,
     foliation, π/π/2 contour, Yor (1.1)/Rem 5.1, and Asian pricing material.
-    The Comparator family is the 33 proof-chart theorems whose proofs use
+    The Comparator family is the 34 proof-chart theorems whose proofs use
     only propext, Quot.sound, and Classical.choice (including time_reversal,
     Prop 2.2, Dufresne, joint Fokker–Planck, the §4 conditional rearrangements
     theorem_4_1_pde / theorem_4_1_striking / formula_4_6 / theorem_4_5,
     g_solves_contour_equation, yor_formula, pi_formula, S_closed_form,
-    asian_price_formula), together with compared density/integrand definitions.
-    Five chart certificates (asian_delta; Tables 1–4 enclosures) remain open
-    classical-analysis / numerical `sorry` holes outside Comparator.
-    `SfunC.hasDerivAt` (strike derivative of `SfunC`) is proved; `asian_delta`
-    still needs the open double-integral hole `hasDerivAt_integral_Re_Ffun`.
+    asian_price_formula, asian_delta), together with compared
+    density/integrand definitions. Four chart certificates (Tables 1–4
+    enclosures) remain open numerical `sorry` holes outside Comparator.
+    `SfunC.hasDerivAt` and `hasDerivAt_integral_Re_Ffun` are proved; the latter
+    uses the tilted-density/Girsanov route rather than global `(u,w)` domination.
     Project rule: no Lean `axiom` declarations.
     The selected §4 theorems are conditional implications (they assume the
     foliation PDE / striking / ODE / Laplace inputs rather than constructing
@@ -49,8 +49,8 @@ status:
   scope: >-
     Complete for the Comparator family in comparator.json: every
     axioms-clean proof-chart theorem from holes-graph.json, plus compared
-    formula definitions. Open classical/numerical `sorry` holes
-    (hasDerivAt_integral_Re_Ffun, table1–4 classical) and
+    formula definitions. Open numerical `sorry` holes
+    (table1–4 classical) and
     §4 density-input existence theorems are disclosed in known_gaps / the
     holes board. `SfunC.hasDerivAt` is proved. Selected §4 Comparator theorems
     are conditional rearrangements.
@@ -359,6 +359,15 @@ status:
     - Quot.sound
     comparator_config: comparator.json
     literature_dependencies: []
+  - declaration: Lyasoff2016.asian_delta
+    file: Lyasoff2016/Asian.lean
+    sorry_count: 0
+    axioms:
+    - propext
+    - Classical.choice
+    - Quot.sound
+    comparator_config: comparator.json
+    literature_dependencies: []
   - declaration: Lyasoff2016.yorDensity
     file: Lyasoff2016/YorDensity.lean
     sorry_count: 0
@@ -432,7 +441,7 @@ fidelity:
     Lean proof path for Yor/π often matches densities by Laplace and transfers
     from Yor to the π-family, rather than specializing a prior π-density as in
     the paper’s Rem 5.1 narrative order; conclusions agree. Table enclosures
-    and asian_delta use classical certificates, not interval re-derivation.
+    use classical numerical certificates, not interval re-derivation.
     Exact narrative alignment lives in Actions.md / Actions.pdf.
 
 sources:
@@ -513,15 +522,15 @@ known_gaps:
     No Lean `axiom` declarations. Classical/numerical gaps are `sorry`
     theorems on the holes board.
   - >-
-    asian_delta depends on open hole hasDerivAt_integral_Re_Ffun (Leibniz
-    rule for ∬ Re F). The pointwise factor SfunC.hasDerivAt is proved
-    (under 3 ≤ p, Re A > 0).
+    asian_delta and hasDerivAt_integral_Re_Ffun are proved without global
+    `(u,w)` domination, using the call derivative and the Girsanov-tilted
+    order-4 joint density.
   - >-
     table1–table4_asian_enclosure depend on open numerical holes
     table*_asian_enclosure_classical (paper mpmath/spline quadratures), not
     interval-arithmetic re-derivations.
   - >-
-    Those five proof-chart entries are outside comparator.json because
+    Those four proof-chart entries are outside comparator.json because
     Palomar permits only propext, Quot.sound, and Classical.choice.
   - >-
     Selected §4 Comparator theorems theorem_4_1_pde, theorem_4_1_striking,
@@ -685,7 +694,7 @@ alignment:
   - source: "Asian delta: Strike derivative = ∬ Re F′."
     lean: asian_delta
     module: Lyasoff2016
-    status: classical-axiom
+    status: proved
   - source: "Table 1: Interval certificate for Table 1 (T=1/2, σ=0.22)."
     lean: table1_asian_enclosure
     module: Lyasoff2016

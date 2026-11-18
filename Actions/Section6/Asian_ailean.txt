@@ -16,6 +16,10 @@ Proof idea: follow the paper argument encoded in the Lean proof of `benchmark_k_
 
 **Theorem** (`hasDerivAt_integral_max_sub`). p. 1091–1093, second integral in (6.1), which is the ingredient of the delta (6.2): ∂_k E[(∫₀ᵗ e^{σW_s+μs} ds − k)₊] = ∫₀^∞ ∫₀^∞ ℜ(F'_{t,σ,μ,k}(u,w)) du dw.
 
-**Axiom** (`hasDerivAt_integral_Re_Ffun`). p. 1091–1093, second integral in (6.1), which is the ingredient of the delta (6.2): ∂_k E[(∫₀ᵗ e^{σW_s+μs} ds − k)₊] = ∫₀^∞ ∫₀^∞ ℜ(F'_{t,σ,μ,k}(u,w)) du dw.
+**Theorem** (`hasDerivAt_integral_Re_Ffun`). p. 1091–1093, second integral in (6.1), which is the ingredient of the delta (6.2): ∂_k E[(∫₀ᵗ e^{σW_s+μs} ds − k)₊] = ∫₀^∞ ∫₀^∞ ℜ(F'_{t,σ,μ,k}(u,w)) du dw.
+
+Proof idea: absolute domination in `(u,w)` is unavailable for arbitrary drift, so the proof instead identifies the `Ffun` integral locally with `asianCall`. The payoff derivative is the negative tail probability by `hasDerivAt_integral_max_sub`; atomlessness follows by transporting null vertical fibers of the driftless joint density through Girsanov. Finally, `asianKernelDeriv_fubini`, Tonelli, and the substitution `w = exp(σy/2 − νt/2)` identify the `FfunDeriv` integral with that same negative tail probability.
 
 **Theorem** (`asian_delta`). p. 1091–1093, second integral in (6.1), which is the ingredient of the delta (6.2): ∂_k E[(∫₀ᵗ e^{σW_s+μs} ds − k)₊] = ∫₀^∞ ∫₀^∞ ℜ(F'_{t,σ,μ,k}(u,w)) du dw.
+
+Proof idea: transfer the proved derivative of the `Ffun` integral to `asianCall` using their local equality from `asian_price_formula`.

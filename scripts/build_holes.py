@@ -265,7 +265,7 @@ NODES: dict[str, dict] = {
         "label": "Asian delta",
         "section": 6,
         "file": "Lyasoff2016/Asian.lean",
-        "detail": "Strike derivative = ∬ Re F′ (needs Leibniz under ∬).",
+        "detail": "Strike derivative = ∬ Re F′ via the tilted-density/Girsanov route.",
     },
     "SfunC.hasDerivAt": {
         "label": "∂_k SfunC",
@@ -277,7 +277,7 @@ NODES: dict[str, dict] = {
         "label": "∂_k ∬ Re F",
         "section": 6,
         "file": "Lyasoff2016/Asian.lean",
-        "detail": "Open: pass strike derivative under ∬ Re F.",
+        "detail": "Proved through the call derivative and the Girsanov-tilted joint density.",
     },
     "table1_asian_enclosure": {
         "label": "Table 1",

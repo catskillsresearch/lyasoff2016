@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-18T11:33:21Z",
-  "sorryCount": 14,
+  "updated": "2026-11-18T11:56:38Z",
+  "sorryCount": 12,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
     "blocked": "Waiting on incomplete required proof-deps",
@@ -12,7 +12,7 @@
     "Done = no local sorry and every hard predecessor is done (no unproven\u2192proven).",
     "Blue = done. Green = open. Grey = blocked.",
     "Regenerate with: python3 scripts/build_holes.py",
-    "Open tips: cond_density_satisfies_theorem_41_pde, cond_density_satisfies_striking, cond_density_satisfies_foliation_ode, cond_density_satisfies_laplace_inputs, hasDerivAt_integral_Re_Ffun, table1_asian_enclosure_classical, table2_asian_enclosure_classical, table3_asian_enclosure_classical, table4_asian_enclosure_classical."
+    "Open tips: cond_density_satisfies_theorem_41_pde, cond_density_satisfies_striking, cond_density_satisfies_foliation_ode, cond_density_satisfies_laplace_inputs, table1_asian_enclosure_classical, table2_asian_enclosure_classical, table3_asian_enclosure_classical, table4_asian_enclosure_classical."
   ],
   "nodes": [
     {
@@ -352,10 +352,10 @@
       "id": "asian_delta",
       "label": "Asian delta",
       "section": 6,
-      "file": "Lyasoff2016/Asian.lean:308",
-      "status": "blocked",
-      "blocker": "needs hasDerivAt_integral_Re_Ffun",
-      "detail": "Strike derivative = \u222c Re F\u2032 (needs Leibniz under \u222c)."
+      "file": "Lyasoff2016/Asian.lean:493",
+      "status": "done",
+      "blocker": null,
+      "detail": "Strike derivative = \u222c Re F\u2032 via the tilted-density/Girsanov route."
     },
     {
       "id": "SfunC.hasDerivAt",
@@ -370,10 +370,10 @@
       "id": "hasDerivAt_integral_Re_Ffun",
       "label": "\u2202_k \u222c Re F",
       "section": 6,
-      "file": "Lyasoff2016/Asian.lean:299",
-      "status": "open",
+      "file": "Lyasoff2016/Asian.lean:300",
+      "status": "done",
       "blocker": null,
-      "detail": "Open: pass strike derivative under \u222c Re F."
+      "detail": "Proved through the call derivative and the Girsanov-tilted joint density."
     },
     {
       "id": "table1_asian_enclosure",

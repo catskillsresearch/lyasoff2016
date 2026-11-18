@@ -34,7 +34,8 @@
     "Lyasoff2016.S_zero",
     "Lyasoff2016.S_closed_form",
     "Lyasoff2016.benchmark_k_zero",
-    "Lyasoff2016.asian_price_formula"
+    "Lyasoff2016.asian_price_formula",
+    "Lyasoff2016.asian_delta"
   ],
   "definition_names": [
     "Lyasoff2016.yorDensity",
