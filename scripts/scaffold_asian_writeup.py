@@ -551,8 +551,9 @@ def build_section_svg(
             f'tooltip="{stem}.lean"];'
         )
     lines.append("")
+    # a imports b: draw prerequisite b -> user a (results flow along arrows).
     for a, b in sorted(edges):
-        lines.append(f'  "{a}" -> "{b}";')
+        lines.append(f'  "{b}" -> "{a}";')
     lines.append("}")
     dot_path = ASIAN / f"Section{sec}.dot"
     svg_path = ASIAN / f"Section{sec}.svg"

@@ -1,6 +1,6 @@
 # Introduction
 
-@import "../Asian.svg" {code_block=false, caption="Section dependencies (§1–§6): edge A → B means a `.lean` in A imports a `.lean` in B"}
+@import "../Asian.svg" {code_block=false, caption="Section dependencies (§1–§6): arrows point from a prerequisite section to the section that uses it"}
 
 This formalization reconstructs Lyasoff's Asian option model [@lyasoff2016]
 in Lean 4 [@lean4; @gh-lean4], using Mathlib [@mathlib2020; @gh-mathlib4].

@@ -34,15 +34,19 @@ def main():
             a, b = placement[m], placement[dep]
             if a != b:
                 edges[a, b].append((m, dep))
-    print(f"Figure 1: {len(edges)} directed section edges.")
+    print(f"Figure 1: {len(edges)} directed section edges "
+          "(drawn from the imported section to the importing section).")
     print("Reciprocal section pairs (these are aggregation cycles, not Lean cycles):")
+    if not any((b, a) in edges for a, b in edges):
+        print("  (none)")
     for a, b in sorted(edges):
         if a < b and (b, a) in edges:
             print(f"  Section {a} <-> Section {b}")
             for s, t in [(a, b), (b, a)]:
-                print(f"    {s} -> {t}: {len(edges[s,t])} direct module imports")
+                print(f"    Section {s} imports from Section {t}: "
+                      f"{len(edges[s,t])} direct module imports")
                 for m, dep in edges[s,t]:
-                    print(f"      {m} -> {dep}")
+                    print(f"      {m} imports {dep}")
 
 
 if __name__ == "__main__":

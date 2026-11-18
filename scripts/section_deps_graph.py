@@ -2,8 +2,9 @@
 # Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 """Build Asian.svg: dependencies among Asian/Section{1..6}.md.
 
-An edge §i → §j means some .lean listed in Section i imports a .lean listed in
-Section j (i ≠ j). Nodes are the six numbered section markdown files.
+Arrows point from a prerequisite to the section that uses it: an edge
+§j → §i means some .lean listed in Section i imports a .lean listed in
+Section j (i ≠ j), so results flow along the arrows. Nodes are the six numbered section markdown files.
 
 Usage (from repo root):
 
@@ -106,7 +107,8 @@ def write_dot(edges: set[tuple[int, int]]) -> str:
         )
     lines.append("")
     for a, b in sorted(edges):
-        lines.append(f"  S{a} -> S{b};")
+        # a imports b: draw prerequisite b -> user a.
+        lines.append(f"  S{b} -> S{a};")
     lines.append("}")
     return "\n".join(lines) + "\n"
 
@@ -116,9 +118,9 @@ def main() -> int:
     for i, stems in sec_leans.items():
         print(f"§{i}: {len(stems)} lean modules")
     edges = build_edges(sec_leans)
-    print(f"cross-section import edges: {len(edges)}")
-    for a, b in sorted(edges):
-        print(f"  §{a} → §{b}")
+    print(f"cross-section import edges: {len(edges)} (drawn prerequisite → user)")
+    for a, b in sorted(edges, key=lambda e: (e[1], e[0])):
+        print(f"  §{b} → §{a}  (§{a} imports from §{b})")
 
     dot = write_dot(edges)
     OUT_DOT.write_text(dot, encoding="utf-8")

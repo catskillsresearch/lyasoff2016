@@ -13,8 +13,8 @@
 <g id="node1" class="node">
 <title>FokkerPlanck</title>
 <g id="a_node1"><a xlink:href="Section3/FokkerPlanck.md" xlink:title="FokkerPlanck.lean">
-<path fill="#ecfdf5" stroke="#047857" d="M1603,-264C1603,-264 1380,-264 1380,-264 1374,-264 1368,-258 1368,-252 1368,-252 1368,-240 1368,-240 1368,-234 1374,-228 1380,-228 1380,-228 1603,-228 1603,-228 1609,-228 1615,-234 1615,-240 1615,-240 1615,-252 1615,-252 1615,-258 1609,-264 1603,-264"/>
-<text text-anchor="middle" x="1491.5" y="-243.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Fokker–Planck characterization of the joint law</text>
+<path fill="#ecfdf5" stroke="#047857" d="M1603,-36C1603,-36 1380,-36 1380,-36 1374,-36 1368,-30 1368,-24 1368,-24 1368,-12 1368,-12 1368,-6 1374,0 1380,0 1380,0 1603,0 1603,0 1609,0 1615,-6 1615,-12 1615,-12 1615,-24 1615,-24 1615,-30 1609,-36 1603,-36"/>
+<text text-anchor="middle" x="1491.5" y="-15.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Fokker–Planck characterization of the joint law</text>
 </a>
 </g>
 </g>
@@ -22,247 +22,247 @@
 <g id="node2" class="node">
 <title>Dufresne</title>
 <g id="a_node2"><a xlink:href="Section3/Dufresne.md" xlink:title="Dufresne.lean">
-<path fill="#ecfdf5" stroke="#047857" d="M331,-188C331,-188 12,-188 12,-188 6,-188 0,-182 0,-176 0,-176 0,-164 0,-164 0,-158 6,-152 12,-152 12,-152 331,-152 331,-152 337,-152 343,-158 343,-164 343,-164 343,-176 343,-176 343,-182 337,-188 331,-188"/>
-<text text-anchor="middle" x="171.5" y="-167.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Dufresne&#39;s inverse&#45;gamma density for the infinite&#45;horizon integral</text>
+<path fill="#ecfdf5" stroke="#047857" d="M331,-112C331,-112 12,-112 12,-112 6,-112 0,-106 0,-100 0,-100 0,-88 0,-88 0,-82 6,-76 12,-76 12,-76 331,-76 331,-76 337,-76 343,-82 343,-88 343,-88 343,-100 343,-100 343,-106 337,-112 331,-112"/>
+<text text-anchor="middle" x="171.5" y="-91.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Dufresne&#39;s inverse&#45;gamma density for the infinite&#45;horizon integral</text>
 </a>
 </g>
 </g>
-<!-- FokkerPlanck&#45;&gt;Dufresne -->
+<!-- Dufresne&#45;&gt;FokkerPlanck -->
 <g id="edge2" class="edge">
-<title>FokkerPlanck&#45;&gt;Dufresne</title>
-<path fill="none" stroke="#64748b" d="M1367.84,-240.5C1159.04,-232.51 723.34,-214.21 355.5,-188 353.5,-187.86 351.49,-187.71 349.47,-187.56"/>
-<polygon fill="#64748b" stroke="#64748b" points="349.51,-185.46 343.37,-187.11 349.2,-189.65 349.51,-185.46"/>
+<title>Dufresne&#45;&gt;FokkerPlanck</title>
+<path fill="none" stroke="#64748b" d="M343.37,-76.89C347.45,-76.58 351.5,-76.29 355.5,-76 719.75,-50.05 1150.54,-31.85 1361.66,-23.74"/>
+<polygon fill="#64748b" stroke="#64748b" points="1361.93,-25.83 1367.84,-23.5 1361.77,-21.63 1361.93,-25.83"/>
 </g>
 <!-- Generator -->
 <g id="node3" class="node">
 <title>Generator</title>
 <g id="a_node3"><a xlink:href="Section3/Generator.md" xlink:title="Generator.lean">
-<path fill="#ecfdf5" stroke="#047857" d="M644.5,-188C644.5,-188 380.5,-188 380.5,-188 374.5,-188 368.5,-182 368.5,-176 368.5,-176 368.5,-164 368.5,-164 368.5,-158 374.5,-152 380.5,-152 380.5,-152 644.5,-152 644.5,-152 650.5,-152 656.5,-158 656.5,-164 656.5,-164 656.5,-176 656.5,-176 656.5,-182 650.5,-188 644.5,-188"/>
-<text text-anchor="middle" x="512.5" y="-167.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Diffusion generator L = ½σ²x² ∂ₓₓ + (1 + (ν + σ²/2)x) ∂ₓ</text>
+<path fill="#ecfdf5" stroke="#047857" d="M644.5,-112C644.5,-112 380.5,-112 380.5,-112 374.5,-112 368.5,-106 368.5,-100 368.5,-100 368.5,-88 368.5,-88 368.5,-82 374.5,-76 380.5,-76 380.5,-76 644.5,-76 644.5,-76 650.5,-76 656.5,-82 656.5,-88 656.5,-88 656.5,-100 656.5,-100 656.5,-106 650.5,-112 644.5,-112"/>
+<text text-anchor="middle" x="512.5" y="-91.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Diffusion generator L = ½σ²x² ∂ₓₓ + (1 + (ν + σ²/2)x) ∂ₓ</text>
 </a>
 </g>
 </g>
-<!-- FokkerPlanck&#45;&gt;Generator -->
+<!-- Generator&#45;&gt;FokkerPlanck -->
 <g id="edge3" class="edge">
-<title>FokkerPlanck&#45;&gt;Generator</title>
-<path fill="none" stroke="#64748b" d="M1367.79,-237.92C1206.82,-228.35 916.9,-209.96 669.5,-188 667.25,-187.8 664.98,-187.6 662.7,-187.39"/>
-<polygon fill="#64748b" stroke="#64748b" points="662.8,-185.29 656.64,-186.83 662.42,-189.47 662.8,-185.29"/>
+<title>Generator&#45;&gt;FokkerPlanck</title>
+<path fill="none" stroke="#64748b" d="M656.64,-77.17C660.97,-76.77 665.27,-76.38 669.5,-76 913.76,-54.32 1199.47,-36.11 1361.6,-26.45"/>
+<polygon fill="#64748b" stroke="#64748b" points="1361.92,-28.54 1367.79,-26.08 1361.68,-24.35 1361.92,-28.54"/>
 </g>
 <!-- Zproc -->
 <g id="node4" class="node">
 <title>Zproc</title>
 <g id="a_node4"><a xlink:href="Section3/Zproc.md" xlink:title="Zproc.lean">
-<path fill="#ecfdf5" stroke="#047857" d="M933,-188C933,-188 694,-188 694,-188 688,-188 682,-182 682,-176 682,-176 682,-164 682,-164 682,-158 688,-152 694,-152 694,-152 933,-152 933,-152 939,-152 945,-158 945,-164 945,-164 945,-176 945,-176 945,-182 939,-188 933,-188"/>
-<text text-anchor="middle" x="813.5" y="-167.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Stationary process Z_t from two independent BMs</text>
+<path fill="#ecfdf5" stroke="#047857" d="M933,-112C933,-112 694,-112 694,-112 688,-112 682,-106 682,-100 682,-100 682,-88 682,-88 682,-82 688,-76 694,-76 694,-76 933,-76 933,-76 939,-76 945,-82 945,-88 945,-88 945,-100 945,-100 945,-106 939,-112 933,-112"/>
+<text text-anchor="middle" x="813.5" y="-91.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Stationary process Z_t from two independent BMs</text>
 </a>
 </g>
 </g>
-<!-- FokkerPlanck&#45;&gt;Zproc -->
+<!-- Zproc&#45;&gt;FokkerPlanck -->
 <g id="edge13" class="edge">
-<title>FokkerPlanck&#45;&gt;Zproc</title>
-<path fill="none" stroke="#64748b" d="M1367.96,-231.79C1261.15,-220.34 1102.62,-203.24 964.5,-188 960.17,-187.52 955.78,-187.04 951.34,-186.54"/>
-<polygon fill="#64748b" stroke="#64748b" points="951.46,-184.44 945.26,-185.87 950.99,-188.62 951.46,-184.44"/>
-</g>
-<!-- JointFokkerPlanckIto -->
-<g id="node6" class="node">
-<title>JointFokkerPlanckIto</title>
-<g id="a_node6"><a xlink:href="Section3/JointFokkerPlanckIto.md" xlink:title="JointFokkerPlanckIto.lean">
-<path fill="#ecfdf5" stroke="#047857" d="M1033.5,-112C1033.5,-112 699.5,-112 699.5,-112 693.5,-112 687.5,-106 687.5,-100 687.5,-100 687.5,-88 687.5,-88 687.5,-82 693.5,-76 699.5,-76 699.5,-76 1033.5,-76 1033.5,-76 1039.5,-76 1045.5,-82 1045.5,-88 1045.5,-88 1045.5,-100 1045.5,-100 1045.5,-106 1039.5,-112 1033.5,-112"/>
-<text text-anchor="middle" x="866.5" y="-91.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Ito identities for product test functions along `(expInt, W)`, used by…</text>
-</a>
-</g>
-</g>
-<!-- FokkerPlanck&#45;&gt;JointFokkerPlanckIto -->
-<g id="edge9" class="edge">
-<title>FokkerPlanck&#45;&gt;JointFokkerPlanckIto</title>
-<path fill="none" stroke="#64748b" d="M1367.83,-237.35C1246.91,-228.63 1072.02,-212.35 1008.5,-188 982.59,-178.07 980.6,-167.37 957.5,-152 938.65,-139.46 917.21,-125.99 899.87,-115.29"/>
-<polygon fill="#64748b" stroke="#64748b" points="900.84,-113.43 894.63,-112.07 898.64,-117 900.84,-113.43"/>
-</g>
-<!-- JointA -->
-<g id="node7" class="node">
-<title>JointA</title>
-<g id="a_node7"><a xlink:href="Section3/JointA.md" xlink:title="JointA.lean">
-<path fill="#ecfdf5" stroke="#047857" d="M1298,-188C1298,-188 1033,-188 1033,-188 1027,-188 1021,-182 1021,-176 1021,-176 1021,-164 1021,-164 1021,-158 1027,-152 1033,-152 1033,-152 1298,-152 1298,-152 1304,-152 1310,-158 1310,-164 1310,-164 1310,-176 1310,-176 1310,-182 1304,-188 1298,-188"/>
-<text text-anchor="middle" x="1165.5" y="-167.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Paper (3.5) operator `jointA` and product&#45;test identities</text>
-</a>
-</g>
-</g>
-<!-- FokkerPlanck&#45;&gt;JointA -->
-<g id="edge5" class="edge">
-<title>FokkerPlanck&#45;&gt;JointA</title>
-<path fill="none" stroke="#64748b" d="M1416.3,-227.93C1365.51,-216.4 1298.52,-201.19 1246.54,-189.4"/>
-<polygon fill="#64748b" stroke="#64748b" points="1246.92,-187.33 1240.6,-188.05 1245.99,-191.42 1246.92,-187.33"/>
-</g>
-<!-- JointFokkerPlanckAdjoint -->
-<g id="node8" class="node">
-<title>JointFokkerPlanckAdjoint</title>
-<g id="a_node8"><a xlink:href="Section3/JointFokkerPlanckAdjoint.md" xlink:title="JointFokkerPlanckAdjoint.lean">
-<path fill="#ecfdf5" stroke="#047857" d="M1585,-188C1585,-188 1398,-188 1398,-188 1392,-188 1386,-182 1386,-176 1386,-176 1386,-164 1386,-164 1386,-158 1392,-152 1398,-152 1398,-152 1585,-152 1585,-152 1591,-152 1597,-158 1597,-164 1597,-164 1597,-176 1597,-176 1597,-182 1591,-188 1585,-188"/>
-<text text-anchor="middle" x="1491.5" y="-167.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Expanded formal Fokker–Planck adjoint</text>
-</a>
-</g>
-</g>
-<!-- FokkerPlanck&#45;&gt;JointFokkerPlanckAdjoint -->
-<g id="edge7" class="edge">
-<title>FokkerPlanck&#45;&gt;JointFokkerPlanckAdjoint</title>
-<path fill="none" stroke="#64748b" d="M1491.5,-227.84C1491.5,-217.84 1491.5,-205.11 1491.5,-194.23"/>
-<polygon fill="#64748b" stroke="#64748b" points="1493.6,-194.07 1491.5,-188.07 1489.4,-194.07 1493.6,-194.07"/>
-</g>
-<!-- TwinGenerator -->
-<g id="node9" class="node">
-<title>TwinGenerator</title>
-<g id="a_node9"><a xlink:href="Section3/TwinGenerator.md" xlink:title="TwinGenerator.lean">
-<path fill="#ecfdf5" stroke="#047857" d="M1280,-36C1280,-36 1013,-36 1013,-36 1007,-36 1001,-30 1001,-24 1001,-24 1001,-12 1001,-12 1001,-6 1007,0 1013,0 1013,0 1280,0 1280,0 1286,0 1292,-6 1292,-12 1292,-12 1292,-24 1292,-24 1292,-30 1286,-36 1280,-36"/>
-<text text-anchor="middle" x="1146.5" y="-15.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Generator of `(expIntTwin, B)` on product test functions</text>
-</a>
-</g>
-</g>
-<!-- FokkerPlanck&#45;&gt;TwinGenerator -->
-<g id="edge11" class="edge">
-<title>FokkerPlanck&#45;&gt;TwinGenerator</title>
-<path fill="none" stroke="#64748b" d="M1564.38,-227.94C1588.28,-219.31 1613.33,-206.57 1631.5,-188 1667.45,-151.24 1694.8,-114.31 1660.5,-76 1636.51,-49.2 1441.16,-33.62 1298.38,-25.71"/>
-<polygon fill="#64748b" stroke="#64748b" points="1298.15,-23.6 1292.05,-25.36 1297.92,-27.79 1298.15,-23.6"/>
-</g>
-<!-- JointFlux -->
-<g id="node10" class="node">
-<title>JointFlux</title>
-<g id="a_node10"><a xlink:href="Section3/JointFlux.md" xlink:title="JointFlux.lean">
-<path fill="#ecfdf5" stroke="#047857" d="M1636.5,-112C1636.5,-112 1472.5,-112 1472.5,-112 1466.5,-112 1460.5,-106 1460.5,-100 1460.5,-100 1460.5,-88 1460.5,-88 1460.5,-82 1466.5,-76 1472.5,-76 1472.5,-76 1636.5,-76 1636.5,-76 1642.5,-76 1648.5,-82 1648.5,-88 1648.5,-88 1648.5,-100 1648.5,-100 1648.5,-106 1642.5,-112 1636.5,-112"/>
-<text text-anchor="middle" x="1554.5" y="-91.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Probability flux in the `x` direction</text>
-</a>
-</g>
-</g>
-<!-- FokkerPlanck&#45;&gt;JointFlux -->
-<g id="edge6" class="edge">
-<title>FokkerPlanck&#45;&gt;JointFlux</title>
-<path fill="none" stroke="#64748b" d="M1557.94,-227.98C1577.99,-219.4 1597.77,-206.69 1609.5,-188 1624.7,-163.77 1602.29,-135.42 1581.67,-116.44"/>
-<polygon fill="#64748b" stroke="#64748b" points="1582.91,-114.74 1577.04,-112.3 1580.11,-117.87 1582.91,-114.74"/>
-</g>
-<!-- Aop -->
-<g id="node11" class="node">
-<title>Aop</title>
-<g id="a_node11"><a xlink:href="Section3/Aop.md" xlink:title="Aop.lean">
-<path fill="#ecfdf5" stroke="#047857" d="M1423.5,-112C1423.5,-112 1133.5,-112 1133.5,-112 1127.5,-112 1121.5,-106 1121.5,-100 1121.5,-100 1121.5,-88 1121.5,-88 1121.5,-82 1127.5,-76 1133.5,-76 1133.5,-76 1423.5,-76 1423.5,-76 1429.5,-76 1435.5,-82 1435.5,-88 1435.5,-88 1435.5,-100 1435.5,-100 1435.5,-106 1429.5,-112 1423.5,-112"/>
-<text text-anchor="middle" x="1278.5" y="-91.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Second&#45;order operator A_t from the Fokker–Planck argument</text>
-</a>
-</g>
-</g>
-<!-- FokkerPlanck&#45;&gt;Aop -->
-<g id="edge1" class="edge">
-<title>FokkerPlanck&#45;&gt;Aop</title>
-<path fill="none" stroke="#64748b" d="M1447.87,-227.98C1424.76,-217.98 1396.49,-204.15 1373.5,-188 1343.95,-167.24 1315.04,-137.12 1297.02,-116.83"/>
-<polygon fill="#64748b" stroke="#64748b" points="1298.44,-115.27 1292.9,-112.15 1295.29,-118.05 1298.44,-115.27"/>
-</g>
-<!-- ZpowPath -->
-<g id="node12" class="node">
-<title>ZpowPath</title>
-<g id="a_node12"><a xlink:href="Section3/ZpowPath.md" xlink:title="ZpowPath.lean">
-<path fill="#ecfdf5" stroke="#047857" d="M2010.5,-188C2010.5,-188 1736.5,-188 1736.5,-188 1730.5,-188 1724.5,-182 1724.5,-176 1724.5,-176 1724.5,-164 1724.5,-164 1724.5,-158 1730.5,-152 1736.5,-152 1736.5,-152 2010.5,-152 2010.5,-152 2016.5,-152 2022.5,-158 2022.5,-164 2022.5,-164 2022.5,-176 2022.5,-176 2022.5,-182 2016.5,-188 2010.5,-188"/>
-<text text-anchor="middle" x="1873.5" y="-167.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Path functional: reciprocal power of the finite&#45;horizon `Z`</text>
-</a>
-</g>
-</g>
-<!-- FokkerPlanck&#45;&gt;ZpowPath -->
-<g id="edge12" class="edge">
-<title>FokkerPlanck&#45;&gt;ZpowPath</title>
-<path fill="none" stroke="#64748b" d="M1579.62,-227.93C1639.37,-216.35 1718.27,-201.07 1779.27,-189.25"/>
-<polygon fill="#64748b" stroke="#64748b" points="1780,-191.25 1785.49,-188.05 1779.2,-187.13 1780,-191.25"/>
-</g>
-<!-- InvZFromPaths -->
-<g id="node13" class="node">
-<title>InvZFromPaths</title>
-<g id="a_node13"><a xlink:href="Section3/InvZFromPaths.md" xlink:title="InvZFromPaths.lean">
-<path fill="#ecfdf5" stroke="#047857" d="M2319,-188C2319,-188 2060,-188 2060,-188 2054,-188 2048,-182 2048,-176 2048,-176 2048,-164 2048,-164 2048,-158 2054,-152 2060,-152 2060,-152 2319,-152 2319,-152 2325,-152 2331,-158 2331,-164 2331,-164 2331,-176 2331,-176 2331,-182 2325,-188 2319,-188"/>
-<text text-anchor="middle" x="2189.5" y="-167.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Path&#45;space reciprocal of the finite&#45;horizon `Z` process</text>
-</a>
-</g>
-</g>
-<!-- FokkerPlanck&#45;&gt;InvZFromPaths -->
-<g id="edge4" class="edge">
-<title>FokkerPlanck&#45;&gt;InvZFromPaths</title>
-<path fill="none" stroke="#64748b" d="M1615.25,-232.17C1725.32,-220.73 1890.65,-203.44 2034.5,-188 2036.79,-187.75 2039.09,-187.51 2041.42,-187.26"/>
-<polygon fill="#64748b" stroke="#64748b" points="2041.86,-189.32 2047.6,-186.59 2041.41,-185.15 2041.86,-189.32"/>
-</g>
-<!-- PerpetuityPath -->
-<g id="node14" class="node">
-<title>PerpetuityPath</title>
-<g id="a_node14"><a xlink:href="Section3/PerpetuityPath.md" xlink:title="PerpetuityPath.lean">
-<path fill="#ecfdf5" stroke="#047857" d="M2356,-112C2356,-112 2203,-112 2203,-112 2197,-112 2191,-106 2191,-100 2191,-100 2191,-88 2191,-88 2191,-82 2197,-76 2203,-76 2203,-76 2356,-76 2356,-76 2362,-76 2368,-82 2368,-88 2368,-88 2368,-100 2368,-100 2368,-106 2362,-112 2356,-112"/>
-<text text-anchor="middle" x="2279.5" y="-91.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Path&#45;space perpetuity functional</text>
-</a>
-</g>
-</g>
-<!-- FokkerPlanck&#45;&gt;PerpetuityPath -->
-<g id="edge10" class="edge">
-<title>FokkerPlanck&#45;&gt;PerpetuityPath</title>
-<path fill="none" stroke="#64748b" d="M1615.07,-245.84C1839.35,-246.05 2294.86,-240 2343.5,-188 2364.46,-165.59 2335.85,-135.81 2310.45,-116.05"/>
-<polygon fill="#64748b" stroke="#64748b" points="2311.48,-114.19 2305.43,-112.24 2308.94,-117.54 2311.48,-114.19"/>
-</g>
-<!-- JointFokkerPlanckHelpers -->
-<g id="node15" class="node">
-<title>JointFokkerPlanckHelpers</title>
-<g id="a_node15"><a xlink:href="Section3/JointFokkerPlanckHelpers.md" xlink:title="JointFokkerPlanckHelpers.lean">
-<path fill="#ecfdf5" stroke="#047857" d="M2827,-188C2827,-188 2420,-188 2420,-188 2414,-188 2408,-182 2408,-176 2408,-176 2408,-164 2408,-164 2408,-158 2414,-152 2420,-152 2420,-152 2827,-152 2827,-152 2833,-152 2839,-158 2839,-164 2839,-164 2839,-176 2839,-176 2839,-182 2833,-188 2827,-188"/>
-<text text-anchor="middle" x="2623.5" y="-167.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Analytic helpers for `fokker_planck_joint`: open joint domain and pointwise upgrade</text>
-</a>
-</g>
-</g>
-<!-- FokkerPlanck&#45;&gt;JointFokkerPlanckHelpers -->
-<g id="edge8" class="edge">
-<title>FokkerPlanck&#45;&gt;JointFokkerPlanckHelpers</title>
-<path fill="none" stroke="#64748b" d="M1615.22,-237.48C1788.25,-226.89 2112.35,-206.76 2388.5,-188 2392.85,-187.7 2397.24,-187.4 2401.67,-187.1"/>
-<polygon fill="#64748b" stroke="#64748b" points="2401.89,-189.19 2407.73,-186.68 2401.6,-185 2401.89,-189.19"/>
+<title>Zproc&#45;&gt;FokkerPlanck</title>
+<path fill="none" stroke="#64748b" d="M945.26,-78.13C951.77,-77.41 958.21,-76.69 964.5,-76 1100.06,-61.04 1255.28,-44.3 1361.97,-32.85"/>
+<polygon fill="#64748b" stroke="#64748b" points="1362.22,-34.94 1367.96,-32.21 1361.78,-30.76 1362.22,-34.94"/>
 </g>
 <!-- ExpIntTwin -->
 <g id="node5" class="node">
 <title>ExpIntTwin</title>
 <g id="a_node5"><a xlink:href="Section3/ExpIntTwin.md" xlink:title="ExpIntTwin.lean">
-<path fill="#ecfdf5" stroke="#047857" d="M964,-36C964,-36 645,-36 645,-36 639,-36 633,-30 633,-24 633,-24 633,-12 633,-12 633,-6 639,0 645,0 645,0 964,0 964,0 970,0 976,-6 976,-12 976,-12 976,-24 976,-24 976,-30 970,-36 964,-36"/>
-<text text-anchor="middle" x="804.5" y="-15.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Time&#45;reversed twin of `expInt` and basic measurability/continuity</text>
+<path fill="#ecfdf5" stroke="#047857" d="M964,-264C964,-264 645,-264 645,-264 639,-264 633,-258 633,-252 633,-252 633,-240 633,-240 633,-234 639,-228 645,-228 645,-228 964,-228 964,-228 970,-228 976,-234 976,-240 976,-240 976,-252 976,-252 976,-258 970,-264 964,-264"/>
+<text text-anchor="middle" x="804.5" y="-243.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Time&#45;reversed twin of `expInt` and basic measurability/continuity</text>
 </a>
 </g>
 </g>
-<!-- JointFokkerPlanckIto&#45;&gt;ExpIntTwin -->
+<!-- JointFokkerPlanckIto -->
+<g id="node6" class="node">
+<title>JointFokkerPlanckIto</title>
+<g id="a_node6"><a xlink:href="Section3/JointFokkerPlanckIto.md" xlink:title="JointFokkerPlanckIto.lean">
+<path fill="#ecfdf5" stroke="#047857" d="M1033.5,-188C1033.5,-188 699.5,-188 699.5,-188 693.5,-188 687.5,-182 687.5,-176 687.5,-176 687.5,-164 687.5,-164 687.5,-158 693.5,-152 699.5,-152 699.5,-152 1033.5,-152 1033.5,-152 1039.5,-152 1045.5,-158 1045.5,-164 1045.5,-164 1045.5,-176 1045.5,-176 1045.5,-182 1039.5,-188 1033.5,-188"/>
+<text text-anchor="middle" x="866.5" y="-167.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Ito identities for product test functions along `(expInt, W)`, used by…</text>
+</a>
+</g>
+</g>
+<!-- ExpIntTwin&#45;&gt;JointFokkerPlanckIto -->
 <g id="edge19" class="edge">
-<title>JointFokkerPlanckIto&#45;&gt;ExpIntTwin</title>
-<path fill="none" stroke="#64748b" d="M852.12,-75.84C843.36,-65.38 832.08,-51.91 822.69,-40.71"/>
-<polygon fill="#64748b" stroke="#64748b" points="824.26,-39.32 818.8,-36.07 821.05,-42.02 824.26,-39.32"/>
+<title>ExpIntTwin&#45;&gt;JointFokkerPlanckIto</title>
+<path fill="none" stroke="#64748b" d="M818.88,-227.84C827.64,-217.38 838.92,-203.91 848.31,-192.71"/>
+<polygon fill="#64748b" stroke="#64748b" points="849.95,-194.02 852.2,-188.07 846.74,-191.32 849.95,-194.02"/>
 </g>
-<!-- JointFokkerPlanckIto&#45;&gt;TwinGenerator -->
-<g id="edge20" class="edge">
-<title>JointFokkerPlanckIto&#45;&gt;TwinGenerator</title>
-<path fill="none" stroke="#64748b" d="M931.09,-75.93C974.37,-64.49 1031.35,-49.43 1075.84,-37.68"/>
-<polygon fill="#64748b" stroke="#64748b" points="1076.49,-39.68 1081.75,-36.11 1075.41,-35.62 1076.49,-39.68"/>
+<!-- JointFokkerPlanckIto&#45;&gt;FokkerPlanck -->
+<g id="edge9" class="edge">
+<title>JointFokkerPlanckIto&#45;&gt;FokkerPlanck</title>
+<path fill="none" stroke="#64748b" d="M894.63,-151.93C912.75,-140.81 936.7,-125.84 957.5,-112 980.6,-96.63 982.59,-85.93 1008.5,-76 1070.96,-52.06 1241.14,-35.92 1361.76,-27.09"/>
+<polygon fill="#64748b" stroke="#64748b" points="1361.99,-29.18 1367.83,-26.65 1361.69,-24.99 1361.99,-29.18"/>
 </g>
-<!-- JointA&#45;&gt;JointFokkerPlanckIto -->
+<!-- JointA -->
+<g id="node7" class="node">
+<title>JointA</title>
+<g id="a_node7"><a xlink:href="Section3/JointA.md" xlink:title="JointA.lean">
+<path fill="#ecfdf5" stroke="#047857" d="M1298,-112C1298,-112 1033,-112 1033,-112 1027,-112 1021,-106 1021,-100 1021,-100 1021,-88 1021,-88 1021,-82 1027,-76 1033,-76 1033,-76 1298,-76 1298,-76 1304,-76 1310,-82 1310,-88 1310,-88 1310,-100 1310,-100 1310,-106 1304,-112 1298,-112"/>
+<text text-anchor="middle" x="1165.5" y="-91.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Paper (3.5) operator `jointA` and product&#45;test identities</text>
+</a>
+</g>
+</g>
+<!-- JointFokkerPlanckIto&#45;&gt;JointA -->
 <g id="edge16" class="edge">
-<title>JointA&#45;&gt;JointFokkerPlanckIto</title>
-<path fill="none" stroke="#64748b" d="M1096.53,-151.93C1050.14,-140.45 989,-125.32 941.41,-113.54"/>
-<polygon fill="#64748b" stroke="#64748b" points="941.71,-111.45 935.38,-112.05 940.7,-115.53 941.71,-111.45"/>
+<title>JointFokkerPlanckIto&#45;&gt;JointA</title>
+<path fill="none" stroke="#64748b" d="M935.47,-151.93C981.86,-140.45 1043,-125.32 1090.59,-113.54"/>
+<polygon fill="#64748b" stroke="#64748b" points="1091.3,-115.53 1096.62,-112.05 1090.29,-111.45 1091.3,-115.53"/>
 </g>
-<!-- JointA&#45;&gt;TwinGenerator -->
+<!-- JointA&#45;&gt;FokkerPlanck -->
+<g id="edge5" class="edge">
+<title>JointA&#45;&gt;FokkerPlanck</title>
+<path fill="none" stroke="#64748b" d="M1240.7,-75.93C1291.49,-64.4 1358.48,-49.19 1410.46,-37.4"/>
+<polygon fill="#64748b" stroke="#64748b" points="1411.01,-39.42 1416.4,-36.05 1410.08,-35.33 1411.01,-39.42"/>
+</g>
+<!-- JointFokkerPlanckAdjoint -->
+<g id="node8" class="node">
+<title>JointFokkerPlanckAdjoint</title>
+<g id="a_node8"><a xlink:href="Section3/JointFokkerPlanckAdjoint.md" xlink:title="JointFokkerPlanckAdjoint.lean">
+<path fill="#ecfdf5" stroke="#047857" d="M1585,-112C1585,-112 1398,-112 1398,-112 1392,-112 1386,-106 1386,-100 1386,-100 1386,-88 1386,-88 1386,-82 1392,-76 1398,-76 1398,-76 1585,-76 1585,-76 1591,-76 1597,-82 1597,-88 1597,-88 1597,-100 1597,-100 1597,-106 1591,-112 1585,-112"/>
+<text text-anchor="middle" x="1491.5" y="-91.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Expanded formal Fokker–Planck adjoint</text>
+</a>
+</g>
+</g>
+<!-- JointFokkerPlanckAdjoint&#45;&gt;FokkerPlanck -->
+<g id="edge7" class="edge">
+<title>JointFokkerPlanckAdjoint&#45;&gt;FokkerPlanck</title>
+<path fill="none" stroke="#64748b" d="M1491.5,-75.84C1491.5,-65.84 1491.5,-53.11 1491.5,-42.23"/>
+<polygon fill="#64748b" stroke="#64748b" points="1493.6,-42.07 1491.5,-36.07 1489.4,-42.07 1493.6,-42.07"/>
+</g>
+<!-- TwinGenerator -->
+<g id="node9" class="node">
+<title>TwinGenerator</title>
+<g id="a_node9"><a xlink:href="Section3/TwinGenerator.md" xlink:title="TwinGenerator.lean">
+<path fill="#ecfdf5" stroke="#047857" d="M1280,-264C1280,-264 1013,-264 1013,-264 1007,-264 1001,-258 1001,-252 1001,-252 1001,-240 1001,-240 1001,-234 1007,-228 1013,-228 1013,-228 1280,-228 1280,-228 1286,-228 1292,-234 1292,-240 1292,-240 1292,-252 1292,-252 1292,-258 1286,-264 1280,-264"/>
+<text text-anchor="middle" x="1146.5" y="-243.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Generator of `(expIntTwin, B)` on product test functions</text>
+</a>
+</g>
+</g>
+<!-- TwinGenerator&#45;&gt;FokkerPlanck -->
+<g id="edge11" class="edge">
+<title>TwinGenerator&#45;&gt;FokkerPlanck</title>
+<path fill="none" stroke="#64748b" d="M1292.05,-238.64C1435.32,-230.84 1636.15,-215.2 1660.5,-188 1685.16,-160.45 1642.86,-87.62 1631.5,-76 1614.82,-58.95 1592.34,-46.82 1570.28,-38.27"/>
+<polygon fill="#64748b" stroke="#64748b" points="1570.74,-36.2 1564.38,-36.06 1569.27,-40.13 1570.74,-36.2"/>
+</g>
+<!-- TwinGenerator&#45;&gt;JointFokkerPlanckIto -->
+<g id="edge20" class="edge">
+<title>TwinGenerator&#45;&gt;JointFokkerPlanckIto</title>
+<path fill="none" stroke="#64748b" d="M1081.91,-227.93C1038.63,-216.49 981.65,-201.43 937.16,-189.68"/>
+<polygon fill="#64748b" stroke="#64748b" points="937.59,-187.62 931.25,-188.11 936.51,-191.68 937.59,-187.62"/>
+</g>
+<!-- TwinGenerator&#45;&gt;JointA -->
 <g id="edge17" class="edge">
-<title>JointA&#45;&gt;TwinGenerator</title>
-<path fill="none" stroke="#64748b" d="M1140.96,-151.95C1128.72,-141.91 1115.14,-128.03 1108.5,-112 1098.49,-87.84 1113.24,-60.09 1127.17,-41.23"/>
-<polygon fill="#64748b" stroke="#64748b" points="1129.08,-42.2 1131.06,-36.16 1125.75,-39.64 1129.08,-42.2"/>
+<title>TwinGenerator&#45;&gt;JointA</title>
+<path fill="none" stroke="#64748b" d="M1131.06,-227.84C1116.23,-209.16 1097.55,-178.43 1108.5,-152 1114.31,-137.97 1125.43,-125.6 1136.32,-115.99"/>
+<polygon fill="#64748b" stroke="#64748b" points="1137.75,-117.53 1140.96,-112.05 1135.03,-114.34 1137.75,-117.53"/>
 </g>
-<!-- JointA&#45;&gt;Aop -->
-<g id="edge15" class="edge">
-<title>JointA&#45;&gt;Aop</title>
-<path fill="none" stroke="#64748b" d="M1191.71,-151.84C1208.25,-141 1229.72,-126.95 1247.16,-115.52"/>
-<polygon fill="#64748b" stroke="#64748b" points="1248.56,-117.11 1252.43,-112.07 1246.26,-113.6 1248.56,-117.11"/>
+<!-- JointFlux -->
+<g id="node10" class="node">
+<title>JointFlux</title>
+<g id="a_node10"><a xlink:href="Section3/JointFlux.md" xlink:title="JointFlux.lean">
+<path fill="#ecfdf5" stroke="#047857" d="M1636.5,-188C1636.5,-188 1472.5,-188 1472.5,-188 1466.5,-188 1460.5,-182 1460.5,-176 1460.5,-176 1460.5,-164 1460.5,-164 1460.5,-158 1466.5,-152 1472.5,-152 1472.5,-152 1636.5,-152 1636.5,-152 1642.5,-152 1648.5,-158 1648.5,-164 1648.5,-164 1648.5,-176 1648.5,-176 1648.5,-182 1642.5,-188 1636.5,-188"/>
+<text text-anchor="middle" x="1554.5" y="-167.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Probability flux in the `x` direction</text>
+</a>
 </g>
-<!-- JointFokkerPlanckAdjoint&#45;&gt;JointFlux -->
+</g>
+<!-- JointFlux&#45;&gt;FokkerPlanck -->
+<g id="edge6" class="edge">
+<title>JointFlux&#45;&gt;FokkerPlanck</title>
+<path fill="none" stroke="#64748b" d="M1577.04,-151.7C1598.68,-132.9 1625.85,-102.06 1609.5,-76 1598.87,-59.06 1581.63,-47.03 1563.56,-38.54"/>
+<polygon fill="#64748b" stroke="#64748b" points="1564.27,-36.56 1557.94,-36.02 1562.55,-40.39 1564.27,-36.56"/>
+</g>
+<!-- JointFlux&#45;&gt;JointFokkerPlanckAdjoint -->
 <g id="edge18" class="edge">
-<title>JointFokkerPlanckAdjoint&#45;&gt;JointFlux</title>
-<path fill="none" stroke="#64748b" d="M1506.11,-151.84C1515.02,-141.38 1526.48,-127.91 1536.01,-116.71"/>
-<polygon fill="#64748b" stroke="#64748b" points="1537.68,-118 1539.97,-112.07 1534.48,-115.28 1537.68,-118"/>
+<title>JointFlux&#45;&gt;JointFokkerPlanckAdjoint</title>
+<path fill="none" stroke="#64748b" d="M1539.89,-151.84C1530.98,-141.38 1519.52,-127.91 1509.99,-116.71"/>
+<polygon fill="#64748b" stroke="#64748b" points="1511.52,-115.28 1506.03,-112.07 1508.32,-118 1511.52,-115.28"/>
 </g>
-<!-- InvZFromPaths&#45;&gt;PerpetuityPath -->
+<!-- Aop -->
+<g id="node11" class="node">
+<title>Aop</title>
+<g id="a_node11"><a xlink:href="Section3/Aop.md" xlink:title="Aop.lean">
+<path fill="#ecfdf5" stroke="#047857" d="M1423.5,-188C1423.5,-188 1133.5,-188 1133.5,-188 1127.5,-188 1121.5,-182 1121.5,-176 1121.5,-176 1121.5,-164 1121.5,-164 1121.5,-158 1127.5,-152 1133.5,-152 1133.5,-152 1423.5,-152 1423.5,-152 1429.5,-152 1435.5,-158 1435.5,-164 1435.5,-164 1435.5,-176 1435.5,-176 1435.5,-182 1429.5,-188 1423.5,-188"/>
+<text text-anchor="middle" x="1278.5" y="-167.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Second&#45;order operator A_t from the Fokker–Planck argument</text>
+</a>
+</g>
+</g>
+<!-- Aop&#45;&gt;FokkerPlanck -->
+<g id="edge1" class="edge">
+<title>Aop&#45;&gt;FokkerPlanck</title>
+<path fill="none" stroke="#64748b" d="M1292.9,-151.85C1310.4,-131.77 1341.58,-98.42 1373.5,-76 1394.7,-61.11 1420.38,-48.19 1442.36,-38.43"/>
+<polygon fill="#64748b" stroke="#64748b" points="1443.21,-40.35 1447.87,-36.02 1441.53,-36.51 1443.21,-40.35"/>
+</g>
+<!-- Aop&#45;&gt;JointA -->
+<g id="edge15" class="edge">
+<title>Aop&#45;&gt;JointA</title>
+<path fill="none" stroke="#64748b" d="M1252.29,-151.84C1235.75,-141 1214.28,-126.95 1196.84,-115.52"/>
+<polygon fill="#64748b" stroke="#64748b" points="1197.74,-113.6 1191.57,-112.07 1195.44,-117.11 1197.74,-113.6"/>
+</g>
+<!-- ZpowPath -->
+<g id="node12" class="node">
+<title>ZpowPath</title>
+<g id="a_node12"><a xlink:href="Section3/ZpowPath.md" xlink:title="ZpowPath.lean">
+<path fill="#ecfdf5" stroke="#047857" d="M2010.5,-112C2010.5,-112 1736.5,-112 1736.5,-112 1730.5,-112 1724.5,-106 1724.5,-100 1724.5,-100 1724.5,-88 1724.5,-88 1724.5,-82 1730.5,-76 1736.5,-76 1736.5,-76 2010.5,-76 2010.5,-76 2016.5,-76 2022.5,-82 2022.5,-88 2022.5,-88 2022.5,-100 2022.5,-100 2022.5,-106 2016.5,-112 2010.5,-112"/>
+<text text-anchor="middle" x="1873.5" y="-91.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Path functional: reciprocal power of the finite&#45;horizon `Z`</text>
+</a>
+</g>
+</g>
+<!-- ZpowPath&#45;&gt;FokkerPlanck -->
+<g id="edge12" class="edge">
+<title>ZpowPath&#45;&gt;FokkerPlanck</title>
+<path fill="none" stroke="#64748b" d="M1785.38,-75.93C1725.63,-64.35 1646.73,-49.07 1585.73,-37.25"/>
+<polygon fill="#64748b" stroke="#64748b" points="1585.8,-35.13 1579.51,-36.05 1585,-39.25 1585.8,-35.13"/>
+</g>
+<!-- InvZFromPaths -->
+<g id="node13" class="node">
+<title>InvZFromPaths</title>
+<g id="a_node13"><a xlink:href="Section3/InvZFromPaths.md" xlink:title="InvZFromPaths.lean">
+<path fill="#ecfdf5" stroke="#047857" d="M2319,-112C2319,-112 2060,-112 2060,-112 2054,-112 2048,-106 2048,-100 2048,-100 2048,-88 2048,-88 2048,-82 2054,-76 2060,-76 2060,-76 2319,-76 2319,-76 2325,-76 2331,-82 2331,-88 2331,-88 2331,-100 2331,-100 2331,-106 2325,-112 2319,-112"/>
+<text text-anchor="middle" x="2189.5" y="-91.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Path&#45;space reciprocal of the finite&#45;horizon `Z` process</text>
+</a>
+</g>
+</g>
+<!-- InvZFromPaths&#45;&gt;FokkerPlanck -->
+<g id="edge4" class="edge">
+<title>InvZFromPaths&#45;&gt;FokkerPlanck</title>
+<path fill="none" stroke="#64748b" d="M2047.6,-77.41C2043.18,-76.93 2038.81,-76.46 2034.5,-76 1893.32,-60.85 1731.45,-43.91 1621.44,-32.47"/>
+<polygon fill="#64748b" stroke="#64748b" points="1621.44,-30.36 1615.25,-31.83 1621,-34.53 1621.44,-30.36"/>
+</g>
+<!-- PerpetuityPath -->
+<g id="node14" class="node">
+<title>PerpetuityPath</title>
+<g id="a_node14"><a xlink:href="Section3/PerpetuityPath.md" xlink:title="PerpetuityPath.lean">
+<path fill="#ecfdf5" stroke="#047857" d="M2356,-188C2356,-188 2203,-188 2203,-188 2197,-188 2191,-182 2191,-176 2191,-176 2191,-164 2191,-164 2191,-158 2197,-152 2203,-152 2203,-152 2356,-152 2356,-152 2362,-152 2368,-158 2368,-164 2368,-164 2368,-176 2368,-176 2368,-182 2362,-188 2356,-188"/>
+<text text-anchor="middle" x="2279.5" y="-167.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Path&#45;space perpetuity functional</text>
+</a>
+</g>
+</g>
+<!-- PerpetuityPath&#45;&gt;FokkerPlanck -->
+<g id="edge10" class="edge">
+<title>PerpetuityPath&#45;&gt;FokkerPlanck</title>
+<path fill="none" stroke="#64748b" d="M2305.43,-151.76C2331.81,-132.2 2365.86,-99.9 2343.5,-76 2295.31,-24.48 1847.77,-18.06 1621.37,-18.16"/>
+<polygon fill="#64748b" stroke="#64748b" points="1621.07,-16.06 1615.07,-18.16 1621.07,-20.26 1621.07,-16.06"/>
+</g>
+<!-- PerpetuityPath&#45;&gt;InvZFromPaths -->
 <g id="edge14" class="edge">
-<title>InvZFromPaths&#45;&gt;PerpetuityPath</title>
-<path fill="none" stroke="#64748b" d="M2210.37,-151.84C2223.32,-141.19 2240.06,-127.43 2253.82,-116.12"/>
-<polygon fill="#64748b" stroke="#64748b" points="2255.44,-117.5 2258.74,-112.07 2252.77,-114.26 2255.44,-117.5"/>
+<title>PerpetuityPath&#45;&gt;InvZFromPaths</title>
+<path fill="none" stroke="#64748b" d="M2258.63,-151.84C2245.68,-141.19 2228.94,-127.43 2215.18,-116.12"/>
+<polygon fill="#64748b" stroke="#64748b" points="2216.23,-114.26 2210.26,-112.07 2213.56,-117.5 2216.23,-114.26"/>
+</g>
+<!-- JointFokkerPlanckHelpers -->
+<g id="node15" class="node">
+<title>JointFokkerPlanckHelpers</title>
+<g id="a_node15"><a xlink:href="Section3/JointFokkerPlanckHelpers.md" xlink:title="JointFokkerPlanckHelpers.lean">
+<path fill="#ecfdf5" stroke="#047857" d="M2827,-112C2827,-112 2420,-112 2420,-112 2414,-112 2408,-106 2408,-100 2408,-100 2408,-88 2408,-88 2408,-82 2414,-76 2420,-76 2420,-76 2827,-76 2827,-76 2833,-76 2839,-82 2839,-88 2839,-88 2839,-100 2839,-100 2839,-106 2833,-112 2827,-112"/>
+<text text-anchor="middle" x="2623.5" y="-91.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#064e3b">Analytic helpers for `fokker_planck_joint`: open joint domain and pointwise upgrade</text>
+</a>
+</g>
+</g>
+<!-- JointFokkerPlanckHelpers&#45;&gt;FokkerPlanck -->
+<g id="edge8" class="edge">
+<title>JointFokkerPlanckHelpers&#45;&gt;FokkerPlanck</title>
+<path fill="none" stroke="#64748b" d="M2407.73,-77.32C2401.25,-76.87 2394.83,-76.43 2388.5,-76 2115.59,-57.46 1795.84,-37.58 1621.36,-26.89"/>
+<polygon fill="#64748b" stroke="#64748b" points="1621.34,-24.79 1615.22,-26.52 1621.08,-28.98 1621.34,-24.79"/>
 </g>
 </g>
 </svg>

@@ -3,8 +3,9 @@
 """Syntactic dependency graph of Lean definitions and theorems.
 
 Walks project .lean sources (not vendor/, .lake/, or *skeleton_backup*),
-finds named declarations, and draws an edge A -> B when A's type or body
-mentions B. This is a syntactic approximation, not a Lean kernel analysis.
+finds named declarations, and draws an edge B -> A when A's type or body
+mentions B (arrows point from a prerequisite to the declaration that uses
+it). This is a syntactic approximation, not a Lean kernel analysis.
 
 Usage (from a lyasoff2016 repo root):
 
@@ -822,7 +823,8 @@ def emit_dot(decls: list[Decl], edges: list[tuple[str, str]], font: str | None =
                 if (s, t) in seen_edge_ids:
                     continue
                 seen_edge_ids.add((s, t))
-                lines.append(f"  {s} -> {t};")
+                # s uses t: draw prerequisite t -> user s.
+                lines.append(f"  {t} -> {s};")
 
     # Legend
     lines.append("")
