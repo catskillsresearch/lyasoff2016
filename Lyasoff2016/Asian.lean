@@ -70,10 +70,17 @@ theorem benchmark_k_zero (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 
     simpa [uIcc_of_le (NNReal.coe_nonneg t)] using hs
   exact hpoint s hsI
 
-/- Paper: p. 1088–1090, Asian call price.
-   Plain recap: discounted risk-neutral expectation of (∫ e^{σW+νs} ds − K)₊. -/
+/- Paper: p. 1088–1090, Asian call payoff expectation (undiscounted).
+   Plain recap: E[(∫₀ᵗ e^{σW_s+νs} ds − K)₊]. -/
 def asianCall (P : Measure Ω) (W : ℝ≥0 → Ω → ℝ) (σ ν : ℝ) (t : ℝ≥0) (K : ℝ) : ℝ :=
   ∫ ω, max (expInt W σ ν t ω - K) 0 ∂P
+
+/- Paper: p. 1093, market Asian call at t = 0 with S₀ = 1:
+     e^{-rT} (1/T) E[(∫₀ᵀ e^{σW+(r−σ²/2)s} ds − KT)₊]. -/
+def asianMarketPrice (P : Measure Ω) (W : ℝ≥0 → Ω → ℝ)
+    (σ r : ℝ) (T : ℝ≥0) (K : ℝ) : ℝ :=
+  Real.exp (-r * (T : ℝ)) * (1 / (T : ℝ)) *
+    asianCall P W σ (r - σ ^ 2 / 2) T (K * (T : ℝ))
 
 /-- Payoff–density reduction (p. 1090): if `φ ≥ 0` is a joint density of
 `(∫₀ᵗ e^{σW_s+νs} ds, W_t)`, then the undiscounted Asian call is
