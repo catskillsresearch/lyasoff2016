@@ -2,7 +2,7 @@
 bibliography: references.bib
 ---
 
-# Lyasoff 2016 in Lean 4
+# Formalization of Lyasoff's Asian Option Model
 
 Paper-facing writeup of the formalization of Andrew Lyasoff, *Another look at the integral of exponential Brownian motion and the pricing of Asian options*, Finance Stoch. **20** (2016) 1061–1096.
 

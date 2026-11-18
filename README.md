@@ -1,4 +1,4 @@
-# Lyasoff 2016 in Lean 4
+# Formalization of Lyasoff's Asian Option Model
 
 Formalization of Andrew Lyasoff,
 *Another look at the integral of exponential Brownian motion and the pricing of Asian options*,
@@ -97,3 +97,13 @@ python3 scripts/build_holes.py   # refreshes HOLES.md / holes-graph.json / embed
 | [`holes.html`](holes.html) | Interactive board (embedded graph) |
 | [`holes-graph.json`](holes-graph.json) | Node/edge data (also embedded) |
 | [`HOLES.md`](HOLES.md) | Markdown inventory |
+
+### PDF bibliography and layout
+
+Run `bash scripts/build_arxiv_pdf.sh` from the repository root to rebuild
+`Asian.pdf` (and `view.pdf`). Requires Python 3, pandoc, Graphviz, latexmk,
+PDFLaTeX and **BibTeX**, plus the packages in `scripts/tex_preamble_arxiv.tex`.
+The build runs BibTeX on `references.bib`, checks for unresolved citations,
+and includes every entry (`\nocite{*}`), including all pinned Lake repositories.
+The title page is followed by a dedicated multi-page table of contents; every
+top-level section, including References, starts on a fresh page.

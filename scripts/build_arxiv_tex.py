@@ -85,7 +85,12 @@ def render_mermaid(code: str, idx: int) -> str:
 
 
 def extract_title() -> str:
-    return "Lyasoff 2016 in Lean 4"
+    # One source of truth for the PDF title, shared with the Markdown root.
+    root = ROOT / "Asian.md"
+    for line in root.read_text(encoding="utf-8").splitlines():
+        if line.startswith("# "):
+            return line[2:].strip()
+    return "Formalization of Lyasoff's Asian Option Model"
 
 
 TITLE = extract_title()
@@ -592,12 +597,6 @@ def cleanup_pandoc_latex(latex: str) -> str:
         latex,
         flags=re.IGNORECASE,
     )
-    # Each \\section starts on a fresh page (title page / abstract stays alone).
-    latex = re.sub(
-        r"(?<!\\newpage\n)(\\section\{)",
-        r"\\newpage\n\1",
-        latex,
-    )
     # Drop duplicate Lean path paragraph headings (the blue \\href is enough).
     latex = re.sub(
         r"\\hypertarget\{[^\n]*\}\{%\n\\(?:sub)*paragraph\{Asian[^\n]*\}\\label\{[^\n]*\}\}\n*",
@@ -704,9 +703,9 @@ def build_title_page(abstract_latex: str) -> str:
         {abstract_latex.strip()}
         \\end{{abstract}}
 
-        \\newpage
+        \\clearpage
         \\tableofcontents
-        \\newpage
+        \\clearpage
         """
     ).strip()
 
@@ -749,11 +748,25 @@ def main() -> int:
     latex_body = inject_placeholders(latex_body, placeholders)
     latex_body = cleanup_pandoc_latex(latex_body)
     latex_body = insert_appendix_command(latex_body)
+    # compile_md_tree emits the References heading; append a real BibTeX
+    # bibliography there (natbib's bibsection is empty to avoid a second title).
+    if "\\section{References}" not in latex_body:
+        latex_body += "\n\\section{References}\n"
+    latex_body += "\n\\nocite{*}\n\\bibliographystyle{plainnat}\n\\bibliography{references}\n"
+
 
     abstract_latex = pandoc_to_latex(github_math_to_tex(abstract_md), shift=False) if abstract_md else ""
     abstract_latex = cleanup_abstract_latex(abstract_latex)
 
     preamble = embed_lstlean(PREAMBLE.read_text(encoding="utf-8"))
+    # Article chapters are top-level sections. Flush floats before every one,
+    # including References, and put the anchor on the section's new page.
+    latex_body = re.sub(
+        r"(\\hypertarget\{[^\n]*\}\{%\n)(\\section\{)",
+        r"\\clearpage\n\1\2", latex_body,
+    )
+    latex_body = re.sub(r"(?<!%\n)(?<!\\clearpage\n)(\\section\{)", r"\\clearpage\n\1", latex_body)
+    preamble += "\n\\hypersetup{pdftitle={" + TITLE + "},pdfauthor={" + AUTHOR + "}}\n"
     title_page = build_title_page(abstract_latex)
     document = preamble + "\n\n" + title_page + "\n\n" + latex_body + "\n\n\\end{document}\n"
     # Combining macron (e.g. "z̄" in generated prose): pdfLaTeX cannot place a

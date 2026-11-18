@@ -16,10 +16,12 @@ cp -f arxiv.md arxiv_with_code.md
 echo "==> Building arxiv.tex + lean-listings/ + figures/"
 python3 scripts/build_arxiv_tex.py
 
-echo "==> Compiling PDF (pdfLaTeX via latexmk)"
+echo "==> Compiling PDF (pdfLaTeX + BibTeX via latexmk)"
+command -v bibtex >/dev/null || { echo "BibTeX is required" >&2; exit 1; }
+test -s references.bib || { echo "Missing references.bib" >&2; exit 1; }
 latexmk -C "$TEX" >/dev/null 2>&1 || true
-rm -f arxiv.aux arxiv.out arxiv.toc
-latexmk -pdf \
+rm -f arxiv.aux arxiv.out arxiv.toc arxiv.bbl arxiv.blg
+latexmk -pdf -bibtex \
   -pdflatex="pdflatex -interaction=nonstopmode -halt-on-error" \
   -interaction=nonstopmode \
   -halt-on-error \
@@ -28,6 +30,12 @@ latexmk -pdf \
   tail -n 60 arxiv.log >&2 || true
   exit 1
 }
+
+test -s arxiv.bbl || { echo "BibTeX produced no bibliography" >&2; exit 1; }
+if grep -Eq 'Citation .* undefined|There were undefined citations|There were undefined references' arxiv.log; then
+  echo "Unresolved references/citations: see arxiv.log" >&2
+  exit 1
+fi
 
 echo "wrote $PDF ($(du -h "$PDF" | cut -f1))"
 cp -f "$PDF" "$OUT"
