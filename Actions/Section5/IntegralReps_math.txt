@@ -1,0 +1,7 @@
+**Lyasoff (2016), p. 1061 (1.1) — Yor’s joint density, now using the constructive proof**
+
+
+**Lyasoff (2016), p. 1085–1086. Both π/2 and π formulae equal the joint density for p = 2,3,4. Route: ContourEq + InverseGamma (+ complex for π/2) + Fubini via Gaussian gFun decay (`GFunDecay`) + prop_4_4 uniqueness + Brownian scaling**
+
+
+**Lyasoff (2016), Remark 5.5**

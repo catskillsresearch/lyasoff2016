@@ -1,0 +1,15 @@
+Mathematical English for `InverseGammaIntegral.lean` (Lean names in typewriter).
+
+**Theorem** (`integrableOn_inv_pow_exp_neg_div`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`integral_inv_pow_exp_neg_div`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`integrableOn_exp_neg_div_mul_inv_pow_exp_neg_div`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`integral_exp_neg_div_mul_inv_pow_exp_neg_div`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`integral_exp_neg_div_mul_one_div_pow_exp_neg_div`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`integral_inv_pow_cexp_neg_div`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`integrableOn_inv_pow_cexp_neg_div`). Stated and proved in Lean; see the source for the formal statement.

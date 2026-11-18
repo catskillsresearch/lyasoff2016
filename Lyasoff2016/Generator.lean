@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Diffusion generator L = ½σ²x² ∂ₓₓ + (1 + (ν + σ²/2)x) ∂ₓ (paper (3.2)).
 -/
 module

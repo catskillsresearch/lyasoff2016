@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Paper (3.5) operator `jointA` and product-test identities.
 -/
 module

@@ -1,0 +1,6 @@
+**Lyasoff (2016), p. 1081, (5.7), the residue recipe g ↦ R_{t,p}[g]: R_{t,2}(y) = g(y), R_{t,p}(y) = (1 / ((p−2) sinh y)) (d/dy) R_{t,p−1}(y) (p ≥ 3)**
+
+R_{t,p}[g](y) is the residue at z = y of g(z) sinh z / (cosh z − cosh y)^{p−1}
+   (display (5.6)), produced recursively from the generic symbol g.
+   The recursion divides by sinh y, so for p ≥ 3 the value at y = 0 is Lean's `x / 0 = 0`
+   rather than the limit in (5.6); only y ≠ 0 is meaningful there.

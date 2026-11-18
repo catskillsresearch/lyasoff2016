@@ -1,0 +1,1 @@
+Normalization of the inverse-Gamma kernel used in the introductory density. It declares 7 items (7 theorems).

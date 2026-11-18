@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Correct Brownian scaling from the reference volatility `2`, together with the
 algebraic covariance of the π-formula.
 -/

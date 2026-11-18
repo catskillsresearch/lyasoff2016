@@ -1,0 +1,1 @@
+Residue recipe R_{t,p}[g] from (5.7). It declares 4 items (1 def, 3 lemmas).

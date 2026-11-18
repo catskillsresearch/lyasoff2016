@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Generator of `(expIntTwin, B)` on product test functions (paper (3.4b)).
 -/
 module

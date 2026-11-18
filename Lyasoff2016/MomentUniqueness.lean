@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Moment determinacy for probability measures on `[0, ∞)` with a finite exponential moment.
 
 Used in the proof of Dufresne's theorem (`FokkerPlanck.lean`): the reciprocal of the perpetuity

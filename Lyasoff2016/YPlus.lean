@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Upper inverse branch `y_+(v, a)` of the characteristic `A`.
 -/
 module

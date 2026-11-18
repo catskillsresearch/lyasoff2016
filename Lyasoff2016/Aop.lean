@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Second-order operator A_t from the Fokker–Planck argument (p. 1069).
 -/
 module

@@ -8,3 +8,15 @@
 .vscode/
 *~
 *.swp
+Actions.dot
+Actions/Section*.dot
+arxiv.md
+arxiv.tex
+arxiv.pdf
+arxiv_with_code.md
+arxiv.*
+lean-listings/
+view.pdf
+Actions.pdf
+*.gist.bak
+figures/

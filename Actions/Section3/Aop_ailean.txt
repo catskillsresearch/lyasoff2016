@@ -1,0 +1,3 @@
+Mathematical English for `Aop.lean` (Lean names in typewriter).
+
+**Definition** (`Aop`). the second-order operator appearing in the Fokker–Planck argument.

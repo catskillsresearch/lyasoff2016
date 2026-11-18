@@ -1,0 +1,3 @@
+Mathematical English for `YorDensity.lean` (Lean names in typewriter).
+
+**Definition** (`yorDensity`). Yor’s candidate joint density for σ = 2.

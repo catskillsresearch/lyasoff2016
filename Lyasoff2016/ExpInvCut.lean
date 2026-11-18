@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Smooth cutoff `expInvCut u x = if 0 < x then exp(-u / x) else 0` and its derivatives/bounds,
 plus compactly supported `C^3` function bounds.
 -/

@@ -1,0 +1,1 @@
+Second-order operator A_t from the Fokker–Planck argument (p. 1069). It declares 1 item (1 def).

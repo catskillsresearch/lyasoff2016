@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Yor candidate joint density for σ = 2 (Lyasoff (1.1)).
 -/
 module

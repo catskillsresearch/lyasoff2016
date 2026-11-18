@@ -1,0 +1,1 @@
+Contour equation (5.3) on ζ_a and proof that g_{t,p} solves it. It declares 9 items (1 def, 4 lemmas, 4 theorems).

@@ -1,0 +1,9 @@
+**Lyasoff (2016), p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}**
+
+on a horizontal line the two `cerf` terms of each pair in (5.8) tend to `+1`
+   and `−1` respectively, at Gaussian rate, so the constants cancel and
+     |g_{t,3}(u − ia)| ≤ C e^{−u²/t},   |g_{t,4}(u − ia)| ≤ C cosh u · e^{−u²/t}.
+   Together with |g_{t,2}(u − ia)| = e^{2a²/t} e^{−2u²/t}/(4π) this makes
+   `cosh u · |g_{t,p}(u − ia)|` integrable, since ∫ e^{−c u²} cosh² u du < ∞.
+   (The bounds `ContourRec.norm_gFun_three_line_le`, `…four_line_le` only give `C`, `C cosh u`,
+   which is enough for the contour equation but not for Fubini at a = π/2.)

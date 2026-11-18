@@ -1,0 +1,13 @@
+Mathematical English for `FfunDeriv.lean` (Lean names in typewriter).
+
+**Definition** (`FfunDeriv`). p. 1091, display before (6.1): F'_{t,σ,μ,k(α)}(u,w) := B(w) C(u,w) g_{σ²t,4}(u − iπ/2) S'_{k(α),4}(u,w), here with k(α) = α.
+
+**Definition** (`FfunPrefactor`). p. 1091, display before (6.1): F'_{t,σ,μ,k(α)}(u,w) := B(w) C(u,w) g_{σ²t,4}(u − iπ/2) S'_{k(α),4}(u,w), here with k(α) = α.
+
+**Theorem** (`Ffun_eq_prefactor`). p. 1091, display before (6.1): F'_{t,σ,μ,k(α)}(u,w) := B(w) C(u,w) g_{σ²t,4}(u − iπ/2) S'_{k(α),4}(u,w), here with k(α) = α.
+
+**Theorem** (`FfunDeriv_eq_prefactor`). p. 1091, display before (6.1): F'_{t,σ,μ,k(α)}(u,w) := B(w) C(u,w) g_{σ²t,4}(u − iπ/2) S'_{k(α),4}(u,w), here with k(α) = α.
+
+**Theorem** (`hasDerivAt_Ffun`). p. 1091, display before (6.1): F'_{t,σ,μ,k(α)}(u,w) := B(w) C(u,w) g_{σ²t,4}(u − iπ/2) S'_{k(α),4}(u,w), here with k(α) = α.
+
+**Theorem** (`hasDerivAt_Ffun_re`). p. 1091, display before (6.1): F'_{t,σ,μ,k(α)}(u,w) := B(w) C(u,w) g_{σ²t,4}(u − iπ/2) S'_{k(α),4}(u,w), here with k(α) = α.

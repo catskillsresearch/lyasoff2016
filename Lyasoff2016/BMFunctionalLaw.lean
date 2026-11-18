@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Equality of laws of continuous path functionals of Brownian motions,
 and the pathwise time-reversal change of variables for (1.3).
 -/

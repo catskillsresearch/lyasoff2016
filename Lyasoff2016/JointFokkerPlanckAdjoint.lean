@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Expanded formal Fokker–Planck adjoint (paper (3.6a)).
 -/
 module

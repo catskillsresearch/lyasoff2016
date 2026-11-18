@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Inversion of the distributional Fokker–Planck PDE along characteristics
 `A(v, y) = cosh y + v * exp(-y)` to compute `E[f(W_t) * exp(-v₀ / ∫₀ᵗ e^{2 W_s} ds)]`.
 -/

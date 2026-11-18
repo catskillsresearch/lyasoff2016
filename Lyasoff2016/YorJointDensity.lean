@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Evaluation of the `1/x`-Laplace transform of `yorDensity`, nonnegativity of `yorDensity`,
 and the sorry-free proof of `IsJointDensity P W 2 0 t (yorDensity t)`.
 -/

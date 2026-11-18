@@ -1,0 +1,1 @@
+Expanded formal Fokker–Planck adjoint (paper (3.6a)). It declares 3 items (1 def, 2 theorems).

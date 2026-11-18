@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Inverse-Gamma density and its measure (`igDensity` / `igMeasure`).
 -/
 module

@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Normalization of the inverse-Gamma kernel used in the introductory density.
 -/
 module

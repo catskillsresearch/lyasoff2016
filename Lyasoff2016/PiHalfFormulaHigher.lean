@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Constructive identification of the π/2-formulae with the joint density.
 Mirrors `PiFormulaHigher` at aperture `a = π/2` (paper (5.9a)/(5.10a)).
 -/

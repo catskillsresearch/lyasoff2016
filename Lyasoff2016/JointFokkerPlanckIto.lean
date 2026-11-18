@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Ito identities for product test functions along `(expInt, W)`, used by `fokker_planck_joint`.
 -/
 module

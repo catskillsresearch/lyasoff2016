@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Distributional Fokker–Planck equation and inverse-argument Laplace transform for `(∫₀ᵗ e^{2 W_s} ds, W_t)`.
 -/
 module

@@ -1,0 +1,3 @@
+Mathematical English for `UpperGamma.lean` (Lean names in typewriter).
+
+**Definition** (`upperGamma`). upper incomplete Gamma and the Asian inner integral S.

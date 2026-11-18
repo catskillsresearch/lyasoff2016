@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Modified Bessel function K₁ (whole-line integral representation, DLMF 10.32.9).
 -/
 module

@@ -1,0 +1,1 @@
+Time-reversed twin of `expInt` and basic measurability/continuity. It declares 5 items (1 def, 4 theorems).

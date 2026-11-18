@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Building blocks g_{t,p} for the contour representation (5.8).
 -/
 module

@@ -1,0 +1,1 @@
+Yor candidate joint density for σ = 2 (Lyasoff (1.1)). It declares 1 item (1 def).

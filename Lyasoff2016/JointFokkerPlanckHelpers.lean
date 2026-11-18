@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Analytic helpers for `fokker_planck_joint`: open joint domain and pointwise upgrade
 from a weak (distributional) identity via the fundamental lemma.
 -/

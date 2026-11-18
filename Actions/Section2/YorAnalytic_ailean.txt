@@ -1,0 +1,63 @@
+Mathematical English for `YorAnalytic.lean` (Lean names in typewriter).
+
+**Definition** (`yorCondDensity`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`gaussianPDFReal_mul_yorCondDensity`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`yor_cond_density`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`yorCondDensity_contDiffOn`). Stated and proved in Lean; see the source for the formal statement.
+
+**Definition** (`yorTerm`). Stated and proved in Lean; see the source for the formal statement.
+
+**Abbreviation** (`YorCoeff`). Stated and proved in Lean; see the source for the formal statement.
+
+**Definition** (`evalYorSum`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`evalYorSum_nil`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`evalYorSum_cons`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`evalYorSum_append`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`evalYorSum_scale`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`yorTerm_contDiffOn_x`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`evalYorSum_contDiffOn_x`). Stated and proved in Lean; see the source for the formal statement.
+
+**Definition** (`dYorTermY`). Stated and proved in Lean; see the source for the formal statement.
+
+**Definition** (`dYorTermX`). Stated and proved in Lean; see the source for the formal statement.
+
+**Definition** (`dEvalYorSumY`). Stated and proved in Lean; see the source for the formal statement.
+
+**Definition** (`dEvalYorSumX`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`yorTerm_hasDerivAt_y`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`yorTerm_hasDerivAt_x`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`evalYorSum_hasDerivAt_y`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`evalYorSum_hasDerivAt_x`). Stated and proved in Lean; see the source for the formal statement.
+
+**Definition** (`yorPdList`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`iteratedDeriv_y_yorCondDensity`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`pd_yorCondDensity_eq_evalYorSum`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`yorTerm_tendsto_zero_right`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`yorTerm_tendsto_zero_atTop`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`yorTerm_moment_majorant`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`evalYorSum_tendsto_zero_right`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`evalYorSum_tendsto_zero_atTop`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`evalYorSum_moment_majorant`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`prop_2_2_constructive`). Stated and proved in Lean; see the source for the formal statement.

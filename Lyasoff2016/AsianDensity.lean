@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 # Density ingredients for the Asian pricing identity (pp. 1090–1093)
 
 * `aemeasurable_jointMap`: the map `ω ↦ (∫₀ᵗ e^{σW+νs} ds, W_t)` is a.e.-measurable.

@@ -1,0 +1,113 @@
+Mathematical English for `FokkerPlanck.lean` (Lean names in typewriter).
+
+**Theorem** (`ae_integrableOn_exp_bm`). for σ > 0 and ν < 0, almost every path s ↦ e^{σ W_s + ν s} is Lebesgue integrable on (0, ∞), because W_s / s → 0 a.s.
+
+Proof idea: follow the paper argument encoded in the Lean proof of `ae_integrableOn_exp_bm`.
+
+**Theorem** (`infinite_integral_finite`). for σ > 0 and ν < 0 the improper integral ∫₀^∞ e^{σW+νs} is a.s. finite.
+
+Proof idea: follow the paper argument encoded in the Lean proof of `infinite_integral_finite`.
+
+**Theorem** (`isBrownianReal_map_pathFunctional_eq`). p. 1067, footnote 2.
+
+**Theorem** (`indepFun_path_of_ae_eq`). p. 1067, footnote 2.
+
+**Theorem** (`integral_Ioi_exp_split`). p. 1067, footnote 2.
+
+**Theorem** (`Z_stationary_consistent`). with the *same* drift ν in the perpetuity and in the perturbation, i.e. Z_t = e^{νt − σB_t} (∫₀^∞ e^{σW_s+νs} ds + ∫₀ᵗ e^{−νs+σB_s} ds), Z_t has the law of ∫₀^∞ e^{σW_s+νs} ds for every t. Proof: `β_u = B_{t−u} − B_t` (negated time reversal of B) is a BM independent of W and Z_t = ∫₀ᵗ e^{σβ_u+νu} du + e^{σβ_t+νt} A_∞(W); by the weak Markov property the perpetuity of a single BM has the same decomposition with the same joint law of the ingredients.
+
+Proof idea: follow the paper argument encoded in the Lean proof of `Z_stationary_consistent`.
+
+**Theorem** (`Z_stationary_sigma_one`). p. 1067, stationarity of Z — the case σ = 1 of `Z_stationary`, where the drift `σ ν` used in `Zproc` and the drift `ν` of the perpetuity coincide.
+
+**Theorem** (`Z_stationary`). Z_t has the same law as ∫₀^∞ e^{σW+νs} ds.
+
+Proof idea: follow the paper argument encoded in the Lean proof of `Z_stationary`.
+
+**Theorem** (`isBM_prod_fst`). p. 1067, stationarity of Z.
+
+**Theorem** (`isBM_prod_snd`). p. 1067, stationarity of Z.
+
+**Theorem** (`indepFun_prod_copies`). p. 1067, stationarity of Z.
+
+**Theorem** (`ae_perpetuity_pos`). p. 1067, stationarity of Z.
+
+**Theorem** (`aemeasurable_perpetuity`). p. 1067, stationarity of Z.
+
+**Theorem** (`pathwise_log_Z_identity`). p. 1067, stationarity of Z.
+
+**Theorem** (`ae_perpetuity_ge_expInt`). p. 1067, stationarity of Z.
+
+**Theorem** (`integrable_inv_perpetuity`). p. 1067, stationarity of Z.
+
+**Theorem** (`integrable_BM_eval`). p. 1067, stationarity of Z.
+
+**Theorem** (`integral_BM_eval`). p. 1067, stationarity of Z.
+
+**Theorem** (`aemeasurable_Zproc`). p. 1067, stationarity of Z.
+
+**Theorem** (`integral_inv_Zproc_eq`). p. 1067, stationarity of Z.
+
+**Theorem** (`integrable_inv_Zproc`). p. 1067, stationarity of Z.
+
+**Theorem** (`integrable_uncurry_inv_Zproc`). p. 1067, stationarity of Z.
+
+**Theorem** (`perpetuity_inv_moment`). p. 1067, stationarity of Z.
+
+**Abbreviation** (`dufresneGenerator`). p. 1067, stationarity of Z.
+
+**Theorem** (`dufresneGenerator_log`). p. 1067, stationarity of Z.
+
+**Theorem** (`dufresneGenerator_zpow`). p. 1067, stationarity of Z.
+
+**Theorem** (`integrable_pow_inv_perpetuity`). p. 1067, stationarity of Z.
+
+**Theorem** (`integral_pow_inv_Zproc_eq`). p. 1067, stationarity of Z.
+
+**Theorem** (`pathwise_pow_inv_Y_identity`). p. 1067, stationarity of Z.
+
+**Theorem** (`integral_wald_exp_eq_one`). p. 1067, stationarity of Z.
+
+**Theorem** (`integrable_uncurry_pow_inv_Zproc`). p. 1067, stationarity of Z.
+
+**Theorem** (`pathwise_Zpow_eq_wald_mul`). p. 1067, stationarity of Z.
+
+**Theorem** (`pathwise_Zpow_eq_wald_H`). p. 1067, stationarity of Z.
+
+**Theorem** (`pathwise_H_ftc`). p. 1067, stationarity of Z.
+
+**Theorem** (`integral_Ainv_mul_wald_eq`). p. 1067, stationarity of Z.
+
+**Theorem** (`integral_waldIncrement_mul_Zpow_fixedA`). p. 1067, stationarity of Z.
+
+**Theorem** (`integrable_waldIncrement_mul_Zpow`). p. 1067, stationarity of Z.
+
+**Theorem** (`integral_waldIncrement_mul_Zpow`). p. 1067, stationarity of Z.
+
+**Theorem** (`integrable_pow_inv_Zproc`). p. 1067, stationarity of Z.
+
+**Theorem** (`pathwise_Zpow_drift_identity`). p. 1067, stationarity of Z.
+
+**Theorem** (`integrable_uncurry_waldIncrement_mul_Zpow`). p. 1067, stationarity of Z.
+
+**Theorem** (`perpetuity_neg_moment_succ`). p. 1067, stationarity of Z.
+
+**Theorem** (`perpetuity_neg_moments`). p. 1067, stationarity of Z.
+
+**Theorem** (`dufresne_theorem_sigma_one`). p. 1067, stationarity of Z.
+
+**Theorem** (`dufresne_theorem`). p. 1067, stationarity of Z.
+
+**Theorem** (`joint_dynkin_Aop_product`). p. 1067, stationarity of Z.
+
+**Theorem** (`weak_joint_fokker_planck_product`). p. 1067, stationarity of Z.
+
+**Theorem** (`jointFokkerPlanckAdjoint_eq_zero`). p. 1067, stationarity of Z.
+
+**Theorem** (`fokker_planck_joint`). the joint density φ satisfies the divergence-form PDE ∂ₓ[(σ²x²/2)∂ₓφ + σx ∂ᵧφ + (e^{σy} + σ²x/2 − 1)φ] = 0. PAPER NOTE: the skeleton placed the zeroth-order term outside ∂ₓ; restored to the paper's bracketed form (what §4 integrates in x).
+
+Proof idea: follow the paper argument encoded in the Lean proof of `fokker_planck_joint`.
+
+**Theorem** (`remark_3_2`). identity in law relating (X_t, M_t−W_t, M_t) to a reflected version.
+
+Proof idea: follow the paper argument encoded in the Lean proof of `remark_3_2`.

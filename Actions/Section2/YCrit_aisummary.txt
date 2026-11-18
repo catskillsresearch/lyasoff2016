@@ -1,0 +1,1 @@
+Critical point `y₀(v)` of the characteristic `A(v, ·)`. It declares 2 items (1 def, 1 theorem).

@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Integer moments of a Gamma law, and their Inverse-Gamma pairings.
 -/
 module

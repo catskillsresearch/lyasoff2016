@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 # §6 Tables 1–4 — classical numerical certificates
 
 Lyasoff (2016) reports high-precision mpmath/spline quadratures of `∬ Re F` for the

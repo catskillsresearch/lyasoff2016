@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Concrete residues R_{t,p} for g = g_{t,p} of (5.8).
 -/
 module

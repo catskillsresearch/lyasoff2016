@@ -1,5 +1,5 @@
 /-
-Copyright (c) 2026. All rights reserved.
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Released under Apache 2.0 license.
 
 # Setting and §1 Introduction (Lyasoff, Finance Stoch. 20 (2016) 1061–1063)

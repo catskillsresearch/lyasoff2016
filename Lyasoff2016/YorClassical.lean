@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Yor’s joint density formula (Yor 1992, (6.c) / Lyasoff (1.1)), wired to the
 constructive Laplace/FP proof in `YorJointDensity`.
 -/

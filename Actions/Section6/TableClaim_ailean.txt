@@ -1,0 +1,23 @@
+Mathematical English for `TableClaim.lean` (Lean names in typewriter).
+
+**Structure** (`TableClaim`). the true Asian price lies within ±err of the printed digit string.
+
+**Definition** (`TableClaim.certified`). Tables 1–4 as interval certificates.
+
+**Theorem** (`table1_claim`). Tables 1–4 as interval certificates.
+
+**Theorem** (`table2_claim`). Tables 1–4 as interval certificates.
+
+**Theorem** (`table3_claim`). Tables 1–4 as interval certificates.
+
+**Theorem** (`table4_claim`). Tables 1–4 as interval certificates.
+
+**Theorem** (`table1_asian_enclosure`). `asianMarketPrice` (e^{-rT}/T · E[(∫ − KT)₊] at μ = r − σ²/2, S₀ = 1) lies within the paper’s reported absolute error of the printed digit string. Discharged from classical numerical certificates in `TableClassical` (high-precision quadrature of `∬ Re F`); not re-derived by interval arithmetic.
+
+Proof idea: follow the paper argument encoded in the Lean proof of `table1_asian_enclosure`.
+
+**Theorem** (`table2_asian_enclosure`). p. 1093–1095, market Asian prices vs printed digits.
+
+**Theorem** (`table3_asian_enclosure`). p. 1093–1095, market Asian prices vs printed digits.
+
+**Theorem** (`table4_asian_enclosure`). p. 1093–1095, market Asian prices vs printed digits.

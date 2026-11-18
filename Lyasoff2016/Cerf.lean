@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Complex error function `cerf` used in integral representations (p. 1082–1083).
 -/
 module

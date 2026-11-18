@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Jacobian–Girsanov factor `B(w)` in the Asian integrand (p. 1090).
 -/
 module

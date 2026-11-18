@@ -1,0 +1,7 @@
+Mathematical English for `IntegralReps.lean` (Lean names in typewriter).
+
+**Theorem** (`yor_formula`). p. 1061 (1.1) — Yor’s joint density, now using the constructive proof.
+
+**Theorem** (`pi_formula`). p. 1085–1086. Both π/2 and π formulae equal the joint density for p = 2,3,4. Route: ContourEq + InverseGamma (+ complex for π/2) + Fubini via Gaussian gFun decay (`GFunDecay`) + prop_4_4 uniqueness + Brownian scaling.
+
+**Theorem** (`remark_5_5`). Remark 5.5.

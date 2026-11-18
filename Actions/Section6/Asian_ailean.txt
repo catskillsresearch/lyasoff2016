@@ -1,0 +1,21 @@
+Mathematical English for `Asian.lean` (Lean names in typewriter).
+
+**Theorem** (`benchmark_k_zero`). E[∫₀ᵗ e^{σW_s+νs} ds] = ∫₀ᵗ e^{(ν+σ²/2)s} ds by Fubini and the Gaussian mgf.
+
+Proof idea: follow the paper argument encoded in the Lean proof of `benchmark_k_zero`.
+
+**Definition** (`asianCall`). E[(∫₀ᵗ e^{σW_s+νs} ds − K)₊].
+
+**Definition** (`asianMarketPrice`). p. 1093, market Asian call at t = 0 with S₀ = 1: e^{-rT} (1/T) E[(∫₀ᵀ e^{σW+(r−σ²/2)s} ds − KT)₊].
+
+**Theorem** (`asianCall_eq_integral_density`). p. 1093, market Asian call at t = 0 with S₀ = 1: e^{-rT} (1/T) E[(∫₀ᵀ e^{σW+(r−σ²/2)s} ds − KT)₊].
+
+**Theorem** (`asian_price_formula`). p. 1090–1093, first integral in (6.1) and the display on p. 1093: E[(∫₀ᵗ e^{σW_s+μs} ds − k)₊] = ∫₀^∞ ∫₀^∞ ℜ(F_{t,σ,μ,k}(u,w)) du dw.
+
+**Theorem** (`asian_price_formula_k_zero`). p. 1090–1093, first integral in (6.1) and the display on p. 1093: E[(∫₀ᵗ e^{σW_s+μs} ds − k)₊] = ∫₀^∞ ∫₀^∞ ℜ(F_{t,σ,μ,k}(u,w)) du dw.
+
+**Theorem** (`hasDerivAt_integral_max_sub`). p. 1091–1093, second integral in (6.1), which is the ingredient of the delta (6.2): ∂_k E[(∫₀ᵗ e^{σW_s+μs} ds − k)₊] = ∫₀^∞ ∫₀^∞ ℜ(F'_{t,σ,μ,k}(u,w)) du dw.
+
+**Axiom** (`hasDerivAt_integral_Re_Ffun`). p. 1091–1093, second integral in (6.1), which is the ingredient of the delta (6.2): ∂_k E[(∫₀ᵗ e^{σW_s+μs} ds − k)₊] = ∫₀^∞ ∫₀^∞ ℜ(F'_{t,σ,μ,k}(u,w)) du dw.
+
+**Theorem** (`asian_delta`). p. 1091–1093, second integral in (6.1), which is the ingredient of the delta (6.2): ∂_k E[(∫₀ᵗ e^{σW_s+μs} ds − k)₊] = ∫₀^∞ ∫₀^∞ ℜ(F'_{t,σ,μ,k}(u,w)) du dw.

@@ -1,0 +1,1 @@
+Inversion of the distributional Fokker–Planck PDE along characteristics. It declares 3 items (3 theorems).

@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Strike derivative of `SfunC`: `∂_k S_{k,p}(A) = S'_{k,p}(A)` (p. 1091).
 -/
 module

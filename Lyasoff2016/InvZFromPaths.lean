@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Path-space reciprocal of the finite-horizon `Z` process.
 -/
 module

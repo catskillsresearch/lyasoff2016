@@ -1,0 +1,3 @@
+Mathematical English for `Theta.lean` (Lean names in typewriter).
+
+**Definition** (`theta`). the Hartman–Watson-type kernel appearing in Yor’s density.

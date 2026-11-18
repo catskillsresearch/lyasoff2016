@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Characteristic invariant `A(v, y) = cosh y + v * exp(-y)`.
 -/
 module

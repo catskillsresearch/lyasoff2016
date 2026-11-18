@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 π-formula for the conditional density (5.9b)/(5.10b).
 -/
 module

@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 # §2 Auxiliary results (pp. 1064–1066)
 -/
 module

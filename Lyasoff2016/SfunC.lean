@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Complex Asian inner integral `S_{k,p}(A)` for complex rate `A` (p. 1091).
 -/
 module

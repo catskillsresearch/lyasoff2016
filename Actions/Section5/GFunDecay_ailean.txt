@@ -1,0 +1,41 @@
+Mathematical English for `GFunDecay.lean` (Lean names in typewriter).
+
+**Lemma** (`cerf_zero`). on a horizontal line the two `cerf` terms of each pair in (5.8) tend to `+1` and `−1` respectively, at Gaussian rate, so the constants cancel and |g_{t,3}(u − ia)| ≤ C e^{−u²/t}, |g_{t,4}(u − ia)| ≤ C cosh u · e^{−u²/t}. Together with |g_{t,2}(u − ia)| = e^{2a²/t} e^{−2u²/t}/(4π) this makes `cosh u · |g_{t,p}(u − ia)|` integrable, since ∫ e^{−c u²} cosh² u du < ∞. (The bounds `ContourRec.norm_gFun_three_line_le`, `…four_line_le` only give `C`, `C cosh u`, which is enough for the contour equation but not for Fubini at a = π/2.)
+
+Proof idea: follow the paper argument encoded in the Lean proof of `cerf_zero`.
+
+**Lemma** (`norm_two_div_sqrt_pi`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Lemma** (`hasDerivAt_cerf_line`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Lemma** (`norm_cerf_line_deriv`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Lemma** (`integrable_cerf_line_deriv`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Lemma** (`tendsto_cerf_real`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Lemma** (`norm_cerf_line_sub_real_le`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Lemma** (`tendsto_cerf_line`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Lemma** (`norm_cerf_line_sub_one_le`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Lemma** (`cerf_line_sub_one_gaussian`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Lemma** (`cerf_line_add_one_gaussian`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Lemma** (`cerf_pair_gaussian`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Theorem** (`norm_gFun_two_line_gaussian`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Theorem** (`norm_gFun_three_line_gaussian`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Theorem** (`norm_gFun_four_line_gaussian`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Theorem** (`norm_gFun_line_gaussian`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Lemma** (`integrable_cosh_sq_mul_gaussian`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Theorem** (`integrable_cosh_mul_norm_gFun_line`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.
+
+**Theorem** (`integrable_cosh_mul_norm_gFun_piHalf`). p. 1085–1086 (vision OCR p. 25), justification of the exchange of the two integrations for the contour ζ_{π/2}.

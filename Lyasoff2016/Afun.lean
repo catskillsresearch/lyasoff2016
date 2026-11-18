@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Complex rate factor `A(u,w)` in the Asian π/2 integrand (p. 1090).
 -/
 module

@@ -1,0 +1,11 @@
+Mathematical English for `YPlus.lean` (Lean names in typewriter).
+
+**Definition** (`yPlus`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`contDiffOn`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`yPlus`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`image_Ioi_yCrit`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`charA`). Stated and proved in Lean; see the source for the formal statement.

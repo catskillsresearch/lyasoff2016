@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 # §6 Asian options (pp. 1088–1095)
 -/
 module

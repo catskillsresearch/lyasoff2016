@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Characteristic-branch weight `h` along `A(v, ·)`, paired with `ψBranch`.
 -/
 module

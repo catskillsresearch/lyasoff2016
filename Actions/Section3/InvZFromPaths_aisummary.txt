@@ -1,0 +1,1 @@
+Path-space reciprocal of the finite-horizon `Z` process. It declares 3 items (1 def, 2 theorems).

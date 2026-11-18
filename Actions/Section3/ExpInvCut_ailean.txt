@@ -1,0 +1,27 @@
+Mathematical English for `ExpInvCut.lean` (Lean names in typewriter).
+
+**Definition** (`expInvCut`). Stated and proved in Lean; see the source for the formal statement.
+
+**Definition** (`expInvCut`). Stated and proved in Lean; see the source for the formal statement.
+
+**Definition** (`expInvCut`). Stated and proved in Lean; see the source for the formal statement.
+
+**Definition** (`expInvCut`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`inv_pow_mul_exp_neg_div_le`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`tendsto_inv_pow_mul_exp_neg_div_zero`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`hasDerivAt_expInvCut`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`hasDerivAt_expInvCut`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`hasDerivAt_expInvCut`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`expInvCut_bounds`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`mul_expInvCut_bounds`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`continuous_expInvCut`). Stated and proved in Lean; see the source for the formal statement.
+
+**Lemma** (`contDiff_three_compactSupport_bounds`). Stated and proved in Lean; see the source for the formal statement.

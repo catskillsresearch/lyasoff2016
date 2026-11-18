@@ -1,0 +1,11 @@
+Mathematical English for `BmPath.lean` (Lean names in typewriter).
+
+**Theorem** (`comap_coeFn_path`). Stated and proved in Lean; see the source for the formal statement.
+
+**Definition** (`bmPath`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`measurable`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`ae_eq`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`map_eq`). Stated and proved in Lean; see the source for the formal statement.

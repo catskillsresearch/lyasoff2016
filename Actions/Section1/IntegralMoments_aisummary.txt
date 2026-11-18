@@ -1,0 +1,1 @@
+Lyasoff 2016 formalization module. It declares 7 items (5 lemmas, 2 theorems).

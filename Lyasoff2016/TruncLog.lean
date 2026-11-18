@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Truncated logarithm: bounded measurable approximation to `log` on `(0, ∞)`.
 -/
 module

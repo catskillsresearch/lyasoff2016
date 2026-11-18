@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Constructive identification of the higher-order π-formulae.
 -/
 module

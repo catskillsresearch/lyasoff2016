@@ -1,0 +1,3 @@
+**Lyasoff (2016), p. 1062, θ(r,t) in Yor’s formula**
+
+the Hartman–Watson-type kernel appearing in Yor’s density.

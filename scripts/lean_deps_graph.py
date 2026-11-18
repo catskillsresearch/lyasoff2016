@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 """Syntactic dependency graph of Lean definitions and theorems.
 
 Walks project .lean sources (not vendor/, .lake/, or *skeleton_backup*),

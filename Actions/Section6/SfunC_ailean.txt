@@ -1,0 +1,5 @@
+Mathematical English for `SfunC.lean` (Lean names in typewriter).
+
+**Definition** (`SfunC`). p. 1091, first display, S_{k,p} for complex A with ℜ(A) > 0: S_{k,p}(A) := ∫_k^∞ e^{−A/x} (x − k) / x^p dx.
+
+**Theorem** (`ofReal`). p. 1091, first display, S_{k,p} for complex A with ℜ(A) > 0: S_{k,p}(A) := ∫_k^∞ e^{−A/x} (x − k) / x^p dx.

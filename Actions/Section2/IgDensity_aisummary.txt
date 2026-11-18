@@ -1,0 +1,1 @@
+Inverse-Gamma density and its measure (`igDensity` / `igMeasure`). It declares 12 items (2 defs, 10 theorems).

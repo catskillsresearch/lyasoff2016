@@ -1,0 +1,1 @@
+Dufresne's inverse-gamma density for the infinite-horizon integral. It declares 10 items (1 def, 9 theorems).

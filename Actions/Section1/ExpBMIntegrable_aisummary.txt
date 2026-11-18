@@ -1,0 +1,1 @@
+Joint integrability of `(s, ω) ↦ exp (σ W_s ω + ν s)` on `(0, t] × Ω` for a Brownian motion `W`. It declares 3 items (3 theorems).

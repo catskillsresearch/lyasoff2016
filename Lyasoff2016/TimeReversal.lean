@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Helpers for Brownian time-reversal on a fixed interval [0, t].
 Used by `time_reversal` (paper (1.3), p. 1063).
 

@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Contour equation (5.3) on ζ_a and proof that g_{t,p} solves it.
 -/
 module

@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Continuous versions of the joint density `φ_{t,σ}` are not unique.
 
 `IsJointDensity P W σ ν t φ` says that the law of `(∫₀ᵗ e^{σW_s+νs} ds, W_t)` is

@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Gaussian decay of g_{t,p} along horizontal lines u ↦ u − ia, and the resulting absolute
 integrability of `cosh u · |g_{t,p}(u − ia)|` (the Fubini hypothesis of the π/2-formula).
 -/

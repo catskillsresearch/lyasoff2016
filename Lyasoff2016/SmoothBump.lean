@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Smooth bump equal to `1` on `[b, c]` and `0` outside `(a, d)`.
 -/
 module

@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Expected Itô formula for functionals of `(∫₀ᵗ a(B_s) ds, B_t)` and the
 distributional Fokker–Planck / Laplace-transform characterization of `(∫₀ᵗ e^{2 W_s} ds, W_t)`.
 

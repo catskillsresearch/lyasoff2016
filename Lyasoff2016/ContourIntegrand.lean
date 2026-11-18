@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Contour-equation integrand (5.3) on the lower edge u ↦ u − ia.
 -/
 module

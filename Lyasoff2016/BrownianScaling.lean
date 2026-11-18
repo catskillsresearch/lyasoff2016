@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Brownian scaling for the exponential functionals of the paper (p. 1066).
 
 * `isBrownianReal_path_functional`: any functional of the path that is measurable on

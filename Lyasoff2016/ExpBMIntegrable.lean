@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Joint integrability of `(s, ω) ↦ exp (σ W_s ω + ν s)` on `(0, t] × Ω` for a Brownian motion `W`.
 
 Used to justify the Fubini swap in the `K = 0` benchmark of Remark 6.1 (p. 1092).

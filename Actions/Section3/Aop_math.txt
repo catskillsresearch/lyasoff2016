@@ -1,0 +1,3 @@
+**Lyasoff (2016), p. 1069, operator A_t**
+
+the second-order operator appearing in the Fokker–Planck argument.

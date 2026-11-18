@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 """Build holes-graph.json and HOLES.md for the Lyasoff 2016 proof-hole board.
 
 Scans Lyasoff2016/**/*.lean for paper-facing theorems/lemmas, marks those whose

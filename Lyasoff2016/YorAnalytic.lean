@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Analytic regularity (`C^∞` on `(0, ∞) × ℝ`), boundary limits at `0⁺` and `∞`,
 Gaussian-weighted `L¹` moment bounds for all mixed partials `pd m n`,
 and scaling to arbitrary `σ > 0` for Yor's conditional density, yielding a

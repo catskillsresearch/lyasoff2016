@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Upper incomplete Gamma `Γ(s, x)` used in Asian inner integrals (p. 1091).
 -/
 module

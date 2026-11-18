@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Continuous-path modification of Brownian motion (`bmPath`).
 -/
 module

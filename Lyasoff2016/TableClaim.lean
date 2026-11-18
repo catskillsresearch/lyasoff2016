@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 # §6 Tables 1–4 (pp. 1094–1095) — interval certificates
 
 Printed digit strings and enclosure claims against `asianMarketPrice`

@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 The contour equation (5.3) for p = 2: the residue computation on the strip {|ℑ z| ≤ a}.
 -/
 module

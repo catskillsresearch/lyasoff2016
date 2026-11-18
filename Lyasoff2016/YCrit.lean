@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Critical point `y₀(v)` of the characteristic `A(v, ·)`.
 -/
 module

@@ -1,0 +1,5 @@
+**Lyasoff (2016), p. 1063, underlying uniqueness for (1.3)**
+
+any two Brownian motions share the law of
+   (∫₀ᵗ Vᵢ(s, ·_s) ds)_i paired with the terminal value, because both induce
+   the same projective limit `gaussianLimit` on path space.

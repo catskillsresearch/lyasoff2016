@@ -1,0 +1,1 @@
+Modified Bessel function K₁ (whole-line integral representation, DLMF 10.32.9). It declares 2 items (1 def, 1 theorem).

@@ -1,0 +1,9 @@
+Mathematical English for `TruncLog.lean` (Lean names in typewriter).
+
+**Definition** (`truncLog`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`measurable`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`abs_bound`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`tendsto_log`). Stated and proved in Lean; see the source for the formal statement.

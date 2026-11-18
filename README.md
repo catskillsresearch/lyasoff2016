@@ -30,8 +30,16 @@ in paper order via [`Actions.md`](Actions.md).
 
 | File | Role |
 |------|------|
-| [`Actions.md`](Actions.md) | Paper-facing TOC and section barrels |
-| [`Actions/`](Actions/) | §1–§6 pages with `@import` of each `.lean` once |
+| [`Actions.md`](Actions.md) | Paper-facing TOC |
+| [`Actions/SectionN.md`](Actions/) | Section barrels + subsection dependency SVGs |
+| [`Actions/SectionN/Name.md`](Actions/) | One leaf per `.lean` (`*_aisummary.txt`, `*_math.txt` green ascriptions, `*_ailean.txt`, Lean `@import`) |
+| [`Lyasoff2016/*.gist`](Lyasoff2016/) | Paper-quote source synced into `*_math.txt` |
+
+```bash
+python3 scripts/scaffold_actions_writeup.py   # refresh leaves / gists / section SVGs
+python3 scripts/compile_md_tree.py --tex-only # → arxiv.md + arxiv.tex (green sourcequote boxes)
+bash scripts/build_arxiv_pdf.sh               # → Actions.pdf (needs latexmk)
+```
 
 ## Proof-hole board
 

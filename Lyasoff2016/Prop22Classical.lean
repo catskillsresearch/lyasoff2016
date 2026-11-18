@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Lyasoff Prop. 2.2 (conditional density regularity), wired to the constructive
 proof `prop_2_2_constructive` in `YorAnalytic`.
 -/

@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Time-reversed twin of `expInt` and basic measurability/continuity.
 -/
 module

@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 # §3 Fokker–Planck characterization (pp. 1067–1071)
 -/
 module

@@ -1,0 +1,3 @@
+Mathematical English for `Zproc.lean` (Lean names in typewriter).
+
+**Definition** (`Zproc`). the stationary process Z_t built from two independent BMs. PAPER NOTE: paper writes e^{σ(W_s+νs)} and e^{σ(νt−B_t)}; we use the equivalent e^{σ W_s + ν s} convention throughout, so the prefactor is e^{νt − σ B_t} and the B-integral is e^{−νs + σ B_s} (same drift ν in all three places).

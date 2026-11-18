@@ -1,0 +1,1 @@
+Strike-derivative Asian integrand `F'_{t,σ,μ,k}(u,w)` (p. 1091). It declares 6 items (2 defs, 4 theorems).

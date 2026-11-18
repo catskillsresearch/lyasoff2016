@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 """Numeric check of Lyasoff Table 1 market prices via path Monte Carlo.
 
 Paper market price (vision OCR p. 1093, S0=1):

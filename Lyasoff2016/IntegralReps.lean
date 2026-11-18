@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 # §5 Integral representations (pp. 1079–1088)
 -/
 module

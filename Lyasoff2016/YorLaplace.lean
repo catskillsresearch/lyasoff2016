@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Evaluation of the `1/x`-Laplace transform of Yor's density via a Cauchy rectangle contour
 and identification of `IsJointDensity P W 2 0 t (yorDensity t)` without classical axioms.
 -/

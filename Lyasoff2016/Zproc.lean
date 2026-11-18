@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Stationary process Z_t from two independent BMs (paper (3.1)).
 -/
 module

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 # Vision OCR pipeline wrapper (see scripts/ocr_pdf_pipeline.py).
 # Default PDF: sources/lyasoff2016.pdf
 set -euo pipefail

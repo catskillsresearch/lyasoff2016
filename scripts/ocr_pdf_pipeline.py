@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 """
 Segment a source PDF into PNGs and OCR each page via Cursor vision (3 passes + merge).
 

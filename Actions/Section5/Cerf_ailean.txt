@@ -1,0 +1,15 @@
+Mathematical English for `Cerf.lean` (Lean names in typewriter).
+
+**Definition** (`cerf`). entire function erf on ℂ, defined via the Gaussian integral `erf z = (2/√π) ∫₀¹ z e^{-(zs)²} ds` (the substitution `u = zs` in `(2/√π) ∫₀ᶻ e^{-u²} du`).
+
+**Theorem** (`neg`). p. 1082–1083, complex error function used to build g_{t,p} for p = 3,4.
+
+**Theorem** (`conj`). p. 1082–1083, complex error function used to build g_{t,p} for p = 3,4.
+
+**Theorem** (`hasDerivAt`). p. 1082–1083, complex error function used to build g_{t,p} for p = 3,4.
+
+**Theorem** (`differentiable`). p. 1082–1083, complex error function used to build g_{t,p} for p = 3,4.
+
+**Theorem** (`contDiff`). p. 1082–1083, complex error function used to build g_{t,p} for p = 3,4.
+
+**Theorem** (`deriv_apply`). p. 1082–1083, complex error function used to build g_{t,p} for p = 3,4.

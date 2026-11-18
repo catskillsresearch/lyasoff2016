@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Strike-derivative kernel `S'_{k,p}(A)` for complex rate `A` (p. 1091).
 -/
 module

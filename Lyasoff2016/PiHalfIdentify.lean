@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Constructive identification of the π/2-formula with the π-formula (and hence with Yor).
 
 The order-two cosine–sine kernel exchange is `piHalf_cos_integral_eq_pi_sin_integral` below,

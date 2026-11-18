@@ -1,0 +1,4 @@
+**Lyasoff (2016), p. 1082–1083, complex error function used to build g_{t,p} for p = 3,4**
+
+entire function erf on ℂ, defined via the Gaussian integral
+   `erf z = (2/√π) ∫₀¹ z e^{-(zs)²} ds` (the substitution `u = zs` in `(2/√π) ∫₀ᶻ e^{-u²} du`).

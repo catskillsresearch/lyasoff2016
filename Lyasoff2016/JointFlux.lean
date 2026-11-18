@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Probability flux in the `x` direction (paper (3.6b)).
 -/
 module

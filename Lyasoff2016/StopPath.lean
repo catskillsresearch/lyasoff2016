@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Path stopped at a fixed time (`stopPath`).
 -/
 module

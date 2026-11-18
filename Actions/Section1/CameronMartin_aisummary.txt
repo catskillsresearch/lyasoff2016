@@ -1,0 +1,1 @@
+Cameron–Martin–Girsanov for a constant drift, at the level of path functionals (p. 1066, (2.2)). It declares 9 items (1 def, 8 theorems).

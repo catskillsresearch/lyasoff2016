@@ -1,0 +1,7 @@
+Mathematical English for `JointFokkerPlanckAdjoint.lean` (Lean names in typewriter).
+
+**Definition** (`jointFokkerPlanckAdjoint`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`hasDerivAt`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`deriv_eq`). Stated and proved in Lean; see the source for the formal statement.

@@ -1,0 +1,1 @@
+Helpers for Brownian time-reversal on a fixed interval [0, t]. It declares 7 items (1 def, 6 theorems).

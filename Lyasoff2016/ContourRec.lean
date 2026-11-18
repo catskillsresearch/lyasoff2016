@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 The contour equation (5.3) for p = 3, 4: reduction to p = 2 by integration by parts along the
 lower edge u ↦ u − ia, using g_{t,p}' = −4 sinh · g_{t,p−1}.
 -/

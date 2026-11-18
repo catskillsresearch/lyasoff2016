@@ -1,0 +1,1 @@
+Upper incomplete Gamma `Γ(s, x)` used in Asian inner integrals (p. 1091). It declares 1 item (1 def).

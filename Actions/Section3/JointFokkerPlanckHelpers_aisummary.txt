@@ -1,0 +1,1 @@
+Analytic helpers for `fokker_planck_joint`: open joint domain and pointwise upgrade. It declares 7 items (1 def, 6 theorems).

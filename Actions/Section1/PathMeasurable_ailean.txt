@@ -1,0 +1,7 @@
+Mathematical English for `PathMeasurable.lean` (Lean names in typewriter).
+
+**Theorem** (`measurable_pathSetIntegral`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`measurable_pathSup`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`measurable_pathIntegral`). Stated and proved in Lean; see the source for the formal statement.

@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 # §4 Foliation of the joint law (pp. 1071–1079)
 -/
 module

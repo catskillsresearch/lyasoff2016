@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Cameron–Martin–Girsanov for a constant drift, at the level of path functionals (p. 1066, (2.2)).
 
 * `isBrownianReal_path_functional_two`: two Brownian motions, possibly under two different

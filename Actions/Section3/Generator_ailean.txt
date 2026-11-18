@@ -1,0 +1,3 @@
+Mathematical English for `Generator.lean` (Lean names in typewriter).
+
+**Definition** (`generator`). generator L = ½σ²x² ∂ₓₓ + (1 + (ν + σ²/2)x) ∂ₓ. PAPER NOTE: β = −2ν/σ² in our e^{σW+νs} convention.

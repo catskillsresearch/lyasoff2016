@@ -1,3 +1,7 @@
+/-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
+-/
+
 module
 
 public import Lyasoff2016.Setting

@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Smooth step from `0` on `(-∞, a]` to `1` on `[b, ∞)`.
 -/
 module

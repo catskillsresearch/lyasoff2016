@@ -1,0 +1,40 @@
+**Lyasoff (2016), p. 1067, footnote 2 (integrable form)**
+
+for σ > 0 and ν < 0, almost every path s ↦ e^{σ W_s + ν s} is Lebesgue
+   integrable on (0, ∞), because W_s / s → 0 a.s.
+
+
+**Lyasoff (2016), p. 1067, footnote 2**
+
+for σ > 0 and ν < 0 the improper integral ∫₀^∞ e^{σW+νs} is a.s. finite.
+
+
+**Lyasoff (2016), p. 1067, stationarity of Z — consistent-drift form**
+
+with the *same* drift ν in the perpetuity and in the perturbation, i.e.
+   Z_t = e^{νt − σB_t} (∫₀^∞ e^{σW_s+νs} ds + ∫₀ᵗ e^{−νs+σB_s} ds),
+   Z_t has the law of ∫₀^∞ e^{σW_s+νs} ds for every t.
+   Proof: `β_u = B_{t−u} − B_t` (negated time reversal of B) is a BM independent of W and
+   Z_t = ∫₀ᵗ e^{σβ_u+νu} du + e^{σβ_t+νt} A_∞(W); by the weak Markov property the perpetuity
+   of a single BM has the same decomposition with the same joint law of the ingredients.
+
+
+**Lyasoff (2016), p. 1067, stationarity of Z — the case σ = 1 of `Z_stationary`, where the drift `σ ν` used in `Zproc` and the drift `ν` of the perpetuity coincide**
+
+
+**Lyasoff (2016), p. 1067, stationarity of Z**
+
+Z_t has the same law as ∫₀^∞ e^{σW+νs} ds.
+
+
+**Lyasoff (2016), p. 1070, (3.6b)**
+
+the joint density φ satisfies the divergence-form PDE
+   ∂ₓ[(σ²x²/2)∂ₓφ + σx ∂ᵧφ + (e^{σy} + σ²x/2 − 1)φ] = 0.
+   PAPER NOTE: the skeleton placed the zeroth-order term outside ∂ₓ; restored to the
+   paper's bracketed form (what §4 integrates in x).
+
+
+**Lyasoff (2016), p. 1070, Remark 3.2**
+
+identity in law relating (X_t, M_t−W_t, M_t) to a reflected version.

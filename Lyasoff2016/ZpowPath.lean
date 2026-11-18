@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Path functional: reciprocal power of the finite-horizon `Z`.
 -/
 module

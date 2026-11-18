@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Hartman–Watson-type kernel θ(r, t) in Yor's joint density formula.
 -/
 module

@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 π/2-formula for the conditional density (5.9a)/(5.10a).
 -/
 module

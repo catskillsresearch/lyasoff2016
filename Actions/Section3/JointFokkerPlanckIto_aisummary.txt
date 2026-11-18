@@ -1,0 +1,1 @@
+Ito identities for product test functions along `(expInt, W)`, used by `fokker_planck_joint`. It declares 13 items (13 theorems).

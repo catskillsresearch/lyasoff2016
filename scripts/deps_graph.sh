@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 # Regenerate the Lean definition/theorem dependency SVG.
 # Usage (from anywhere):
 #   scripts/deps_graph.sh

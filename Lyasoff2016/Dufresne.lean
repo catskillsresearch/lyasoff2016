@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Dufresne's inverse-gamma density for the infinite-horizon integral.
 -/
 module

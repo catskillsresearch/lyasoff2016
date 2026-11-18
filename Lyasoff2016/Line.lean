@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Integral lines of the foliation vector field V = (σ²x/2)∂ₓ + σ∂ᵧ.
 -/
 module

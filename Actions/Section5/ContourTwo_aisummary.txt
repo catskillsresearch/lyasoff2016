@@ -1,0 +1,1 @@
+The contour equation (5.3) for p = 2: the residue computation on the strip {|ℑ z| ≤ a}. It declares 48 items (4 defs, 43 lemmas, 1 theorem).

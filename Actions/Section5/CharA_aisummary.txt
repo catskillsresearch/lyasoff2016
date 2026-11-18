@@ -1,0 +1,1 @@
+Characteristic invariant `A(v, y) = cosh y + v * exp(-y)`. It declares 13 items (1 def, 12 theorems).

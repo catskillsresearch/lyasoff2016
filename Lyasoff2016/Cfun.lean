@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Contour prefactor `C(u,w)` of the π/2-formula (p. 1090).
 -/
 module

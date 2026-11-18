@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Smoothness and rapid decay at `0` and `∞` of the Hartman–Watson integral kernel
 `J(t, r) = ∫₀^∞ exp(-u²/(2t) - r cosh u) sinh u sin(π u / t) du` and all its derivatives.
 -/

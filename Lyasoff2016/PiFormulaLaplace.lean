@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Constructive Laplace-transform facts for the π-formula.
 -/
 module

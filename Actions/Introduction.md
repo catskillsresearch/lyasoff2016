@@ -1,6 +1,6 @@
 # Introduction
 
-@import "../Lyasoff2016_files.svg" {code_block=false, caption="Lyasoff2016: module import graph"}
+@import "../Actions.svg" {code_block=false, caption="Section dependencies (§1–§6): edge A → B means a `.lean` in A imports a `.lean` in B"}
 
 The Lean library `Lyasoff2016` follows the paper’s section order. Density identities are proved without classical citation axioms (Palomar-clean). Table enclosures and two Leibniz / differentiation-under-integral steps for §6 use explicitly marked classical certificates.
 

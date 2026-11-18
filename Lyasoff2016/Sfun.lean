@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Real Asian inner integral `S_{k,p}(α)` and closed forms (p. 1091).
 -/
 module

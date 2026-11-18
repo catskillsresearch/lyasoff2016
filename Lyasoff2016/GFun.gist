@@ -1,0 +1,7 @@
+**Lyasoff (2016), (5.8), functions g_{t,p} for p = 2,3,4**
+
+entire (even) building blocks for the contour representation.
+   g_{t,2}(z) = e^{-2z²/t}/(4πi);
+   g_{t,3}(z) = e^{t/8} √t/(4i√(2π)) (cerf((t+4z)/(2√(2t))) + cerf((t−4z)/(2√(2t))));
+   g_{t,4}(z) = e^{t/2} √t/(2i√(2π)) (cerf((t+2z)/√(2t)) + cerf((t−2z)/√(2t)))
+              − e^{t/8} cosh z · √t/(i√(2π)) (cerf((t+4z)/(2√(2t))) + cerf((t−4z)/(2√(2t)))).

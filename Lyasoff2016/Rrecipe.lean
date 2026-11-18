@@ -1,4 +1,5 @@
 /-
+Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 Residue recipe R_{t,p}[g] from (5.7).
 -/
 module

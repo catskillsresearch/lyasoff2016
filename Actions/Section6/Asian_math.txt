@@ -1,0 +1,17 @@
+**Lyasoff (2016), Remark 6.1, benchmark at K = 0**
+
+E[∫₀ᵗ e^{σW_s+νs} ds] = ∫₀ᵗ e^{(ν+σ²/2)s} ds by Fubini and the Gaussian mgf.
+
+
+**Lyasoff (2016), p. 1088–1090, Asian call payoff expectation (undiscounted)**
+
+E[(∫₀ᵗ e^{σW_s+νs} ds − K)₊].
+
+
+**Lyasoff (2016), p. 1093, market Asian call at t = 0 with S₀ = 1: e^{-rT} (1/T) E[(∫₀ᵀ e^{σW+(r−σ²/2)s} ds − KT)₊]**
+
+
+**Lyasoff (2016), p. 1090–1093, first integral in (6.1) and the display on p. 1093: E[(∫₀ᵗ e^{σW_s+μs} ds − k)₊] = ∫₀^∞ ∫₀^∞ ℜ(F_{t,σ,μ,k}(u,w)) du dw**
+
+
+**Lyasoff (2016), p. 1091–1093, second integral in (6.1), which is the ingredient of the delta (6.2): ∂_k E[(∫₀ᵗ e^{σW_s+μs} ds − k)₊] = ∫₀^∞ ∫₀^∞ ℜ(F'_{t,σ,μ,k}(u,w)) du dw**

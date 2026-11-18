@@ -1,0 +1,5 @@
+Mathematical English for `YCrit.lean` (Lean names in typewriter).
+
+**Definition** (`yCrit`). Stated and proved in Lean; see the source for the formal statement.
+
+**Theorem** (`exp_two_mul`). Stated and proved in Lean; see the source for the formal statement.
