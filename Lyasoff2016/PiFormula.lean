@@ -19,10 +19,12 @@ namespace Lyasoff2016
    PAPER NOTE: includes the Jacobian/scaling factor σ⁴ and the paper's sinh-integral
    form; the skeleton's stub `∫ (gFun …).re` omitted these and made Remark 5.1 false. -/
 def piFormula (p : ℕ) (σ t x y : ℝ) : ℝ :=
-  σ ^ 4 * (16 / x ^ p) *
-    Real.exp (y * (p - 1) / 2 + y ^ 2 / (2 * (t * σ ^ 2)) - 2 * (Real.exp y + 1) / x) *
-    ∫ u in Ioi (0 : ℝ), Real.sinh u *
-      (((Real.exp (-(4 / x) * Real.exp (y / 2) * Real.cosh u) : ℝ) : ℂ) *
-        gFun p (t * σ ^ 2) (u - I * π)).re
+  if 0 < x then
+    σ ^ 4 * (16 / x ^ p) *
+      Real.exp (y * (p - 1) / 2 + y ^ 2 / (2 * (t * σ ^ 2)) - 2 * (Real.exp y + 1) / x) *
+      ∫ u in Ioi (0 : ℝ), Real.sinh u *
+        (((Real.exp (-(4 / x) * Real.exp (y / 2) * Real.cosh u) : ℝ) : ℂ) *
+          gFun p (t * σ ^ 2) (u - I * π)).re
+  else 0
 
 end Lyasoff2016

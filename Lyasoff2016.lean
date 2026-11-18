@@ -16,6 +16,8 @@ public import Lyasoff2016.Auxiliary
 public import Lyasoff2016.FokkerPlanck
 public import Lyasoff2016.Foliation
 public import Lyasoff2016.IntegralReps
+public import Lyasoff2016.PiFormulaLaplace
+public import Lyasoff2016.PiHalfIdentify
 public import Lyasoff2016.Asian
 public import Lyasoff2016.TableParams
 public import Lyasoff2016.TableClaim

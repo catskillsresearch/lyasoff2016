@@ -31,6 +31,26 @@ theorem neg (z : ℂ) : cerf (-z) = -cerf z := by
     ring
   simp only [h, intervalIntegral.integral_neg, mul_neg]
 
+/-- The complex error function commutes with complex conjugation. -/
+theorem conj (z : ℂ) : cerf (starRingEnd ℂ z) = starRingEnd ℂ (cerf z) := by
+  rw [cerf, cerf, map_mul]
+  have hc : (starRingEnd ℂ) ((2 / Real.sqrt Real.pi : ℂ)) =
+      (2 / Real.sqrt Real.pi : ℂ) := by
+    rw [map_div₀, map_ofNat, conj_ofReal]
+  rw [hc]
+  congr 1
+  have hi : (∫ s in (0 : ℝ)..1,
+      starRingEnd ℂ (z * cexp (-(z * (s : ℂ)) ^ 2))) =
+      starRingEnd ℂ (∫ s in (0 : ℝ)..1, z * cexp (-(z * (s : ℂ)) ^ 2)) :=
+    (RCLike.conjLIE (K := ℂ)).toLinearIsometry.intervalIntegral_comp_comm _
+  rw [← hi]
+  apply intervalIntegral.integral_congr
+  intro s _
+  dsimp only
+  rw [map_mul, ← exp_conj]
+  congr 2
+  simp only [map_neg, map_pow, map_mul, conj_ofReal]
+
 /-- The `z`-derivative of the integrand `z ↦ z e^{-(zs)²}` is `e^{-(zs)²} (1 - 2 (zs)²)`. -/
 private theorem hasDerivAt_integrand (s : ℝ) (z : ℂ) :
     HasDerivAt (fun w : ℂ => w * cexp (-(w * (s : ℂ)) ^ 2))

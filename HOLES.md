@@ -2,8 +2,8 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-17T21:21:02Z
-**Holes:** 7 open+blocked · 1 open · 6 blocked · 32 done.
+**Updated:** 2026-11-18T01:07:01Z
+**Holes:** 6 open+blocked · 1 open · 5 blocked · 32 done.
 
 **Live board:** [`holes.html`](holes.html) + [`holes-graph.json`](holes-graph.json).
 
@@ -16,7 +16,7 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 
 | Id | Label | File |
 |---|---|---|
-| `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:157` |
+| `asian_price_formula` | Asian price | `Lyasoff2016/Asian.lean:82` |
 
 ## By section
 
@@ -65,15 +65,14 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | done | `prop_4_4` | Prop 4.4 | `Lyasoff2016/Foliation.lean:304` |
 | done | `theorem_4_5` | Thm 4.5 | `Lyasoff2016/Foliation.lean:351` |
 
-### §5 — 1 hole(s)
+### §5 — 0 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
 | done | `g_solves_contour_equation` | g contour eq | `Lyasoff2016/ContourEq.lean:138` |
-| done | `yor_formula_classical` | Yor classical | `Lyasoff2016/IntegralReps.lean:126` |
-| done | `remark_5_1` | Rem 5.1 | `Lyasoff2016/IntegralReps.lean:118` |
-| open | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:157` |
-| done | `yor_formula` | Yor via Rem 5.1 | `Lyasoff2016/IntegralReps.lean:133` |
+| done | `remark_5_1` | Rem 5.1 | `Lyasoff2016/PiFormulaLaplace.lean:182` |
+| done | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:43` |
+| done | `yor_formula` | Yor formula | `Lyasoff2016/IntegralReps.lean:33` |
 
 ### §6 — 6 hole(s)
 
@@ -82,7 +81,7 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | done | `S_zero` | S_{0,p} | `Lyasoff2016/Sfun.lean:205` |
 | done | `S_closed_form` | S_{k,p} | `Lyasoff2016/Sfun.lean:210` |
 | done | `benchmark_k_zero` | k=0 benchmark | `Lyasoff2016/Asian.lean:30` |
-| blocked | `asian_price_formula` | Asian price | `Lyasoff2016/Asian.lean:82` |
+| open | `asian_price_formula` | Asian price | `Lyasoff2016/Asian.lean:82` |
 | blocked | `asian_delta` | Asian delta | `Lyasoff2016/Asian.lean:176` |
 | blocked | `table1_asian_enclosure` | Table 1 | `Lyasoff2016/TableClaim.lean:108` |
 | blocked | `table2_asian_enclosure` | Table 2 | `Lyasoff2016/TableClaim.lean:116` |
@@ -116,7 +115,6 @@ flowchart TD
   P44 --> T45[theorem_4_5]
   T45 --> G[g_solves_contour_equation]
   G --> Pi[pi_formula]
-  YorC[yor_formula_classical] --> Pi
   Pi --> Asian[asian_price_formula]
   Gir --> Asian
   Asian --> Delta[asian_delta]

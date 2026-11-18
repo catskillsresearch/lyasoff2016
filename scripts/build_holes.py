@@ -187,29 +187,23 @@ NODES: dict[str, dict] = {
         "file": "Lyasoff2016/ContourEq.lean",
         "detail": "g_{t,p} solves the contour equation for a ∈ [π/2, 3π/2].",
     },
-    "yor_formula_classical": {
-        "label": "Yor classical",
-        "section": 5,
-        "file": "Lyasoff2016/IntegralReps.lean",
-        "detail": "Yor's joint density (1.1) as an independent classical input.",
-    },
     "remark_5_1": {
         "label": "Rem 5.1",
         "section": 5,
-        "file": "Lyasoff2016/IntegralReps.lean",
+        "file": "Lyasoff2016/PiFormulaLaplace.lean",
         "detail": "π-formula p=2, σ=2 recovers Yor.",
     },
     "pi_formula": {
         "label": "π / π/2",
         "section": 5,
         "file": "Lyasoff2016/IntegralReps.lean",
-        "detail": "Joint density via π and π/2 formulae for p=2,3,4.",
+        "detail": "Joint density via π and π/2 formulae for p=2,3,4 (constructive).",
     },
     "yor_formula": {
-        "label": "Yor via Rem 5.1",
+        "label": "Yor formula",
         "section": 5,
         "file": "Lyasoff2016/IntegralReps.lean",
-        "detail": "yor_formula := yor_formula_classical (or Rem 5.1 route).",
+        "detail": "yor_formula via constructive yor_joint_density.",
     },
     # §6
     "S_zero": {
@@ -296,10 +290,8 @@ HARD_EDGES: list[tuple[str, str]] = [
     ("formula_4_6", "prop_4_4"),
     ("prop_4_4", "theorem_4_5"),
     ("theorem_4_5", "theorem_4_1_striking"),
-    # §5
+    # §5 (constructive ContourEq + InverseGamma + YorJointDensity; classical Yor soft)
     ("g_solves_contour_equation", "pi_formula"),
-    ("yor_formula_classical", "pi_formula"),
-    ("yor_formula_classical", "yor_formula"),
     # §6
     ("S_zero", "S_closed_form"),
     ("pi_formula", "asian_price_formula"),
@@ -517,7 +509,6 @@ def write_md(data: dict) -> None:
         "  P44 --> T45[theorem_4_5]",
         "  T45 --> G[g_solves_contour_equation]",
         "  G --> Pi[pi_formula]",
-        "  YorC[yor_formula_classical] --> Pi",
         "  Pi --> Asian[asian_price_formula]",
         "  Gir --> Asian",
         "  Asian --> Delta[asian_delta]",

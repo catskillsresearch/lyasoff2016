@@ -146,6 +146,49 @@ theorem four_eq (t : ℝ) (z : ℂ) : gFun 4 t z =
   rw [four_apply, three_apply]
   ring
 
+/-- `g_{t,2}` changes sign under complex conjugation. -/
+theorem two_conj (t : ℝ) (z : ℂ) :
+    gFun 2 t (starRingEnd ℂ z) = -starRingEnd ℂ (gFun 2 t z) := by
+  rw [two_apply, two_apply]
+  simp only [map_neg, map_mul, map_pow, map_div₀, ← exp_conj, map_ofNat, conj_ofReal, conj_I]
+  ring
+
+/-- `g_{t,3}` changes sign under complex conjugation. -/
+theorem three_conj (t : ℝ) (z : ℂ) :
+    gFun 3 t (starRingEnd ℂ z) = -starRingEnd ℂ (gFun 3 t z) := by
+  rw [three_apply, three_apply]
+  have hp : ((t : ℂ) + 4 * starRingEnd ℂ z) / (2 * √(2 * t)) =
+      starRingEnd ℂ (((t : ℂ) + 4 * z) / (2 * √(2 * t))) := by
+    simp only [map_add, map_mul, map_div₀, map_ofNat, conj_ofReal]
+  have hm : ((t : ℂ) - 4 * starRingEnd ℂ z) / (2 * √(2 * t)) =
+      starRingEnd ℂ (((t : ℂ) - 4 * z) / (2 * √(2 * t))) := by
+    simp only [map_sub, map_mul, map_div₀, map_ofNat, conj_ofReal]
+  rw [hp, hm, cerf.conj, cerf.conj]
+  simp only [map_mul, map_div₀, map_add, map_ofNat, conj_ofReal, conj_I]
+  ring
+
+/-- `g_{t,4}` changes sign under complex conjugation. -/
+theorem four_conj (t : ℝ) (z : ℂ) :
+    gFun 4 t (starRingEnd ℂ z) = -starRingEnd ℂ (gFun 4 t z) := by
+  rw [four_eq, four_eq]
+  have hp : ((t : ℂ) + 2 * starRingEnd ℂ z) / √(2 * t) =
+      starRingEnd ℂ (((t : ℂ) + 2 * z) / √(2 * t)) := by
+    simp only [map_add, map_mul, map_div₀, map_ofNat, conj_ofReal]
+  have hm : ((t : ℂ) - 2 * starRingEnd ℂ z) / √(2 * t) =
+      starRingEnd ℂ (((t : ℂ) - 2 * z) / √(2 * t)) := by
+    simp only [map_sub, map_mul, map_div₀, map_ofNat, conj_ofReal]
+  rw [hp, hm, cerf.conj, cerf.conj, Complex.cosh_conj, three_conj]
+  simp only [map_sub, map_mul, map_div₀, map_add, map_ofNat, conj_ofReal, conj_I]
+  ring
+
+/-- Every contour kernel used in the paper changes sign under complex conjugation. -/
+theorem conj (p : ℕ) (hp : p = 2 ∨ p = 3 ∨ p = 4) (t : ℝ) (z : ℂ) :
+    gFun p t (starRingEnd ℂ z) = -starRingEnd ℂ (gFun p t z) := by
+  rcases hp with rfl | rfl | rfl
+  · exact two_conj t z
+  · exact three_conj t z
+  · exact four_conj t z
+
 /-- Gaussian exponent identity behind `g_{t,3}'`. -/
 private lemma exp_sq_three {t : ℝ} (ht : 0 < t) (z : ℂ) (ε : ℂ) (hε : ε ^ 2 = 1) :
     cexp (-((t + ε * 4 * z) / (2 * √(2 * t))) ^ 2) =

@@ -19,8 +19,6 @@ formula_4_6 -hard-> prop_4_4
 prop_4_4 -hard-> theorem_4_5
 theorem_4_5 -hard-> theorem_4_1_striking
 g_solves_contour_equation -hard-> pi_formula
-yor_formula_classical -hard-> pi_formula
-yor_formula_classical -hard-> yor_formula
 S_zero -hard-> S_closed_form
 pi_formula -hard-> asian_price_formula
 girsanov_density -hard-> asian_price_formula

@@ -1234,6 +1234,19 @@ lemma yorDensity_zero_of_nonpos {t : ℝ} (ht : 0 < t) {x : ℝ} (hx : x ≤ 0) 
     rw [integral_undef h_not_int]
     simp
 
+/-- Measurability of Yor's joint density after coercion to `ℝ≥0∞`. -/
+lemma yorDensity_ennreal_measurable (t : ℝ≥0) (ht : 0 < t) :
+    Measurable (fun p : ℝ × ℝ => ENNReal.ofReal (yorDensity t p.1 p.2)) := by
+  have htR : (0 : ℝ) < t := ht
+  have h_eq : (fun p : ℝ × ℝ => ENNReal.ofReal (yorDensity t p.1 p.2)) =
+      fun p => ENNReal.ofReal (if 0 < p.1 then yorDensity t p.1 p.2 else 0) := by
+    funext p
+    split_ifs with h
+    · rfl
+    · simp [yorDensity_zero_of_nonpos htR (not_lt.mp h) p.2]
+  rw [h_eq]
+  exact (yorDensity_ite_measurable t ht).ennreal_ofReal
+
 /-- Constructive, axiom-free proof of Yor's joint density formula (`σ = 2, ν = 0`). -/
 theorem yor_joint_density {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W) (t : ℝ≥0) (ht : 0 < t) :
@@ -1242,15 +1255,7 @@ theorem yor_joint_density {Ω : Type*} [MeasurableSpace Ω] (P : Measure Ω) [Is
   let μ : Measure (ℝ × ℝ) := jointLaw P W 2 0 t
   let ν : Measure (ℝ × ℝ) := (volume : Measure (ℝ × ℝ)).withDensity (fun p => ENNReal.ofReal (yorDensity t p.1 p.2))
   have htR : (0 : ℝ) < t := ht
-  have h_yor_meas : Measurable (fun p : ℝ × ℝ => ENNReal.ofReal (yorDensity t p.1 p.2)) := by
-    have h_eq : (fun p : ℝ × ℝ => ENNReal.ofReal (yorDensity t p.1 p.2)) =
-        fun p => ENNReal.ofReal (if 0 < p.1 then yorDensity t p.1 p.2 else 0) := by
-      funext p
-      split_ifs with h
-      · rfl
-      · simp [yorDensity_zero_of_nonpos htR (not_lt.mp h) p.2]
-    rw [h_eq]
-    exact (yorDensity_ite_measurable t ht).ennreal_ofReal
+  have h_yor_meas := yorDensity_ennreal_measurable t ht
   have hν_univ : ν univ = 1 := by
     rw [withDensity_apply _ MeasurableSet.univ, setLIntegral_univ]
     have h_zero : ∀ p : ℝ × ℝ, p ∉ Ioi (0 : ℝ) ×ˢ (univ : Set ℝ) →

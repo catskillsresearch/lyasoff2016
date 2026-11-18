@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-17T21:21:02Z",
-  "sorryCount": 7,
+  "updated": "2026-11-18T01:07:01Z",
+  "sorryCount": 6,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
     "blocked": "Waiting on incomplete required proof-deps",
@@ -12,7 +12,7 @@
     "Done = no local sorry and every hard predecessor is done (no unproven\u2192proven).",
     "Blue = done. Green = open. Grey = blocked.",
     "Regenerate with: python3 scripts/build_holes.py",
-    "Open tips: pi_formula."
+    "Open tips: asian_price_formula."
   ],
   "nodes": [
     {
@@ -250,19 +250,10 @@
       "detail": "g_{t,p} solves the contour equation for a \u2208 [\u03c0/2, 3\u03c0/2]."
     },
     {
-      "id": "yor_formula_classical",
-      "label": "Yor classical",
-      "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:126",
-      "status": "done",
-      "blocker": null,
-      "detail": "Yor's joint density (1.1) as an independent classical input."
-    },
-    {
       "id": "remark_5_1",
       "label": "Rem 5.1",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:118",
+      "file": "Lyasoff2016/PiFormulaLaplace.lean:182",
       "status": "done",
       "blocker": null,
       "detail": "\u03c0-formula p=2, \u03c3=2 recovers Yor."
@@ -271,19 +262,19 @@
       "id": "pi_formula",
       "label": "\u03c0 / \u03c0/2",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:157",
-      "status": "open",
+      "file": "Lyasoff2016/IntegralReps.lean:43",
+      "status": "done",
       "blocker": null,
-      "detail": "Joint density via \u03c0 and \u03c0/2 formulae for p=2,3,4."
+      "detail": "Joint density via \u03c0 and \u03c0/2 formulae for p=2,3,4 (constructive)."
     },
     {
       "id": "yor_formula",
-      "label": "Yor via Rem 5.1",
+      "label": "Yor formula",
       "section": 5,
-      "file": "Lyasoff2016/IntegralReps.lean:133",
+      "file": "Lyasoff2016/IntegralReps.lean:33",
       "status": "done",
       "blocker": null,
-      "detail": "yor_formula := yor_formula_classical (or Rem 5.1 route)."
+      "detail": "yor_formula via constructive yor_joint_density."
     },
     {
       "id": "S_zero",
@@ -317,8 +308,8 @@
       "label": "Asian price",
       "section": 6,
       "file": "Lyasoff2016/Asian.lean:82",
-      "status": "blocked",
-      "blocker": "needs pi_formula",
+      "status": "open",
+      "blocker": null,
       "detail": "Call = \u222c Re F from \u03c0/2-formula p=4."
     },
     {
@@ -471,16 +462,6 @@
     {
       "from": "g_solves_contour_equation",
       "to": "pi_formula",
-      "kind": "hard"
-    },
-    {
-      "from": "yor_formula_classical",
-      "to": "pi_formula",
-      "kind": "hard"
-    },
-    {
-      "from": "yor_formula_classical",
-      "to": "yor_formula",
       "kind": "hard"
     },
     {
