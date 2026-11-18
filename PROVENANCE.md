@@ -34,12 +34,12 @@ compared conclusions match the paper.
 
 ## Proof chart and Comparator
 
-The paper-facing proof chart (`holes-graph.json` / `HOLES.md`) lists **38**
+The paper-facing proof chart (`holes-graph.json` / `HOLES.md`) lists **40**
 done holes. Offline axiom audit (`scripts/validate_chart_axioms.sh`):
 
 | Class | Count | Axioms |
 | --- | ---: | --- |
-| Comparator family | 34 | ⊆ `{propext, Quot.sound, Classical.choice}` |
+| Comparator family | 40 (all chart theorems) | ⊆ `{propext, Quot.sound, Classical.choice}` |
 | Reported numerical tables | 4 | definitions only; no price-enclosure claim |
 
 **Project rule: no Lean `axiom`.** No unfinished library proofs remain.
@@ -53,8 +53,9 @@ remain outside `comparator.json`. All proof-chart theorems use only `propext`,
 Selected §4 Comparator theorems (`theorem_4_1_pde`, `theorem_4_1_striking`,
 `formula_4_6`, `theorem_4_5`) are **conditional rearrangements**: they assume
 the paper’s foliation PDE / striking / ODE / Laplace inputs and prove the
-displayed identities under those hypotheses. They do not establish those
-inputs for the conditional density; see `known_gaps` and the §4 Actions
+displayed identities under those hypotheses. The Comparator theorems
+`cond_density_satisfies_*` discharge those inputs by exhibiting a conditional
+density (Brownian-scaled Yor) satisfying each of them; see the §4 Actions
 writeup.
 
 Compared declarations live in namespace `Lyasoff2016`. `Challenge.lean` is a

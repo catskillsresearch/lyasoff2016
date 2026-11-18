@@ -123,7 +123,8 @@ def sorry_def(path: Path, name: str) -> str:
 def main() -> None:
     g = json.load(open(ROOT / "holes-graph.json"))
     nodes = g["nodes"]
-    assert len(nodes) == 38, len(nodes)
+    # Proof-chart size (see `scripts/build_holes.py`); bump when the board changes.
+    assert len(nodes) == 40, len(nodes)
 
     thm_names: list[str] = []
     thm_blocks: list[str] = []
@@ -133,7 +134,18 @@ def main() -> None:
             continue  # classical axioms: disclosed, not Comparator
         path_s, line_s = n["file"].split(":")
         thm_names.append(fqn)
-        thm_blocks.append(extract_header(ROOT / path_s, int(line_s)))
+        block = extract_header(ROOT / path_s, int(line_s))
+        if "." in n["id"]:
+            # Declared inside `namespace Foo` (e.g. `SfunC.hasDerivAt`): Challenge is flat
+            # in `Lyasoff2016`, so emit the qualified short name.
+            short = n["id"].rsplit(".", 1)[1]
+            block = re.sub(
+                rf"^((?:noncomputable\s+)?(?:theorem|lemma)\s+){re.escape(short)}\b",
+                rf"\g<1>{n['id']}",
+                block,
+                count=1,
+            )
+        thm_blocks.append(block)
 
     # Supporting defs with full Mathlib-auditable bodies
     keep_full = [
@@ -152,6 +164,8 @@ def main() -> None:
         ("Lyasoff2016/Foliation.lean", "SatisfiesStrikingIdentity"),
         ("Lyasoff2016/Foliation.lean", "laplaceCond"),
         ("Lyasoff2016/Sfun.lean", "Sfun"),
+        ("Lyasoff2016/SfunC.lean", "SfunC"),
+        ("Lyasoff2016/SfunDerivC.lean", "SfunDerivC"),
         ("Lyasoff2016/UpperGamma.lean", "upperGamma"),
         ("Lyasoff2016/Asian.lean", "asianCall"),
         ("Lyasoff2016/Asian.lean", "asianMarketPrice"),
@@ -178,7 +192,14 @@ def main() -> None:
     for rel, name in keep_full:
         def_blocks.append(extract_decl_block(ROOT / rel, name))
     for rel, name in keep_sorry:
-        def_blocks.append(sorry_def(ROOT / rel, name))
+        block = sorry_def(ROOT / rel, name)
+        if name == "jointFokkerPlanckAdjoint":
+            block = (
+                "-- Opaque to Comparator: single-file Challenge elaborates Real numerals ≥2 with a\n"
+                "-- shared `jointA._proof_N`, while multi-file Solution gives each decl its own\n"
+                "-- `_proof_N`. Types match; values are supplied by Solution.\n" + block
+            )
+        def_blocks.append(block)
     for rel, name in after_sorry:
         def_blocks.append(extract_decl_block(ROOT / rel, name))
 
@@ -224,8 +245,6 @@ namespace Lyasoff2016
 universe u_1
 
 noncomputable section
-
-variable {Ω : Type u_1} [MeasurableSpace Ω]
 
 """
     # Library decls use `Type*`; rewrite so Challenge levelParams match Solution.

@@ -79,30 +79,23 @@ def jointA (σ : ℝ) (ϕ : ℝ → ℝ → ℝ) (x y : ℝ) : ℝ :=
 
 def jointDomain : Set (ℝ × ℝ) := Ioi (0 : ℝ) ×ˢ (univ : Set ℝ)
 
--- Opaque to Comparator: single-file Challenge elaborates Real numerals ≥2 with a
--- shared `jointA._proof_N`, while multi-file Solution gives each decl its own
--- `_proof_N`. Types match; values are supplied by Solution.
-def jointFokkerPlanckAdjoint (σ : ℝ) (φ : ℝ → ℝ → ℝ) (x y : ℝ) : ℝ := sorry
-
-def SatisfiesTheorem41PDE (σ t : ℝ) (φc : ℝ → ℝ → ℝ) : Prop := sorry
-
 def SatisfiesStrikingIdentity (σ t : ℝ) (φc : ℝ → ℝ → ℝ) : Prop :=
   (∀ y : ℝ, y ≠ 0 →
     ∫ x in Ioi (0 : ℝ), x⁻¹ * φc x (y / σ) =
       y / (t * (Real.exp y - 1))) ∧
   (∫ x in Ioi (0 : ℝ), x⁻¹ * φc x 0 = 1 / t)
 
-def SatisfiesFoliationODE (σ t : ℝ) (φc : ℝ → ℝ → ℝ) : Prop := sorry
-
 def laplaceCond (φc : ℝ → ℝ → ℝ) (y u : ℝ) : ℝ :=
   ∫ x in Ioi (0 : ℝ), Real.exp (-u / x) * φc x y
 
-def TransformedMassIdentity (σ t : ℝ) (φ0 : ℝ → ℝ) : Prop := sorry
-
-def HasLaplaceReduction (σ t : ℝ) (φc : ℝ → ℝ → ℝ) : Prop := sorry
-
 def Sfun (k p : ℕ) (α : ℝ) : ℝ :=
   ∫ v in Ioi (0 : ℝ), max (v - (k : ℝ)) 0 * v ^ (-(p : ℤ)) * Real.exp (-α / v)
+
+def SfunC (k : ℝ) (p : ℕ) (A : ℂ) : ℂ :=
+  ∫ x in Ioi k, (((x - k) * x ^ (-(p : ℤ)) : ℝ) : ℂ) * Complex.exp (-A / x)
+
+def SfunDerivC (k : ℝ) (p : ℕ) (A : ℂ) : ℂ :=
+  -∫ x in Ioi k, ((x ^ (-(p : ℤ)) : ℝ) : ℂ) * Complex.exp (-A / x)
 
 def upperGamma (s x : ℝ) : ℝ :=
   ∫ u in Ioi x, u ^ (s - 1) * Real.exp (-u)
@@ -128,6 +121,19 @@ def Ffun (σ ν t k : ℝ) (u w : ℝ) : ℂ := sorry
 def FfunDeriv (σ ν t k : ℝ) (u w : ℝ) : ℂ := sorry
 
 def dufresne (σ ν x : ℝ) : ℝ := sorry
+
+-- Opaque to Comparator: single-file Challenge elaborates Real numerals ≥2 with a
+-- shared `jointA._proof_N`, while multi-file Solution gives each decl its own
+-- `_proof_N`. Types match; values are supplied by Solution.
+def jointFokkerPlanckAdjoint (σ : ℝ) (φ : ℝ → ℝ → ℝ) (x y : ℝ) : ℝ := sorry
+
+def SatisfiesTheorem41PDE (σ t : ℝ) (φc : ℝ → ℝ → ℝ) : Prop := sorry
+
+def SatisfiesFoliationODE (σ t : ℝ) (φc : ℝ → ℝ → ℝ) : Prop := sorry
+
+def TransformedMassIdentity (σ t : ℝ) (φ0 : ℝ → ℝ) : Prop := sorry
+
+def HasLaplaceReduction (σ t : ℝ) (φc : ℝ → ℝ → ℝ) : Prop := sorry
 
 def contourEq (p : ℕ) (t : ℝ) (y : ℝ) (a : ℝ) : Prop := sorry
 
@@ -366,6 +372,28 @@ theorem theorem_4_5 (σ t : ℝ) (hσ : 0 < σ) (ht : 0 < t)
             u * σ ^ 2 / 4 * Real.exp (-(σ * y) / 2)) ^ 2) := by
   sorry
 
+theorem cond_density_satisfies_theorem_41_pde (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (_ht : 0 < t) :
+    ∃ φc : ℝ → ℝ → ℝ, IsCondDensity P W σ t φc ∧ SatisfiesTheorem41PDE σ t φc := by
+  sorry
+
+theorem cond_density_satisfies_striking (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (_ht : 0 < t) :
+    ∃ φc : ℝ → ℝ → ℝ, IsCondDensity P W σ t φc ∧ SatisfiesStrikingIdentity σ t φc := by
+  sorry
+
+theorem cond_density_satisfies_foliation_ode (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (_ht : 0 < t) :
+    ∃ φc : ℝ → ℝ → ℝ, IsCondDensity P W σ t φc ∧ SatisfiesFoliationODE σ t φc := by
+  sorry
+
+theorem cond_density_satisfies_laplace_inputs (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (_ht : 0 < t) :
+    ∃ φc : ℝ → ℝ → ℝ,
+      IsCondDensity P W σ t φc ∧
+        TransformedMassIdentity σ t (fun x => φc x 0) ∧ HasLaplaceReduction σ t φc := by
+  sorry
+
 theorem g_solves_contour_equation (p : ℕ) (hp : p = 2 ∨ p = 3 ∨ p = 4)
     (t : ℝ) (ht : 0 < t) (y : ℝ) (a : ℝ) (ha : Real.pi / 2 ≤ a ∧ a ≤ 3 * Real.pi / 2) :
     contourEq p t y a := by
@@ -421,6 +449,20 @@ theorem asian_delta (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → �
     (hσ : 0 < σ) (ht : 0 < t) (hK : 0 < K) :
     deriv (fun κ => asianCall P W σ ν t κ) K =
       ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν t K u w).re := by
+  sorry
+
+theorem SfunC.hasDerivAt (k : ℝ) (p : ℕ) (A : ℂ)
+    (hk : 0 < k) (hp : 3 ≤ p) (hA : 0 < A.re) :
+    HasDerivAt (fun κ => SfunC κ p A) (SfunDerivC k p A) k := by
+  sorry
+
+theorem hasDerivAt_integral_Re_Ffun
+    (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W)
+    (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
+    (hσ : 0 < σ) (ht : 0 < t) (hK : 0 < K) :
+    HasDerivAt
+      (fun κ => ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (Ffun σ ν (t : ℝ) κ u w).re)
+      (∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν (t : ℝ) K u w).re) K := by
   sorry
 
 end

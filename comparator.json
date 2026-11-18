@@ -27,6 +27,10 @@
     "Lyasoff2016.formula_4_6",
     "Lyasoff2016.prop_4_4",
     "Lyasoff2016.theorem_4_5",
+    "Lyasoff2016.cond_density_satisfies_theorem_41_pde",
+    "Lyasoff2016.cond_density_satisfies_striking",
+    "Lyasoff2016.cond_density_satisfies_foliation_ode",
+    "Lyasoff2016.cond_density_satisfies_laplace_inputs",
     "Lyasoff2016.g_solves_contour_equation",
     "Lyasoff2016.remark_5_1",
     "Lyasoff2016.pi_formula",
@@ -35,7 +39,9 @@
     "Lyasoff2016.S_closed_form",
     "Lyasoff2016.benchmark_k_zero",
     "Lyasoff2016.asian_price_formula",
-    "Lyasoff2016.asian_delta"
+    "Lyasoff2016.asian_delta",
+    "Lyasoff2016.SfunC.hasDerivAt",
+    "Lyasoff2016.hasDerivAt_integral_Re_Ffun"
   ],
   "definition_names": [
     "Lyasoff2016.yorDensity",

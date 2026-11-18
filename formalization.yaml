@@ -9,20 +9,23 @@ project:
     options", Finance Stoch. 20 (2016) 1061–1096. Framing: rigorous
     reconstruction/verification of the paper’s joint-density, Fokker–Planck,
     foliation, π/π/2 contour, Yor (1.1)/Rem 5.1, and Asian pricing material.
-    The Comparator family is the 34 proof-chart theorems whose proofs use
+    The Comparator family is all 40 proof-chart theorems, each proved using
     only propext, Quot.sound, and Classical.choice (including time_reversal,
     Prop 2.2, Dufresne, joint Fokker–Planck, the §4 conditional rearrangements
-    theorem_4_1_pde / theorem_4_1_striking / formula_4_6 / theorem_4_5,
-    g_solves_contour_equation, yor_formula, pi_formula, S_closed_form,
-    asian_price_formula, asian_delta), together with compared
-    density/integrand definitions. Four chart certificates (Tables 1–4
-    enclosures) remain open numerical `sorry` holes outside Comparator.
-    `SfunC.hasDerivAt` and `hasDerivAt_integral_Re_Ffun` are proved; the latter
-    uses the tilted-density/Girsanov route rather than global `(u,w)` domination.
+    theorem_4_1_pde / theorem_4_1_striking / formula_4_6 / theorem_4_5, the
+    four cond_density_satisfies_* existence results, g_solves_contour_equation,
+    yor_formula, pi_formula, S_closed_form, SfunC.hasDerivAt,
+    hasDerivAt_integral_Re_Ffun, asian_price_formula, asian_delta), together
+    with compared density/integrand definitions. Tables 1–4 are reported
+    numerical data only (definitions, no theorems), outside Comparator.
+    `hasDerivAt_integral_Re_Ffun` uses the tilted-density/Girsanov route
+    rather than global `(u,w)` domination.
     Project rule: no Lean `axiom` declarations.
-    The selected §4 theorems are conditional implications (they assume the
-    foliation PDE / striking / ODE / Laplace inputs rather than constructing
-    them for the conditional density). Andrew Lyasoff did not participate in
+    The §4 rearrangement theorems are conditional implications (they assume
+    the foliation PDE / striking / ODE / Laplace inputs); the
+    cond_density_satisfies_* theorems discharge those inputs by exhibiting a
+    conditional density (Brownian-scaled Yor) that satisfies each of them.
+    Andrew Lyasoff did not participate in
     or endorse this formalization. Lean was written with AI-agent assistance
     under Lars Warren Ericson’s direction and review. There is no sorry in the
     compared Lyasoff2016 development for the Comparator family, and Mathlib

@@ -2,7 +2,7 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-18T15:21:55Z
+**Updated:** 2026-11-18T15:44:54Z
 **Holes:** 0 open+blocked · 0 open · 0 blocked · 40 done.
 
 **Live board:** [`holes.html`](holes.html) (graph embedded; open the file directly).

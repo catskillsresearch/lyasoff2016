@@ -44,15 +44,15 @@ print(f"OK: {len(cfg['theorem_names'])} theorems, "
       f"{len(cfg.get('definition_names', []))} definitions")
 PY
 
-step "Proof-chart axiom audit (all 38 holes)"
+step "Proof-chart axiom audit (all chart theorems)"
 bash scripts/validate_chart_axioms.sh
 
-step "Compare Challenge/Solution declaration types"
-
-bash scripts/compare_challenge_solution_types.sh
-
+# Build first: the type comparison reads the built Challenge/Solution oleans.
 step "Build Lean project (Lyasoff2016 + Challenge + Solution)"
 lake build
+
+step "Compare Challenge/Solution declaration types"
+bash scripts/compare_challenge_solution_types.sh
 
 if toolkit="$(find_toolkit "$ROOT")"; then
   step "Shared palomar-preflight toolkit"
