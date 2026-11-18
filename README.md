@@ -37,6 +37,8 @@ in paper order via [`Asian.md`](Asian.md).
 | [`Asian/module_summaries.json`](Asian/module_summaries.json) | AI-written English summaries keyed by module, with Lean source SHA-256 | 
 | [`scripts/paper_quotes.py`](scripts/paper_quotes.py) | Resolves verbatim quotes from `sources/lyasoff2016_vision.md`; explicit anchors in `paper_quote_anchors.json` |
 
+`Asian.md` is the root of the writeup and holds only the title and chapter list, so nothing repository-specific reaches the PDF. The tree follows the paper in order: each `.lean` module has its own subsection with paper quotes in green boxes, an AI-written English summary and the Lean source. Every paper-facing hole on the [dependency board](holes.html) is done (`sorryCount = 0`).
+
 ```bash
 python3 scripts/scaffold_asian_writeup.py --check # refresh 95 leaves / gists / section SVGs; fail on stale AI summary
 python3 scripts/compile_md_tree.py --tex-only # → arxiv.md + arxiv.tex (green sourcequote boxes)
