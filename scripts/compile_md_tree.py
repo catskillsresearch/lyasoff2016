@@ -61,7 +61,8 @@ We give a Lean 4 / Mathlib formalization of Andrew Lyasoff,
 of Asian options* (Finance Stoch. 20, 2016). The library develops time reversal
 and auxiliary estimates, the Fokker–Planck / Dufresne analysis, foliation of the
 joint law, contour $\\pi$/$\\pi/2$ integral representations, and Asian option
-pricing identities with classical numerical certificates for Tables 1–4.
+pricing identities. Tables 1–4 are reported numerical data only, not certified
+in Lean.
 """
 
 

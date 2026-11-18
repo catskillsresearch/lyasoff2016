@@ -434,6 +434,60 @@ status:
     - Quot.sound
     comparator_config: comparator.json
     literature_dependencies: []
+  - declaration: Lyasoff2016.cond_density_satisfies_foliation_ode
+    file: Lyasoff2016/Foliation.lean
+    sorry_count: 0
+    axioms:
+    - propext
+    - Classical.choice
+    - Quot.sound
+    comparator_config: comparator.json
+    literature_dependencies: []
+  - declaration: Lyasoff2016.cond_density_satisfies_laplace_inputs
+    file: Lyasoff2016/Foliation.lean
+    sorry_count: 0
+    axioms:
+    - propext
+    - Classical.choice
+    - Quot.sound
+    comparator_config: comparator.json
+    literature_dependencies: []
+  - declaration: Lyasoff2016.cond_density_satisfies_theorem_41_pde
+    file: Lyasoff2016/Foliation.lean
+    sorry_count: 0
+    axioms:
+    - propext
+    - Classical.choice
+    - Quot.sound
+    comparator_config: comparator.json
+    literature_dependencies: []
+  - declaration: Lyasoff2016.cond_density_satisfies_striking
+    file: Lyasoff2016/Foliation.lean
+    sorry_count: 0
+    axioms:
+    - propext
+    - Classical.choice
+    - Quot.sound
+    comparator_config: comparator.json
+    literature_dependencies: []
+  - declaration: Lyasoff2016.SfunC.hasDerivAt
+    file: Lyasoff2016/SfunCDeriv.lean
+    sorry_count: 0
+    axioms:
+    - propext
+    - Classical.choice
+    - Quot.sound
+    comparator_config: comparator.json
+    literature_dependencies: []
+  - declaration: Lyasoff2016.hasDerivAt_integral_Re_Ffun
+    file: Lyasoff2016/Asian.lean
+    sorry_count: 0
+    axioms:
+    - propext
+    - Classical.choice
+    - Quot.sound
+    comparator_config: comparator.json
+    literature_dependencies: []
 
 comparator_config: comparator.json
 
