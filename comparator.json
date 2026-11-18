@@ -1,0 +1,53 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "Lyasoff2016.time_reversal",
+    "Lyasoff2016.lemma_2_1",
+    "Lyasoff2016.prop_2_2",
+    "Lyasoff2016.scaling_relations",
+    "Lyasoff2016.girsanov_density",
+    "Lyasoff2016.infinite_integral_finite",
+    "Lyasoff2016.Z_stationary",
+    "Lyasoff2016.dufresne_zero_flux",
+    "Lyasoff2016.perpetuity_inv_moment",
+    "Lyasoff2016.perpetuity_neg_moments",
+    "Lyasoff2016.dufresne_theorem_sigma_one",
+    "Lyasoff2016.dufresne_theorem",
+    "Lyasoff2016.ito_expInt_test_product",
+    "Lyasoff2016.ito_timeReversed_expInt_test_product",
+    "Lyasoff2016.joint_dynkin_Aop_product",
+    "Lyasoff2016.weak_joint_fokker_planck_product",
+    "Lyasoff2016.eq_zero_of_integral_product_eq_zero",
+    "Lyasoff2016.jointFokkerPlanckAdjoint_eq_zero",
+    "Lyasoff2016.fokker_planck_joint",
+    "Lyasoff2016.remark_3_2",
+    "Lyasoff2016.theorem_4_1_pde",
+    "Lyasoff2016.theorem_4_1_striking",
+    "Lyasoff2016.formula_4_6",
+    "Lyasoff2016.prop_4_4",
+    "Lyasoff2016.theorem_4_5",
+    "Lyasoff2016.g_solves_contour_equation",
+    "Lyasoff2016.remark_5_1",
+    "Lyasoff2016.pi_formula",
+    "Lyasoff2016.yor_formula",
+    "Lyasoff2016.S_zero",
+    "Lyasoff2016.S_closed_form",
+    "Lyasoff2016.benchmark_k_zero",
+    "Lyasoff2016.asian_price_formula"
+  ],
+  "definition_names": [
+    "Lyasoff2016.yorDensity",
+    "Lyasoff2016.piFormula",
+    "Lyasoff2016.piHalfFormula",
+    "Lyasoff2016.contourIntegrand",
+    "Lyasoff2016.Ffun",
+    "Lyasoff2016.FfunDeriv",
+    "Lyasoff2016.dufresne"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

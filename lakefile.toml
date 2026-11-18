@@ -1,5 +1,5 @@
 name = "lyasoff2016"
-defaultTargets = ["Lyasoff2016"]
+defaultTargets = ["Lyasoff2016", "Challenge", "Solution"]
 
 [leanOptions]
 pp.unicode.fun = true
@@ -12,7 +12,8 @@ path = "vendor/brownian-motion"
 
 [[require]]
 name = "MathFin"
-path = "vendor/formal-mathfin"
+git = "https://github.com/formal-applied-math/formal-mathfin"
+rev = "c47908ea18274b16c5b26edd206ec073470c4a26"
 
 [[require]]
 name = "mathlib"
@@ -22,3 +23,11 @@ rev = "e91b128082cc221d6432a6a5aadcd3243af8e76c"
 [[lean_lib]]
 name = "Lyasoff2016"
 globs = ["Lyasoff2016", "Lyasoff2016.+"]
+
+[[lean_lib]]
+name = "Challenge"
+roots = ["Challenge"]
+
+[[lean_lib]]
+name = "Solution"
+roots = ["Solution"]

@@ -41,6 +41,30 @@ python3 scripts/compile_md_tree.py --tex-only # → arxiv.md + arxiv.tex (green 
 bash scripts/build_arxiv_pdf.sh               # → Actions.pdf (needs latexmk)
 ```
 
+
+## Palomar packaging
+
+Challenge / Solution / Comparator / metadata (scott_models / nowakowska1982 pattern):
+
+| File | Role |
+|------|------|
+| [`Challenge.lean`](Challenge.lean) | Mathlib-only statement of record (`sorry` holes) |
+| [`Solution.lean`](Solution.lean) | Imports `Lyasoff2016/` |
+| [`comparator.json`](comparator.json) | 33 proof-chart theorems + 7 formula defs |
+| [`formalization.yaml`](formalization.yaml) | v0.4 self-report; `project.description` is the abstract |
+| [`PROVENANCE.md`](PROVENANCE.md) | Authorship, Lyasoff non-involvement, classical gaps |
+| [`LICENSE`](LICENSE) / [`NOTICE`](NOTICE) | Apache-2.0 + third-party source notice |
+
+```bash
+python3 scripts/regen_challenge.py          # refresh Challenge + comparator from holes-graph
+bash scripts/validate_chart_axioms.sh       # all 38 chart theorems: Palomar-clean vs classical
+bash scripts/palomar_preflight.sh           # comparator + chart audit + lake build
+lake build Challenge Solution
+```
+
+Andrew Lyasoff did not participate in or endorse this formalization. Author:
+Lars Warren Ericson (no other collaborators).
+
 ## Proof-hole board
 
 Dependency graph of paper-facing theorems (all **done**). The graph JSON is **embedded** in

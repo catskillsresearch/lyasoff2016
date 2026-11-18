@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+# Reproduce repository-side mechanical checks before Palomar submission.
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+find_toolkit() {
+  local root="$1" d
+  for d in \
+    "${PALOMAR_PREFLIGHT_ROOT:-}" \
+    "$(dirname "$root")/palomar-preflight" \
+    "$root/palomar-preflight"; do
+    [[ -n "$d" && -f "$d/palomar_preflight.sh" ]] && {
+      cd "$d" && pwd
+      return 0
+    }
+  done
+  return 1
+}
+
+step() { printf '\n== %s ==\n' "$1"; }
+
+cd "$ROOT"
+
+step "Validate Comparator configuration"
+python3 - <<'PY'
+import json
+with open("comparator.json", encoding="utf-8") as f:
+    cfg = json.load(f)
+required = ("challenge_module", "solution_module", "theorem_names", "permitted_axioms")
+missing = [k for k in required if k not in cfg]
+if missing:
+    raise SystemExit(f"Missing comparator keys: {', '.join(missing)}")
+if not cfg["theorem_names"]:
+    raise SystemExit("theorem_names must be nonempty")
+names = cfg["theorem_names"] + cfg.get("definition_names", [])
+dup = sorted({n for n in names if names.count(n) > 1})
+if dup:
+    raise SystemExit(f"Duplicate Comparator names: {', '.join(dup)}")
+allowed = {"propext", "Quot.sound", "Classical.choice"}
+bad = [a for a in cfg["permitted_axioms"] if a not in allowed]
+if bad:
+    raise SystemExit(f"Illegal permitted_axioms: {bad}")
+print(f"OK: {len(cfg['theorem_names'])} theorems, "
+      f"{len(cfg.get('definition_names', []))} definitions")
+PY
+
+step "Proof-chart axiom audit (all 38 holes)"
+bash scripts/validate_chart_axioms.sh
+
+step "Compare Challenge/Solution declaration types"
+
+bash scripts/compare_challenge_solution_types.sh
+
+step "Build Lean project (Lyasoff2016 + Challenge + Solution)"
+lake build
+
+if toolkit="$(find_toolkit "$ROOT")"; then
+  step "Shared palomar-preflight toolkit"
+  SORRY_PATHS="Lyasoff2016 Solution.lean"
+  if bash "$toolkit/palomar_preflight.sh" --help 2>&1 | grep -q -- '--project-root'; then
+    bash "$toolkit/palomar_preflight.sh" \
+      --project-root "$ROOT" \
+      --sorry-paths "$SORRY_PATHS" \
+      "$@"
+  else
+    export PALOMAR_PROJECT_ROOT="$ROOT"
+    export PALOMAR_SORRY_PATHS="$SORRY_PATHS"
+    bash "$toolkit/palomar_preflight.sh" "$@"
+  fi
+else
+  step "Shared toolkit not found (optional); local checks done"
+fi
+
+echo
+echo "Palomar preflight finished."

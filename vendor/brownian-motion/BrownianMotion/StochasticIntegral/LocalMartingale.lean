@@ -85,11 +85,4 @@ lemma isStable_martingale [CompleteSpace E] :
   fun X ⟨hX, hC⟩ τ hτ ↦ ⟨hX.stoppedProcess_indicator (fun ω ↦ (hC ω).isRightContinuous) hτ,
     isStable_isCadlag X hC τ hτ⟩
 
-/-
-/-- Càdlàg submartingales are a stable class. -/
-lemma isStable_submartingale [LE E] :
-    IsStable 𝓕 (fun (X : ι → Ω → E) ↦ Submartingale X 𝓕 P ∧ ∀ ω, IsCadlag (X · ω)) := by
-  sorry
--/
-
 end ProbabilityTheory
