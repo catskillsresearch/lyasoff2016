@@ -2,8 +2,8 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-18T11:02:25Z
-**Holes:** 15 open+blocked · 10 open · 5 blocked · 33 done.
+**Updated:** 2026-11-18T11:33:21Z
+**Holes:** 14 open+blocked · 9 open · 5 blocked · 34 done.
 
 **Live board:** [`holes.html`](holes.html) (graph embedded; open the file directly).
 
@@ -21,7 +21,6 @@ python3 scripts/build_holes.py   # refreshes HOLES.md, holes-graph.json, embeds 
 | `cond_density_satisfies_striking` | Cond dens. (4.4) | `Lyasoff2016/Foliation.lean:440` |
 | `cond_density_satisfies_foliation_ode` | Cond dens. ODE | `Lyasoff2016/Foliation.lean:446` |
 | `cond_density_satisfies_laplace_inputs` | Cond dens. Laplace | `Lyasoff2016/Foliation.lean:452` |
-| `SfunC.hasDerivAt` | ∂_k SfunC | `Lyasoff2016/SfunCDeriv.lean:68` |
 | `hasDerivAt_integral_Re_Ffun` | ∂_k ∬ Re F | `Lyasoff2016/Asian.lean:299` |
 | `table1_asian_enclosure_classical` | Table 1 num. | `Lyasoff2016/TableClassical.lean:63` |
 | `table2_asian_enclosure_classical` | Table 2 num. | `Lyasoff2016/TableClassical.lean:72` |
@@ -88,7 +87,7 @@ python3 scripts/build_holes.py   # refreshes HOLES.md, holes-graph.json, embeds 
 | done | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:44` |
 | done | `yor_formula` | Yor formula | `Lyasoff2016/IntegralReps.lean:34` |
 
-### §6 — 11 hole(s)
+### §6 — 10 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
@@ -97,7 +96,7 @@ python3 scripts/build_holes.py   # refreshes HOLES.md, holes-graph.json, embeds 
 | done | `benchmark_k_zero` | k=0 benchmark | `Lyasoff2016/Asian.lean:32` |
 | done | `asian_price_formula` | Asian price | `Lyasoff2016/Asian.lean:140` |
 | blocked | `asian_delta` | Asian delta | `Lyasoff2016/Asian.lean:308` |
-| open | `SfunC.hasDerivAt` | ∂_k SfunC | `Lyasoff2016/SfunCDeriv.lean:68` |
+| done | `SfunC.hasDerivAt` | ∂_k SfunC | `Lyasoff2016/SfunCDeriv.lean:100` |
 | open | `hasDerivAt_integral_Re_Ffun` | ∂_k ∬ Re F | `Lyasoff2016/Asian.lean:299` |
 | blocked | `table1_asian_enclosure` | Table 1 | `Lyasoff2016/TableClaim.lean:72` |
 | blocked | `table2_asian_enclosure` | Table 2 | `Lyasoff2016/TableClaim.lean:80` |

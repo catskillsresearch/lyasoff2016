@@ -6,4 +6,4 @@ Mathematical English for `SfunCDeriv.lean` (Lean names in typewriter).
 
 **Lemma** (`SfunC.lipschitzWith_one_max_sub`). Unit Lipschitz bound for that `max` map in the strike.
 
-**Theorem** (`SfunC.hasDerivAt`). Open hole (`sorry`, no Lean `axiom`): under `0 < k`, `2 ≤ p`, and `Re A > 0`, `κ ↦ SfunC κ p A` is differentiable at `k` with derivative `SfunDerivC k p A` (Leibniz / parameter differentiation of the incomplete integral; Lyasoff p. 1091). Used by `FfunDeriv` on the `asian_delta` path. On the holes board; outside Comparator.
+**Theorem** (`SfunC.hasDerivAt`). Proved: under `0 < k`, `3 ≤ p`, and `Re A > 0`, `κ ↦ SfunC κ p A` is differentiable at `k` with derivative `SfunDerivC k p A` (Leibniz / parameter differentiation of the incomplete integral on the fixed domain `(0,∞)` via `(x−κ)₊`; Lyasoff p. 1091). Used by `FfunDeriv` on the `asian_delta` path. Hypothesis `3 ≤ p` (not `2 ≤ p`) is required for absolute integrability of `(x−k)₊ x^{-p}` at infinity.

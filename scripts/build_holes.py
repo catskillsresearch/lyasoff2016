@@ -271,7 +271,7 @@ NODES: dict[str, dict] = {
         "label": "∂_k SfunC",
         "section": 6,
         "file": "Lyasoff2016/SfunCDeriv.lean",
-        "detail": "Open: Leibniz / parameter derivative of SfunC (no Lean axiom).",
+        "detail": "Leibniz / parameter derivative of SfunC under 3 ≤ p, Re A > 0.",
     },
     "hasDerivAt_integral_Re_Ffun": {
         "label": "∂_k ∬ Re F",

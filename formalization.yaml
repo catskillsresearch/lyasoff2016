@@ -16,8 +16,9 @@ project:
     g_solves_contour_equation, yor_formula, pi_formula, S_closed_form,
     asian_price_formula), together with compared density/integrand definitions.
     Five chart certificates (asian_delta; Tables 1–4 enclosures) remain open
-    classical-analysis / numerical `sorry` holes outside Comparator; the library
-    also carries the open hole SfunC.hasDerivAt used on the asian_delta path.
+    classical-analysis / numerical `sorry` holes outside Comparator.
+    `SfunC.hasDerivAt` (strike derivative of `SfunC`) is proved; `asian_delta`
+    still needs the open double-integral hole `hasDerivAt_integral_Re_Ffun`.
     Project rule: no Lean `axiom` declarations.
     The selected §4 theorems are conditional implications (they assume the
     foliation PDE / striking / ODE / Laplace inputs rather than constructing
@@ -49,9 +50,10 @@ status:
     Complete for the Comparator family in comparator.json: every
     axioms-clean proof-chart theorem from holes-graph.json, plus compared
     formula definitions. Open classical/numerical `sorry` holes
-    (SfunC.hasDerivAt, hasDerivAt_integral_Re_Ffun, table1–4 classical) and
+    (hasDerivAt_integral_Re_Ffun, table1–4 classical) and
     §4 density-input existence theorems are disclosed in known_gaps / the
-    holes board. Selected §4 Comparator theorems are conditional rearrangements.
+    holes board. `SfunC.hasDerivAt` is proved. Selected §4 Comparator theorems
+    are conditional rearrangements.
     No Lean `axiom`. Intermediate lemmas remain library-only.
   sorry_count: 0
   sorry_in_definitions: 0
@@ -512,7 +514,8 @@ known_gaps:
     theorems on the holes board.
   - >-
     asian_delta depends on open hole hasDerivAt_integral_Re_Ffun (Leibniz
-    rule for ∬ Re F) and SfunC.hasDerivAt (parameter derivative of SfunC).
+    rule for ∬ Re F). The pointwise factor SfunC.hasDerivAt is proved
+    (under 3 ≤ p, Re A > 0).
   - >-
     table1–table4_asian_enclosure depend on open numerical holes
     table*_asian_enclosure_classical (paper mpmath/spline quadratures), not

@@ -45,8 +45,8 @@ done holes. Offline axiom audit (`scripts/validate_chart_axioms.sh`):
 **Project rule: no Lean `axiom`.** Classical/numerical gaps are `sorry`
 theorems tracked on the holes board.
 
-The five classical chart certificates are `asian_delta` (needs open holes
-`hasDerivAt_integral_Re_Ffun` / `SfunC.hasDerivAt`) and
+The five classical chart certificates are `asian_delta` (needs open hole
+`hasDerivAt_integral_Re_Ffun`; `SfunC.hasDerivAt` is proved) and
 `table1`–`table4_asian_enclosure` (need `table*_asian_enclosure_classical`).
 Palomar Comparator permits only `propext` / `Quot.sound` / `Classical.choice`,
 so those five chart entries are **outside** `comparator.json` and recorded in
