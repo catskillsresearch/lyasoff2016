@@ -69,7 +69,7 @@ Challenge / Solution / Comparator / metadata (scott_models / nowakowska1982 patt
 |------|------|
 | [`Challenge.lean`](Challenge.lean) | Mathlib-only statement of record (`sorry` holes) |
 | [`Solution.lean`](Solution.lean) | Imports `Lyasoff2016/` |
-| [`comparator.json`](comparator.json) | 33 proof-chart theorems + 7 formula defs |
+| [`comparator.json`](comparator.json) | 40 proof-chart theorems + 13 definitions |
 | [`formalization.yaml`](formalization.yaml) | v0.4 self-report; `project.description` is the abstract |
 | [`PROVENANCE.md`](PROVENANCE.md) | Authorship, Lyasoff non-involvement, reported numerical data |
 | [`LICENSE`](LICENSE) / [`NOTICE`](NOTICE) | Apache-2.0 + third-party source notice |
