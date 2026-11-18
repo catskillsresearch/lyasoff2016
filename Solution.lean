@@ -13,8 +13,7 @@ Imports the `Lyasoff2016/` library. Comparator matches the compared
 declarations named in `Challenge.lean` / `comparator.json` against these
 proved definitions and theorems (scott_models / nowakowska1982 packaging).
 
-There is no `sorry` in the compared `Lyasoff2016/` proof modules for the
-Comparator family. Four proof-chart numerical certificates
-(`table1`–`table4_asian_enclosure`) depend on open project holes and are
-outside Comparator; see `PROVENANCE.md`.
+The library proof modules contain no unfinished proofs. Tables 1–4 are reported
+numerical data only, not certified enclosures, and are outside Comparator;
+see `PROVENANCE.md`.
 -/

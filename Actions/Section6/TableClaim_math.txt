@@ -1,11 +1,1 @@
-**Lyasoff (2016), Tables 1–4 as interval certificates**
-
-the true Asian price lies within ±err of the printed digit string.
-
-
-**Lyasoff (2016), p. 1093–1095, market Asian prices vs printed digits**
-
-`asianMarketPrice` (e^{-rT}/T · E[(∫ − KT)₊] at μ = r − σ²/2, S₀ = 1)
-   lies within the paper’s reported absolute error of the printed digit string.
-   Discharged from classical numerical certificates in `TableClassical`
-   (high-precision quadrature of `∬ Re F`); not re-derived by interval arithmetic.
+Reported table rows; no asserted relation to asianMarketPrice.

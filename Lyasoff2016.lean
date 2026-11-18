@@ -19,6 +19,7 @@ public import Lyasoff2016.IntegralReps
 public import Lyasoff2016.PiFormulaLaplace
 public import Lyasoff2016.PiHalfIdentify
 public import Lyasoff2016.Asian
+public import Lyasoff2016.ContourBendFfun
 public import Lyasoff2016.TableParams
 public import Lyasoff2016.TableClaim
 

@@ -2,8 +2,8 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-18T13:56:16Z
-**Holes:** 8 open+blocked · 4 open · 4 blocked · 40 done.
+**Updated:** 2026-11-18T15:21:55Z
+**Holes:** 0 open+blocked · 0 open · 0 blocked · 40 done.
 
 **Live board:** [`holes.html`](holes.html) (graph embedded; open the file directly).
 
@@ -15,12 +15,7 @@ python3 scripts/build_holes.py   # refreshes HOLES.md, holes-graph.json, embeds 
 
 ## Open now (Layer 0)
 
-| Id | Label | File |
-|---|---|---|
-| `table1_asian_enclosure_classical` | Table 1 num. | `Lyasoff2016/TableClassical.lean:67` |
-| `table2_asian_enclosure_classical` | Table 2 num. | `Lyasoff2016/TableClassical.lean:77` |
-| `table3_asian_enclosure_classical` | Table 3 num. | `Lyasoff2016/TableClassical.lean:87` |
-| `table4_asian_enclosure_classical` | Table 4 num. | `Lyasoff2016/TableClassical.lean:97` |
+_None — every paper-facing hole is done. Browse the formalization in [`Actions.md`](Actions.md)._
 
 ## By section
 
@@ -82,7 +77,7 @@ python3 scripts/build_holes.py   # refreshes HOLES.md, holes-graph.json, embeds 
 | done | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:44` |
 | done | `yor_formula` | Yor formula | `Lyasoff2016/IntegralReps.lean:34` |
 
-### §6 — 8 hole(s)
+### §6 — 0 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
@@ -93,14 +88,6 @@ python3 scripts/build_holes.py   # refreshes HOLES.md, holes-graph.json, embeds 
 | done | `asian_delta` | Asian delta | `Lyasoff2016/Asian.lean:493` |
 | done | `SfunC.hasDerivAt` | ∂_k SfunC | `Lyasoff2016/SfunCDeriv.lean:100` |
 | done | `hasDerivAt_integral_Re_Ffun` | ∂_k ∬ Re F | `Lyasoff2016/Asian.lean:300` |
-| blocked | `table1_asian_enclosure` | Table 1 | `Lyasoff2016/TableClaim.lean:77` |
-| blocked | `table2_asian_enclosure` | Table 2 | `Lyasoff2016/TableClaim.lean:85` |
-| blocked | `table3_asian_enclosure` | Table 3 | `Lyasoff2016/TableClaim.lean:93` |
-| blocked | `table4_asian_enclosure` | Table 4 | `Lyasoff2016/TableClaim.lean:101` |
-| open | `table1_asian_enclosure_classical` | Table 1 num. | `Lyasoff2016/TableClassical.lean:67` |
-| open | `table2_asian_enclosure_classical` | Table 2 num. | `Lyasoff2016/TableClassical.lean:77` |
-| open | `table3_asian_enclosure_classical` | Table 3 num. | `Lyasoff2016/TableClassical.lean:87` |
-| open | `table4_asian_enclosure_classical` | Table 4 num. | `Lyasoff2016/TableClassical.lean:97` |
 
 ## Dependency sketch
 

@@ -8,14 +8,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-# Chart theorems whose Solution proofs depend on project axioms (not Palomar-permitted).
-CLASSICAL_AXIOM_THMS = {
-    "Lyasoff2016.asian_delta",
-    "Lyasoff2016.table1_asian_enclosure",
-    "Lyasoff2016.table2_asian_enclosure",
-    "Lyasoff2016.table3_asian_enclosure",
-    "Lyasoff2016.table4_asian_enclosure",
-}
+# No chart theorem is excluded for extra axioms. Numerical tables are data only.
+CLASSICAL_AXIOM_THMS = set()
 
 # Formulae whose Challenge bodies would pull non-Mathlib helpers; Comparator supplies values.
 DEF_NAMES = [

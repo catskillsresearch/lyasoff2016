@@ -1,4 +1,4 @@
-# Interval enclosure claims for Tables 1–4
+# Reported rows for Tables 1–4
 
 @import "TableClaim_aisummary.txt" {code_block=false}
 

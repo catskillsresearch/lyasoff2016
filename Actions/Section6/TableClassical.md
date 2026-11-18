@@ -1,4 +1,4 @@
-# Classical numerical certificates for Tables 1–4
+# Reported digit strings for Tables 1–4
 
 @import "TableClassical_aisummary.txt" {code_block=false}
 

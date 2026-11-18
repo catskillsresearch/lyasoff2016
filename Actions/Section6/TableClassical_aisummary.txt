@@ -1,1 +1,1 @@
-§6 Tables 1–4 — classical numerical certificates. It declares 9 items (4 axioms, 5 defs).
+Reported digit strings and rate; no price certificates.

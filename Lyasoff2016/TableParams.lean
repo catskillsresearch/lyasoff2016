@@ -4,9 +4,9 @@ Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 
 Paper: all cases use S₀ = 1, r = 2.5% = 5/200; prices at t = 0.
 
-`err0` records the paper's *reported* error figure for its method at K = 0 only; it is
-not claimed in Lean at the printed strikes. The Lean table theorems claim agreement with
-the printed digits to `tableClaimTol = 1e-9` only (see `tableClaimTol`).
+`err0` records the paper's reported K = 0 error figure, not a Lean bound.
+`tableClaimTol` is the agreement level used to summarize an independent numerical
+experiment, not a theorem or a certified tolerance.
 -/
 module
 
@@ -44,13 +44,11 @@ def table3Params : TableParams :=
 def table4Params : TableParams :=
   ⟨(1 : ℝ), (1 : ℝ) / 3, 45, (1e-11 : ℝ)⟩
 
-/-- Claimed absolute tolerance for all four tables (Lyasoff pp. 1094–1095): the Lean table
-theorems assert only that `asianMarketPrice` reproduces each printed digit string to within
-`1e-9`. An independent high-precision check (`scripts/asian_tables_independent_check.py`:
-Geman–Yor/Talbot Laplace inversion and Linetsky's spectral formula, agreeing to ~1e-41)
-finds a worst miss of 2.2e-10 over the 24 printed values; the paper's per-table K = 0
-error figures (`err0`, down to 1e-15) do not hold at the printed strikes and are not
-claimed. -/
+/-- Historical name for the independent experiment's absolute agreement level, 1e-9.
+`scripts/asian_tables_independent_check.py` reports a worst miss about 2.2e-10 over
+24 values. This is external numerical evidence only: no relation between a mathematical
+price and the printed values is asserted in Lean, at this or any tighter tolerance.
+The paper's `err0` figures are retained only as reported metadata. -/
 def tableClaimTol : ℝ := (1e-9 : ℝ)
 
 /-- Market strikes K in Tables 1–4 (paper); integral strike is `K * T` with S₀ = 1. -/

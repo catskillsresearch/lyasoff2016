@@ -52,12 +52,12 @@ Challenge / Solution / Comparator / metadata (scott_models / nowakowska1982 patt
 | [`Solution.lean`](Solution.lean) | Imports `Lyasoff2016/` |
 | [`comparator.json`](comparator.json) | 33 proof-chart theorems + 7 formula defs |
 | [`formalization.yaml`](formalization.yaml) | v0.4 self-report; `project.description` is the abstract |
-| [`PROVENANCE.md`](PROVENANCE.md) | Authorship, Lyasoff non-involvement, classical gaps |
+| [`PROVENANCE.md`](PROVENANCE.md) | Authorship, Lyasoff non-involvement, reported numerical data |
 | [`LICENSE`](LICENSE) / [`NOTICE`](NOTICE) | Apache-2.0 + third-party source notice |
 
 ```bash
 python3 scripts/regen_challenge.py          # refresh Challenge + comparator from holes-graph
-bash scripts/validate_chart_axioms.sh       # all 38 chart theorems: Palomar-clean vs classical
+bash scripts/validate_chart_axioms.sh       # all chart theorems: Palomar-clean
 bash scripts/palomar_preflight.sh           # comparator + chart audit + lake build
 lake build Challenge Solution
 ```

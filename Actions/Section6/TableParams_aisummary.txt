@@ -1,1 +1,1 @@
-§6 Tables 1–4 (pp. 1094–1095) — parameter regimes. It declares 6 items (5 defs, 1 structure).
+Reported parameters and external-check agreement level; no certified price bound.

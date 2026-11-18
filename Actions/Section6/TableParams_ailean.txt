@@ -1,13 +1,1 @@
-Mathematical English for `TableParams.lean` (Lean names in typewriter).
-
-**Structure** (`TableParams`). Asian calls with fixed r = 2.5%, S₀ = 1, varying T, σ, K.
-
-**Definition** (`table1Params`). p. 1094–1095, Tables 1–4 parameter regimes.
-
-**Definition** (`table2Params`). p. 1094–1095, Tables 1–4 parameter regimes.
-
-**Definition** (`table3Params`). p. 1094–1095, Tables 1–4 parameter regimes.
-
-**Definition** (`table4Params`). p. 1094–1095, Tables 1–4 parameter regimes.
-
-**Definition** (`tableStrikes`). p. 1094–1095, Tables 1–4 parameter regimes.
+Reported parameters and external-check agreement level; no certified price bound.

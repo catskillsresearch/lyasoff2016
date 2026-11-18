@@ -279,54 +279,7 @@ NODES: dict[str, dict] = {
         "file": "Lyasoff2016/Asian.lean",
         "detail": "Proved through the call derivative and the Girsanov-tilted joint density.",
     },
-    "table1_asian_enclosure": {
-        "label": "Table 1",
-        "section": 6,
-        "file": "Lyasoff2016/TableClaim.lean",
-        "detail": "Table 1 enclosure to 1e-9 via classical numerical hole.",
-    },
-    "table2_asian_enclosure": {
-        "label": "Table 2",
-        "section": 6,
-        "file": "Lyasoff2016/TableClaim.lean",
-        "detail": "Table 2 enclosure to 1e-9 via classical numerical hole.",
-    },
-    "table3_asian_enclosure": {
-        "label": "Table 3",
-        "section": 6,
-        "file": "Lyasoff2016/TableClaim.lean",
-        "detail": "Table 3 enclosure to 1e-9 via classical numerical hole.",
-    },
-    "table4_asian_enclosure": {
-        "label": "Table 4",
-        "section": 6,
-        "file": "Lyasoff2016/TableClaim.lean",
-        "detail": "Table 4 enclosure to 1e-9 via classical numerical hole.",
-    },
-    "table1_asian_enclosure_classical": {
-        "label": "Table 1 num.",
-        "section": 6,
-        "file": "Lyasoff2016/TableClassical.lean",
-        "detail": "Open: printed Table 1 digits reproduced to tableClaimTol = 1e-9 (paper K=0 error figure not claimed).",
-    },
-    "table2_asian_enclosure_classical": {
-        "label": "Table 2 num.",
-        "section": 6,
-        "file": "Lyasoff2016/TableClassical.lean",
-        "detail": "Open: printed Table 2 digits reproduced to tableClaimTol = 1e-9 (paper K=0 error figure not claimed).",
-    },
-    "table3_asian_enclosure_classical": {
-        "label": "Table 3 num.",
-        "section": 6,
-        "file": "Lyasoff2016/TableClassical.lean",
-        "detail": "Open: printed Table 3 digits reproduced to tableClaimTol = 1e-9 (paper K=0 error figure not claimed).",
-    },
-    "table4_asian_enclosure_classical": {
-        "label": "Table 4 num.",
-        "section": 6,
-        "file": "Lyasoff2016/TableClassical.lean",
-        "detail": "Open: printed Table 4 digits reproduced to tableClaimTol = 1e-9 (paper K=0 error figure not claimed).",
-    },
+
 }
 
 # Hard edges: from → to means the current Lean proof of `to` still needs `from`
@@ -367,15 +320,6 @@ HARD_EDGES: list[tuple[str, str]] = [
     ("asian_price_formula", "asian_delta"),
     ("SfunC.hasDerivAt", "asian_delta"),
     ("hasDerivAt_integral_Re_Ffun", "asian_delta"),
-    ("asian_price_formula", "table1_asian_enclosure"),
-    ("asian_price_formula", "table2_asian_enclosure"),
-    ("asian_price_formula", "table3_asian_enclosure"),
-    ("asian_price_formula", "table4_asian_enclosure"),
-    ("benchmark_k_zero", "table1_asian_enclosure"),
-    ("table1_asian_enclosure_classical", "table1_asian_enclosure"),
-    ("table2_asian_enclosure_classical", "table2_asian_enclosure"),
-    ("table3_asian_enclosure_classical", "table3_asian_enclosure"),
-    ("table4_asian_enclosure_classical", "table4_asian_enclosure"),
 ]
 
 # Soft edges: paper/logical order only. Drawn on the board but do NOT force

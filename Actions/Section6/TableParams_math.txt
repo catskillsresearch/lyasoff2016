@@ -1,6 +1,1 @@
-**Lyasoff (2016), all cases use S₀ = 1, r = 2.5% = 5/200; prices at t = 0**
-
-
-**Lyasoff (2016), p. 1094–1095, Tables 1–4 parameter regimes**
-
-Asian calls with fixed r = 2.5%, S₀ = 1, varying T, σ, K.
+Reported parameters and external-check agreement level; no certified price bound.

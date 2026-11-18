@@ -40,20 +40,15 @@ done holes. Offline axiom audit (`scripts/validate_chart_axioms.sh`):
 | Class | Count | Axioms |
 | --- | ---: | --- |
 | Comparator family | 34 | ⊆ `{propext, Quot.sound, Classical.choice}` |
-| Classical certificates | 4 | also depend on project axioms |
+| Reported numerical tables | 4 | definitions only; no price-enclosure claim |
 
-**Project rule: no Lean `axiom`.** Classical/numerical gaps are `sorry`
-theorems tracked on the holes board.
+**Project rule: no Lean `axiom`.** No unfinished library proofs remain.
 
-The four remaining classical chart certificates are
-`table1`–`table4_asian_enclosure` (which need
-`table*_asian_enclosure_classical`). `asian_delta` and its former open
-dependency `hasDerivAt_integral_Re_Ffun` are now proved by the
-tilted-density/Girsanov route and are axioms-clean. Palomar Comparator permits
-only `propext` / `Quot.sound` / `Classical.choice`; the four numerical chart
-entries are **outside** `comparator.json` and recorded in
-`formalization.yaml` `known_gaps`. Density-identity theorems remain
-axioms-clean (no classical citation axioms for density IDs).
+Tables 1–4 are reported numerical data only. The former numerical enclosure
+statements were withdrawn, not proved. Independent Python computations support
+agreement at absolute level 1e-9, but this is not a Lean certificate. The tables
+remain outside `comparator.json`. All proof-chart theorems use only `propext`,
+`Quot.sound`, and `Classical.choice`.
 
 Selected §4 Comparator theorems (`theorem_4_1_pde`, `theorem_4_1_striking`,
 `formula_4_6`, `theorem_4_5`) are **conditional rearrangements**: they assume
@@ -73,5 +68,5 @@ Proofs use Mathlib together with public Git dependencies pinned in
 kolmogorov_extension4 as transitive). Challenge imports Mathlib only
 (including Mathlib’s `IsBrownianReal`). Pin ledger: `vendor/SOURCES`.
 
-No project-defined `axiom`s appear anywhere; unfinished classical steps are
-`sorry` holes outside the Comparator family.
+No project-defined `axiom`s or unfinished proofs remain in `Lyasoff2016/`.
+Intentional challenge stubs in `Challenge.lean` are unchanged.
