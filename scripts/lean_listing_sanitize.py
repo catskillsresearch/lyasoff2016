@@ -2,10 +2,11 @@
 # Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 """Sanitize Lean sources for ``\\lstinputlisting`` in the arXiv pdfLaTeX build.
 
-Listings use the ``leanbox`` ``listings`` style in ``tex_preamble_arxiv.tex``: each
-Lean operator that appears in source should stay as UTF-8 and is rendered via a
-``literate`` mapping.  Characters *not* in that table are either rewritten to
-readable ASCII or replaced with ``?`` so pdfLaTeX never sees unsupported bytes.
+Listings use the ``leanbox`` ``listings`` style in ``tex_preamble_arxiv.tex``. A
+character in that ``literate`` table stays as UTF-8 and is rendered as LaTeX.
+Anything else is rewritten through ``LEAN_UNICODE_REPLACEMENTS`` (or its accent-
+stripped ASCII form). An unmapped non-ASCII character is an error: the build
+must not silently print ``?`` (design adapted from scott1964).
 
 The allowlist is parsed from the preamble so it stays in sync with ``leanbox``.
 """
@@ -28,6 +29,8 @@ LEAN_UNICODE_REPLACEMENTS: tuple[tuple[str, str], ...] = (
     ("⋢", " sqsubneq "),
     ("⊑\u0338", " sqsubneq "),
     ("⁻¹", "^-1"),
+    # combining macron (z̄ in a docstring): listings cannot key on a combining mark
+    ("z\u0304", "conj z"),
     ("⟶", " --> "),
     ("⟷", " <-> "),
     ("⟨", "<"),
@@ -182,29 +185,64 @@ def leanbox_literate_chars(*, preamble_path: Path | None = None) -> frozenset[st
 
 
 def _replacements_for_listings(allowed: frozenset[str]) -> tuple[tuple[str, str], ...]:
-    """Drop ASCII fallbacks for glyphs ``leanbox`` already typesets."""
-    out: list[tuple[str, str]] = []
-    for src, dst in LEAN_UNICODE_REPLACEMENTS:
-        if len(src) == 1 and src in allowed:
-            continue
-        out.append((src, dst))
-    return tuple(out)
+    """Drop ASCII fallbacks for glyphs (or glyph sequences) ``leanbox`` typesets."""
+    return tuple(
+        (src, dst)
+        for src, dst in LEAN_UNICODE_REPLACEMENTS
+        if not all(ch in allowed for ch in src)
+    )
+
+
+class UnmappedLeanCharError(RuntimeError):
+    """A Lean listing contains a character with no LaTeX rendering."""
 
 
 def sanitize_lean_for_arxiv(
     text: str,
     *,
     preamble_path: Path | None = None,
+    source_name: str | None = None,
 ) -> str:
     allowed = leanbox_literate_chars(preamble_path=preamble_path)
-    replacements = _replacements_for_listings(allowed)
 
     out = text
-    for src, dst in replacements:
+    for src, dst in _replacements_for_listings(allowed):
         out = out.replace(src, dst)
-    out = unicodedata.normalize("NFD", out)
-    out = "".join(c for c in out if unicodedata.category(c) != "Mn")
-    return "".join(ch if ord(ch) < 128 or ch in allowed else "?" for ch in out)
+
+    # Normalize per character (not the whole text: NFD would split e.g. ≠ into
+    # "=" + U+0338 and silently print "=").
+    missing: set[str] = set()
+    cleaned: list[str] = []
+    for ch in out:
+        if ord(ch) < 128 or ch in allowed:
+            cleaned.append(ch)
+            continue
+        decomp = "".join(
+            c
+            for c in unicodedata.normalize("NFD", ch)
+            if unicodedata.category(c) != "Mn"
+        )
+        if decomp and all(ord(c) < 128 or c in allowed for c in decomp):
+            cleaned.append(decomp)
+            continue
+        missing.add(ch)
+    if missing:
+        where = source_name or "listing"
+        samples: list[str] = []
+        for lineno, line in enumerate(text.splitlines(), 1):
+            bad = [ch for ch in line if ch in missing]
+            if not bad:
+                continue
+            shown = ", ".join(f"U+{ord(ch):04X} {ch!r}" for ch in dict.fromkeys(bad))
+            samples.append(f"  {where}:{lineno}: {shown}: {line.strip()[:160]}")
+            if len(samples) >= 20:
+                break
+        raise UnmappedLeanCharError(
+            "Unmapped Lean characters; refusing to replace them with '?'. "
+            "Add a leanbox literate entry in scripts/tex_preamble_arxiv.tex.\n"
+            + "\n".join(samples)
+        )
+    return "".join(cleaned)
 
 
 def chunk_line_ranges(line_count: int, chunk_size: int = 350) -> list[tuple[int, int]]:

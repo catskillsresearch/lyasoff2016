@@ -213,7 +213,9 @@ def strip_lean_copyright(code: str) -> str:
 
 def write_listing(code: str, listing_name: str) -> tuple[str, int]:
     LISTINGS_DIR.mkdir(parents=True, exist_ok=True)
-    source = sanitize_lean_for_arxiv(strip_lean_copyright(code).rstrip("\n"))
+    source = sanitize_lean_for_arxiv(
+        strip_lean_copyright(code).rstrip("\n"), source_name=listing_name
+    )
     listing_path = LISTINGS_DIR / listing_name
     listing_path.write_text(source + "\n", encoding="utf-8")
     rel_path = listing_path.relative_to(ROOT).as_posix()
@@ -361,7 +363,10 @@ def lean_block_latex(code: str, listing_name: str) -> str:
         if first == 1 and last == line_count:
             parts.append(f"\\lstinputlisting[style=leanbox]{{{rel_path}}}\n")
         else:
+            # Continuation header for long modules split into chunks (scott1964 style).
             parts.append(
+                f"\\noindent\\textcolor{{green!40!black}}{{\\textbf{{Lean 4 source "
+                f"(lines {first}--{last})}}}}\\par\\vspace{{0.25\\baselineskip}}\n"
                 f"\\lstinputlisting[style=leanbox,firstline={first},lastline={last}]"
                 f"{{{rel_path}}}\n"
             )

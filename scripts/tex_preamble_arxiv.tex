@@ -100,7 +100,12 @@
     rfl, ext, obtain, use, change, convert, congr, ring, linarith, norm_num,
     decide, native_decide, aesop, omega, gcongr, funext, congrArg, exact_mod_cast,
     push_neg, by_cases, by_contra, left, right, rcases, rintro,
-    simp_rw, dsimp, unfold, fold, delta, rename_i
+    simp_rw, dsimp, unfold, fold, delta, rename_i,
+    simpa, positivity, filter_upwards, fun_prop, field_simp, push_cast, norm_cast,
+    nlinarith, ring_nf, bound, rwa, linear_combination, split_ifs, subst, trivial,
+    choose, all_goals, any_goals, measurability, continuity, abel, lift,
+    infer_instance, classical, specialize, exacts, haveI, nth_rw, nth_rewrite,
+    interval_cases, exfalso, contrapose
   },
   literate=
     {§}{{\S}}1
@@ -213,6 +218,89 @@
     {⟶}{{\color{symbolcolor}\ensuremath{\longrightarrow}}}2
     {⟷}{{\ensuremath{\longleftrightarrow}}}2
     {⟹}{{\color{symbolcolor}\ensuremath{\Longrightarrow}}}2
+    % Added for lyasoff2016 (adapted from scott1964): every non-ASCII glyph in
+    % Lyasoff2016/*.lean must be listed here; the sanitizer refuses unmapped ones.
+    {ℝ}{{\ensuremath{\mathbb{R}}}}1
+    {ℂ}{{\ensuremath{\mathbb{C}}}}1
+    {ℤ}{{\ensuremath{\mathbb{Z}}}}1
+    {ℚ}{{\ensuremath{\mathbb{Q}}}}1
+    {𝕜}{{\ensuremath{\Bbbk}}}1
+    {𝓝}{{\ensuremath{\mathcal{N}}}}1
+    {ℜ}{{\ensuremath{\Re}}}1
+    {ℑ}{{\ensuremath{\Im}}}1
+    {ℓ}{{\ensuremath{\ell}}}1
+    {∫}{{\ensuremath{\int}}}1
+    {∬}{{\ensuremath{\iint}}}1
+    {∂}{{\ensuremath{\partial}}}1
+    {√}{{\ensuremath{\surd}}}1
+    {∑}{{\ensuremath{\sum}}}1
+    {−}{{\ensuremath{-}}}1
+    {±}{{\ensuremath{\pm}}}1
+    {≡}{{\ensuremath{\equiv}}}1
+    {≈}{{\ensuremath{\approx}}}1
+    {⊗}{{\ensuremath{\otimes}}}1
+    {⌈}{{\ensuremath{\lceil}}}1
+    {⌉}{{\ensuremath{\rceil}}}1
+    {‖}{{\ensuremath{\Vert}}}1
+    {•}{{\ensuremath{\bullet}}}1
+    {‹}{{\ensuremath{\langle}}}1
+    {›}{{\ensuremath{\rangle}}}1
+    {’}{{\textquoteright}}1
+    {ν}{{\ensuremath{\nu}}}1
+    {Ω}{{\ensuremath{\Omega}}}1
+    {π}{{\ensuremath{\pi}}}1
+    {θ}{{\ensuremath{\theta}}}1
+    {μ}{{\ensuremath{\mu}}}1
+    {δ}{{\ensuremath{\delta}}}1
+    {ε}{{\ensuremath{\varepsilon}}}1
+    {κ}{{\ensuremath{\kappa}}}1
+    {Φ}{{\ensuremath{\Phi}}}1
+    {ρ}{{\ensuremath{\rho}}}1
+    {Ψ}{{\ensuremath{\Psi}}}1
+    {γ}{{\ensuremath{\gamma}}}1
+    {ϕ}{{\ensuremath{\phi}}}1
+    {ζ}{{\ensuremath{\zeta}}}1
+    {υ}{{\ensuremath{\upsilon}}}1
+    {η}{{\ensuremath{\eta}}}1
+    {ξ}{{\ensuremath{\xi}}}1
+    {Ι}{{\ensuremath{\mathrm{I}}}}1
+    {²}{{\textsuperscript{2}}}1
+    {³}{{\textsuperscript{3}}}1
+    {⁴}{{\textsuperscript{4}}}1
+    {ⁿ}{{\textsuperscript{n}}}1
+    {½}{{\ensuremath{\tfrac{1}{2}}}}1
+    {ᵐ}{{\textsuperscript{m}}}1
+    {ᶠ}{{\textsuperscript{f}}}1
+    {ᵗ}{{\textsuperscript{t}}}1
+    {ᵏ}{{\textsuperscript{k}}}1
+    {ᵈ}{{\textsuperscript{d}}}1
+    {ᵖ}{{\textsuperscript{p}}}1
+    {ᵀ}{{\textsuperscript{T}}}1
+    {ᶻ}{{\textsuperscript{z}}}1
+    {ᵇ}{{\textsuperscript{b}}}1
+    {ᶜ}{{\textsuperscript{c}}}1
+    {ₓ}{{\textsubscript{x}}}1
+    {ₐ}{{\textsubscript{a}}}1
+    {ᵧ}{{\textsubscript{\ensuremath{\gamma}}}}1
+    {ₗ}{{\textsubscript{l}}}1
+    {ô}{{\^{o}}}1
+    {é}{{\'{e}}}1
+    {ö}{{\"{o}}}1
+    {⨅}{{\ensuremath{\bigsqcap}}}1
+    {≻}{{\ensuremath{\succ}}}1
+    {≼}{{\ensuremath{\preccurlyeq}}}1
+    {“}{{\textquotedblleft}}1
+    {”}{{\textquotedblright}}1
+    {∣}{{\ensuremath{\mid}}}1
+    {⊕}{{\ensuremath{\oplus}}}1
+    {⊇}{{\ensuremath{\supseteq}}}1
+    {⊂}{{\ensuremath{\subset}}}1
+    {⊃}{{\ensuremath{\supset}}}1
+    {⟺}{{\ensuremath{\Longleftrightarrow}}}2
+    {⟸}{{\ensuremath{\Longleftarrow}}}2
+    {◁}{{\ensuremath{\triangleleft}}}1
+    {✓}{{\ensuremath{\checkmark}}}1
+    {æ}{{\ae}}1
     {:=}{{\color{symbolcolor}:=}}2
     {=}{{\color{symbolcolor}=}}1
 }
