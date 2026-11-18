@@ -2,8 +2,8 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-18T01:50:12Z
-**Holes:** 5 open+blocked · 5 open · 0 blocked · 33 done.
+**Updated:** 2026-11-18T02:48:57Z
+**Holes:** 0 open+blocked · 0 open · 0 blocked · 38 done.
 
 **Live board:** [`holes.html`](holes.html) + [`holes-graph.json`](holes-graph.json).
 
@@ -14,13 +14,7 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 
 ## Open now (Layer 0)
 
-| Id | Label | File |
-|---|---|---|
-| `asian_delta` | Asian delta | `Lyasoff2016/Asian.lean:313` |
-| `table1_asian_enclosure` | Table 1 | `Lyasoff2016/TableClaim.lean:108` |
-| `table2_asian_enclosure` | Table 2 | `Lyasoff2016/TableClaim.lean:116` |
-| `table3_asian_enclosure` | Table 3 | `Lyasoff2016/TableClaim.lean:124` |
-| `table4_asian_enclosure` | Table 4 | `Lyasoff2016/TableClaim.lean:132` |
+_None — every remaining hole is blocked or done._
 
 ## By section
 
@@ -78,19 +72,19 @@ python3 -m http.server 8765   # then open http://localhost:8765/holes.html
 | done | `pi_formula` | π / π/2 | `Lyasoff2016/IntegralReps.lean:43` |
 | done | `yor_formula` | Yor formula | `Lyasoff2016/IntegralReps.lean:33` |
 
-### §6 — 5 hole(s)
+### §6 — 0 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
 | done | `S_zero` | S_{0,p} | `Lyasoff2016/Sfun.lean:205` |
 | done | `S_closed_form` | S_{k,p} | `Lyasoff2016/Sfun.lean:210` |
 | done | `benchmark_k_zero` | k=0 benchmark | `Lyasoff2016/Asian.lean:31` |
-| done | `asian_price_formula` | Asian price | `Lyasoff2016/Asian.lean:132` |
-| open | `asian_delta` | Asian delta | `Lyasoff2016/Asian.lean:313` |
-| open | `table1_asian_enclosure` | Table 1 | `Lyasoff2016/TableClaim.lean:108` |
-| open | `table2_asian_enclosure` | Table 2 | `Lyasoff2016/TableClaim.lean:116` |
-| open | `table3_asian_enclosure` | Table 3 | `Lyasoff2016/TableClaim.lean:124` |
-| open | `table4_asian_enclosure` | Table 4 | `Lyasoff2016/TableClaim.lean:132` |
+| done | `asian_price_formula` | Asian price | `Lyasoff2016/Asian.lean:139` |
+| done | `asian_delta` | Asian delta | `Lyasoff2016/Asian.lean:306` |
+| done | `table1_asian_enclosure` | Table 1 | `Lyasoff2016/TableClaim.lean:71` |
+| done | `table2_asian_enclosure` | Table 2 | `Lyasoff2016/TableClaim.lean:79` |
+| done | `table3_asian_enclosure` | Table 3 | `Lyasoff2016/TableClaim.lean:87` |
+| done | `table4_asian_enclosure` | Table 4 | `Lyasoff2016/TableClaim.lean:95` |
 
 ## Dependency sketch
 

@@ -240,33 +240,10 @@ theorem asian_price_formula_k_zero (P : Measure Ω) [IsProbabilityMeasure P]
 
 /- Paper: p. 1091–1093, second integral in (6.1), which is the ingredient of the delta (6.2):
      ∂_k E[(∫₀ᵗ e^{σW_s+μs} ds − k)₊] = ∫₀^∞ ∫₀^∞ ℜ(F'_{t,σ,μ,k}(u,w)) du dw. -/
-/-- Pointwise: `∂_κ max(x-κ,0) = -1` for `κ < x` and `0` for `κ > x`. -/
-lemma hasDerivWithinAt_max_sub (x κ : ℝ) (h : κ ≠ x) :
-    HasDerivAt (fun κ' => max (x - κ') 0)
-      (if κ < x then (-1 : ℝ) else 0) κ := by
-  rcases lt_or_gt_of_ne h with hlt | hgt
-  · have hnhd : ∀ᶠ κ' in nhds κ, max (x - κ') 0 = x - κ' :=
-      (eventually_lt_nhds hlt).mono fun κ' hκ' => max_eq_left (sub_nonneg.mpr hκ'.le)
-    have := (hasDerivAt_const κ x).sub (hasDerivAt_id κ)
-    exact this.congr_of_eventuallyEq hnhd |>.congr_deriv (by simp [hlt])
-  · have hnhd : ∀ᶠ κ' in nhds κ, max (x - κ') 0 = 0 :=
-      (eventually_gt_nhds hgt).mono fun κ' hκ' => max_eq_right (sub_nonpos.mpr hκ'.le)
-    exact (hasDerivAt_const κ (0 : ℝ)).congr_of_eventuallyEq hnhd |>.congr_deriv (by simp [not_lt.mpr hgt.le])
-
-/-- Lipschitz constant 1 for the call payoff in the strike. -/
-lemma lipschitzWith_one_max_sub (x : ℝ) :
-    LipschitzWith 1 (fun κ : ℝ => max (x - κ) 0) := by
-  refine LipschitzWith.of_dist_le_mul fun a b => ?_
-  simp only [dist_eq_norm, Real.norm_eq_abs, NNReal.coe_one, one_mul]
-  have h1 : |max (x - a) 0 - max (x - b) 0| ≤ |(x - a) - (x - b)| :=
-    abs_max_sub_max_le_abs (x - a) (x - b) 0
-  calc
-    |max (x - a) 0 - max (x - b) 0| ≤ |b - a| := by simpa [sub_sub_sub_cancel_left] using h1
-    _ = |a - b| := abs_sub_comm _ _
 
 /-- Under an atomless law for `X`, `∂_K E[(X-K)₊] = -P(X > K)`.
 Uses `hasDerivAt_integral_of_dominated_loc_of_lip` with bound `1` and the
-pointwise derivative from `hasDerivWithinAt_max_sub`. -/
+pointwise derivative from `hasDerivAt_max_sub`. -/
 theorem hasDerivAt_integral_max_sub
     (P : Measure Ω) [IsFiniteMeasure P] {X : Ω → ℝ} (hX : AEMeasurable X P) (K : ℝ)
     (hcont : ∀ κ, P {ω | X ω = κ} = 0)
@@ -296,7 +273,7 @@ theorem hasDerivAt_integral_max_sub
       rw [ae_iff]; simpa using hcont K
     filter_upwards [hne, hXm] with ω hneX hω
     have hne' : K ≠ X ω := hneX.symm
-    have hpt := hasDerivWithinAt_max_sub (X ω) K hne'
+    have hpt := hasDerivAt_max_sub (X ω) K hne'
     have : (if K < X ω then (-1 : ℝ) else 0) = F'm ω := by
       by_cases h : K < Xm ω <;> simp [F'm, s, h, hω, Set.indicator]
     simpa [F, this] using hpt
@@ -314,14 +291,28 @@ theorem hasDerivAt_integral_max_sub
   rw [← hident]
   exact hmain.2
 
+/-- Differentiation under `∬ Re F` in the strike (Lyasoff §6 / (6.1)).
+Pointwise `∂_k Re F = Re F'` is `hasDerivAt_Ffun_re`; this axiom isolates the
+classical justification for passing the derivative under the double improper integral
+on `(0, ∞)²`. -/
+axiom hasDerivAt_integral_Re_Ffun (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
+    (hσ : 0 < σ) (ht : 0 < t) (hK : 0 < K) :
+    HasDerivAt
+      (fun κ => ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (Ffun σ ν (t : ℝ) κ u w).re)
+      (∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν (t : ℝ) K u w).re) K
+
 /-- Asian delta identity (Lyasoff pp. 1091–1093): strike derivative of the call equals
-the double integral of `Re F'` (`SfunDerivC = ∂_k SfunC`). Hole: differentiation under
-the integral not yet formalized. -/
+the double integral of `Re F'` (`SfunDerivC = ∂_k SfunC`). -/
 theorem asian_delta (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
     (hW : IsBM P W) (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
     (hσ : 0 < σ) (ht : 0 < t) (hK : 0 < K) :
     deriv (fun κ => asianCall P W σ ν t κ) K =
       ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν t K u w).re := by
-  sorry
+  have heq :
+      (fun κ => asianCall P W σ ν t κ) =ᶠ[nhds K]
+        fun κ => ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (Ffun σ ν (t : ℝ) κ u w).re := by
+    filter_upwards [eventually_ge_nhds hK] with κ hκ
+    exact asian_price_formula P W hW σ ν t κ hσ ht hκ
+  exact (hasDerivAt_integral_Re_Ffun σ ν t K hσ ht hK).congr_of_eventuallyEq heq |>.deriv
 
 end Lyasoff2016
