@@ -2,19 +2,20 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-18T02:48:57Z
+**Updated:** 2026-11-18T03:01:43Z
 **Holes:** 0 open+blocked · 0 open · 0 blocked · 38 done.
 
-**Live board:** [`holes.html`](holes.html) + [`holes-graph.json`](holes-graph.json).
+**Live board:** [`holes.html`](holes.html) (graph embedded; open the file directly).
+
+**Completed proof writeup:** [`Actions.md`](Actions.md) (paper-facing narrative).
 
 ```bash
-python3 scripts/build_holes.py
-python3 -m http.server 8765   # then open http://localhost:8765/holes.html
+python3 scripts/build_holes.py   # refreshes HOLES.md, holes-graph.json, embeds into holes.html
 ```
 
 ## Open now (Layer 0)
 
-_None — every remaining hole is blocked or done._
+_None — every paper-facing hole is done. Browse the formalization in [`Actions.md`](Actions.md)._
 
 ## By section
 

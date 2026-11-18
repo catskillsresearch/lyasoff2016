@@ -1,0 +1,26 @@
+# §5 Contour equations and integral representations
+
+Paper: Lyasoff pp. 1079–1088 ($g$ contour equation, $\pi$ / $\pi/2$ formulae, Rem 5.1).
+
+@import "../Lyasoff2016/IntegralReps.lean"
+@import "../Lyasoff2016/ContourEq.lean"
+@import "../Lyasoff2016/ContourRec.lean"
+@import "../Lyasoff2016/ContourTwo.lean"
+@import "../Lyasoff2016/ContourIntegrand.lean"
+@import "../Lyasoff2016/Rrecipe.lean"
+@import "../Lyasoff2016/Rrec.lean"
+@import "../Lyasoff2016/PsiBranch.lean"
+@import "../Lyasoff2016/SmoothBump.lean"
+@import "../Lyasoff2016/CharA.lean"
+@import "../Lyasoff2016/GFun.lean"
+@import "../Lyasoff2016/GFunDecay.lean"
+@import "../Lyasoff2016/Cerf.lean"
+@import "../Lyasoff2016/PiFormula.lean"
+@import "../Lyasoff2016/PiHalfFormula.lean"
+@import "../Lyasoff2016/PiFormulaHigher.lean"
+@import "../Lyasoff2016/PiHalfFormulaHigher.lean"
+@import "../Lyasoff2016/PiFormulaLaplace.lean"
+@import "../Lyasoff2016/PiFormulaScaling.lean"
+@import "../Lyasoff2016/PiFormulaScale.lean"
+@import "../Lyasoff2016/PiHalfIdentify.lean"
+@import "../Lyasoff2016/InverseGammaIntegral.lean"

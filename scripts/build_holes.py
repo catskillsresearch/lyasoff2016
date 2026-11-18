@@ -15,6 +15,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 LEAN_ROOT = ROOT / "Lyasoff2016"
 OUT_JSON = ROOT / "holes-graph.json"
+OUT_HTML = ROOT / "holes.html"
+HTML_EMBED_MARKER = "/*HOLES_GRAPH_JSON*/"
 OUT_MD = ROOT / "HOLES.md"
 OUT_EDGES = ROOT / "holes-edges.txt"
 
@@ -451,18 +453,21 @@ def write_md(data: dict) -> None:
         f"**Holes:** {data['sorryCount']} open+blocked · "
         f"{len(open_n)} open · {len(blocked_n)} blocked · {len(done_n)} done.",
         "",
-        "**Live board:** [`holes.html`](holes.html) + [`holes-graph.json`](holes-graph.json).",
+        "**Live board:** [`holes.html`](holes.html) (graph embedded; open the file directly).",
+        "",
+        "**Completed proof writeup:** [`Actions.md`](Actions.md) (paper-facing narrative).",
         "",
         "```bash",
-        "python3 scripts/build_holes.py",
-        "python3 -m http.server 8765   # then open http://localhost:8765/holes.html",
+        "python3 scripts/build_holes.py   # refreshes HOLES.md, holes-graph.json, embeds into holes.html",
         "```",
         "",
         "## Open now (Layer 0)",
         "",
     ]
     if not open_n:
-        lines.append("_None — every remaining hole is blocked or done._")
+        lines.append(
+            "_None — every paper-facing hole is done. Browse the formalization in [`Actions.md`](Actions.md)._"
+        )
     else:
         lines.append("| Id | Label | File |")
         lines.append("|---|---|---|")
@@ -519,6 +524,25 @@ def write_md(data: dict) -> None:
     OUT_MD.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def embed_html(data: dict) -> None:
+    """Inline the graph JSON into holes.html so opening the file works offline."""
+    if not OUT_HTML.exists():
+        print(f"skip embed: {OUT_HTML.name} missing")
+        return
+    text = OUT_HTML.read_text(encoding="utf-8")
+    start = text.find("const EMBEDDED_HOLES_GRAPH = ")
+    marker = text.find(HTML_EMBED_MARKER, start)
+    if start < 0 or marker < 0:
+        print(f"skip embed: could not find EMBEDDED_HOLES_GRAPH / marker in {OUT_HTML.name}")
+        return
+    # Include leading indentation from the start of the line.
+    line_start = text.rfind("\n", 0, start) + 1
+    end = marker + len(HTML_EMBED_MARKER)
+    payload = json.dumps(data, separators=(",", ":"))
+    new_line = f"    const EMBEDDED_HOLES_GRAPH = {payload}; {HTML_EMBED_MARKER}"
+    OUT_HTML.write_text(text[:line_start] + new_line + text[end:], encoding="utf-8")
+
+
 def main() -> None:
     data = build()
     OUT_JSON.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
@@ -527,11 +551,12 @@ def main() -> None:
         "\n".join(f"{e['from']} -{e['kind']}-> {e['to']}" for e in data["edges"]) + "\n",
         encoding="utf-8",
     )
+    embed_html(data)
     open_n = sum(1 for n in data["nodes"] if n["status"] == "open")
     blocked_n = sum(1 for n in data["nodes"] if n["status"] == "blocked")
     done_n = sum(1 for n in data["nodes"] if n["status"] == "done")
     print(
-        f"Wrote {OUT_JSON.name}, {OUT_MD.name}: "
+        f"Wrote {OUT_JSON.name}, {OUT_MD.name}, embedded {OUT_HTML.name}: "
         f"{open_n} open, {blocked_n} blocked, {done_n} done "
         f"(sorryCount={data['sorryCount']})"
     )

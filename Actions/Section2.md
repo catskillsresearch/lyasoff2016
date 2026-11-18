@@ -1,0 +1,25 @@
+# §2 Auxiliary results
+
+Paper: Lyasoff pp. 1064–1066 (Lemma 2.1, Prop. 2.2, scaling, Girsanov).
+
+@import "../Lyasoff2016/Auxiliary.lean"
+@import "../Lyasoff2016/YorAnalytic.lean"
+@import "../Lyasoff2016/Prop22Classical.lean"
+@import "../Lyasoff2016/YorDensity.lean"
+@import "../Lyasoff2016/YorKernel.lean"
+@import "../Lyasoff2016/YorLaplace.lean"
+@import "../Lyasoff2016/YorJointDensity.lean"
+@import "../Lyasoff2016/YorClassical.lean"
+@import "../Lyasoff2016/ModifiedBesselK1.lean"
+@import "../Lyasoff2016/Theta.lean"
+@import "../Lyasoff2016/Line.lean"
+@import "../Lyasoff2016/JointLawLaplace.lean"
+@import "../Lyasoff2016/JointLawLaplaceInv.lean"
+@import "../Lyasoff2016/IgDensity.lean"
+@import "../Lyasoff2016/GammaMoment.lean"
+@import "../Lyasoff2016/HBranch.lean"
+@import "../Lyasoff2016/SmoothStepLeft.lean"
+@import "../Lyasoff2016/SmoothStepRight.lean"
+@import "../Lyasoff2016/YPlus.lean"
+@import "../Lyasoff2016/YMinus.lean"
+@import "../Lyasoff2016/YCrit.lean"
