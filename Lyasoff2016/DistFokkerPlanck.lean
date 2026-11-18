@@ -190,7 +190,7 @@ theorem jointLaw_two_fp_u (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W)
       simpa using h
     have h2 : HasDerivAt (fun z' => expInvCut u (Real.exp (2 * y) * z'))
         (expInvCut₁ u (Real.exp (2 * y) * z) * Real.exp (2 * y)) z :=
-      (hasDerivAt_expInvCut hu (Real.exp (2 * y) * z)).comp z h1
+      (expInvCut.hasDerivAt hu (Real.exp (2 * y) * z)).comp z h1
     have h3 := h2.mul_const (ψ y)
     rwa [show expInvCut₁ u (Real.exp (2 * y) * z) * Real.exp (2 * y) * ψ y = F₂_z z y by
       simp only [F₂_z]; ring] at h3
@@ -201,7 +201,7 @@ theorem jointLaw_two_fp_u (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W)
       simpa using h
     have h2 : HasDerivAt (fun z' => expInvCut₁ u (Real.exp (2 * y) * z'))
         (expInvCut₂ u (Real.exp (2 * y) * z) * Real.exp (2 * y)) z :=
-      (hasDerivAt_expInvCut₁ hu (Real.exp (2 * y) * z)).comp z h1
+      (expInvCut.hasDerivAt₁ hu (Real.exp (2 * y) * z)).comp z h1
     have h3 := (h2.const_mul (Real.exp (2 * y))).mul_const (ψ y)
     have hfun : (fun z' => Real.exp (2 * y) * expInvCut₁ u (Real.exp (2 * y) * z') * ψ y) =
         fun z' => F₂_z z' y := rfl
@@ -222,7 +222,7 @@ theorem jointLaw_two_fp_u (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W)
       exact h1.exp
     have hc1 : HasDerivAt (fun y' => expInvCut₁ u (Real.exp (2 * y') * z))
         (expInvCut₂ u (Real.exp (2 * y) * z) * (2 * (Real.exp (2 * y) * z))) y := by
-      simpa [Function.comp_def] using (hasDerivAt_expInvCut₁ hu (Real.exp (2 * y) * z)).comp y (hd_ez z y)
+      simpa [Function.comp_def] using (expInvCut.hasDerivAt₁ hu (Real.exp (2 * y) * z)).comp y (hd_ez z y)
     have hp := (he2.mul hc1).mul (hψ_deriv1 y)
     have hfun : (((fun y' : ℝ => Real.exp (2 * y')) *
         fun y' => expInvCut₁ u (Real.exp (2 * y') * z)) * ψ) = fun y' => F₂_z z y' := rfl
@@ -236,7 +236,7 @@ theorem jointLaw_two_fp_u (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W)
     intro z y
     have hc0 : HasDerivAt (fun y' => expInvCut u (Real.exp (2 * y') * z))
         (expInvCut₁ u (Real.exp (2 * y) * z) * (2 * (Real.exp (2 * y) * z))) y := by
-      simpa [Function.comp_def] using (hasDerivAt_expInvCut hu (Real.exp (2 * y) * z)).comp y (hd_ez z y)
+      simpa [Function.comp_def] using (expInvCut.hasDerivAt hu (Real.exp (2 * y) * z)).comp y (hd_ez z y)
     have hp := hc0.mul (hψ_deriv1 y)
     have hfun : ((fun y' => expInvCut u (Real.exp (2 * y') * z)) * ψ) = fun y' => F₂ z y' := rfl
     have hder : expInvCut₁ u (Real.exp (2 * y) * z) * (2 * (Real.exp (2 * y) * z)) * ψ y +
@@ -248,14 +248,14 @@ theorem jointLaw_two_fp_u (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W)
     intro z y
     have hc1 : HasDerivAt (fun y' => expInvCut₁ u (Real.exp (2 * y') * z))
         (expInvCut₂ u (Real.exp (2 * y) * z) * (2 * (Real.exp (2 * y) * z))) y := by
-      simpa [Function.comp_def] using (hasDerivAt_expInvCut₁ hu (Real.exp (2 * y) * z)).comp y (hd_ez z y)
+      simpa [Function.comp_def] using (expInvCut.hasDerivAt₁ hu (Real.exp (2 * y) * z)).comp y (hd_ez z y)
     have hxc1 : HasDerivAt (fun y' => (Real.exp (2 * y') * z) * expInvCut₁ u (Real.exp (2 * y') * z))
         (2 * (Real.exp (2 * y) * z) * expInvCut₁ u (Real.exp (2 * y) * z) +
           (Real.exp (2 * y) * z) * (expInvCut₂ u (Real.exp (2 * y) * z) * (2 * (Real.exp (2 * y) * z)))) y :=
       (hd_ez z y).fun_mul hc1
     have hc0 : HasDerivAt (fun y' => expInvCut u (Real.exp (2 * y') * z))
         (expInvCut₁ u (Real.exp (2 * y) * z) * (2 * (Real.exp (2 * y) * z))) y := by
-      simpa [Function.comp_def] using (hasDerivAt_expInvCut hu (Real.exp (2 * y) * z)).comp y (hd_ez z y)
+      simpa [Function.comp_def] using (expInvCut.hasDerivAt hu (Real.exp (2 * y) * z)).comp y (hd_ez z y)
     have hA := (hxc1.const_mul 2).fun_mul (hψ_deriv1 y)
     have hB := hc0.fun_mul (hψ_deriv2 y)
     have hAB := hA.fun_add hB
@@ -268,7 +268,7 @@ theorem jointLaw_two_fp_u (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W)
     intro z y
     have hc1 : HasDerivAt (fun y' => expInvCut₁ u (Real.exp (2 * y') * z))
         (expInvCut₂ u (Real.exp (2 * y) * z) * (2 * (Real.exp (2 * y) * z))) y := by
-      simpa [Function.comp_def] using (hasDerivAt_expInvCut₁ hu (Real.exp (2 * y) * z)).comp y (hd_ez z y)
+      simpa [Function.comp_def] using (expInvCut.hasDerivAt₁ hu (Real.exp (2 * y) * z)).comp y (hd_ez z y)
     have hxc1 : HasDerivAt (fun y' => (Real.exp (2 * y') * z) * expInvCut₁ u (Real.exp (2 * y') * z))
         (2 * (Real.exp (2 * y) * z) * expInvCut₁ u (Real.exp (2 * y) * z) +
           (Real.exp (2 * y) * z) * (expInvCut₂ u (Real.exp (2 * y) * z) * (2 * (Real.exp (2 * y) * z)))) y :=
@@ -279,7 +279,7 @@ theorem jointLaw_two_fp_u (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W)
       simpa [Function.comp_def] using h
     have hc2 : HasDerivAt (fun y' => expInvCut₂ u (Real.exp (2 * y') * z))
         (expInvCut₃ u (Real.exp (2 * y) * z) * (2 * (Real.exp (2 * y) * z))) y := by
-      simpa [Function.comp_def] using (hasDerivAt_expInvCut₂ hu (Real.exp (2 * y) * z)).comp y (hd_ez z y)
+      simpa [Function.comp_def] using (expInvCut.hasDerivAt₂ hu (Real.exp (2 * y) * z)).comp y (hd_ez z y)
     have hx2c2 : HasDerivAt (fun y' => (Real.exp (2 * y') * z) ^ 2 * expInvCut₂ u (Real.exp (2 * y') * z))
         (2 * (Real.exp (2 * y) * z) * (2 * (Real.exp (2 * y) * z)) *
             expInvCut₂ u (Real.exp (2 * y) * z) +
@@ -288,7 +288,7 @@ theorem jointLaw_two_fp_u (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W)
       hx2.fun_mul hc2
     have hc0 : HasDerivAt (fun y' => expInvCut u (Real.exp (2 * y') * z))
         (expInvCut₁ u (Real.exp (2 * y) * z) * (2 * (Real.exp (2 * y) * z))) y := by
-      simpa [Function.comp_def] using (hasDerivAt_expInvCut hu (Real.exp (2 * y) * z)).comp y (hd_ez z y)
+      simpa [Function.comp_def] using (expInvCut.hasDerivAt hu (Real.exp (2 * y) * z)).comp y (hd_ez z y)
     have hT1 := ((hxc1.const_mul 4).fun_add (hx2c2.const_mul 4)).fun_mul (hψ_deriv1 y)
     have hT2 := (hxc1.const_mul 4).fun_mul (hψ_deriv2 y)
     have hT3 := hc0.fun_mul (hψ_deriv3 y)
@@ -503,8 +503,8 @@ theorem jointLaw_two_fp_u (W : ℝ≥0 → Ω → ℝ) (hW : IsBM P W)
       B hBpre hBmeas hBcont hB0 (fun y => Real.exp (2 * y)) (by fun_prop)
       (t + 1) (integrable_sq_iSup_exp_preBrownian B hBpre hBmeas hBcont 2 (t + 1))
       F₁ F₁_x F₁_y F₁_xx F₁_xy F₁_yy F₁_yyy
-      (fun x y => (hasDerivAt_expInvCut hu x).mul_const (ψ y))
-      (fun x y => (hasDerivAt_expInvCut₁ hu x).mul_const (ψ y))
+      (fun x y => (expInvCut.hasDerivAt hu x).mul_const (ψ y))
+      (fun x y => (expInvCut.hasDerivAt₁ hu x).mul_const (ψ y))
       (fun x y => (hψ_deriv1 y).const_mul (expInvCut₁ u x))
       (fun x y => (hψ_deriv1 y).const_mul (expInvCut u x))
       (fun x y => (hψ_deriv2 y).const_mul (expInvCut u x))

@@ -16,8 +16,10 @@ open scoped ENNReal NNReal Real
 noncomputable section
 namespace Lyasoff2016
 
+namespace SfunC
+
 /-- Rewrite `SfunC` over the fixed domain `(0, ∞)` using `(x − k)₊`. -/
-theorem SfunC_eq_max (k : ℝ) (p : ℕ) (A : ℂ) (hk : 0 ≤ k) :
+theorem eq_max (k : ℝ) (p : ℕ) (A : ℂ) (hk : 0 ≤ k) :
     SfunC k p A =
       ∫ x in Ioi (0 : ℝ),
         (((max (x - k) 0) * x ^ (-(p : ℤ)) : ℝ) : ℂ) * Complex.exp (-A / x) := by
@@ -60,11 +62,14 @@ lemma lipschitzWith_one_max_sub (x : ℝ) :
     _ = |a - b| := abs_sub_comm _ _
 
 /-- Leibniz rule for `SfunC` in the strike (Lyasoff p. 1091): boundary term vanishes and
-`∂_k` of the `(x − k)` factor yields `SfunDerivC`. Taken as a classical analysis certificate
-for the incomplete-integral parameter derivative under `Re A > 0`; the double-integral
-passage for `∬ Re F` is isolated separately. -/
-axiom hasDerivAt_SfunC (k : ℝ) (p : ℕ) (A : ℂ)
+`∂_k` of the `(x − k)` factor yields `SfunDerivC`. Open classical-analysis hole
+(parameter derivative of the incomplete integral under `Re A > 0`); the double-integral
+passage for `∬ Re F` is isolated separately. No `axiom` — left as `sorry`. -/
+theorem hasDerivAt (k : ℝ) (p : ℕ) (A : ℂ)
     (hk : 0 < k) (hp : 2 ≤ p) (hA : 0 < A.re) :
-    HasDerivAt (fun κ => SfunC κ p A) (SfunDerivC k p A) k
+    HasDerivAt (fun κ => SfunC κ p A) (SfunDerivC k p A) k := by
+  sorry
+
+end SfunC
 
 end Lyasoff2016

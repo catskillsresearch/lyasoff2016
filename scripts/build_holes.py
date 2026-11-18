@@ -23,7 +23,11 @@ OUT_EDGES = ROOT / "holes-edges.txt"
 
 # Bare tactic `sorry`, not the substring of "sorry-free".
 SORRY_RE = re.compile(r"(?<![\w-])sorry(?![\w-])")
+# Project rule: no Lean `axiom`; treat any residual axiom decl as an open hole.
+AXIOM_RE = re.compile(r"^axiom\s+([A-Za-z0-9_']+)")
 DECL_RE = re.compile(r"^(theorem|lemma)\s+([A-Za-z0-9_']+)")
+NS_OPEN_RE = re.compile(r"^namespace\s+([A-Za-z0-9_'.]+)")
+NS_END_RE = re.compile(r"^end(?:\s+([A-Za-z0-9_'.]+))?\s*$")
 
 # Paper-facing nodes shown on the board (id → metadata).
 # status is overwritten from the Lean scan when the declaration is found.
@@ -152,24 +156,24 @@ NODES: dict[str, dict] = {
         "file": "Lyasoff2016/FokkerPlanck.lean",
         "detail": "Reflection / running-max identity in law.",
     },
-    # §4
+    # §4 — rearrangements (sorry-free) + open density-input holes
     "theorem_4_1_pde": {
-        "label": "Thm 4.1 PDE",
+        "label": "Thm 4.1 PDE (cond.)",
         "section": 4,
         "file": "Lyasoff2016/Foliation.lean",
-        "detail": "Foliation PDE for the conditional density.",
+        "detail": "Conditional rearrangement: if SatisfiesTheorem41PDE, then the PDE.",
     },
     "theorem_4_1_striking": {
-        "label": "Thm 4.1 (4.4)",
+        "label": "Thm 4.1 (4.4) (cond.)",
         "section": 4,
         "file": "Lyasoff2016/Foliation.lean",
-        "detail": "Striking reciprocal-moment identity.",
+        "detail": "Conditional rearrangement: if SatisfiesStrikingIdentity, then (4.4).",
     },
     "formula_4_6": {
-        "label": "(4.6)",
+        "label": "(4.6) (cond.)",
         "section": 4,
         "file": "Lyasoff2016/Foliation.lean",
-        "detail": "Conditional density via T_{t,y} from the y=0 slice.",
+        "detail": "Conditional rearrangement: if SatisfiesFoliationODE, then (4.6).",
     },
     "prop_4_4": {
         "label": "Prop 4.4",
@@ -178,10 +182,34 @@ NODES: dict[str, dict] = {
         "detail": "Uniqueness of φ(·|0) from the Laplace normalisation.",
     },
     "theorem_4_5": {
-        "label": "Thm 4.5",
+        "label": "Thm 4.5 (cond.)",
         "section": 4,
         "file": "Lyasoff2016/Foliation.lean",
-        "detail": "Closed form of the reciprocal Laplace transform L_{t,y}.",
+        "detail": "Conditional rearrangement: mass + Laplace reduction ⇒ arcosh form.",
+    },
+    "cond_density_satisfies_theorem_41_pde": {
+        "label": "Cond dens. PDE",
+        "section": 4,
+        "file": "Lyasoff2016/Foliation.lean",
+        "detail": "Open: ∃ conditional density satisfying SatisfiesTheorem41PDE.",
+    },
+    "cond_density_satisfies_striking": {
+        "label": "Cond dens. (4.4)",
+        "section": 4,
+        "file": "Lyasoff2016/Foliation.lean",
+        "detail": "Open: ∃ conditional density satisfying SatisfiesStrikingIdentity.",
+    },
+    "cond_density_satisfies_foliation_ode": {
+        "label": "Cond dens. ODE",
+        "section": 4,
+        "file": "Lyasoff2016/Foliation.lean",
+        "detail": "Open: ∃ conditional density satisfying SatisfiesFoliationODE.",
+    },
+    "cond_density_satisfies_laplace_inputs": {
+        "label": "Cond dens. Laplace",
+        "section": 4,
+        "file": "Lyasoff2016/Foliation.lean",
+        "detail": "Open: ∃ conditional density with Thm 4.5 mass + Laplace inputs.",
     },
     # §5
     "g_solves_contour_equation": {
@@ -237,31 +265,67 @@ NODES: dict[str, dict] = {
         "label": "Asian delta",
         "section": 6,
         "file": "Lyasoff2016/Asian.lean",
-        "detail": "Strike derivative = ∬ Re F′.",
+        "detail": "Strike derivative = ∬ Re F′ (needs Leibniz under ∬).",
+    },
+    "SfunC.hasDerivAt": {
+        "label": "∂_k SfunC",
+        "section": 6,
+        "file": "Lyasoff2016/SfunCDeriv.lean",
+        "detail": "Open: Leibniz / parameter derivative of SfunC (no Lean axiom).",
+    },
+    "hasDerivAt_integral_Re_Ffun": {
+        "label": "∂_k ∬ Re F",
+        "section": 6,
+        "file": "Lyasoff2016/Asian.lean",
+        "detail": "Open: pass strike derivative under ∬ Re F.",
     },
     "table1_asian_enclosure": {
         "label": "Table 1",
         "section": 6,
         "file": "Lyasoff2016/TableClaim.lean",
-        "detail": "Interval certificate for Table 1 (T=1/2, σ=0.22).",
+        "detail": "Table 1 enclosure via classical numerical hole.",
     },
     "table2_asian_enclosure": {
         "label": "Table 2",
         "section": 6,
         "file": "Lyasoff2016/TableClaim.lean",
-        "detail": "Interval certificate for Table 2 (T=1/2, σ=1/3).",
+        "detail": "Table 2 enclosure via classical numerical hole.",
     },
     "table3_asian_enclosure": {
         "label": "Table 3",
         "section": 6,
         "file": "Lyasoff2016/TableClaim.lean",
-        "detail": "Interval certificate for Table 3 (T=1, σ=0.22).",
+        "detail": "Table 3 enclosure via classical numerical hole.",
     },
     "table4_asian_enclosure": {
         "label": "Table 4",
         "section": 6,
         "file": "Lyasoff2016/TableClaim.lean",
-        "detail": "Interval certificate for Table 4 (T=1, σ=1/3).",
+        "detail": "Table 4 enclosure via classical numerical hole.",
+    },
+    "table1_asian_enclosure_classical": {
+        "label": "Table 1 num.",
+        "section": 6,
+        "file": "Lyasoff2016/TableClassical.lean",
+        "detail": "Open: mpmath/spline absolute-error claim for Table 1.",
+    },
+    "table2_asian_enclosure_classical": {
+        "label": "Table 2 num.",
+        "section": 6,
+        "file": "Lyasoff2016/TableClassical.lean",
+        "detail": "Open: mpmath/spline absolute-error claim for Table 2.",
+    },
+    "table3_asian_enclosure_classical": {
+        "label": "Table 3 num.",
+        "section": 6,
+        "file": "Lyasoff2016/TableClassical.lean",
+        "detail": "Open: mpmath/spline absolute-error claim for Table 3.",
+    },
+    "table4_asian_enclosure_classical": {
+        "label": "Table 4 num.",
+        "section": 6,
+        "file": "Lyasoff2016/TableClassical.lean",
+        "detail": "Open: mpmath/spline absolute-error claim for Table 4.",
     },
 }
 
@@ -287,25 +351,31 @@ HARD_EDGES: list[tuple[str, str]] = [
     ("jointFokkerPlanckAdjoint_eq_zero", "fokker_planck_joint"),
     ("time_reversal", "fokker_planck_joint"),
     ("time_reversal", "remark_3_2"),
-    # §4 internal (already sorry-free; keep for structure)
+    # §4 rearrangements (sorry-free structure)
     ("theorem_4_1_pde", "theorem_4_1_striking"),
     ("theorem_4_1_pde", "formula_4_6"),
     ("formula_4_6", "prop_4_4"),
     ("prop_4_4", "theorem_4_5"),
     ("theorem_4_5", "theorem_4_1_striking"),
-    # §5 (constructive ContourEq + InverseGamma + YorJointDensity; classical Yor soft)
+    # §5
     ("g_solves_contour_equation", "pi_formula"),
-    # §6
+    # §6 pricing + open classical holes
     ("S_zero", "S_closed_form"),
     ("pi_formula", "asian_price_formula"),
     ("girsanov_density", "asian_price_formula"),
     ("S_closed_form", "asian_price_formula"),
     ("asian_price_formula", "asian_delta"),
+    ("SfunC.hasDerivAt", "asian_delta"),
+    ("hasDerivAt_integral_Re_Ffun", "asian_delta"),
     ("asian_price_formula", "table1_asian_enclosure"),
     ("asian_price_formula", "table2_asian_enclosure"),
     ("asian_price_formula", "table3_asian_enclosure"),
     ("asian_price_formula", "table4_asian_enclosure"),
     ("benchmark_k_zero", "table1_asian_enclosure"),
+    ("table1_asian_enclosure_classical", "table1_asian_enclosure"),
+    ("table2_asian_enclosure_classical", "table2_asian_enclosure"),
+    ("table3_asian_enclosure_classical", "table3_asian_enclosure"),
+    ("table4_asian_enclosure_classical", "table4_asian_enclosure"),
 ]
 
 # Soft edges: paper/logical order only. Drawn on the board but do NOT force
@@ -314,35 +384,77 @@ SOFT_EDGES: list[tuple[str, str]] = [
     ("prop_2_2", "scaling_relations"),
     ("prop_2_2", "fokker_planck_joint"),
     ("fokker_planck_joint", "theorem_4_1_pde"),
+    ("fokker_planck_joint", "cond_density_satisfies_theorem_41_pde"),
+    ("cond_density_satisfies_theorem_41_pde", "cond_density_satisfies_foliation_ode"),
+    ("cond_density_satisfies_foliation_ode", "cond_density_satisfies_laplace_inputs"),
+    ("cond_density_satisfies_laplace_inputs", "cond_density_satisfies_striking"),
     ("theorem_4_5", "g_solves_contour_equation"),
     ("pi_formula", "remark_5_1"),
     ("remark_5_1", "yor_formula"),
+    ("SfunC.hasDerivAt", "hasDerivAt_integral_Re_Ffun"),
 ]
 
 def scan_lean() -> dict[str, dict]:
-    """Return map decl_name → {file, line, has_sorry}."""
+    """Return map decl_name → {file, line, has_sorry}.
+
+    Declaration names are recorded both bare and dotted under open namespaces
+    (skipping the project root `Lyasoff2016`), so board ids like
+    `SfunC.hasDerivAt` resolve after Mathlib-style nesting.
+    """
     found: dict[str, dict] = {}
     for path in sorted(LEAN_ROOT.rglob("*.lean")):
         lines = path.read_text(encoding="utf-8").splitlines()
-        decls: list[tuple[int, str]] = []
+        # (lineno, name, is_axiom, ns_prefix_parts)
+        decls: list[tuple[int, str, bool, tuple[str, ...]]] = []
+        ns_stack: list[str] = []
         for i, line in enumerate(lines):
-            m = DECL_RE.match(line)
+            stripped = line.split("--", 1)[0].rstrip()
+            m = NS_OPEN_RE.match(stripped)
             if m:
-                decls.append((i, m.group(2)))
-        for idx, (lineno, name) in enumerate(decls):
+                for part in m.group(1).split("."):
+                    if part:
+                        ns_stack.append(part)
+                continue
+            m = NS_END_RE.match(stripped)
+            if m:
+                end_name = m.group(1)
+                if end_name:
+                    parts = [p for p in end_name.split(".") if p]
+                    while parts and ns_stack:
+                        if ns_stack[-len(parts) :] == parts:
+                            del ns_stack[-len(parts) :]
+                            break
+                        ns_stack.pop()
+                elif ns_stack:
+                    ns_stack.pop()
+                continue
+            m = DECL_RE.match(stripped)
+            if m:
+                decls.append((i, m.group(2), False, tuple(ns_stack)))
+                continue
+            m = AXIOM_RE.match(stripped)
+            if m:
+                # Residual `axiom` counts as unfinished (project forbids axioms).
+                decls.append((i, m.group(1), True, tuple(ns_stack)))
+        for idx, (lineno, name, is_axiom, ns_parts) in enumerate(decls):
             end = decls[idx + 1][0] if idx + 1 < len(decls) else len(lines)
             body = "\n".join(lines[lineno:end])
             # Ignore sorry mentions inside comments/docstrings of the form sorry-free
             # by stripping block/line comments first.
             stripped = re.sub(r"/-.*?-/", "", body, flags=re.S)
             stripped = re.sub(r"--.*?$", "", stripped, flags=re.M)
-            has = bool(SORRY_RE.search(stripped))
+            has = is_axiom or bool(SORRY_RE.search(stripped))
             rel = str(path.relative_to(ROOT))
-            # Prefer first occurrence (paper module over Lib duplicates).
-            if name not in found:
-                found[name] = {"file": rel, "line": lineno + 1, "has_sorry": has}
-            elif has and not found[name]["has_sorry"]:
-                found[name] = {"file": rel, "line": lineno + 1, "has_sorry": has}
+            # Drop the project root namespace from dotted ids.
+            dotted_parts = [p for p in ns_parts if p != "Lyasoff2016"]
+            names = [name]
+            if dotted_parts:
+                names.append(".".join(dotted_parts + [name]))
+            for key in names:
+                if key not in found:
+                    found[key] = {"file": rel, "line": lineno + 1, "has_sorry": has}
+                elif has and not found[key]["has_sorry"]:
+                    found[key] = {"file": rel, "line": lineno + 1, "has_sorry": has}
     return found
 
 

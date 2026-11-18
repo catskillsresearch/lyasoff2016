@@ -244,7 +244,7 @@ theorem asian_price_formula_k_zero (P : Measure Ω) [IsProbabilityMeasure P]
 
 /-- Under an atomless law for `X`, `∂_K E[(X-K)₊] = -P(X > K)`.
 Uses `hasDerivAt_integral_of_dominated_loc_of_lip` with bound `1` and the
-pointwise derivative from `hasDerivAt_max_sub`. -/
+pointwise derivative from `SfunC.hasDerivAt_max_sub`. -/
 theorem hasDerivAt_integral_max_sub
     (P : Measure Ω) [IsFiniteMeasure P] {X : Ω → ℝ} (hX : AEMeasurable X P) (K : ℝ)
     (hcont : ∀ κ, P {ω | X ω = κ} = 0)
@@ -268,13 +268,13 @@ theorem hasDerivAt_integral_max_sub
   have hlip : ∀ᵐ ω ∂P, LipschitzOnWith (Real.nnabs (1 : ℝ)) (fun κ => F κ ω)
       (Metric.ball K 1) := by
     refine Eventually.of_forall fun ω => ?_
-    simpa using (lipschitzWith_one_max_sub (X ω)).lipschitzOnWith (s := Metric.ball K 1)
+    simpa using (SfunC.lipschitzWith_one_max_sub (X ω)).lipschitzOnWith (s := Metric.ball K 1)
   have hdiff : ∀ᵐ ω ∂P, HasDerivAt (fun κ => F κ ω) (F'm ω) K := by
     have hne : ∀ᵐ ω ∂P, X ω ≠ K := by
       rw [ae_iff]; simpa using hcont K
     filter_upwards [hne, hXm] with ω hneX hω
     have hne' : K ≠ X ω := hneX.symm
-    have hpt := hasDerivAt_max_sub (X ω) K hne'
+    have hpt := SfunC.hasDerivAt_max_sub (X ω) K hne'
     have : (if K < X ω then (-1 : ℝ) else 0) = F'm ω := by
       by_cases h : K < Xm ω <;> simp [F'm, s, h, hω, Set.indicator]
     simpa [F, this] using hpt
@@ -293,14 +293,15 @@ theorem hasDerivAt_integral_max_sub
   exact hmain.2
 
 /-- Differentiation under `∬ Re F` in the strike (Lyasoff §6 / (6.1)).
-Pointwise `∂_k Re F = Re F'` is `hasDerivAt_Ffun_re`; this axiom isolates the
+Pointwise `∂_k Re F = Re F'` is `hasDerivAt_Ffun_re`; this open hole isolates the
 classical justification for passing the derivative under the double improper integral
-on `(0, ∞)²`. -/
-axiom hasDerivAt_integral_Re_Ffun (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
+on `(0, ∞)²`. No `axiom` — left as `sorry`. -/
+theorem hasDerivAt_integral_Re_Ffun (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
     (hσ : 0 < σ) (ht : 0 < t) (hK : 0 < K) :
     HasDerivAt
       (fun κ => ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (Ffun σ ν (t : ℝ) κ u w).re)
-      (∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν (t : ℝ) K u w).re) K
+      (∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν (t : ℝ) K u w).re) K := by
+  sorry
 
 /-- Asian delta identity (Lyasoff pp. 1091–1093): strike derivative of the call equals
 the double integral of `Re F'` (`SfunDerivC = ∂_k SfunC`). -/

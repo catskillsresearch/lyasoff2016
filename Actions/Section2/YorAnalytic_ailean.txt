@@ -34,13 +34,13 @@ Mathematical English for `YorAnalytic.lean` (Lean names in typewriter).
 
 **Definition** (`dEvalYorSumX`). Stated and proved in Lean; see the source for the formal statement.
 
-**Lemma** (`yorTerm_hasDerivAt_y`). Stated and proved in Lean; see the source for the formal statement.
+**Lemma** (`yorTerm.hasDerivAt_y`). Stated and proved in Lean; see the source for the formal statement.
 
-**Lemma** (`yorTerm_hasDerivAt_x`). Stated and proved in Lean; see the source for the formal statement.
+**Lemma** (`yorTerm.hasDerivAt_x`). Stated and proved in Lean; see the source for the formal statement.
 
-**Lemma** (`evalYorSum_hasDerivAt_y`). Stated and proved in Lean; see the source for the formal statement.
+**Lemma** (`evalYorSum.hasDerivAt_y`). Stated and proved in Lean; see the source for the formal statement.
 
-**Lemma** (`evalYorSum_hasDerivAt_x`). Stated and proved in Lean; see the source for the formal statement.
+**Lemma** (`evalYorSum.hasDerivAt_x`). Stated and proved in Lean; see the source for the formal statement.
 
 **Definition** (`yorPdList`). Stated and proved in Lean; see the source for the formal statement.
 

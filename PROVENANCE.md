@@ -42,13 +42,23 @@ done holes. Offline axiom audit (`scripts/validate_chart_axioms.sh`):
 | Comparator family | 33 | ⊆ `{propext, Quot.sound, Classical.choice}` |
 | Classical certificates | 5 | also depend on project axioms |
 
-The five classical certificates are `asian_delta` (analytic Leibniz/integral
-axiom `hasDerivAt_integral_Re_Ffun`) and `table1`–`table4_asian_enclosure`
-(numerical enclosure axioms in `TableClassical.lean`). Palomar Comparator
-permits only `propext` / `Quot.sound` / `Classical.choice`, so those five
-chart entries are **disclosed outside** `comparator.json` and recorded in
+**Project rule: no Lean `axiom`.** Classical/numerical gaps are `sorry`
+theorems tracked on the holes board.
+
+The five classical chart certificates are `asian_delta` (needs open holes
+`hasDerivAt_integral_Re_Ffun` / `SfunC.hasDerivAt`) and
+`table1`–`table4_asian_enclosure` (need `table*_asian_enclosure_classical`).
+Palomar Comparator permits only `propext` / `Quot.sound` / `Classical.choice`,
+so those five chart entries are **outside** `comparator.json` and recorded in
 `formalization.yaml` `known_gaps`. Density-identity theorems remain
 axioms-clean (no classical citation axioms for density IDs).
+
+Selected §4 Comparator theorems (`theorem_4_1_pde`, `theorem_4_1_striking`,
+`formula_4_6`, `theorem_4_5`) are **conditional rearrangements**: they assume
+the paper’s foliation PDE / striking / ODE / Laplace inputs and prove the
+displayed identities under those hypotheses. They do not establish those
+inputs for the conditional density; see `known_gaps` and the §4 Actions
+writeup.
 
 Compared declarations live in namespace `Lyasoff2016`. `Challenge.lean` is a
 single Mathlib-only statement file (deliberate `sorry` holes).
@@ -61,4 +71,5 @@ Proofs use Mathlib together with public Git dependencies pinned in
 kolmogorov_extension4 as transitive). Challenge imports Mathlib only
 (including Mathlib’s `IsBrownianReal`). Pin ledger: `vendor/SOURCES`.
 
-No project-defined axioms appear in the Comparator family.
+No project-defined `axiom`s appear anywhere; unfinished classical steps are
+`sorry` holes outside the Comparator family.

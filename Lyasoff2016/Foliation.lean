@@ -20,12 +20,15 @@ namespace Lyasoff2016
 variable {Ω : Type*} [MeasurableSpace Ω]
 
 /- Paper: p. 1071–1073, Theorem 4.1 (PDE part).
-   Plain recap: the conditional density satisfies the first-order transport PDE along V. -/
+   Plain recap: hypothesis that a candidate φc satisfies the first-order
+   transport PDE along V. Establishing this for the conditional density of
+   exp-BM is open; `theorem_4_1_pde` is the conditional rearrangement. -/
 def SatisfiesTheorem41PDE (σ t : ℝ) (φc : ℝ → ℝ → ℝ) : Prop :=
   ∀ x > 0, ∀ y : ℝ,
     σ ^ 2 * x / 2 * deriv (fun z => φc z y) x + σ * deriv (fun y' => φc x y') y
       = (σ * y / t + (1 - Real.exp (σ * y)) / x - σ ^ 2 / 2) * φc x y
 
+/- Conditional form of Thm 4.1 PDE: assumes `SatisfiesTheorem41PDE`. -/
 theorem theorem_4_1_pde (σ t : ℝ) (φc : ℝ → ℝ → ℝ)
     (htransport : SatisfiesTheorem41PDE σ t φc) (x y : ℝ) (hx : 0 < x) :
     σ ^ 2 * x / 2 * deriv (fun z => φc z y) x + σ * deriv (fun y' => φc x y') y
@@ -33,14 +36,18 @@ theorem theorem_4_1_pde (σ t : ℝ) (φc : ℝ → ℝ → ℝ)
   htransport x hx y
 
 /- Paper: p. 1073, Theorem 4.1 identity (4.4) (Donati-Martin–Matsumoto–Yor).
-   Plain recap: E[(∫₀ᵗ e^{σW})^{-1} | W_t = y/σ] = y/(t(e^y−1)) (and 1/t at y=0).
-   PAPER NOTE: printed ∫₀ᵗ should be ∫₀^∞ x^{-1} φ(x|·) dx. -/
+   Plain recap: hypothesis for the reciprocal-moment cases
+   E[(∫ e^{σW})^{-1} | W_t = y/σ] = y/(t(e^y−1)) (and 1/t at y=0).
+   PAPER NOTE: printed ∫₀ᵗ should be ∫₀^∞ x^{-1} φ(x|·) dx.
+   Establishing this for the conditional density is open;
+   `theorem_4_1_striking` is the conditional rearrangement. -/
 def SatisfiesStrikingIdentity (σ t : ℝ) (φc : ℝ → ℝ → ℝ) : Prop :=
   (∀ y : ℝ, y ≠ 0 →
     ∫ x in Ioi (0 : ℝ), x⁻¹ * φc x (y / σ) =
       y / (t * (Real.exp y - 1))) ∧
   (∫ x in Ioi (0 : ℝ), x⁻¹ * φc x 0 = 1 / t)
 
+/- Conditional form of Thm 4.1 (4.4): assumes `SatisfiesStrikingIdentity`. -/
 theorem theorem_4_1_striking (σ t : ℝ)
     (φc : ℝ → ℝ → ℝ) (hbalance : SatisfiesStrikingIdentity σ t φc) (y : ℝ) :
     ∫ x in Ioi (0 : ℝ), x⁻¹ * φc x (y / σ)
@@ -75,14 +82,16 @@ theorem hasDerivAt_ode_solution (x u : ℝ) :
   ring
 
 /- The integrated ODE (4.5), with its integration constant fixed at `u = 0`.
-   This is the precise analytic input needed for the algebraic rearrangement (4.6). -/
+   Analytic input for the algebraic rearrangement (4.6); establishing it for
+   the conditional density is open. -/
 def SatisfiesFoliationODE (σ t : ℝ) (φc : ℝ → ℝ → ℝ) : Prop :=
   ∀ x > 0, ∀ u : ℝ,
     φc (x / σ ^ 2 * Real.exp (u / 2)) (u / σ) =
       φc (x / σ ^ 2) 0 *
         Real.exp (-u / 2 - 4 / x * Real.cosh (u / 2) + 4 / x + u ^ 2 / (2 * σ ^ 2 * t))
 
-/- Paper: p. 1075–1076, formula (4.6). -/
+/- Paper: p. 1075–1076, formula (4.6).
+   Conditional rearrangement assuming `SatisfiesFoliationODE`. -/
 theorem formula_4_6 (σ t : ℝ) (hσ : 0 < σ) (φc : ℝ → ℝ → ℝ)
     (hfol : SatisfiesFoliationODE σ t φc) (x y : ℝ) (hx : 0 < x) :
     φc x y =
@@ -331,14 +340,15 @@ theorem prop_4_4 (φ ψ : ℝ → ℝ)
   filter_upwards [hzero] with x hx
   exact sub_eq_zero.mp hx
 
-/- Equation (4.7): the transformed mass identity at the zero endpoint. -/
+/- Equation (4.7): transformed mass identity at the zero endpoint (hypothesis;
+   not yet proved for the conditional density). -/
 def TransformedMassIdentity (σ t : ℝ) (φ0 : ℝ → ℝ) : Prop :=
   ∀ z : ℝ,
     ∫ x in Ioi (0 : ℝ),
       φ0 x * Real.exp (-4 / (σ ^ 2 * x) * (Real.cosh (σ * z / 2) - 1)) =
         Real.exp (-z ^ 2 / (2 * t))
 
-/- The change-of-variables reduction in the proof of Theorem 4.5. -/
+/- Change-of-variables reduction in the proof of Theorem 4.5 (hypothesis). -/
 def HasLaplaceReduction (σ t : ℝ) (φc : ℝ → ℝ → ℝ) : Prop :=
   ∀ y u : ℝ, 0 ≤ u →
     laplaceCond φc y u =
@@ -348,7 +358,8 @@ def HasLaplaceReduction (σ t : ℝ) (φc : ℝ → ℝ → ℝ) : Prop :=
             (u * σ ^ 2 / 4 * Real.exp (-(σ * y) / 2) + Real.cosh (σ * y / 2) - 1))
 
 /- Paper: p. 1078, Theorem 4.5.
-   Plain recap: closed form for the Laplace transform via an arcosh expression. -/
+   Conditional closed form for the Laplace transform via arcosh, assuming
+   `TransformedMassIdentity` and `HasLaplaceReduction`. -/
 theorem theorem_4_5 (σ t : ℝ) (hσ : 0 < σ) (ht : 0 < t)
     (φc : ℝ → ℝ → ℝ) (hmass : TransformedMassIdentity σ t (fun x => φc x 0))
     (hreduce : HasLaplaceReduction σ t φc) (y u : ℝ) (hu : 0 ≤ u) :
@@ -413,5 +424,36 @@ theorem remark_4_6 (t : ℝ) (φc : ℝ → ℝ → ℝ)
     (hmom : HasNegativeMomentsUpToThree t φc) :
     ∫ x in Ioi (0 : ℝ), x⁻¹ * φc x 0 = 1 / t := by
   simpa [negMomentFormula] using neg_moments_at_zero t φc hmom 1 (by norm_num)
+
+/-! ## Open: analytic inputs for the conditional density
+
+The Comparator theorems above are conditional rearrangements. The holes below ask for
+those inputs on a genuine conditional density of `(expInt, W)`. -/
+
+/-- Open: some conditional density of `(expInt, W)` satisfies the Thm 4.1 transport PDE. -/
+theorem cond_density_satisfies_theorem_41_pde (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (_ht : 0 < t) :
+    ∃ φc : ℝ → ℝ → ℝ, IsCondDensity P W σ t φc ∧ SatisfiesTheorem41PDE σ t φc := by
+  sorry
+
+/-- Open: some conditional density satisfies the striking reciprocal-moment identity (4.4). -/
+theorem cond_density_satisfies_striking (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (_ht : 0 < t) :
+    ∃ φc : ℝ → ℝ → ℝ, IsCondDensity P W σ t φc ∧ SatisfiesStrikingIdentity σ t φc := by
+  sorry
+
+/-- Open: some conditional density satisfies the integrated foliation ODE (4.5). -/
+theorem cond_density_satisfies_foliation_ode (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (_ht : 0 < t) :
+    ∃ φc : ℝ → ℝ → ℝ, IsCondDensity P W σ t φc ∧ SatisfiesFoliationODE σ t φc := by
+  sorry
+
+/-- Open: some conditional density satisfies the Thm 4.5 mass + Laplace-reduction inputs. -/
+theorem cond_density_satisfies_laplace_inputs (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (_ht : 0 < t) :
+    ∃ φc : ℝ → ℝ → ℝ,
+      IsCondDensity P W σ t φc ∧
+        TransformedMassIdentity σ t (fun x => φc x 0) ∧ HasLaplaceReduction σ t φc := by
+  sorry
 
 end Lyasoff2016

@@ -1,9 +1,9 @@
 Mathematical English for `SfunCDeriv.lean` (Lean names in typewriter).
 
-**Theorem** (`SfunC_eq_max`). Stated and proved in Lean; see the source for the formal statement.
+**Theorem** (`SfunC.eq_max`). Relates the complex incomplete integral to a `max` integrand form used in the strike derivative.
 
-**Lemma** (`hasDerivAt_max_sub`). Stated and proved in Lean; see the source for the formal statement.
+**Lemma** (`SfunC.hasDerivAt_max_sub`). Differentiability of `κ ↦ max(x − κ, 0)`.
 
-**Lemma** (`lipschitzWith_one_max_sub`). Stated and proved in Lean; see the source for the formal statement.
+**Lemma** (`SfunC.lipschitzWith_one_max_sub`). Unit Lipschitz bound for that `max` map in the strike.
 
-**Axiom** (`hasDerivAt_SfunC`). Stated and proved in Lean; see the source for the formal statement.
+**Theorem** (`SfunC.hasDerivAt`). Open hole (`sorry`, no Lean `axiom`): under `0 < k`, `2 ≤ p`, and `Re A > 0`, `κ ↦ SfunC κ p A` is differentiable at `k` with derivative `SfunDerivC k p A` (Leibniz / parameter differentiation of the incomplete integral; Lyasoff p. 1091). Used by `FfunDeriv` on the `asian_delta` path. On the holes board; outside Comparator.

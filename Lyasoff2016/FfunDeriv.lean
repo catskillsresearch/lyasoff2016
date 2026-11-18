@@ -40,7 +40,7 @@ theorem FfunDeriv_eq_prefactor (σ ν t k u w : ℝ) :
 theorem hasDerivAt_Ffun (σ ν t k u w : ℝ) (hσ : σ ≠ 0) (hk : 0 < k) :
     HasDerivAt (fun κ => Ffun σ ν t κ u w) (FfunDeriv σ ν t k u w) k := by
   have hA : 0 < (Afun σ ν t u w).re := Afun.re_pos σ ν t u w hσ
-  have hS := hasDerivAt_SfunC k 4 (Afun σ ν t u w) hk (by decide) hA
+  have hS := SfunC.hasDerivAt k 4 (Afun σ ν t u w) hk (by decide) hA
   have hconst :
       HasDerivAt (fun _ : ℝ => FfunPrefactor σ ν t u w) 0 k := hasDerivAt_const _ _
   have hprod := hconst.mul hS

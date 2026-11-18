@@ -102,7 +102,10 @@ private lemma hasDerivAt_exp_neg_div {u x : ℝ} (hx : x ≠ 0) :
   · funext y; simp [div_eq_mul_inv]
   · field_simp
 
-lemma hasDerivAt_expInvCut {u : ℝ} (hu : 0 < u) (x : ℝ) :
+namespace expInvCut
+
+/-- `HasDerivAt` for `expInvCut u`. -/
+lemma hasDerivAt {u : ℝ} (hu : 0 < u) (x : ℝ) :
     HasDerivAt (expInvCut u) (expInvCut₁ u x) x := by
   rcases lt_trichotomy x 0 with hx | rfl | hx
   · have hev : expInvCut u =ᶠ[nhds x] fun _ => 0 :=
@@ -120,7 +123,8 @@ lemma hasDerivAt_expInvCut {u : ℝ} (hu : 0 < u) (x : ℝ) :
     convert hd using 1
     simp [expInvCut₁, hx]; ring
 
-lemma hasDerivAt_expInvCut₁ {u : ℝ} (hu : 0 < u) (x : ℝ) :
+/-- `HasDerivAt` for `expInvCut₁ u`. -/
+lemma hasDerivAt₁ {u : ℝ} (hu : 0 < u) (x : ℝ) :
     HasDerivAt (expInvCut₁ u) (expInvCut₂ u x) x := by
   rcases lt_trichotomy x 0 with hx | rfl | hx
   · have hev : expInvCut₁ u =ᶠ[nhds x] fun _ => 0 :=
@@ -152,7 +156,8 @@ lemma hasDerivAt_expInvCut₁ {u : ℝ} (hu : 0 < u) (x : ℝ) :
     simp only [expInvCut₂, hx, ↓reduceIte]
     field_simp [hx.ne']
 
-lemma hasDerivAt_expInvCut₂ {u : ℝ} (hu : 0 < u) (x : ℝ) :
+/-- `HasDerivAt` for `expInvCut₂ u`. -/
+lemma hasDerivAt₂ {u : ℝ} (hu : 0 < u) (x : ℝ) :
     HasDerivAt (expInvCut₂ u) (expInvCut₃ u x) x := by
   rcases lt_trichotomy x 0 with hx | rfl | hx
   · have hev : expInvCut₂ u =ᶠ[nhds x] fun _ => 0 :=
@@ -191,6 +196,8 @@ lemma hasDerivAt_expInvCut₂ {u : ℝ} (hu : 0 < u) (x : ℝ) :
     convert hd using 1
     simp only [expInvCut₃, hx, ↓reduceIte]
     field_simp [hx.ne']; ring
+
+end expInvCut
 
 /-- Bounds on `expInvCut` and its first 3 derivatives on all of `ℝ` for `u > 0`. -/
 lemma expInvCut_bounds {u : ℝ} (hu : 0 < u) :
@@ -357,9 +364,9 @@ lemma mul_expInvCut_bounds {u : ℝ} (hu : 0 < u) :
 
 lemma continuous_expInvCut {u : ℝ} (hu : 0 < u) :
     Continuous (expInvCut u) ∧ Continuous (expInvCut₁ u) ∧ Continuous (expInvCut₂ u) :=
-  ⟨continuous_iff_continuousAt.mpr fun x => (hasDerivAt_expInvCut hu x).continuousAt,
-   continuous_iff_continuousAt.mpr fun x => (hasDerivAt_expInvCut₁ hu x).continuousAt,
-   continuous_iff_continuousAt.mpr fun x => (hasDerivAt_expInvCut₂ hu x).continuousAt⟩
+  ⟨continuous_iff_continuousAt.mpr fun x => (expInvCut.hasDerivAt hu x).continuousAt,
+   continuous_iff_continuousAt.mpr fun x => (expInvCut.hasDerivAt₁ hu x).continuousAt,
+   continuous_iff_continuousAt.mpr fun x => (expInvCut.hasDerivAt₂ hu x).continuousAt⟩
 
 /-- Compactly supported `C^3` functions on `ℝ` have global bounds on `ψ, ψ', ψ'', ψ'''`. -/
 lemma contDiff_three_compactSupport_bounds {ψ : ℝ → ℝ} (hψ : ContDiff ℝ 3 ψ)

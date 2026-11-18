@@ -90,8 +90,10 @@ lemma Jm_continuousOn {t : ℝ} (ht : 0 < t) (m : ℕ) :
       fun_prop
   exact (continuous_iff_continuousAt.mpr fun r => hc.continuousAt)
 
+namespace Jm
+
 /-- Derivative of `Jm t m` on `(0, ∞)` is `Jm t (m + 1)`. -/
-lemma Jm_hasDerivAt {t : ℝ} (ht : 0 < t) (m : ℕ) {r : ℝ} (hr : 0 < r) :
+lemma hasDerivAt {t : ℝ} (ht : 0 < t) (m : ℕ) {r : ℝ} (hr : 0 < r) :
     HasDerivAt (Jm t m) (Jm t (m + 1) r) r := by
   let F : ℝ → ℝ → ℝ := fun r' u =>
     (-1 : ℝ) ^ m * ((Real.cosh u) ^ m * Real.exp (-u ^ 2 / (2 * t) - r' * Real.cosh u) *
@@ -166,6 +168,8 @@ lemma Jm_hasDerivAt {t : ℝ} (ht : 0 < t) (m : ℕ) {r : ℝ} (hr : 0 < r) :
   exact (hasDerivAt_integral_of_dominated_loc_of_deriv_le hs_nhds hF_meas hF_int hF'_meas
     h_bound (integrableOn_cosh_pow_exp_neg_quad_mul_sinh ht (m + 1)) h_diff).2
 
+end Jm
+
 /-- `Jm t m` is `C^k` on `(0, ∞)` for every `k, m : ℕ`. -/
 lemma Jm_contDiffOn {t : ℝ} (ht : 0 < t) :
     ∀ k m : ℕ, ContDiffOn ℝ k (Jm t m) (Ioi 0) := by
@@ -178,10 +182,10 @@ lemma Jm_contDiffOn {t : ℝ} (ht : 0 < t) :
   | succ k ih =>
       intro m
       rw [Nat.cast_add, Nat.cast_one, contDiffOn_succ_iff_deriv_of_isOpen isOpen_Ioi]
-      refine ⟨fun r hr => (Jm_hasDerivAt ht m hr).differentiableAt.differentiableWithinAt,
+      refine ⟨fun r hr => (Jm.hasDerivAt ht m hr).differentiableAt.differentiableWithinAt,
         fun hk => by simp at hk, ?_⟩
       have heq : EqOn (deriv (Jm t m)) (Jm t (m + 1)) (Ioi 0) := fun r hr =>
-        (Jm_hasDerivAt ht m hr).deriv
+        (Jm.hasDerivAt ht m hr).deriv
       exact (ih (m + 1)).congr heq
 
 /-- Iterated derivative of `Jm t 0` at `r > 0` equals `Jm t k r`. -/
@@ -195,7 +199,7 @@ lemma iteratedDeriv_Jm {t : ℝ} (ht : 0 < t) (k : ℕ) {r : ℝ} (hr : 0 < r) :
         rw [iteratedDeriv_succ']
         have heq : deriv (Jm t m) =ᶠ[𝓝 r'] Jm t (m + 1) := by
           filter_upwards [isOpen_Ioi.mem_nhds hr'] with y hy
-          exact (Jm_hasDerivAt ht m hy).deriv
+          exact (Jm.hasDerivAt ht m hy).deriv
         rw [heq.iteratedDeriv_eq, ih (m + 1) r' hr']
         congr 1; ring
   simpa using hgen 0 r hr
@@ -481,7 +485,7 @@ lemma Jm_poly_decay {t : ℝ} (ht : 0 < t) :
       · have hcont : ContinuousOn (Jm t m) (Icc 0 r) :=
           (Jm_continuousOn ht m).mono Icc_subset_Ici_self
         have hderiv : ∀ x ∈ Ioo 0 r, HasDerivAt (Jm t m) (Jm t (m + 1) x) x := fun x hx =>
-          Jm_hasDerivAt ht m hx.1
+          Jm.hasDerivAt ht m hx.1
         obtain ⟨c, hc_mem, hc⟩ := exists_hasDerivAt_eq_slope (Jm t m) (Jm t (m + 1)) hr_pos hcont hderiv
         have h_sub : Jm t m r = Jm t (m + 1) c * (r - 0) := by
           have := (div_eq_iff (sub_ne_zero.mpr hr_pos.ne')).mp hc.symm

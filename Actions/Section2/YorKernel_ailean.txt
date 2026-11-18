@@ -6,7 +6,7 @@ Mathematical English for `YorKernel.lean` (Lean names in typewriter).
 
 **Lemma** (`Jm_continuousOn`). Stated and proved in Lean; see the source for the formal statement.
 
-**Lemma** (`Jm_hasDerivAt`). Stated and proved in Lean; see the source for the formal statement.
+**Lemma** (`Jm.hasDerivAt`). Stated and proved in Lean; see the source for the formal statement.
 
 **Lemma** (`Jm_contDiffOn`). Stated and proved in Lean; see the source for the formal statement.
 

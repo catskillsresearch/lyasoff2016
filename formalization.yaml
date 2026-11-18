@@ -11,15 +11,21 @@ project:
     foliation, π/π/2 contour, Yor (1.1)/Rem 5.1, and Asian pricing material.
     The Comparator family is the 33 proof-chart theorems whose proofs use
     only propext, Quot.sound, and Classical.choice (including time_reversal,
-    Prop 2.2, Dufresne, joint Fokker–Planck, Thm 4.5, g_solves_contour_equation,
-    yor_formula, pi_formula, S_closed_form, asian_price_formula), together with
-    seven compared density/integrand definitions. Five chart certificates
-    (asian_delta; Tables 1–4 enclosures) remain classical project axioms and
-    are outside Comparator. Andrew Lyasoff did not participate in or endorse
-    this formalization. Lean was written with AI-agent assistance under Lars
-    Warren Ericson’s direction and review. There is no sorry in the compared
-    Lyasoff2016 development for the Comparator family, and Mathlib plus pinned
-    public Git dependencies supply the analytic/probabilistic stack.
+    Prop 2.2, Dufresne, joint Fokker–Planck, the §4 conditional rearrangements
+    theorem_4_1_pde / theorem_4_1_striking / formula_4_6 / theorem_4_5,
+    g_solves_contour_equation, yor_formula, pi_formula, S_closed_form,
+    asian_price_formula), together with compared density/integrand definitions.
+    Five chart certificates (asian_delta; Tables 1–4 enclosures) remain open
+    classical-analysis / numerical `sorry` holes outside Comparator; the library
+    also carries the open hole SfunC.hasDerivAt used on the asian_delta path.
+    Project rule: no Lean `axiom` declarations.
+    The selected §4 theorems are conditional implications (they assume the
+    foliation PDE / striking / ODE / Laplace inputs rather than constructing
+    them for the conditional density). Andrew Lyasoff did not participate in
+    or endorse this formalization. Lean was written with AI-agent assistance
+    under Lars Warren Ericson’s direction and review. There is no sorry in the
+    compared Lyasoff2016 development for the Comparator family, and Mathlib
+    plus pinned public Git dependencies supply the analytic/probabilistic stack.
   authors:
   - Lars Warren Ericson
   license: Apache-2.0
@@ -41,9 +47,12 @@ classification:
 status:
   scope: >-
     Complete for the Comparator family in comparator.json: every
-    axioms-clean proof-chart theorem from holes-graph.json, plus seven
-    compared formula definitions. Five classical chart certificates are
-    disclosed in known_gaps. Intermediate lemmas remain library-only.
+    axioms-clean proof-chart theorem from holes-graph.json, plus compared
+    formula definitions. Open classical/numerical `sorry` holes
+    (SfunC.hasDerivAt, hasDerivAt_integral_Re_Ffun, table1–4 classical) and
+    §4 density-input existence theorems are disclosed in known_gaps / the
+    holes board. Selected §4 Comparator theorems are conditional rearrangements.
+    No Lean `axiom`. Intermediate lemmas remain library-only.
   sorry_count: 0
   sorry_in_definitions: 0
   axioms:
@@ -499,15 +508,23 @@ review:
 
 known_gaps:
   - >-
-    asian_delta depends on the classical analysis axiom
-    hasDerivAt_integral_Re_Ffun (Leibniz rule for ∬ Re F).
+    No Lean `axiom` declarations. Classical/numerical gaps are `sorry`
+    theorems on the holes board.
   - >-
-    table1–table4_asian_enclosure depend on classical numerical enclosure
-    axioms in TableClassical.lean (paper mpmath/spline quadratures), not
+    asian_delta depends on open hole hasDerivAt_integral_Re_Ffun (Leibniz
+    rule for ∬ Re F) and SfunC.hasDerivAt (parameter derivative of SfunC).
+  - >-
+    table1–table4_asian_enclosure depend on open numerical holes
+    table*_asian_enclosure_classical (paper mpmath/spline quadratures), not
     interval-arithmetic re-derivations.
   - >-
     Those five proof-chart entries are outside comparator.json because
     Palomar permits only propext, Quot.sound, and Classical.choice.
+  - >-
+    Selected §4 Comparator theorems theorem_4_1_pde, theorem_4_1_striking,
+    formula_4_6, and theorem_4_5 are conditional implications. Open holes
+    cond_density_satisfies_* ask for those inputs on a genuine conditional
+    density; the rearrangements alone are not unconditional density IDs.
 
 limitations:
   - >-
@@ -598,15 +615,24 @@ alignment:
     lean: remark_3_2
     module: Lyasoff2016
     status: proved
-  - source: "Thm 4.1 PDE: Foliation PDE for the conditional density."
+  - source: >-
+      Thm 4.1 PDE (conditional): if SatisfiesTheorem41PDE, then the written
+      transport PDE holds pointwise for x>0 — not an existence proof of that
+      PDE for the conditional density.
     lean: theorem_4_1_pde
     module: Lyasoff2016
     status: proved
-  - source: "Thm 4.1 (4.4): Striking reciprocal-moment identity."
+  - source: >-
+      Thm 4.1 (4.4) (conditional): if SatisfiesStrikingIdentity, then the
+      reciprocal-moment cases hold — not a derivation of that identity from
+      the density.
     lean: theorem_4_1_striking
     module: Lyasoff2016
     status: proved
-  - source: "(4.6): Conditional density via T_{t,y} from the y=0 slice."
+  - source: >-
+      (4.6) (conditional): if SatisfiesFoliationODE, then the T_{t,y}
+      rearrangement from the y=0 slice holds — not a construction of that ODE
+      for the conditional density.
     lean: formula_4_6
     module: Lyasoff2016
     status: proved
@@ -614,7 +640,10 @@ alignment:
     lean: prop_4_4
     module: Lyasoff2016
     status: proved
-  - source: "Thm 4.5: Closed form of the reciprocal Laplace transform L_{t,y}."
+  - source: >-
+      Thm 4.5 (conditional): if TransformedMassIdentity and HasLaplaceReduction,
+      then the arcosh closed form for L_{t,y} — not a proof of those inputs for
+      the conditional density.
     lean: theorem_4_5
     module: Lyasoff2016
     status: proved

@@ -221,7 +221,9 @@ private lemma hasDerivAt_zpow_neg_nat (d : ℕ) {x : ℝ} (hx : x ≠ 0) :
       rw [hk, pow_succ, pow_succ]
       field_simp [hx]
 
-lemma yorTerm_hasDerivAt_y {τ : ℝ} (hτ : 0 < τ) (a b d k : ℕ) {x : ℝ} (hx : 0 < x) (y : ℝ) :
+namespace yorTerm
+
+lemma hasDerivAt_y {τ : ℝ} (hτ : 0 < τ) (a b d k : ℕ) {x : ℝ} (hx : 0 < x) (y : ℝ) :
     HasDerivAt (fun y' => yorTerm τ a b d k x y')
       (evalYorSum τ (dYorTermY τ a b d k) x y) y := by
   have hτ0 : τ ≠ 0 := hτ.ne'
@@ -244,7 +246,7 @@ lemma yorTerm_hasDerivAt_y {τ : ℝ} (hτ : 0 < τ) (a b d k : ℕ) {x : ℝ} (
       (Jm τ (k + 1) (Real.exp y / x) * (Real.exp y / x)) y := by
     have harg : HasDerivAt (fun y' : ℝ => Real.exp y' / x) (Real.exp y / x) y :=
       (Real.hasDerivAt_exp y).div_const x
-    have hJm := Jm_hasDerivAt hτ k (div_pos (Real.exp_pos y) hx)
+    have hJm := Jm.hasDerivAt hτ k (div_pos (Real.exp_pos y) hx)
     simpa only [Function.comp_def] using hJm.comp y harg
   have hprod := (((hf1.mul hf2).mul_const (x ^ (-(d : ℤ)))).mul hf3).mul hf4
   refine hprod.congr_deriv ?_
@@ -260,7 +262,7 @@ lemma yorTerm_hasDerivAt_y {τ : ℝ} (hτ : 0 < τ) (a b d k : ℕ) {x : ℝ} (
   rw [← hy1, ← he1, ← he2, ← hx1]
   field_simp [hτ0, hx0]; ring
 
-lemma yorTerm_hasDerivAt_x {τ : ℝ} (hτ : 0 < τ) (a b d k : ℕ) {x : ℝ} (hx : 0 < x) (y : ℝ) :
+lemma hasDerivAt_x {τ : ℝ} (hτ : 0 < τ) (a b d k : ℕ) {x : ℝ} (hx : 0 < x) (y : ℝ) :
     HasDerivAt (fun x' => yorTerm τ a b d k x' y)
       (evalYorSum τ (dYorTermX a b d k) x y) x := by
   have hx0 : x ≠ 0 := hx.ne'
@@ -284,7 +286,7 @@ lemma yorTerm_hasDerivAt_x {τ : ℝ} (hτ : 0 < τ) (a b d k : ℕ) {x : ℝ} (
       convert h using 1
       · funext x'; ring
       · ring
-    have hJm := Jm_hasDerivAt hτ k (div_pos (Real.exp_pos y) hx)
+    have hJm := Jm.hasDerivAt hτ k (div_pos (Real.exp_pos y) hx)
     simpa only [Function.comp_def] using hJm.comp x harg
   have hprod := (((hg1.const_mul (y ^ a * Real.exp (b * y))).mul hg2).mul hg3)
   refine hprod.congr_deriv ?_
@@ -299,7 +301,11 @@ lemma yorTerm_hasDerivAt_x {τ : ℝ} (hτ : 0 < τ) (a b d k : ℕ) {x : ℝ} (
   rw [← hx2, ← he1, ← he2]
   field_simp [hx0]; ring
 
-lemma evalYorSum_hasDerivAt_y {τ : ℝ} (hτ : 0 < τ) (L : List YorCoeff) {x : ℝ} (hx : 0 < x)
+end yorTerm
+
+namespace evalYorSum
+
+lemma hasDerivAt_y {τ : ℝ} (hτ : 0 < τ) (L : List YorCoeff) {x : ℝ} (hx : 0 < x)
     (y : ℝ) :
     HasDerivAt (fun y' => evalYorSum τ L x y') (evalYorSum τ (dEvalYorSumY τ L) x y) y := by
   induction L with
@@ -310,13 +316,13 @@ lemma evalYorSum_hasDerivAt_y {τ : ℝ} (hτ : 0 < τ) (L : List YorCoeff) {x :
           (evalYorSum τ ((dYorTermY τ q.2.1 q.2.2.1 q.2.2.2.1 q.2.2.2.2).map fun r => (q.1 * r.1, r.2)) x y)
           y := by
         rw [evalYorSum_scale]
-        exact (yorTerm_hasDerivAt_y hτ q.2.1 q.2.2.1 q.2.2.2.1 q.2.2.2.2 hx y).const_mul q.1
+        exact (yorTerm.hasDerivAt_y hτ q.2.1 q.2.2.1 q.2.2.2.1 q.2.2.2.2 hx y).const_mul q.1
       have hadd := hhead.add ih
       refine (hadd.congr_of_eventuallyEq (Eventually.of_forall fun y' =>
         (evalYorSum_cons τ q L x y').symm)).congr_deriv ?_
       exact (evalYorSum_append τ _ _ x y).symm
 
-lemma evalYorSum_hasDerivAt_x {τ : ℝ} (hτ : 0 < τ) (L : List YorCoeff) {x : ℝ} (hx : 0 < x)
+lemma hasDerivAt_x {τ : ℝ} (hτ : 0 < τ) (L : List YorCoeff) {x : ℝ} (hx : 0 < x)
     (y : ℝ) :
     HasDerivAt (fun x' => evalYorSum τ L x' y) (evalYorSum τ (dEvalYorSumX L) x y) x := by
   induction L with
@@ -327,11 +333,13 @@ lemma evalYorSum_hasDerivAt_x {τ : ℝ} (hτ : 0 < τ) (L : List YorCoeff) {x :
           (evalYorSum τ ((dYorTermX q.2.1 q.2.2.1 q.2.2.2.1 q.2.2.2.2).map fun r => (q.1 * r.1, r.2)) x y)
           x := by
         rw [evalYorSum_scale]
-        exact (yorTerm_hasDerivAt_x hτ q.2.1 q.2.2.1 q.2.2.2.1 q.2.2.2.2 hx y).const_mul q.1
+        exact (yorTerm.hasDerivAt_x hτ q.2.1 q.2.2.1 q.2.2.2.1 q.2.2.2.2 hx y).const_mul q.1
       have hadd := hhead.add ih
       refine (hadd.congr_of_eventuallyEq (Eventually.of_forall fun x' =>
         (evalYorSum_cons τ q L x' y).symm)).congr_deriv ?_
       exact (evalYorSum_append τ _ _ x y).symm
+
+end evalYorSum
 
 /-- Explicit coefficient list representing `pd m n (yorCondDensity τ)` on `(0, ∞) × ℝ`. -/
 def yorPdList (τ : ℝ) (m n : ℕ) : List YorCoeff :=
@@ -357,7 +365,7 @@ lemma iteratedDeriv_y_yorCondDensity {τ : ℝ} (hτ : 0 < τ) (n : ℕ) {x : �
       have hfun : iteratedDeriv n (fun y' => yorCondDensity τ x y') =
           fun y' => evalYorSum τ (yorPdList τ 0 n) x y' := funext ih
       rw [hfun]
-      exact (evalYorSum_hasDerivAt_y hτ (yorPdList τ 0 n) hx y).deriv
+      exact (evalYorSum.hasDerivAt_y hτ (yorPdList τ 0 n) hx y).deriv
 
 lemma pd_yorCondDensity_eq_evalYorSum {τ : ℝ} (hτ : 0 < τ) (m n : ℕ) {x : ℝ} (hx : 0 < x)
     (y : ℝ) :
@@ -373,7 +381,7 @@ lemma pd_yorCondDensity_eq_evalYorSum {τ : ℝ} (hτ : 0 < τ) (m n : ℕ) {x :
         filter_upwards [isOpen_Ioi.mem_nhds hx] with x' hx'
         exact ih hx'
       rw [h_ev.deriv_eq]
-      exact (evalYorSum_hasDerivAt_x hτ (yorPdList τ m n) hx y).deriv
+      exact (evalYorSum.hasDerivAt_x hτ (yorPdList τ m n) hx y).deriv
 
 end DerivativeFamily
 
