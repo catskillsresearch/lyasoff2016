@@ -15,10 +15,9 @@ declarations match `Solution.lean` via the `Lyasoff2016/` library. Framing:
 reconstruction/verification of Lyasoff, *Another look at the integral of
 exponential Brownian motion and the pricing of Asian options*, Finance Stoch.
 20 (2016) 1061–1096. Andrew Lyasoff did not participate in or endorse this
-formalization. Comparator covers every proof-chart theorem whose Solution proof
-uses only `propext` / `Quot.sound` / `Classical.choice`. Four numerical
-certificates from the chart are disclosed outside Comparator
-(see `PROVENANCE.md` / `formalization.yaml`).
+formalization. Every compared theorem's Solution proof uses only `propext` /
+`Quot.sound` / `Classical.choice`. Tables 1–4 are reported numerical data only,
+outside Comparator (see `PROVENANCE.md` / `formalization.yaml`).
 -/
 @[expose] public section
 
@@ -415,6 +414,13 @@ theorem asian_price_formula (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ�
     (hσ : 0 < σ) (ht : 0 < t) (hK : 0 ≤ K) :
     asianCall P W σ ν t K =
       ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (Ffun σ ν t K u w).re := by
+  sorry
+
+theorem asian_delta (P : Measure Ω) [IsProbabilityMeasure P] (W : ℝ≥0 → Ω → ℝ)
+    (hW : IsBM P W) (σ ν : ℝ) (t : ℝ≥0) (K : ℝ)
+    (hσ : 0 < σ) (ht : 0 < t) (hK : 0 < K) :
+    deriv (fun κ => asianCall P W σ ν t κ) K =
+      ∫ w in Ioi (0 : ℝ), ∫ u in Ioi (0 : ℝ), (FfunDeriv σ ν t K u w).re := by
   sorry
 
 end

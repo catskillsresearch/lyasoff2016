@@ -207,10 +207,9 @@ declarations match `Solution.lean` via the `Lyasoff2016/` library. Framing:
 reconstruction/verification of Lyasoff, *Another look at the integral of
 exponential Brownian motion and the pricing of Asian options*, Finance Stoch.
 20 (2016) 1061–1096. Andrew Lyasoff did not participate in or endorse this
-formalization. Comparator covers every proof-chart theorem whose Solution proof
-uses only `propext` / `Quot.sound` / `Classical.choice`. Four numerical
-certificates from the chart are disclosed outside Comparator
-(see `PROVENANCE.md` / `formalization.yaml`).
+formalization. Every compared theorem's Solution proof uses only `propext` /
+`Quot.sound` / `Classical.choice`. Tables 1–4 are reported numerical data only,
+outside Comparator (see `PROVENANCE.md` / `formalization.yaml`).
 -/
 @[expose] public section
 
