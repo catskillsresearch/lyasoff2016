@@ -1,0 +1,1 @@
+The π-formula (5.9b)/(5.10b) for the conditional density, normalised so that the Gaussian factor times `σ⁻² · piFormula p σ t (xσ²) (yσ)` is the joint density.

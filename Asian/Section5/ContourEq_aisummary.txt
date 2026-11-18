@@ -1,0 +1,1 @@
+The contour equation (5.3) on `ζ_a`, in the real-part form displayed on p. 1083, together with `g_solves_contour_equation`: the functions `g_{t,p}` of (5.8) solve it for `p = 2, 3, 4`. The proof combines `ContourTwo` and `ContourRec`.

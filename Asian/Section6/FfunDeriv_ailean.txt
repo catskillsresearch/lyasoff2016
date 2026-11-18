@@ -1,0 +1,9 @@
+Mathematical English for `FfunDeriv.lean` (Lean names in typewriter).
+
+**Definition** (`FfunPrefactor`). Prefactor of `F` / `F'` independent of the strike.
+
+**Theorem** (`hasDerivAt_Ffun`). Pointwise strike derivative of `Ffun` equals `FfunDeriv`.
+
+**Theorem** (`hasDerivAt_Ffun_re`). Pointwise strike derivative of `Re F` equals `Re F'`.
+
+Supporting declarations without a docstring: `FfunDeriv`, `Ffun_eq_prefactor`, `FfunDeriv_eq_prefactor`.

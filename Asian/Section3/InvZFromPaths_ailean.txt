@@ -1,0 +1,5 @@
+Mathematical English for `InvZFromPaths.lean` (Lean names in typewriter).
+
+**Definition** (`invZFromPaths`). Path-space reciprocal used for joint measurability of `Z⁻¹`.
+
+Supporting declarations without a docstring: `continuous_time`, `measurable`.

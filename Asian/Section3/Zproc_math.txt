@@ -1,0 +1,11 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1067, (3.1)**
+
+As noted in the introduction, the tools developed in the present paper rest in a crucial way on the time-reversibility relation (1.3), which leads to a Fokker–Planck type equation for the integral taken at a finite time. Applying the Fokker–Planck argument to the law of the integral taken over an infinite time period is somewhat simpler, and obtains from a particular application of what is known as the “random affine equation” (see Bertoin and Yor [3, (17)]): If $W$ and $B$ are two independent Brownian motions, then for every choice of $\sigma > 0$ and $\nu < 0$, we have $\int_0^\infty e^{\sigma(W_s+\nu s)}\,ds < \infty$ a.s.,$^2$ and as a result, the following process is well defined:
+
+$$
+Z_t := e^{\sigma(\nu t - B_t)} \left( \int_0^\infty e^{\sigma(\nu s + W_s)}\,ds + \int_0^t e^{\sigma(-\nu s + B_s)}\,ds \right), \quad t \ge 0. \qquad\text{(3.1)}
+$$
+
+</div>

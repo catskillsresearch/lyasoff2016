@@ -1,0 +1,1 @@
+Moment determinacy on `[0, ∞)`: two probability measures that agree on their moment generating functions near `0`, or on all integer moments with a finite exponential moment, are equal. Also proves Taylor bounds for `x ↦ x^{−p}`.

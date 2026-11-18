@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
-"""Build Actions.svg: dependencies among Actions/Section{1..6}.md.
+"""Build Asian.svg: dependencies among Asian/Section{1..6}.md.
 
 An edge §i → §j means some .lean listed in Section i imports a .lean listed in
 Section j (i ≠ j). Nodes are the six numbered section markdown files.
@@ -19,20 +19,21 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ACTIONS = ROOT / "Actions"
+ASIAN = ROOT / "Asian"
 LEAN_DIR = ROOT / "Lyasoff2016"
-OUT_DOT = ROOT / "Actions.dot"
-OUT_SVG = ROOT / "Actions.svg"
+OUT_DOT = ROOT / "Asian.dot"
+OUT_SVG = ROOT / "Asian.svg"
 
 IMPORT_RE = re.compile(
     r"^\s*(?:public\s+)?import\s+Lyasoff2016\.([A-Za-z0-9_']+)",
     re.MULTILINE,
 )
 MD_IMPORT_RE = re.compile(r'@import\s+"\.\./Lyasoff2016/([^"]+\.lean)"')
+MD_LEAF_LINK_RE = re.compile(r"\]\(Section\d+/([^)]+)\.md\)")
 
-SECTION_FILES = [ACTIONS / f"Section{i}.md" for i in range(1, 7)]
+SECTION_FILES = [ASIAN / f"Section{i}.md" for i in range(1, 7)]
 
-# Short labels for the six section nodes (match Actions.md TOC).
+# Short labels for the six section nodes (match Asian.md TOC).
 SECTION_LABELS = {
     1: "§1 Setting",
     2: "§2 Auxiliary",
@@ -52,6 +53,8 @@ def section_leans() -> dict[int, set[str]]:
     for i, path in enumerate(SECTION_FILES, start=1):
         text = path.read_text(encoding="utf-8")
         stems = {lean_stem(m) for m in MD_IMPORT_RE.findall(text)}
+        # Barrel form (scaffold_asian_writeup.py): links to SectionN/Stem.md leaves.
+        stems |= {lean_stem(m) for m in MD_LEAF_LINK_RE.findall(text)}
         mapping[i] = stems
     return mapping
 
@@ -87,7 +90,7 @@ def build_edges(sec_leans: dict[int, set[str]]) -> set[tuple[int, int]]:
 
 def write_dot(edges: set[tuple[int, int]]) -> str:
     lines = [
-        "digraph ActionsSections {",
+        "digraph AsianSections {",
         "  graph [rankdir=LR, bgcolor=\"white\", pad=\"0.3\", nodesep=\"0.45\", ranksep=\"0.7\"];",
         "  node [shape=box, style=\"rounded,filled\", fillcolor=\"#dbeafe\",",
         "        color=\"#1e40af\", fontname=\"Helvetica\", fontsize=12,",
@@ -97,9 +100,9 @@ def write_dot(edges: set[tuple[int, int]]) -> str:
     ]
     for i in range(1, 7):
         label = SECTION_LABELS[i]
-        href = f"Actions/Section{i}.md"
+        href = f"Asian/Section{i}.md"
         lines.append(
-            f'  S{i} [label="{label}", URL="{href}", tooltip="Actions/Section{i}.md"];'
+            f'  S{i} [label="{label}", URL="{href}", tooltip="Asian/Section{i}.md"];'
         )
     lines.append("")
     for a, b in sorted(edges):

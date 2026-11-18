@@ -1,0 +1,5 @@
+Mathematical English for `BMFunctionalLaw.lean` (Lean names in typewriter).
+
+**Theorem** (`isBrownianReal_integral_functional_law_eq`). any two Brownian motions share the law of (∫₀ᵗ Vᵢ(s, ·_s) ds)_i paired with the terminal value, because both induce the same projective limit `gaussianLimit` on path space.
+
+Supporting declarations without a docstring: `pathIntegralFun`, `toNNReal_sub_of_mem_Icc`, `toNNReal_of_mem_Icc`, `integral_eq`, `functional_eq`.

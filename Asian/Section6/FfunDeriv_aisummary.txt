@@ -1,0 +1,1 @@
+The strike-derivative integrand `F'_{t,σ,μ,k}(u, w)`, which is `F` with `S` replaced by `S'`, and the pointwise fact that the strike derivative of `F` (and of `ℜ F`) is `F'` (and `ℜ F'`).

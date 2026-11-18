@@ -1,1 +1,0 @@
-Integrated distributional Fokker–Planck equation and inverse-argument Laplace transform. It declares 2 items (1 lemma, 1 theorem).

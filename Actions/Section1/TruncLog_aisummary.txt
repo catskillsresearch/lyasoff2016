@@ -1,1 +1,0 @@
-Truncated logarithm: bounded measurable approximation to `log` on `(0, ∞)`. It declares 4 items (1 def, 3 theorems).

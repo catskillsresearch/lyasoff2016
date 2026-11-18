@@ -1,0 +1,1 @@
+Brownian scaling for the exponential functionals: `(∫₀ᵗ e^{W_s} ds, W_t)` has the same law as `(σ² ∫₀^{t/σ²} e^{σW_s} ds, σ W_{t/σ²})`, the analogous infinite-horizon identity, and the resulting transformation rules for joint and infinite-horizon densities (p. 1066).

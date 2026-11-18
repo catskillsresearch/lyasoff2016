@@ -1,0 +1,1 @@
+A genuine conditional density of `∫₀ᵗ e^{σW_s} ds` given `W_t`, for every `σ > 0` and `t > 0`. It is built from Yor's `σ = 2` density by Brownian scaling, has unit mass on each slice, and satisfies the integrated foliation ODE (4.5). A smooth version, equal to it on `x > 0`, satisfies the Theorem 4.1 transport PDE.

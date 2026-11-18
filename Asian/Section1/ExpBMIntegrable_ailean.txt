@@ -1,0 +1,7 @@
+Mathematical English for `ExpBMIntegrable.lean` (Lean names in typewriter).
+
+**Theorem** (`integral_exp_bm`). Gaussian mgf along a Brownian motion: `E[exp (σ W_s + ν s)] = exp ((ν + σ²/2) s)`.
+
+**Theorem** (`integrable_exp_bm`). `ω ↦ exp (σ W_s ω + ν s)` is integrable for a Brownian motion `W`.
+
+**Theorem** (`integrable_uncurry_exp_bm`). Joint integrability of `(s, ω) ↦ exp (σ W_s ω + ν s)` on `(0, t] × Ω`: the Fubini hypothesis for exchanging `E` and `∫₀ᵗ ds` in the `K = 0` benchmark.

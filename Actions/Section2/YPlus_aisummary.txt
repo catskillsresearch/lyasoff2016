@@ -1,1 +1,0 @@
-Upper inverse branch `y_+(v, a)` of the characteristic `A`. It declares 5 items (1 def, 4 theorems).

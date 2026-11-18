@@ -1,0 +1,5 @@
+Mathematical English for `SmoothStepLeft.lean` (Lean names in typewriter).
+
+**Definition** (`smoothStepLeft`). Smooth step from `1` (on `(-∞, c]`) to `0` (on `[d, ∞)`), for `c < d`.
+
+Supporting declarations without a docstring: `contDiff`, `one_of_le`, `zero_of_le`, `mem_Icc`.

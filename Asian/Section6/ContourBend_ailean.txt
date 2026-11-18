@@ -1,0 +1,13 @@
+Mathematical English for `ContourBend.lean` (Lean names in typewriter).
+
+**Definition** (`bendPt`). Point of the homotopy between `ℝ` and the graph of `θ`.
+
+**Definition** (`bendF`). Integrand along the `s`-th intermediate contour.
+
+**Definition** (`bendH`). The boundary term `f(γ_s(u)) · iθ(u)`.
+
+**Definition** (`bendD`). Common value of `∂_s bendF` and `∂_u bendH`.
+
+**Theorem** (`integral_eq_integral_bend`). **Contour bending.** If `f` is entire, `θ` is `C¹` with derivative `θ'`, and the homotopy integrands `bendF`, `bendH`, `bendD` are dominated on `0 ≤ s ≤ 1` by one integrable function `g`, then `∫_ℝ f(u) du = ∫_ℝ f(u + iθ(u)) (1 + iθ'(u)) du`.
+
+Supporting declarations without a docstring: `bendPt_hasDerivAt_s`, `bendPt_hasDerivAt_u`, `bendF_hasDerivAt_s`, `bendH_hasDerivAt_u`, `continuous_bendPt`, `continuous_bendD`, `continuous_bendF`, `continuous_bendH`.

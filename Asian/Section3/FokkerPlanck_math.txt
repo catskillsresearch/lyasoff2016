@@ -1,0 +1,40 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1067, footnote 2**
+
+$^2$ In Dufresne [11, Proposition 4.4.4], this property is established as a consequence from the arcsine law. Alternatively, it can be seen as a direct application of the law of the iterated logarithm, since $\int_0^\infty e^{\sigma((1+\varepsilon)\sqrt{2s\log(\log s)}+\nu s)}\,ds < \infty$ for every choice of $\sigma$, $\varepsilon > 0$ and $\nu < 0$.
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1067, stationarity of Z**
+
+This process is a stationary Markov process for the filtration $(\mathcal{F}_t)_{t \ge 0}$ defined by $\mathcal{F}_t := \sigma(W_u, B_v : u \in \mathbb{R}_+, v \in [0,t])$, with $Z_t \stackrel{\text{law}}{=} \int_0^\infty e^{\sigma(W_s+\nu s)}\,ds$ for any $t \ge 0$, and its infinitesimal generator is given by
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1070, (3.6b)**
+
+the above PDE can be restated as
+
+$$
+\frac{\partial}{\partial x}\left(\frac{\sigma^2 x^2}{2}\frac{\partial}{\partial x}\phi_{t,\sigma}(x,y)+\sigma x\frac{\partial}{\partial y}\phi_{t,\sigma}(x,y)+\left(e^{\sigma y}+\frac{\sigma^2 x}{2}-1\right)\phi_{t,\sigma}(x,y)\right)=0.
+\qquad\text{(3.6b)}
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1070, Remark 3.2**
+
+*Remark 3.2* In much the same way, the invariance relation (1.3) can be used to obtain PDEs for the joint density of other integral functionals of Brownian motion. In particular, given any $p>0$, one can write
+
+$$
+\left(\int_0^t e^{W_s}\,ds,\,\frac{1}{p}\log\int_0^t e^{pW_s}\,ds,\,W_t\right)\stackrel{\text{law}}{=}\left(e^{W_t}\int_0^t e^{-W_s}\,ds,\,W_t+\frac{1}{p}\log\int_0^t e^{-pW_s}\,ds,\,W_t\right).
+$$
+
+</div>

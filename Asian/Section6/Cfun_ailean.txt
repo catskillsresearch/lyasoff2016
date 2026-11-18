@@ -1,0 +1,3 @@
+Mathematical English for `Cfun.lean` (Lean names in typewriter).
+
+Supporting declarations without a docstring: `Cfun`.

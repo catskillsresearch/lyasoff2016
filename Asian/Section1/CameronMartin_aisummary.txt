@@ -1,0 +1,1 @@
+Cameron–Martin–Girsanov for a constant drift at the level of path functionals: adding a drift `μs` reweights the law of any measurable path functional by the exponential martingale. Applied to `(expInt, W_t)` this gives the density relation (2.2) between drift `μ` and drift `0`.

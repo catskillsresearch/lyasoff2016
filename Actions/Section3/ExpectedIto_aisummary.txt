@@ -1,1 +1,0 @@
-Expected Itô formula for functionals of `(∫₀ᵗ a(B_s) ds, B_t)` and the. It declares 7 items (6 lemmas, 1 theorem).

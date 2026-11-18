@@ -23,8 +23,9 @@ variable {Ω : Type*} [MeasurableSpace Ω]
 
 /- Paper: p. 1071–1073, Theorem 4.1 (PDE part).
    Plain recap: hypothesis that a candidate φc satisfies the first-order
-   transport PDE along V. Establishing this for the conditional density of
-   exp-BM is open; `theorem_4_1_pde` is the conditional rearrangement. -/
+   transport PDE along V. `theorem_4_1_pde` is the conditional rearrangement;
+   `cond_density_satisfies_theorem_41_pde` establishes the hypothesis for a
+   conditional density of exp-BM. -/
 def SatisfiesTheorem41PDE (σ t : ℝ) (φc : ℝ → ℝ → ℝ) : Prop :=
   ∀ x > 0, ∀ y : ℝ,
     σ ^ 2 * x / 2 * deriv (fun z => φc z y) x + σ * deriv (fun y' => φc x y') y
@@ -41,8 +42,9 @@ theorem theorem_4_1_pde (σ t : ℝ) (φc : ℝ → ℝ → ℝ)
    Plain recap: hypothesis for the reciprocal-moment cases
    E[(∫ e^{σW})^{-1} | W_t = y/σ] = y/(t(e^y−1)) (and 1/t at y=0).
    PAPER NOTE: printed ∫₀ᵗ should be ∫₀^∞ x^{-1} φ(x|·) dx.
-   Establishing this for the conditional density is open;
-   `theorem_4_1_striking` is the conditional rearrangement. -/
+   `theorem_4_1_striking` is the conditional rearrangement;
+   `cond_density_satisfies_striking` establishes the hypothesis for a
+   conditional density. -/
 def SatisfiesStrikingIdentity (σ t : ℝ) (φc : ℝ → ℝ → ℝ) : Prop :=
   (∀ y : ℝ, y ≠ 0 →
     ∫ x in Ioi (0 : ℝ), x⁻¹ * φc x (y / σ) =
@@ -84,8 +86,8 @@ theorem hasDerivAt_ode_solution (x u : ℝ) :
   ring
 
 /- The integrated ODE (4.5), with its integration constant fixed at `u = 0`.
-   Analytic input for the algebraic rearrangement (4.6); establishing it for
-   the conditional density is open. -/
+   Analytic input for the algebraic rearrangement (4.6); it is established for
+   a conditional density by `cond_density_satisfies_foliation_ode`. -/
 def SatisfiesFoliationODE (σ t : ℝ) (φc : ℝ → ℝ → ℝ) : Prop :=
   ∀ x > 0, ∀ u : ℝ,
     φc (x / σ ^ 2 * Real.exp (u / 2)) (u / σ) =
@@ -427,10 +429,11 @@ theorem remark_4_6 (t : ℝ) (φc : ℝ → ℝ → ℝ)
     ∫ x in Ioi (0 : ℝ), x⁻¹ * φc x 0 = 1 / t := by
   simpa [negMomentFormula] using neg_moments_at_zero t φc hmom 1 (by norm_num)
 
-/-! ## Open: analytic inputs for the conditional density
+/-! ## Analytic inputs for the conditional density
 
-The Comparator theorems above are conditional rearrangements. The holes below ask for
-those inputs on a genuine conditional density of `(expInt, W)`. -/
+The Comparator theorems above are conditional rearrangements. The theorems below
+discharge those inputs on a genuine conditional density of `(expInt, W)`: the
+Brownian-scaled Yor conditional density (`Lyasoff2016.CondDensityYor`). -/
 
 /-- Some conditional density of `(expInt, W)` satisfies the Thm 4.1 transport PDE: the
 smooth scaled Yor conditional density `smoothYorCondDensity` (`Lyasoff2016.CondDensityYor`). -/

@@ -1,0 +1,33 @@
+Mathematical English for `GFunDecay.lean` (Lean names in typewriter).
+
+**Lemma** (`cerf_zero`). on a horizontal line the two `cerf` terms of each pair in (5.8) tend to `+1` and `−1` respectively, at Gaussian rate, so the constants cancel and |g_{t,3}(u − ia)| ≤ C e^{−u²/t}, |g_{t,4}(u − ia)| ≤ C cosh u · e^{−u²/t}. Together with |g_{t,2}(u − ia)| = e^{2a²/t} e^{−2u²/t}/(4π) this makes `cosh u · |g_{t,p}(u − ia)|` integrable, since ∫ e^{−c u²} cosh² u du < ∞. (The bounds `ContourRec.norm_gFun_three_line_le`, `…four_line_le` only give `C`, `C cosh u`, which is enough for the contour equation but not for Fubini at a = π/2.)
+
+**Lemma** (`tendsto_cerf_real`). `erf x → 1` as `x → +∞` along the real axis.
+
+**Lemma** (`norm_cerf_line_sub_real_le`). Moving from the real axis to the line `ℑ = β` costs at most a Gaussian in `x`.
+
+**Lemma** (`tendsto_cerf_line`). `erf(x + iβ) → 1` as `x → +∞`.
+
+**Lemma** (`norm_cerf_line_sub_one_le`). Gaussian tail of the complementary error function on the line `ℑ = β`, for `x ≥ 0`.
+
+**Lemma** (`cerf_line_sub_one_gaussian`). `|erf(x + iβ) − 1| ≤ C e^{−x²}` on every half-line `x ≥ −K`.
+
+**Lemma** (`cerf_line_add_one_gaussian`). `|erf(x + iβ) + 1| ≤ C e^{−x²}` on every half-line `x ≤ K`.
+
+**Lemma** (`cerf_pair_gaussian`). For `m, d > 0` the pair `erf((T + m z)/d) + erf((T − m z)/d)` is `O(e^{−m²u²/(2d²)})` along `z = u − ia`.
+
+**Theorem** (`norm_gFun_two_line_gaussian`). `|g_{T,2}(u − ia)| ≤ C e^{−u²/T}` (in fact with rate `2/T`).
+
+**Theorem** (`norm_gFun_three_line_gaussian`). `|g_{T,3}(u − ia)| ≤ C e^{−u²/T}`: the constants `±1` of the two `cerf` terms cancel.
+
+**Theorem** (`norm_gFun_four_line_gaussian`). `|g_{T,4}(u − ia)| ≤ C cosh u · e^{−u²/T}`.
+
+**Theorem** (`norm_gFun_line_gaussian`). Uniform statement for the three paper orders: `|g_{T,p}(u − ia)| ≤ C cosh u · e^{−u²/T}` (without the `cosh u` for `p = 2, 3`).
+
+**Lemma** (`integrable_cosh_sq_mul_gaussian`). `∫ cosh² u · e^{−u²/T} du < ∞`.
+
+**Theorem** (`integrable_cosh_mul_norm_gFun_line`). The Fubini hypothesis of the π/2-formula: `cosh u · |g_{T,p}(u − ia)|` is integrable over `ℝ` for `p = 2, 3, 4` and every horizontal line.
+
+**Theorem** (`integrable_cosh_mul_norm_gFun_piHalf`). The same at the aperture `a = π/2` used by the π/2-formula.
+
+Supporting declarations without a docstring: `norm_two_div_sqrt_pi`, `hasDerivAt_cerf_line`, `norm_cerf_line_deriv`, `integrable_cerf_line_deriv`, `cerf_pair_gaussian_nonneg`.

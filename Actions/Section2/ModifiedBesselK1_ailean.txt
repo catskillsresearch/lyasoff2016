@@ -1,5 +1,0 @@
-Mathematical English for `ModifiedBesselK1.lean` (Lean names in typewriter).
-
-**Definition** (`modifiedBesselK1`). Stated and proved in Lean; see the source for the formal statement.
-
-**Theorem** (`identity`). p. 1075, link of the foliation constant to modified Bessel K₁. The printed calculation is `∫ exp (-u/2 - (4/x) cosh (u/2)) du = 4 K₁(4/x)`.

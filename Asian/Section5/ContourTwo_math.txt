@@ -1,0 +1,15 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1080, (5.3), (5.5)**
+
+where $\theta \mapsto \zeta(\theta)$ represents another contour inside $\mathbb{C}$. As $\gamma \subset \{z \in \mathbb{C} : \mathfrak{R}(z) > 0\}$, we must have $\zeta \subset \{z \in \mathbb{C} : \mathfrak{R}(\cosh z) < 1\}$. Changing the variables in (5.2) accordingly, we arrive at the following equation for the contour $\zeta$ and the function $g_{t,p}(z) := f_{t,p}(4 - 4\cosh z)$ (i.e., we seek the unknown function $f_{t,p}(\cdot)$ in the form $f_{t,p}(z) = g_{t,p}(\mathrm{arcosh}(1 - z/4))$, $z \in \mathbb{C}$, for some yet to be determined function $g_{t,p}(\cdot)$):
+
+$$
+\oint_{\zeta} \frac{g_{t,p}(z)}{(\cosh z - \cosh y)^{p-1}} \sinh z \,\mathrm{d}z = \frac{(-4)^{p-2}}{(p-2)!} e^{-\frac{2y^2}{t}} \quad \text{for all } y \in \mathbb{R}. \qquad\text{(5.3)}
+$$
+
+$$
+R_{t,p}(y) + R_{t,p}(-y) = \frac{1}{2\pi i} \frac{(-4)^{p-2}}{(p-2)!} e^{-\frac{2y^2}{t}}, \quad y \in \mathbb{R},\, p \geq 2, \qquad\text{(5.5)}
+$$
+
+</div>

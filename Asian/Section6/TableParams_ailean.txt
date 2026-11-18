@@ -1,0 +1,15 @@
+Mathematical English for `TableParams.lean` (Lean names in typewriter).
+
+**Structure** (`TableParams`). Asian calls with fixed r = 2.5%, S₀ = 1, varying T, σ, K.
+
+**Definition** (`table1Params`). Table 1: T = 1/2, σ = 22/100, mp.dps = 120, paper-reported K=0 error ≤ 1e-15 (not claimed).
+
+**Definition** (`table2Params`). Table 2: T = 1/2, σ = 1/3, mp.dps = 60, paper-reported K=0 error ≤ 1e-11 (not claimed).
+
+**Definition** (`table3Params`). Table 3: T = 1, σ = 22/100, mp.dps = 60, paper-reported K=0 error ≤ 1e-12 (not claimed).
+
+**Definition** (`table4Params`). Table 4: T = 1, σ = 1/3, mp.dps = 45, paper-reported K=0 error ≤ 1e-11 (not claimed).
+
+**Definition** (`tableClaimTol`). Historical name for the independent experiment's absolute agreement level, 1e-9. `scripts/asian_tables_independent_check.py` reports a worst miss about 2.2e-10 over 24 values. This is external numerical evidence only: no relation between a mathematical price and the printed values is asserted in Lean, at this or any tighter tolerance. The paper's `err0` figures are retained only as reported metadata.
+
+**Definition** (`tableStrikes`). Market strikes K in Tables 1–4 (paper); integral strike is `K * T` with S₀ = 1.

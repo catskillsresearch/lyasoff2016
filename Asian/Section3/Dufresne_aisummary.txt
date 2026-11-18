@@ -1,0 +1,1 @@
+Dufresne's theorem (3.3): the infinite-horizon integral `∫₀^∞ e^{σW_s+νs} ds` has an inverse-Gamma density. The module proves that this density solves the stationary zero-flux ODE, has the normalisation constant `c₂`, and is nonnegative and measurable, and then reduces general `σ` to `σ = 1` by Brownian scaling (Remark 3.1).

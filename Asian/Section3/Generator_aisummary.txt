@@ -1,0 +1,1 @@
+The diffusion generator (3.2), `L = ½σ²x² ∂ₓₓ + (1 + (νσ + σ²/2)x) ∂ₓ`, of the stationary process `Z`.

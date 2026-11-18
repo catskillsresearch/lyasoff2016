@@ -1,0 +1,1 @@
+Module `PiFormulaScale.lean` contains no declarations of its own (see the Lean source).

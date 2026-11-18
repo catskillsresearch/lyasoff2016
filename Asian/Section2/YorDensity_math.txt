@@ -1,0 +1,15 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1061, (1.1)**
+
+The present paper is a follow-up to Marc Yor’s discovery [33] of an integral formula for the density of the distribution of the integral of exponential Brownian motion taken over a finite time interval: with $\sigma = 2$, one has
+
+$$
+\begin{aligned}
+\phi_{t,\sigma}(x,y) &:= \frac{1}{\mathrm{d}x\,\mathrm{d}y}\,\mathbb{P}\!\left[\int_0^t e^{\sigma W_s}\,\mathrm{d}s \in \mathrm{d}x,\, W_t \in \mathrm{d}y\right] \\
+&= \frac{1}{x}\,e^{-\frac{1}{2x}(1+e^{2y})}\,\theta\!\left(\frac{e^y}{x},\,t\right),
+\end{aligned}
+\qquad\text{(1.1)}
+$$
+
+</div>

@@ -1,0 +1,1 @@
+§3 Fokker–Planck characterization (pp. 1067–1071). It shows that `Z` is stationary with the law of the perpetuity, including footnote 2 on finiteness and the case `σ = 1`. It derives the stationary zero-flux equation for the infinite-horizon density and the joint Fokker–Planck PDE (3.6b) for the finite-horizon joint density, and treats Remark 3.2.

@@ -1,0 +1,1 @@
+The contour equation (5.3) for `p = 2`. A residue computation on the strip `{|ℑ z| ≤ a}` uses the auxiliary functions `Φ_y`, `χ_y`, `Ψ_y` with the removable singularity at `z = y` taken out, together with hyperbolic bounds and edge-integral estimates.

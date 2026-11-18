@@ -1,0 +1,41 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1061, (1.1)**
+
+The present paper is a follow-up to Marc Yor’s discovery [33] of an integral formula for the density of the distribution of the integral of exponential Brownian motion taken over a finite time interval: with $\sigma = 2$, one has
+
+$$
+\begin{aligned}
+\phi_{t,\sigma}(x,y) &:= \frac{1}{\mathrm{d}x\,\mathrm{d}y}\,\mathbb{P}\!\left[\int_0^t e^{\sigma W_s}\,\mathrm{d}s \in \mathrm{d}x,\, W_t \in \mathrm{d}y\right] \\
+&= \frac{1}{x}\,e^{-\frac{1}{2x}(1+e^{2y})}\,\theta\!\left(\frac{e^y}{x},\,t\right),
+\end{aligned}
+\qquad\text{(1.1)}
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1086, (5.10a)–(5.10b)**
+
+$$
+\phi_{t,\sigma}(x, y) = \frac{16}{\sigma^{2p-2} x^p \sqrt{2\pi t}}\, e^{\frac{1}{2}\sigma y(p-1) - \frac{2}{\sigma^2 x}(e^{\sigma y} + 1)} \times \int_0^{\infty} \cosh u \, \mathfrak{R}\!\left(i\, e^{-i \frac{4}{\sigma^2 x} e^{\sigma y/2} \sinh u}\, g_{\sigma^2 t,p}(u - i\pi/2)\right) du, \qquad\text{(5.10a)}
+$$
+
+$$
+\phi_{t,\sigma}(x, y) = \frac{16}{\sigma^{2p-2} x^p \sqrt{2\pi t}}\, e^{\frac{1}{2}\sigma y(p-1) - \frac{2}{\sigma^2 x}(e^{\sigma y} + 1)} \times \int_0^{\infty} \sinh u \, \mathfrak{R}\!\left(e^{-\frac{4}{\sigma^2 x} e^{\sigma y/2} \cosh u}\, g_{\sigma^2 t,p}(u - i\pi)\right) du. \qquad\text{(5.10b)}
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1088, Remark 5.5**
+
+**Remark 5.5** As an aside, the $\pi$-formula for the conditional density $\phi_{t,\sigma}(x \mid y)$ leads to the following curious identity, which sheds some light on the nature of the integral representations obtained above: for all $z \in \mathbb{C} \setminus (-\infty,1)$, one has
+
+$$
+\frac{1}{\pi}\,e^{\frac{2\pi^2}{t}}\int_1^\infty \frac{e^{-\frac{2}{t}\operatorname{arcosh}^2 u}}{u+z}\,\sin\!\left(\frac{4\pi}{t}\operatorname{arcosh} u\right)\,du = e^{-\frac{2}{t}\operatorname{arcosh}^2 z}.
+$$
+
+</div>

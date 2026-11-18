@@ -1,0 +1,15 @@
+Mathematical English for `YorAnalytic.lean` (Lean names in typewriter).
+
+**Definition** (`yorCondDensity`). Explicit conditional density `φc(x, y) = yorDensity τ x y / gaussianPDFReal 0 τ y` for `σ = 2` and `τ > 0`, extended by `0` on `x ≤ 0`.
+
+**Lemma** (`yorCondDensity_contDiffOn`). `yorCondDensity τ` is `C^∞` on `(0, ∞) × ℝ` for every `τ > 0`.
+
+**Definition** (`yorTerm`). Basis term for all mixed partial derivatives `pd m n (yorCondDensity τ)` on `(0, ∞) × ℝ`.
+
+**Definition** (`yorPdList`). Explicit coefficient list representing `pd m n (yorCondDensity τ)` on `(0, ∞) × ℝ`.
+
+**Lemma** (`yorTerm_moment_majorant`). Gaussian-weighted `L¹` moment majorant for a single `yorTerm` with `x^s` (`s ≤ p`).
+
+**Theorem** (`prop_2_2_constructive`). Constructive, axiom-free proof of Lyasoff Prop. 2.2.
+
+Supporting declarations without a docstring: `gaussianPDFReal_mul_yorCondDensity`, `yor_cond_density`, `YorCoeff`, `evalYorSum`, `evalYorSum_nil`, `evalYorSum_cons`, `evalYorSum_append`, `evalYorSum_scale`, `yorTerm_contDiffOn_x`, `evalYorSum_contDiffOn_x`, `dYorTermY`, `dYorTermX`, `dEvalYorSumY`, `dEvalYorSumX`, `hasDerivAt_zpow_neg_nat`, `hasDerivAt_y`, `hasDerivAt_x`, `hasDerivAt_y`, `hasDerivAt_x`, `iteratedDeriv_y_yorCondDensity`, `pd_yorCondDensity_eq_evalYorSum`, `yorTerm_bound`, `yorTerm_tendsto_zero_right`, `yorTerm_tendsto_zero_atTop`, `integrableOn_exp_neg_mul'`, `integrableOn_pow_mul_exp_neg`, `integral_Ioi_zpow_neg_mul_exp_neg_div`, `integrable_abs_pow_mul_exp_neg_abs`, `evalYorSum_tendsto_zero_right`, `evalYorSum_tendsto_zero_atTop`, `evalYorSum_moment_majorant`, `pd_yorCondDensity_scaled`, `lintegral_Ioi_comp_mul_left`.

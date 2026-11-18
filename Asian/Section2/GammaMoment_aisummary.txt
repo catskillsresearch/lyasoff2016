@@ -1,0 +1,1 @@
+Integer moments of a Gamma law with shape `β` and rate `a`, and their pairing with the inverse-Gamma density (moments of `1/X`).

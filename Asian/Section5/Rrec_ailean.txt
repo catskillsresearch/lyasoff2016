@@ -1,0 +1,29 @@
+Mathematical English for `Rrec.lean` (Lean names in typewriter).
+
+**Lemma** (`two`). (5.7) for p = 2: `R_{t,2} = g_{t,2}`.
+
+**Lemma** (`two_apply`). Explicit formula for `R_{t,2}`.
+
+**Lemma** (`two_even`). `R_{t,2}` is even.
+
+**Theorem** (`two_sum_mul_two_pi_I`). (5.5) scaled by `2πi`: the contour RHS for `p = 2`.
+
+**Theorem** (`two_sum_re`). Real form of (5.5) for `p = 2` matching `contourEq`'s RHS.
+
+**Theorem** (`three_apply`). Explicit `R_{t,3}(y) = −e^{−2y²/t}/(πi)` for `y ≠ 0`.
+
+**Theorem** (`four_apply`). Explicit `R_{t,4}(y) = 2e^{−2y²/t}/(πi)` for `y ≠ 0`.
+
+**Lemma** (`three_zero`). With Lean's `x / 0 = 0`, the recipe value at `y = 0` is `0` for `p = 3` (not the limit).
+
+**Lemma** (`four_zero`). With Lean's `x / 0 = 0`, the recipe value at `y = 0` is `0` for `p = 4` (not the limit).
+
+**Theorem** (`three_sum`). (5.5) for `p = 3`.
+
+**Theorem** (`four_sum`). (5.5) for `p = 4`.
+
+**Theorem** (`two_pi_I_mul_sum`). (5.5) scaled by `2πi`, in the real form of the right-hand side of `contourEq`.
+
+**Lemma** (`three_sum_zero_ne`). The unrestricted form of (5.5) fails at `y = 0` for `p = 3` under Lean's `x / 0 = 0`.
+
+Supporting declarations without a docstring: `Rrec`, `two_sum`, `sinh_ne_zero`, `sum_eq`.

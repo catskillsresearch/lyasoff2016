@@ -1,0 +1,5 @@
+Mathematical English for `GammaMoment.lean` (Lean names in typewriter).
+
+**Definition** (`gammaMoment`). Integer moments of a Gamma law with shape `β` and rate `a`.
+
+Supporting declarations without a docstring: `nonneg`, `inv_pow_mul_igDensity`, `lintegral_inv_pow_igMeasure`.

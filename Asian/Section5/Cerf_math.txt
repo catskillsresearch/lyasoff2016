@@ -1,0 +1,7 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1082, analyticity of g_{t,p}**
+
+In addition to being even, these functions are analytic in the entire complex plane $\mathbb{C}$, and since we have $\overline{\mathrm{erf}(z)} = \mathrm{erf}(\bar{z})$ and $\mathrm{erf}(-z) = -\mathrm{erf}(z)$, $z \in \mathbb{C}$, it is straightforward to check that $\overline{g_{t,p}(z)} = -g_{t,p}(\bar{z})$, $z \in \mathbb{C}$. This last relation has the effect that
+
+</div>

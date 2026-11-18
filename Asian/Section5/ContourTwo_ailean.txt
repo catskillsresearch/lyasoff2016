@@ -1,0 +1,21 @@
+Mathematical English for `ContourTwo.lean` (Lean names in typewriter).
+
+**Lemma** (`one_add_sq_le_four_cosh`). with A = (z − y)/2 and B = (z + y)/2, sinh z / (cosh z − cosh y) = (coth A + coth B)/2, so the integrand of (5.3) is (Φ_y + Φ_{−y})/2 with Φ_y(z) = g_{t,2}(z) coth((z − y)/2). Φ_y has a single simple pole in the strip {|ℑ z| ≤ a} (a < 2π), at z = y, with residue 2 g_{t,2}(y). Subtracting g_{t,2}(y)/sinh((z − y)/2) removes the pole; Cauchy's theorem on rectangles (vertical sides vanish by the Gaussian decay of g_{t,2}) shows that the two edges of the strip carry the same integral of the difference, and the edge integrals of 1/sinh((z − y)/2) are computed in closed form (an arctangent). The upper edge is minus the conjugate of the lower one, which leaves twice the real part.
+
+**Lemma** (`integral_strip_eq`). If `F` is holomorphic on the closed strip `{|ℑ z| ≤ a}`, integrable on both edges and uniformly small on the vertical segments `ℜ z = ±R` as `R → ∞`, then the integrals over the two edges agree.
+
+**Definition** (`Phi`). `Φ_y(z) = g_{t,2}(z) coth((z − y)/2)`.
+
+**Definition** (`Chi`). `χ_y(z) = 1 / sinh((z − y)/2)`.
+
+**Definition** (`Nfun`). Numerator of `Ψ_y`: an entire function vanishing at `z = y`.
+
+**Definition** (`Psi`). `Ψ_y = Φ_y − g_{t,2}(y) χ_y`, with the removable singularity at `z = y` removed.
+
+**Lemma** (`integral_Phi_sub`). The residue identity: the two edges of the strip differ by `2πi · Res_{z=y} Φ_y`.
+
+**Lemma** (`two_re_integral_Phi`). Twice the real part of the lower-edge integral of `Φ_y`.
+
+**Theorem** (`contour_two`). The contour equation (5.3) for `p = 2`, on the lower edge `u ↦ u − ia`, `0 < a < 2π`.
+
+Supporting declarations without a docstring: `self_le_cosh`, `tendsto_cosh_atTop`, `tendsto_cosh_atBot`, `tendsto_inv_cosh_atTop`, `tendsto_inv_cosh_atBot`, `integrable_inv_cosh`, `tendsto_sinh_atTop`, `tendsto_sinh_atBot`, `sinh_re_im`, `cosh_re_im`, `norm_sinh_sq`, `norm_cosh_sq`, `abs_sinh_le_norm_sinh`, `sin_mul_cosh_le_norm_sinh`, `norm_cosh_le_cosh`, `norm_sinh_le_cosh`, `sinh_ne_zero_of_abs_im_lt`, `gFun_two_apply`, `differentiable_gFun_two`, `norm_gFun_two`, `gFun_two_conj`, `gFun_two_mul`, `half_line`, `re_line`, `im_line`, `norm_sinh_line_ge`, `norm_cosh_line_le`, `sinh_line_ne_zero`, `Psi_eq`, `differentiableOn_Psi`, `Psi_line`, `integrable_Phi_line`, `integrable_Chi_line`, `Chi_sub`, `integral_Chi_sub`, `Phi_conj`, `norm_Psi_le`, `sinh_div_cosh_sub`, `integrand_two_eq`.

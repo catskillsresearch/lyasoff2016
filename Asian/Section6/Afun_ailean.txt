@@ -1,0 +1,11 @@
+Mathematical English for `Afun.lean` (Lean names in typewriter).
+
+**Theorem** (`eq`). Real/imaginary decomposition of `A(u,w)`.
+
+**Theorem** (`re`). `Re A(u,w) = (2 w² e^{νt} + 2)/σ²`.
+
+**Theorem** (`im`). `Im A(u,w) = 4 w e^{νt/2} sinh u / σ²`: the integrand genuinely depends on `u`.
+
+**Theorem** (`re_pos`). Paper, p. 1090: `ℜ(A) > 0`, the standing assumption under which `S_{k,p}(A)` converges.
+
+Supporting declarations without a docstring: `Afun`.

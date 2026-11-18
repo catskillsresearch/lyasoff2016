@@ -1,0 +1,25 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1085, exchange of integrations**
+
+To see why these estimates are indeed satisfied, first notice that the expressions $g_{t,p}(u - i\pi/2)$ and $g_{t,p}(u - i\pi)$ are both linear combinations of expressions of the form $\mathrm{erf}(c_1 u + i c_2)$ for various constants $c_1, c_2 \in \mathbb{R}$. Then notice that for every choice of $a, b \in \mathbb{R}$, one has
+
+$$
+\mathfrak{I}(\mathrm{erf}(a + ib)) = \frac{1}{2i}\bigl(\mathrm{erf}(a + ib) - \mathrm{erf}(a - ib)\bigr) = \frac{b e^{-a^2}}{\sqrt{\pi}} \int_{-1}^{1} e^{b^2 v} \cos(2abv) \, dv
+$$
+
+and
+
+$$
+\mathfrak{R}(\mathrm{erf}(a + ib)) = \frac{1}{2}\bigl(\mathrm{erf}(a + ib) - \mathrm{erf}(-a + ib)\bigr) = \frac{a e^{b^2}}{\sqrt{\pi}} \int_{-1}^{1} e^{-a^2 v} \cos(2abv) \, dv.
+$$
+
+These relations follow trivially from differentiating the functions $v \mapsto \mathrm{erf}(a + ibv)$ and $v \mapsto \mathrm{erf}(av + ib)$. Since the integrals
+
+$$
+\int_{-\infty}^{\infty} e^{-c_1^2 u^2} \cosh u \, du \quad \text{and} \quad \int_{-\infty}^{\infty} e^{-c_1^2 u^2} |\sinh u| \, du
+$$
+
+are finite, the exchange of the two integration operations is finally justified.
+
+</div>

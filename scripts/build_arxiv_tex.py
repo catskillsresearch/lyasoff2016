@@ -40,7 +40,7 @@ LISTING_CHUNK_LINES = 400
 
 AUTHOR = "Lars Warren Ericson"
 COMPANY = "Catskills Research Company"
-GITHUB_URL = r"https://github.com/catskillsresearch/nowakowska1982"
+GITHUB_URL = r"https://github.com/catskillsresearch/lyasoff2016"
 PALOMAR_URL = (
     r"https://palomar-registry.org/entry?id=PALOMAR-2026-11-15-000006&version=1"
 )
@@ -97,7 +97,7 @@ FENCE_RE = re.compile(r"^```([^\n]*)\n(.*?)^```\s*$", re.MULTILINE | re.DOTALL)
 MANUAL_SECTION_NUM = re.compile(r"^(#{1,6})[ \t]+\d+(?:\.\d+)*\.?[ \t]+", re.MULTILINE)
 NARRATIVE_MARKER = "# Narrative (from arxiv.md)"
 LEAN_MODULE_RE = re.compile(
-    r"^###\s+((?:Actions|Lyasoff2016)(?:\.lean|/[^\s{]+))\s*$",
+    r"^###\s+((?:Asian|Lyasoff2016)(?:\.lean|/[^\s{]+))\s*$",
     re.MULTILINE,
 )
 FIGURE_CAPTION_RE = re.compile(
@@ -180,7 +180,7 @@ def normalize_appendix_headings(text: str) -> str:
         flags=re.MULTILINE,
     )
     text = re.sub(
-        r"^##\s+`(Actions(?:\.lean|/[^`]+))`\s*$",
+        r"^##\s+`(Asian(?:\.lean|/[^`]+))`\s*$",
         r"### \1",
         text,
         flags=re.MULTILINE,
@@ -232,7 +232,7 @@ def embed_lstlean(preamble: str) -> str:
 
 
 # Bold first line of a ```source``` / `*_math.txt` block, e.g.
-# **Lyasoff (2016), p. 1065 / Lemma 2.1** or **Nowakowska, Theory of Actions (1982), …**
+# **Lyasoff (2016), p. 1065 / Lemma 2.1** or **Nowakowska, THEORY_OF_ASIAN_KEEP (1982), …**
 _SOURCE_HEADER_RE = re.compile(
     r"^\*\*((?:Lyasoff|Nowakowska)\b.*?)\*\*\s*$",
 )
@@ -254,14 +254,57 @@ def source_header_to_title(header: str) -> str:
     title = re.sub(r"\bpp\.\s*", "pp.~", title)
     title = re.sub(r"\bp\.\s*", "p.~", title)
     # Light TeX escaping for specials in titles.
-    title = (
-        title.replace("\\", "\\textbackslash{}")
-        .replace("&", "\\&")
-        .replace("%", "\\%")
-        .replace("#", "\\#")
-        .replace("_", "\\_")
-    )
-    return title
+    esc = {
+        "\\": "\\textbackslash{}", "&": "\\&", "%": "\\%", "#": "\\#",
+        "_": "\\_", "{": "\\{", "}": "\\}", "^": "\\^{}", "$": "\\$",
+        "~": "\\textasciitilde{}",
+    }
+    # Escape character-by-character, keeping the "p.~" ties inserted above.
+    out: list[str] = []
+    i = 0
+    while i < len(title):
+        if title.startswith(".~", i):
+            out.append(".~")
+            i += 2
+            continue
+        out.append(esc.get(title[i], title[i]))
+        i += 1
+    return "".join(out)
+
+
+_LONGTABLE_RE = re.compile(
+    r"(?:\{\\def\\LTcaptype\{none\}[^\n]*\n)?"
+    r"\\begin\{longtable\}\[[^\]]*\]\{(?P<spec>[^\n]*)\}\n(?P<body>.*?)\\end\{longtable\}\n?\}?",
+    re.DOTALL,
+)
+
+
+def _longtable_to_tabular(latex: str) -> str:
+    """longtable cannot live inside a tcolorbox; rewrite pandoc's longtables as
+    centred tabulars (head kept once, the last-foot rule moved to the end)."""
+
+    def repl(m: re.Match[str]) -> str:
+        body = m.group("body")
+        foot = ""
+        if "\\endlastfoot" in body:
+            pre, post = body.split("\\endlastfoot", 1)
+            # pre = head ... \endhead foot-rows
+            if "\\endhead" in pre:
+                head, foot = pre.split("\\endhead", 1)
+            else:
+                head, foot = pre, ""
+            if "\\endfirsthead" in head:
+                head = head.split("\\endfirsthead", 1)[0]
+            body = head + post
+        else:
+            body = re.sub(r"\\end(?:first)?head|\\end(?:last)?foot", "", body)
+        return (
+            "\\begin{center}\n\\begin{tabular}{" + m.group("spec") + "}\n"
+            + body.strip("\n") + "\n" + foot.strip("\n") + "\n"
+            + "\\end{tabular}\n\\end{center}"
+        )
+
+    return _LONGTABLE_RE.sub(repl, latex)
 
 
 def _one_sourcequote(title: str, body: str) -> str:
@@ -269,12 +312,18 @@ def _one_sourcequote(title: str, body: str) -> str:
         body += "\n"
     inner = pandoc_to_latex(body, shift=False)
     inner = cleanup_pandoc_latex(inner).strip()
+    inner = _longtable_to_tabular(inner)
     return f"\\begin{{sourcequote}}{{{title}}}\n{inner}\n\\end{{sourcequote}}\n"
 
 
 def source_block_latex(markdown: str) -> str:
     """Render paper ascriptions as green ``sourcequote`` boxes (one per bold header)."""
-    text = markdown.strip() + "\n"
+    # Drop the markdown-preview <div class="sourcequote" ...> wrappers emitted by
+    # scripts/paper_quotes.py; the tcolorbox is the LaTeX equivalent.
+    text = "\n".join(
+        ln for ln in markdown.splitlines()
+        if not re.match(r"^\s*</?div\b[^>]*>\s*$", ln)
+    ).strip() + "\n"
     lines = text.splitlines()
     chunks: list[tuple[str | None, list[str]]] = []
     current_header: str | None = None
@@ -347,7 +396,7 @@ def extract_lean_titles(text: str) -> dict[str, str]:
         module = None
         for line in reversed(prefix.splitlines()[-4:]):
             m = re.match(
-                r"^###\s+((?:Actions|Lyasoff2016)(?:\.lean|/[^\s{]+))",
+                r"^###\s+((?:Asian|Lyasoff2016)(?:\.lean|/[^\s{]+))",
                 line.strip(),
             )
             if m:
@@ -519,7 +568,7 @@ def break_lean_path_headings(latex: str) -> str:
         )
 
     return re.sub(
-        r"(\\(?:sub)*section\{)(Actions(?:\.lean|/[^{}]+))(\})",
+        r"(\\(?:sub)*section\{)(Asian(?:\.lean|/[^{}]+))(\})",
         fix,
         latex,
     )
@@ -547,7 +596,7 @@ def cleanup_pandoc_latex(latex: str) -> str:
     )
     # Drop duplicate Lean path paragraph headings (the blue \\href is enough).
     latex = re.sub(
-        r"\\hypertarget\{[^\n]*\}\{%\n\\(?:sub)*paragraph\{Actions[^\n]*\}\\label\{[^\n]*\}\}\n*",
+        r"\\hypertarget\{[^\n]*\}\{%\n\\(?:sub)*paragraph\{Asian[^\n]*\}\\label\{[^\n]*\}\}\n*",
         "",
         latex,
     )
@@ -562,7 +611,7 @@ def cleanup_pandoc_latex(latex: str) -> str:
         )
 
     latex = re.sub(
-        r"\\textbf\{\\href\{([^}]*)\}\{(Actions[^}]*)\}\}\s*"
+        r"\\textbf\{\\href\{([^}]*)\}\{(Asian[^}]*)\}\}\s*"
         r"\\lstinputlisting\[style=leanbox\]",
         _lean_href,
         latex,
@@ -702,6 +751,9 @@ def main() -> int:
     preamble = embed_lstlean(PREAMBLE.read_text(encoding="utf-8"))
     title_page = build_title_page(abstract_latex)
     document = preamble + "\n\n" + title_page + "\n\n" + latex_body + "\n\n\\end{document}\n"
+    # Combining macron (e.g. "z̄" in generated prose): pdfLaTeX cannot place a
+    # combining glyph, so rewrite letter + U+0304 as a math bar.
+    document = re.sub(r"([A-Za-z])\u0304", r"\\ensuremath{\\bar{\1}}", document)
     OUT.write_text(document, encoding="utf-8")
     n_listings = sum(1 for p in LISTINGS_DIR.iterdir() if p.is_file())
     n_figures = sum(1 for p in FIGURES_DIR.glob("*.png"))

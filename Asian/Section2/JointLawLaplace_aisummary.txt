@@ -1,0 +1,1 @@
+The integrated distributional Fokker–Planck identity for `(∫₀ᵗ e^{2W_s} ds, W_t)` in terms of the inverse-argument Laplace transform `E[e^{−v/A} ψ(W_t)]`, plus a.s. positivity of the exponential integral.

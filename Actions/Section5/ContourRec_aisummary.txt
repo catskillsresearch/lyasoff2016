@@ -1,1 +1,0 @@
-The contour equation (5.3) for p = 3, 4: reduction to p = 2 by integration by parts along the. It declares 16 items (14 lemmas, 2 theorems).

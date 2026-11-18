@@ -26,11 +26,6 @@ the conditional density φ(x|y) of the integral given W_t = y,
    related by φ(x,y) = gaussianPDF(y) · φ(x|y).
 
 
-**Lyasoff (2016), used throughout for mixed derivatives of densities**
-
-mixed partial ∂^{m+n}/∂x^m ∂y^n.
-
-
 **Lyasoff (2016), p. 1061 (1.1) — Yor’s theorem [33, (6.c)]**
 
 stated here; proved in `IntegralReps` as `yor_formula` via Remark 5.1.

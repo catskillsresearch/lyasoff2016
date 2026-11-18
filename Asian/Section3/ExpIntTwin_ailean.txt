@@ -1,0 +1,11 @@
+Mathematical English for `ExpIntTwin.lean` (Lean names in typewriter).
+
+**Definition** (`expIntTwin`). The time-reversed twin of `expInt`: `Y_s = e^{σ B_s} ∫₀ˢ e^{-σ B_r} dr = ∫₀ˢ e^{σ (B_s - B_r)} dr`. It solves `dY = (1 + σ² Y / 2) ds + σ Y dB`, and `(Y_s, B_s)` has the law of `(∫₀ˢ e^{σ B_r} dr, B_s)` at each fixed `s`.
+
+**Theorem** (`measurable_driftPath_exp`). The time integral of `e^{a B}` up to a fixed time is measurable.
+
+**Theorem** (`measurable`). The twin is measurable at each time.
+
+**Theorem** (`stronglyAdapted`). The twin is adapted to the natural filtration of `B`.
+
+**Theorem** (`continuous`). Every path of the twin is continuous.

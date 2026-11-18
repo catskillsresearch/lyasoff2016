@@ -1,0 +1,1 @@
+Identification of the higher-order π-formulae. On the lower edge of the `a = π` contour, Fubini and the inverse-Gamma integral show that the `σ = 2` π-formula has Yor's conditional Laplace transform for `p = 2, 3, 4`, hence is a joint density. Scaling extends this to every positive volatility and horizon.

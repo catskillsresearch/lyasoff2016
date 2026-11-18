@@ -1,0 +1,19 @@
+Mathematical English for `PiFormulaLaplace.lean` (Lean names in typewriter).
+
+**Lemma** (`piFormula_inverseGamma_scale_pos`). The positive scale appearing after the two exponentials in the π-formula are combined.
+
+**Theorem** (`piFormula_inner_x_integral`). The inner `x`-integration in the paper's route from (5.4) to (5.3). It is valid simultaneously for all integer orders `p ≥ 2`, hence in particular for `p ∈ {2,3,4}`.
+
+**Lemma** (`gFun_two_re`). Paper, display before (5.9a)/(5.9b) with `σ = 2`.
+
+**Lemma** (`gFun_two_re_half`). The real and imaginary parts of `g_{4t,2}` on the lower `π/2` edge. This is the phase expansion used in the paper's cosine form (5.10a).
+
+**Lemma** (`remark_5_1_aux`). Algebraic core of Remark 5.1 (no sign restriction on `x`).
+
+**Theorem** (`remark_5_1`). Remark 5.1: the order-two π-formula at `σ = 2` is Yor's density.
+
+**Theorem** (`pi_formula_two_sigma_two`). The scaled order-two π-formula is constructively a joint density at `σ = 2`.
+
+**Theorem** (`piFormula_two_sigma_two_laplace`). At `(p, σ) = (2, 2)`, the scaled π-formula has the conditional `1/x`-Laplace transform obtained from Yor's joint density. This includes the endpoint `v = 0`.
+
+**Theorem** (`pi_formula_second_two_sigma_two`). The second conjunct of `pi_formula` at `(p, σ) = (2, 2)` is already constructive.

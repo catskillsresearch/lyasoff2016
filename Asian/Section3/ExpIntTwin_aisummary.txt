@@ -1,0 +1,1 @@
+The time-reversed twin of `expInt`, `Y_s = ∫₀ˢ e^{σ(B_s − B_r)} dr`, which is used in (3.4b). Proves measurability, adaptedness to the natural filtration, and path continuity.

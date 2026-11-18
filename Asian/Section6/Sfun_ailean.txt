@@ -1,0 +1,15 @@
+Mathematical English for `Sfun.lean` (Lean names in typewriter).
+
+**Lemma** (`integrableOn_rpow_mul_exp_neg`). The Gamma integrand `u ^ (s - 1) * exp (-u)` is integrable on `(0, ∞)` for `s > 0`.
+
+**Lemma** (`integral_Ioc_rpow_mul_exp_neg`). Lower incomplete Gamma integral: `∫₀^c u^{s-1} e^{-u} du = Γ(s) − Γ(s, c)`.
+
+**Theorem** (`zero`). S_{0,p}(A) = ∫₀^∞ e^{-A/x} x^{1-p} dx = A^{-(p-2)} Γ(p-2) for p ≥ 3.
+
+**Theorem** (`closed_form`). after the substitution v = A/x, S_{k,p}(A) = k A^{-(p-1)} Γ(p-1, A/k) − A^{-(p-2)} Γ(p-2, A/k) − k A^{-(p-1)} Γ(p-1) + A^{-(p-2)} Γ(p-2).
+
+**Theorem** (`S_zero`). Board-facing alias of `Sfun.zero`.
+
+**Theorem** (`S_closed_form`). Board-facing alias of `Sfun.closed_form`.
+
+Supporting declarations without a docstring: `Sfun`.

@@ -1,0 +1,17 @@
+Mathematical English for `AsianDensity.lean` (Lean names in typewriter).
+
+**Theorem** (`aemeasurable_jointMap`). The pair `(∫₀ᵗ e^{σW_s+νs} ds, W_t)` is a.e.-measurable along a Brownian motion.
+
+**Theorem** (`lintegral_jointLaw_girsanov`). Paper p. 1066, (2.2), for nonnegative integrals: integrating against the joint law with drift `σθ` is integrating the `y`-shifted function, tilted by `exp(θ y − θ² t / 2)`, against the driftless joint law.
+
+**Theorem** (`measurable_piHalfFormula`). The π/2-formula is jointly measurable in `(x, y)`.
+
+**Theorem** (`piHalfFormula_cond_normalized`). For every `y`, the conditional π/2-density `x ↦ σ⁻² · piHalfFormula p σ T (x σ²) (y σ)` is integrable on `(0, ∞)` with total mass one (the `v = 0` case of the conditional Laplace transform, transported from `σ = 2` by Brownian scaling).
+
+**Theorem** (`piHalfFormula_ae_nonneg`). The π/2-formula of order `p = 2, 3, 4` is a.e. nonnegative: its positive part already has total mass one (it is a density of a probability law), and so does the formula itself.
+
+**Theorem** (`asianKernel_fubini`). Paper p. 1090–1091: for fixed `y` (equivalently fixed `w = e^{σy/2 − νt/2}`), the `u`-integral of `ℜ F_{t,σ,ν,K}(u,w)` times the Jacobian `σ w / 2` is the `x`-integral of the call payoff against the Girsanov-tilted π/2-density of order `4`. The `(x, u)`-integrand is absolutely integrable for fixed `y`: its modulus factors as an inverse-Gamma kernel in `x` times `cosh u · |g_{σ²t,4}(u − iπ/2)|`.
+
+**Theorem** (`asianKernelDeriv_fubini`). Paper p. 1091: fixed-`y` Fubini for the strike derivative of the Asian kernel. Relative to `asianKernel_fubini`, differentiating the payoff removes `(x - K)` and contributes a minus sign through `SfunDerivC`.
+
+**Theorem** (`integral_Ioi_comp_exp_affine`). Paper p. 1090: the change of variables `w = e^{σ y / 2 − c}`, `dw = (σ w / 2) dy`, mapping `ℝ` onto `(0, ∞)`. No integrability is needed (both sides are Bochner integrals).

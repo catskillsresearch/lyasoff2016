@@ -1,0 +1,1 @@
+The real Asian inner integral `S_{k,p}(α) = ∫_k^∞ e^{−α/x}(x − k)/x^p dx` and its closed forms through upper incomplete Gamma functions, including `S_{0,p}(α) = α^{−(p−2)} Γ(p − 2)` (p. 1091).

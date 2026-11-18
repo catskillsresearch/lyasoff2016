@@ -1,0 +1,1 @@
+The critical point `y₀(v) = ½ log(1 + 2v)` of `y ↦ A(v, y)`.

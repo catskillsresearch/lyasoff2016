@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Flatten Actions.md → arxiv.md → arxiv.tex → Actions.pdf (Lean-highlighted).
+# Flatten Asian.md → arxiv.md → arxiv.tex → Asian.pdf (Lean-highlighted).
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 TEX="arxiv.tex"
 PDF="arxiv.pdf"
-OUT="Actions.pdf"
+OUT="Asian.pdf"
 
-echo "==> Flattening Actions.md note tree (inline Lean)"
+echo "==> Flattening Asian.md note tree (inline Lean)"
 python3 scripts/compile_md_tree.py --md-only --lean=inline
 
 echo "==> Preparing arxiv_with_code.md"

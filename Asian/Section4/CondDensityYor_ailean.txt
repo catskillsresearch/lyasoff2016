@@ -1,0 +1,19 @@
+Mathematical English for `CondDensityYor.lean` (Lean names in typewriter).
+
+**Definition** (`scaledYorCondDensity`). Conditional density of `∫₀ᵀ e^{σ W_s} ds` given `W_T = y`, obtained from Yor's σ = 2 joint density by Brownian scaling and division by the Gaussian marginal.
+
+**Theorem** (`isCondDensity_scaledYorCondDensity`). `scaledYorCondDensity σ T` is a conditional density of `(expInt W σ 0 T, W T)`.
+
+**Theorem** (`scaledYorCondDensity_foliation_ode`). The integrated foliation ODE (4.5) for `scaledYorCondDensity`: Yor's `θ`-factor is invariant along the foliation, and the remaining factors are explicit.
+
+**Theorem** (`integral_scaledYorCondDensity`). Each conditional slice of `scaledYorCondDensity` has unit mass on `(0, ∞)`.
+
+**Definition** (`yorCondExplicit`). The explicit `x > 0` branch of the σ = 2 conditional density `yorCondDensity`.
+
+**Lemma** (`yorCondExplicit_transport`). The σ = 2 transport identity for the explicit branch: the `Jm τ 1` terms cancel because the vector field `X ∂_X + ∂_Y` annihilates the θ-argument `e^Y / X`.
+
+**Definition** (`smoothYorCondDensity`). A conditional density of `(expInt W σ 0 T, W T)` built from the smooth σ = 2 conditional density `yorCondDensity` by Brownian scaling. It agrees everywhere with `scaledYorCondDensity`.
+
+**Theorem** (`smoothYorCondDensity_transport_pde`). The Theorem 4.1 transport PDE for `smoothYorCondDensity`.
+
+Supporting declarations without a docstring: `yorCondDensity_eq_explicit`, `yorCondExplicit_hasDerivAt_X`, `yorCondExplicit_hasDerivAt_Y`, `smoothYorCondDensity_eq_scaled`, `isCondDensity_smoothYorCondDensity`.

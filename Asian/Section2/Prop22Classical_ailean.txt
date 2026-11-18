@@ -1,0 +1,3 @@
+Mathematical English for `Prop22Classical.lean` (Lean names in typewriter).
+
+**Theorem** (`prop_2_2_classical`). Prop. 2.2 (Lyasoff 2016, p. 1065): existence of a conditional density `φc` of `expInt` given `W_t` that is `C^∞` on `{x > 0}`, vanishes at the origin, has controlled mixed partials at `0⁺`/`∞`, and Gaussian-weighted moment bounds. Proved constructively as `prop_2_2_constructive` (Yor conditional density analysis); kept under this name as a classical citation point.

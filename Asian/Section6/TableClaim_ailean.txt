@@ -1,0 +1,11 @@
+Mathematical English for `TableClaim.lean` (Lean names in typewriter).
+
+**Structure** (`ReportedTableRow`). A transcription of one row of the paper, with no correctness certificate.
+
+**Definition** (`table1Reported`). Table 1 rows, transcribed from the paper; not certified prices.
+
+**Definition** (`table2Reported`). Table 2 rows, transcribed from the paper; not certified prices.
+
+**Definition** (`table3Reported`). Table 3 rows, transcribed from the paper; not certified prices.
+
+**Definition** (`table4Reported`). Table 4 rows, transcribed from the paper; not certified prices.

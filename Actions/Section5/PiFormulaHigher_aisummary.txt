@@ -1,1 +1,0 @@
-Constructive identification of the higher-order π-formulae. It declares 4 items (1 lemma, 3 theorems).

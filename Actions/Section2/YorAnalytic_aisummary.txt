@@ -1,1 +1,0 @@
-Analytic regularity (`C^∞` on `(0, ∞) × ℝ`), boundary limits at `0⁺` and `∞`,. It declares 31 items (1 abbrev, 8 defs, 21 lemmas, 1 theorem).

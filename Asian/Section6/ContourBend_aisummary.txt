@@ -1,0 +1,1 @@
+A general contour-bending theorem. For an entire `f` and a `C¹` height profile `θ`, the integral of `f` over the real line equals its integral over the graph `u + iθ(u)`, provided the homotopy integrands are dominated by one integrable function. Proved with the homotopy `bendPt` and differentiation under the integral sign.

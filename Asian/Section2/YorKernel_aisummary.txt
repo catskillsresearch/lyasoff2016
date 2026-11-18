@@ -1,0 +1,1 @@
+Analysis of the Hartman–Watson integral kernel behind `θ`: the formal derivatives `Jm t m`, their continuity and smoothness on `(0, ∞)`, the derivative recursion `J_m' = J_{m+1}`, vanishing at `r = 0`, and exponential decay at infinity and polynomial decay at `0⁺`.

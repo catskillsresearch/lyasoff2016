@@ -1,7 +1,0 @@
-Mathematical English for `StopPath.lean` (Lean names in typewriter).
-
-**Definition** (`stopPath`). Stated and proved in Lean; see the source for the formal statement.
-
-**Theorem** (`measurable`). Stated and proved in Lean; see the source for the formal statement.
-
-**Theorem** (`integral_eq`). Stated and proved in Lean; see the source for the formal statement.

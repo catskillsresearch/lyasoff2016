@@ -1,0 +1,1 @@
+The strike-derivative kernel `S'_{k,p}(A) = −∫_k^∞ e^{−A/x} x^{−p} dx` for a complex rate `A` (p. 1091), with the strike itself as the parameter.

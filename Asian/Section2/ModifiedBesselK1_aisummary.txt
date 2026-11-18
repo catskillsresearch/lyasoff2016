@@ -1,0 +1,1 @@
+The modified Bessel function `K₁` through its integral representation, with the identity `∫ e^{−u/2 − (4/x) cosh(u/2)} du = 4 K₁(4/x)` that links the foliation constant to `K₁` (p. 1075).

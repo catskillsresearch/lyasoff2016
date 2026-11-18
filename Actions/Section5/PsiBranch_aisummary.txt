@@ -1,1 +1,0 @@
-Characteristic-branch cutoff `ψ` along `A(v, ·)`. It declares 6 items (1 lemma, 5 theorems).

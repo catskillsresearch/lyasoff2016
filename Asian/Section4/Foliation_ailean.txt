@@ -1,0 +1,35 @@
+Mathematical English for `Foliation.lean` (Lean names in typewriter).
+
+**Definition** (`SatisfiesTheorem41PDE`). hypothesis that a candidate φc satisfies the first-order transport PDE along V. `theorem_4_1_pde` is the conditional rearrangement; `cond_density_satisfies_theorem_41_pde` establishes the hypothesis for a conditional density of exp-BM.
+
+**Definition** (`SatisfiesStrikingIdentity`). hypothesis for the reciprocal-moment cases E[(∫ e^{σW})^{-1} | W_t = y/σ] = y/(t(e^y−1)) (and 1/t at y=0). PAPER NOTE: printed ∫₀ᵗ should be ∫₀^∞ x^{-1} φ(x|·) dx. `theorem_4_1_striking` is the conditional rearrangement; `cond_density_satisfies_striking` establishes the hypothesis for a conditional density.
+
+**Theorem** (`hasDerivAt_ode_solution`). derivative of exp(−u/2 − (4/x) cosh(u/2)). PAPER NOTE: printed sinh sign is wrong; the consistent sign is minus.
+
+**Definition** (`laplaceCond`). L_{t,y}(u) = ∫ e^{-u/x} φ(x|y) dx.
+
+**Definition** (`Top`). the transform used to characterize the Laplace transform uniquely.
+
+**Lemma** (`integral_mul_eq_zero_of_moments`). Weierstrass step behind uniqueness of the Laplace transform: if all the "moments" `∫ Tⁿ f` of an integrable `f` against a `[0,1]`-valued map `T` vanish, then `∫ (h ∘ T) f = 0` for every `h` continuous on `[0,1]`.
+
+**Lemma** (`ae_eq_zero_of_forall_integral_exp_neg_div_mul_eq_zero`). Uniqueness of the (inverse-argument) Laplace transform on `(0,∞)`: an integrable `f` with `∫_{x>0} e^{-n/x} f(x) dx = 0` for all `n : ℕ` vanishes a.e. on `(0,∞)`.
+
+**Theorem** (`striking_from_laplace`). differentiating the Laplace closed form yields the striking identity.
+
+**Definition** (`negMomentFormula`). Taylor expansion of L_{t,0}(u) gives E[A_t^{-p} | W_t=0].
+
+**Theorem** (`remark_4_6`). the striking identity is the p = 1 case of the negative-moment formulae.
+
+**Theorem** (`cond_density_satisfies_theorem_41_pde`). Some conditional density of `(expInt, W)` satisfies the Thm 4.1 transport PDE: the smooth scaled Yor conditional density `smoothYorCondDensity` (`Lyasoff2016.CondDensityYor`).
+
+**Theorem** (`cond_density_satisfies_foliation_ode`). Some conditional density satisfies the integrated foliation ODE (4.5): the scaled Yor conditional density `scaledYorCondDensity` (`Lyasoff2016.CondDensityYor`).
+
+**Theorem** (`integral_slice_eq_of_foliationODE`). Change of variables `x = x' e^{σy/2}` along the foliation: under (4.5), every `x`-integral against the slice `φc · y` reduces to one against the slice `φc · 0`.
+
+**Theorem** (`scaledYorCondDensity_mass`). The transformed mass identity (4.7) for the zero slice of `scaledYorCondDensity`.
+
+**Theorem** (`cond_density_satisfies_laplace_inputs`). Some conditional density satisfies the Thm 4.5 mass + Laplace-reduction inputs: the scaled Yor conditional density, via the foliation ODE and unit mass of each slice.
+
+**Theorem** (`cond_density_satisfies_striking`). Some conditional density satisfies the striking reciprocal-moment identity (4.4): the scaled Yor conditional density. The zero slice satisfies the mass identity (4.7); differentiating it in the Laplace variable (`StrikingMass`) gives the weighted reciprocal moments, the foliation change of variables transports them to every slice, and monotone convergence gives the `y = 0` case.
+
+Supporting declarations without a docstring: `theorem_4_1_pde`, `theorem_4_1_striking`, `SatisfiesFoliationODE`, `formula_4_6`, `prop_4_4`, `TransformedMassIdentity`, `HasLaplaceReduction`, `theorem_4_5`, `HasNegativeMomentsUpToThree`, `neg_moments_at_zero`.

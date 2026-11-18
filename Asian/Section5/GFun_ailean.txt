@@ -1,0 +1,39 @@
+Mathematical English for `GFun.lean` (Lean names in typewriter).
+
+**Definition** (`gFun`). entire (even) building blocks for the contour representation. g_{t,2}(z) = e^{-2z²/t}/(4πi); g_{t,3}(z) = e^{t/8} √t/(4i√(2π)) (cerf((t+4z)/(2√(2t))) + cerf((t−4z)/(2√(2t)))); g_{t,4}(z) = e^{t/2} √t/(2i√(2π)) (cerf((t+2z)/√(2t)) + cerf((t−2z)/√(2t))) − e^{t/8} cosh z · √t/(i√(2π)) (cerf((t+4z)/(2√(2t))) + cerf((t−4z)/(2√(2t)))).
+
+**Theorem** (`two_contDiff`). `g_{t,2}` is entire (as a quotient of an entire function by a nonzero constant).
+
+**Theorem** (`three_contDiff`). `g_{t,3}` is entire: a constant multiple of a sum of `cerf` composed with affine maps.
+
+**Theorem** (`four_contDiff`). `g_{t,4}` is entire: built from `cerf` composed with affine maps and `cosh`.
+
+**Theorem** (`contDiff`). Every `g_{t,p}` is entire. (For `p ∉ {2,3,4}` the function is `0` by convention, and no sign condition on `t` is needed: division by `0` is `0`, which only makes the maps constant.)
+
+**Theorem** (`two_even`). `g_{t,2}` is even.
+
+**Theorem** (`three_even`). `g_{t,3}` is even: `z ↦ -z` swaps the two `cerf` terms.
+
+**Theorem** (`four_even`). `g_{t,4}` is even: `z ↦ -z` swaps the `cerf` terms in each pair and `cosh` is even.
+
+**Theorem** (`even`). Every `g_{t,p}` is even in `z` (trivially so for `p ∉ {2,3,4}`, where it is `0`).
+
+**Theorem** (`three_apply`). Unfolding of `g_{t,3}`.
+
+**Theorem** (`four_eq`). `g_{t,4} = A − 4 cosh · g_{t,3}`.
+
+**Theorem** (`two_conj`). `g_{t,2}` changes sign under complex conjugation.
+
+**Theorem** (`three_conj`). `g_{t,3}` changes sign under complex conjugation.
+
+**Theorem** (`four_conj`). `g_{t,4}` changes sign under complex conjugation.
+
+**Theorem** (`conj`). Every contour kernel used in the paper changes sign under complex conjugation.
+
+**Lemma** (`exp_sq_three`). Gaussian exponent identity behind `g_{t,3}'`.
+
+**Lemma** (`exp_sq_four`). Gaussian exponent identity behind the first pair of `cerf` terms of `g_{t,4}'`.
+
+**Theorem** (`four_hasDerivAt`). `g_{t,4}'(z) = −4 sinh z · g_{t,3}(z)`.
+
+Supporting declarations without a docstring: `two_apply`, `four_apply`, `exp_sq_three_add`, `exp_sq_three_sub`, `three_hasDerivAt`, `exp_sq_four_add`, `exp_sq_four_sub`.

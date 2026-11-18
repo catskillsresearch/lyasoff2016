@@ -1,1 +1,0 @@
-Hartman–Watson-type kernel θ(r, t) in Yor's joint density formula. It declares 1 item (1 def).

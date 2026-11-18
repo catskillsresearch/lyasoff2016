@@ -1,0 +1,1 @@
+The expanded formal adjoint of (3.6a), with the deterministic calculation showing that it equals the divergence of the flux form (3.6b).

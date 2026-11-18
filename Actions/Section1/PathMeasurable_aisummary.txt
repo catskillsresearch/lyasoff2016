@@ -1,1 +1,0 @@
-Measurability of path-space integral and running-supremum functionals. It declares 3 items (3 theorems).

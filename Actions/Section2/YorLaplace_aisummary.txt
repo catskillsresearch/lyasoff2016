@@ -1,1 +1,0 @@
-Evaluation of the `1/x`-Laplace transform of Yor's density via a Cauchy rectangle contour. It declares 1 item (1 theorem).

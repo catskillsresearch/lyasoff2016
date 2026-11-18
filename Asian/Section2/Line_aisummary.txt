@@ -1,0 +1,1 @@
+The integral lines `u ↦ (x e^{σ²u/2}, (y + u)σ)` of the vector field `𝒱 = (σ²x/2)∂ₓ + σ∂ᵧ`. Proves that they are integral curves and that they foliate `(0, ∞) × ℝ`.

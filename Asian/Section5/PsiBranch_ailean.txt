@@ -1,0 +1,3 @@
+Mathematical English for `PsiBranch.lean` (Lean names in typewriter).
+
+Supporting declarations without a docstring: `abs_sinh_le_cosh`, `compactSupport_bound`, `contDiff`, `hasCompactSupport`, `deriv_continuous`, `deriv_bound`.

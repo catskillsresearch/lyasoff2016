@@ -2,12 +2,12 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-18T15:44:54Z
+**Updated:** 2026-11-18T16:29:52Z
 **Holes:** 0 open+blocked · 0 open · 0 blocked · 40 done.
 
 **Live board:** [`holes.html`](holes.html) (graph embedded; open the file directly).
 
-**Completed proof writeup:** [`Actions.md`](Actions.md) (paper-facing narrative).
+**Completed proof writeup:** [`Asian.md`](Asian.md) (paper-facing narrative).
 
 ```bash
 python3 scripts/build_holes.py   # refreshes HOLES.md, holes-graph.json, embeds into holes.html
@@ -15,7 +15,7 @@ python3 scripts/build_holes.py   # refreshes HOLES.md, holes-graph.json, embeds 
 
 ## Open now (Layer 0)
 
-_None — every paper-facing hole is done. Browse the formalization in [`Actions.md`](Actions.md)._
+_None — every paper-facing hole is done. Browse the formalization in [`Asian.md`](Asian.md)._
 
 ## By section
 
@@ -58,15 +58,15 @@ _None — every paper-facing hole is done. Browse the formalization in [`Actions
 
 | Status | Id | Label | File |
 |---|---|---|---|
-| done | `theorem_4_1_pde` | Thm 4.1 PDE (cond.) | `Lyasoff2016/Foliation.lean:34` |
-| done | `theorem_4_1_striking` | Thm 4.1 (4.4) (cond.) | `Lyasoff2016/Foliation.lean:53` |
-| done | `formula_4_6` | (4.6) (cond.) | `Lyasoff2016/Foliation.lean:97` |
-| done | `prop_4_4` | Prop 4.4 | `Lyasoff2016/Foliation.lean:316` |
-| done | `theorem_4_5` | Thm 4.5 (cond.) | `Lyasoff2016/Foliation.lean:365` |
-| done | `cond_density_satisfies_theorem_41_pde` | Cond dens. PDE | `Lyasoff2016/Foliation.lean:437` |
-| done | `cond_density_satisfies_striking` | Cond dens. (4.4) | `Lyasoff2016/Foliation.lean:539` |
-| done | `cond_density_satisfies_foliation_ode` | Cond dens. ODE | `Lyasoff2016/Foliation.lean:445` |
-| done | `cond_density_satisfies_laplace_inputs` | Cond dens. Laplace | `Lyasoff2016/Foliation.lean:510` |
+| done | `theorem_4_1_pde` | Thm 4.1 PDE (cond.) | `Lyasoff2016/Foliation.lean:35` |
+| done | `theorem_4_1_striking` | Thm 4.1 (4.4) (cond.) | `Lyasoff2016/Foliation.lean:55` |
+| done | `formula_4_6` | (4.6) (cond.) | `Lyasoff2016/Foliation.lean:99` |
+| done | `prop_4_4` | Prop 4.4 | `Lyasoff2016/Foliation.lean:318` |
+| done | `theorem_4_5` | Thm 4.5 (cond.) | `Lyasoff2016/Foliation.lean:367` |
+| done | `cond_density_satisfies_theorem_41_pde` | Cond dens. PDE | `Lyasoff2016/Foliation.lean:440` |
+| done | `cond_density_satisfies_striking` | Cond dens. (4.4) | `Lyasoff2016/Foliation.lean:542` |
+| done | `cond_density_satisfies_foliation_ode` | Cond dens. ODE | `Lyasoff2016/Foliation.lean:448` |
+| done | `cond_density_satisfies_laplace_inputs` | Cond dens. Laplace | `Lyasoff2016/Foliation.lean:513` |
 
 ### §5 — 0 hole(s)
 

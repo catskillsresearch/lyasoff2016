@@ -1,0 +1,3 @@
+Mathematical English for `TruncLog.lean` (Lean names in typewriter).
+
+Supporting declarations without a docstring: `truncLog`, `measurable`, `abs_bound`, `tendsto_log`.

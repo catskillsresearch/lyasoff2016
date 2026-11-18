@@ -1,0 +1,1 @@
+A cautionary module: continuous versions of the joint density are not unique. Any continuous joint density is `≤ 0` where `x < 0`, adding `min x 0` gives another continuous version, so no single function can equal every version pointwise. This explains why density statements are phrased for some version rather than for the density.

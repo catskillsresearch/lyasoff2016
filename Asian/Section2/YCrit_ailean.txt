@@ -1,0 +1,5 @@
+Mathematical English for `YCrit.lean` (Lean names in typewriter).
+
+**Definition** (`yCrit`). Critical point `y₀(v) = (1/2) * log(1 + 2v)` where `∂_y A(v, y) = 0`.
+
+Supporting declarations without a docstring: `exp_two_mul`.

@@ -1,0 +1,1 @@
+The operator of (3.5) at exponential-Brownian coefficients, acting on product test functions `u ⊗ v`. It identifies the (3.4b) − (3.4a) drift difference with this operator and gives the continuity and boundedness facts needed to integrate it.

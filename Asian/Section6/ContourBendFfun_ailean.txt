@@ -1,0 +1,17 @@
+Mathematical English for `ContourBendFfun.lean` (Lean names in typewriter).
+
+**Definition** (`AfunC`). `A(z,w)` for complex `z`.
+
+**Definition** (`cfunCoef`). The `u`-independent real coefficient of `C(u,w)` for `p = 4`.
+
+**Definition** (`FfunC`). Entire extension of `F_{t,σ,ν,k}(·, w)` to complex `u`.
+
+**Definition** (`sechBend`). Height of the sech-bent contour: `θ₀ sech u`.
+
+**Definition** (`sechBend'`). Derivative of `sechBend θ₀`.
+
+**Definition** (`BendDominated`). The homotopy from `ℝ` to the graph of `θ` is dominated by one integrable function.
+
+**Theorem** (`integral_Ioi_re_Ffun_eq_sechBend`). **Bent-path identity** for the Asian integrand: for `k > 0`, if the homotopy between the real `u`-line and the sech-bent contour `u + iθ₀ sech u` is dominated (`BendDominated`), then `∫₀^∞ Re F(u,w) du = ½ Re ∫_ℝ F(u + iθ₀ sech u, w) (1 + iθ₀ sech'(u)) du`.
+
+Supporting declarations without a docstring: `integrableOn_sfun_weight`, `SfunC_four_hasDerivAt`, `differentiable_SfunC_four`, `SfunC_conj`, `Cfun_four_eq`, `FfunC_ofReal`, `differentiable_FfunC`, `FfunC_neg_ofReal`, `sechBend_hasDerivAt`, `continuous_sechBend'`.

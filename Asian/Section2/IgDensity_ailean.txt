@@ -1,0 +1,9 @@
+Mathematical English for `IgDensity.lean` (Lean names in typewriter).
+
+**Definition** (`igDensity`). Inverse-Gamma density written as the law of `1/Y` for `Y ~ Gamma(β, rate a)`. `igDensity β a x = invGammaDensity (β+1) a x` on `(0,∞)`.
+
+**Theorem** (`integral_Ioi`). The change of variables `x = 1/y` turns the Inverse-Gamma density into a Gamma density.
+
+**Definition** (`igMeasure`). The law with density `igDensity β a`.
+
+Supporting declarations without a docstring: `nonneg`, `measurable`, `lintegral`, `inv_mul`, `exp_mul`, `isProbabilityMeasure_measure`, `lintegral_measure`, `lintegral_exp_inv_measure`, `ae_nonneg_map_inv_measure`.

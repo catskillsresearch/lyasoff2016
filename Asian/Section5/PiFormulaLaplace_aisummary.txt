@@ -1,0 +1,1 @@
+Laplace-transform facts for the π-formula. Carries out the inner `x`-integration on the route from (5.4) to (5.3), proves Remark 5.1 (the order-two π-formula at `σ = 2` is Yor's density), and shows constructively that the order-two π-formula is a joint density at `σ = 2`.

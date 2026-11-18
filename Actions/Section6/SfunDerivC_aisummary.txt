@@ -1,1 +1,0 @@
-Strike-derivative kernel `S'_{k,p}(A)` for complex rate `A` (p. 1091). It declares 1 item (1 def).

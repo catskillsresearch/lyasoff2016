@@ -1,0 +1,1 @@
+Tables 1–4 as rows of reported data (parameters, strike, printed price), transcribed from the paper with no correctness certificate and no asserted relation to `asianMarketPrice`.

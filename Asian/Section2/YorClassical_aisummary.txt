@@ -1,0 +1,1 @@
+Yor's joint density formula (1.1), stated as `yor_joint_density_classical` and proved by the constructive route in `YorJointDensity`. The name is kept as the citation point for Yor's theorem.

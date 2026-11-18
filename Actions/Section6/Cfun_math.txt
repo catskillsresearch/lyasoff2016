@@ -1,1 +1,0 @@
-**Lyasoff (2016), p. 1090, display defining C(u,w): C(u,w) := 8 i √2 σ^{−2p+2} w^{p−1} cosh u e^{μpt/2 − μt/2} / √(πt)**

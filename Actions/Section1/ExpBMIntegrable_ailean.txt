@@ -1,7 +1,0 @@
-Mathematical English for `ExpBMIntegrable.lean` (Lean names in typewriter).
-
-**Theorem** (`integral_exp_bm`). Stated and proved in Lean; see the source for the formal statement.
-
-**Theorem** (`integrable_exp_bm`). Stated and proved in Lean; see the source for the formal statement.
-
-**Theorem** (`integrable_uncurry_exp_bm`). Stated and proved in Lean; see the source for the formal statement.

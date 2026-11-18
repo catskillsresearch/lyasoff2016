@@ -1,3 +1,0 @@
-Mathematical English for `PiFormula.lean` (Lean names in typewriter).
-
-**Definition** (`piFormula`). (5.9b)/(5.10b), π-formula for the conditional density, normalised so that `gaussianPDFReal 0 t y * (σ²)⁻¹ * piFormula p σ t (x σ²) (y σ)` is the joint density. PAPER NOTE: includes the Jacobian/scaling factor σ⁴ and the paper's sinh-integral form; the skeleton's stub `∫ (gFun …).re` omitted these and made Remark 5.1 false.

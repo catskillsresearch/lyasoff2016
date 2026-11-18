@@ -1,0 +1,67 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1065, proof of Lemma 2.1**
+
+*Proof.* There are well-known exact formulae for the above moments (see [9] and [10], for example), but establishing just the finiteness of the moments, as stated here, is completely elementary; one only has to notice that
+
+$$
+\int_0^t e^{\sigma W_s}\,ds \le t\,e^{\sigma \sup_{0 \le s \le t}|W_s|} \stackrel{\text{law}}{=} t\,e^{\sigma|W_t|}
+$$
+
+and that
+
+$$
+\left(\int_0^t e^{\sigma W_s}\,ds\right)^{-1} \stackrel{\text{law}}{=} \left(\int_0^t e^{-\sigma W_s}\,ds\right)^{-1} \le \frac{1}{t}\,e^{\sigma \sup_{0 \le s \le t}|W_s|} \stackrel{\text{law}}{=} \frac{1}{t}\,e^{\sigma|W_t|}.
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1065, Lemma 2.1**
+
+**Lemma 2.1.** *We have for any $p \in \mathbb{N}_0 := \{0, 1, 2, \dots\}$ that*
+
+$$
+\mathbb{E}\left[\left(\int_0^t e^{\sigma W_s}\,ds\right)^{\pm p}\right] < \infty.
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1065, Proposition 2.2, density ψ_{σ,ν}**
+
+$$
+\psi_{\sigma,\nu}(x) := \frac{1}{dx}\,\mathbb{P}\left[\int_0^\infty e^{\sigma W_s + \nu s}\,ds \in dx\right], \qquad x>0,
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1066, scaling relations**
+
+With the scaling property of Brownian motion in mind, the following relations are easy to verify:
+
+$$
+\phi_{t,1}(x,y) = \frac{1}{\sigma^3}\,\phi_{\frac{t}{\sigma^2},\sigma}\!\left(\frac{x}{\sigma^2}, \frac{y}{\sigma}\right), \qquad \phi_{t,1}(x \mid y) = \frac{1}{\sigma^2}\,\phi_{\frac{t}{\sigma^2},\sigma}\!\left(\frac{x}{\sigma^2} \,\Big|\, \frac{y}{\sigma}\right),
+$$
+
+$$
+\psi_{1,\nu}(x) = \frac{1}{\sigma^2}\,\psi_{\sigma,\nu\sigma^2}\!\left(\frac{x}{\sigma^2}\right).
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1066, (2.2)**
+
+which we denote by $\phi_{t,\sigma,\mu}(x,y)$, $x > 0$, $-\infty < y < \infty$, can be connected with the density $\phi_{t,\sigma}(x,y) = \phi_{t,\sigma,0}(x,y)$ through the formula
+
+$$
+\phi_{t,\sigma,\mu}(x,y) = e^{\frac{\mu}{\sigma}y + \frac{1}{2}\frac{\mu^2}{\sigma^2}t}\,\phi_{t,\sigma,0}\!\left(x,\, y + \frac{\mu}{\sigma}t\right). \qquad\text{(2.2)}
+$$
+
+</div>

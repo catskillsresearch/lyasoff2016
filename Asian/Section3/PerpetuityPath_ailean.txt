@@ -1,0 +1,5 @@
+Mathematical English for `PerpetuityPath.lean` (Lean names in typewriter).
+
+**Definition** (`perpetuityPath`). Path-space perpetuity functional.
+
+Supporting declarations without a docstring: `measurable`.

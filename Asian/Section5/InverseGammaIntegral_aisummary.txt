@@ -1,0 +1,1 @@
+Closed forms for inverse-Gamma integrals, both real and complex with `ℜ c > 0`: `∫₀^∞ x^{−p} e^{−c/x} dx = (p−2)!/c^{p−1}` and its Laplace-shifted version. These carry out the `x`-integration in §5.

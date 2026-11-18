@@ -1,0 +1,1 @@
+Proposition 2.2 (a smooth conditional density with controlled derivatives and moments), stated as `prop_2_2_classical` and proved by the constructive argument in `YorAnalytic`. The name is kept as the citation point.

@@ -1,0 +1,3 @@
+Mathematical English for `Bfun.lean` (Lean names in typewriter).
+
+Supporting declarations without a docstring: `Bfun`.

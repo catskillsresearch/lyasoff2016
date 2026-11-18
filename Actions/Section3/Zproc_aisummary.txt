@@ -1,1 +1,0 @@
-Stationary process Z_t from two independent BMs (paper (3.1)). It declares 1 item (1 def).

@@ -1,0 +1,1 @@
+The complex rate `A(u, w) = (2w²e^{μt} + 4iw e^{μt/2} sinh u + 2)/σ²` in the Asian integrand (p. 1090), with its real and imaginary parts and the positivity of `ℜ A`.

@@ -1,0 +1,33 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), pp. 1090–1091, closed form of S_{k,p}**
+
+The innermost integral can be computed in closed form: For any integer $p \geq 3$ and quantity $A \in \mathbb{C}$ with $\Re(A) > 0$, which is independent from $x$, one can write
+
+$$
+S_{k,p}(u, w) := \int_k^\infty e^{-\frac{A}{x}} \frac{x - k}{x^p}\,dx
+$$
+
+$$
+= \int_k^\infty e^{-\frac{A}{x}} \frac{1}{x^{p-1}}\,dx - k \int_k^\infty e^{-\frac{A}{x}} \frac{1}{x^p}\,dx
+$$
+
+$$
+= \int_0^{\frac{1}{k}} e^{-Av}\,v^{p-3}\,dv - k \int_0^{\frac{1}{k}} e^{-Av}\,v^{p-2}\,dv
+$$
+
+$$
+= kA^{-(p-1)}\Gamma\!\left(p - 1, \frac{A}{k}\right) - A^{-(p-2)}\Gamma\!\left(p - 2, \frac{A}{k}\right)
+$$
+
+$$
+\qquad - kA^{-(p-1)}\Gamma(p - 1) + A^{-(p-2)}\Gamma(p - 2),
+$$
+
+with the understanding that for $k = 0$, one has
+
+$$
+S_{0,p}(u, w) := \int_0^\infty e^{-\frac{A}{x}} \frac{1}{x^{p-1}}\,dx = A^{-(p-2)}\Gamma(p - 2).
+$$
+
+</div>

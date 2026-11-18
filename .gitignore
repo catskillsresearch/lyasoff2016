@@ -8,8 +8,8 @@
 .vscode/
 *~
 *.swp
-Actions.dot
-Actions/Section*.dot
+Asian.dot
+Asian/Section*.dot
 arxiv.md
 arxiv.tex
 arxiv.pdf
@@ -17,7 +17,7 @@ arxiv_with_code.md
 arxiv.*
 lean-listings/
 view.pdf
-Actions.pdf
+Asian.pdf
 *.gist.bak
 figures/
 

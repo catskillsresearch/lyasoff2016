@@ -1,0 +1,15 @@
+Mathematical English for `StrikingMass.lean` (Lean names in typewriter).
+
+**Definition** (`massExponent`). The exponent `a(z) = 4/σ² (cosh(σz/2) − 1)` of the transformed mass identity.
+
+**Lemma** (`inv_mul_exp_neg_div_le`). Domination: `x⁻¹ e^{-a/x} ≤ 1/a` for `a, x > 0`.
+
+**Definition** (`laplaceInv`). Laplace transform in `1/x` of `φ0` on `(0, ∞)`.
+
+**Lemma** (`laplaceInv_hasDerivAt`). Differentiation under the integral sign for `a > 0`.
+
+**Lemma** (`integral_inv_mul_exp_massExponent`). Weighted reciprocal moments from the mass identity, for `z ≠ 0`.
+
+**Lemma** (`integral_inv_mul_of_mass`). The reciprocal moment at the zero endpoint: `∫ x⁻¹ φ0 = 1/t`, by monotone convergence from the weighted moments as `z → 0⁺`.
+
+Supporting declarations without a docstring: `massExponent_pos`, `massExponent_hasDerivAt`, `laplaceInv_massExponent`, `aestronglyMeasurable_mul_exp`.

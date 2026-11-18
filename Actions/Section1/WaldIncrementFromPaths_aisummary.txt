@@ -1,1 +1,0 @@
-Wald increment as a continuous-path functional. It declares 3 items (1 def, 2 theorems).

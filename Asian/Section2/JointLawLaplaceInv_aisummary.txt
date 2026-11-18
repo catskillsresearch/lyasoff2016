@@ -1,0 +1,1 @@
+Inversion of the distributional Fokker–Planck equation along its characteristics, giving the `1/x`-Laplace transform of the joint law of `(∫₀ᵗ e^{2W_s} ds, W_t)` against `C_c³`, `C_c`, and finally all bounded continuous functions of `W_t`.

@@ -1,0 +1,5 @@
+Mathematical English for `IntegralReps.lean` (Lean names in typewriter).
+
+**Theorem** (`pi_formula`). Density identification for the π / π/2 formulae (Lyasoff pp. 1085–1086).
+
+Supporting declarations without a docstring: `yor_formula`, `remark_5_5`.

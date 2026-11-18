@@ -1,1 +1,0 @@
-§4 Foliation of the joint law (pp. 1071–1079). Selected Comparator theorems (`theorem_4_1_pde`, `theorem_4_1_striking`, `formula_4_6`, `theorem_4_5`) are conditional rearrangements: they assume the paper’s PDE / striking / ODE / Laplace inputs rather than constructing them for the conditional density.

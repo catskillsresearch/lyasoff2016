@@ -1,0 +1,23 @@
+Mathematical English for `YorJointDensity.lean` (Lean names in typewriter).
+
+**Lemma** (`integrableOn_exp_neg_quad_mul_sinh`). For `t > 0`, `u ↦ exp(-u²/(2t)) * sinh u` is integrable on `Ioi 0`.
+
+**Lemma** (`yorDensity_laplace_x`). Exact `1/x`-Laplace transform of `yorDensity t · y` on `Ioi 0` for `t > 0, v₀ > 0`.
+
+**Lemma** (`yorDensity_abs_bound`). Uniform `x`-integrable bound for `|yorDensity t x y|`, with `L¹` norm bounded by a constant `M_t` independent of `y : ℝ`.
+
+**Lemma** (`yorDensity_integral_x_eq_gaussian`). At `v₀ = 0`, `∫ x in Ioi 0, yorDensity t x y = gaussianPDFReal 0 t y`.
+
+**Lemma** (`yorDensity_continuousOn`). Joint continuity of `yorDensity t` on `(0, ∞) × ℝ`.
+
+**Lemma** (`jointLaw_two_eq_yorDensity_test`). For every `φ ∈ C([0, 1], ℝ)` and `f ∈ C_c(ℝ)`, the `φ(e^{-1/x}) f(y)` integral against `jointLaw P W 2 0 t` equals the integral against `yorDensity t` on `(0, ∞) × ℝ`.
+
+**Lemma** (`yorDensity_nonneg`). `yorDensity t x y ≥ 0` for all `x > 0` and `y ∈ ℝ`, deduced from a Brownian motion `(W, P)`.
+
+**Lemma** (`yorDensity_zero_of_nonpos`). `yorDensity t x y = 0` for all `x ≤ 0`.
+
+**Lemma** (`yorDensity_ennreal_measurable`). Measurability of Yor's joint density after coercion to `ℝ≥0∞`.
+
+**Theorem** (`yor_joint_density`). Constructive, axiom-free proof of Yor's joint density formula (`σ = 2, ν = 0`).
+
+Supporting declarations without a docstring: `integral_Ioi_exp_neg_mul`, `sqrt_two_pi_cube_mul`, `yorDensity_ite_measurable`, `yorDensity_joint_integrable_mul_compact`, `yorDensity_integrable_y_slice`.

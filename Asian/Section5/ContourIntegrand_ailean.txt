@@ -1,0 +1,3 @@
+Mathematical English for `ContourIntegrand.lean` (Lean names in typewriter).
+
+Supporting declarations without a docstring: `contourIntegrand`.

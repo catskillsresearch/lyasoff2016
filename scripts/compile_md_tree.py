@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
-"""Flatten the DomainTheory.md note tree into arxiv.md, then build arxiv.tex / DomainTheory.pdf.
+"""Flatten the Asian.md note tree into arxiv.md, then build arxiv.tex / Asian.pdf.
 
-Walks markdown links from a root note (default ``DomainTheory.md``), expands
+Walks markdown links from a root note (default ``Asian.md``), expands
 ``@import`` directives relative to each note, writes a single ``arxiv.md``, and
 optionally runs the existing TeX/PDF pipeline.
 
@@ -31,7 +31,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SCRIPTS = Path(__file__).resolve().parent
-DEFAULT_ROOT_MD = ROOT / "Actions.md"
+DEFAULT_ROOT_MD = ROOT / "Asian.md"
 ARXIV_MD = ROOT / "arxiv.md"
 
 MD_LINK_RE = re.compile(r"\[([^\]]*)\]\(([^)]+\.md)\)")
@@ -856,7 +856,7 @@ def flatten_md_tree(
     # Insert a default abstract if the note tree has none (title-page abstract env).
     if root_md.resolve() in {
         (ROOT / "DomainTheory.md").resolve(),
-        (ROOT / "Actions.md").resolve(),
+        (ROOT / "Asian.md").resolve(),
     }:
         body = ensure_abstract(body)
     body = ensure_model_card_markers(body)
@@ -888,16 +888,16 @@ def build_arxiv_tex() -> None:
 
 
 def build_arxiv_pdf(*, clean: bool = False) -> None:
-    """Compile ``arxiv.tex`` to ``Actions.pdf`` via ``scripts/build_arxiv_pdf.sh``."""
+    """Compile ``arxiv.tex`` to ``Asian.pdf`` via ``scripts/build_arxiv_pdf.sh``."""
     script = SCRIPTS / "build_arxiv_pdf.sh"
     if not script.is_file():
         raise FileNotFoundError(f"missing {script}")
     proc = subprocess.run(["bash", str(script)], cwd=ROOT, check=False)
     if proc.returncode != 0:
         raise RuntimeError("build_arxiv_pdf.sh failed")
-    pdf = ROOT / "Actions.pdf"
+    pdf = ROOT / "Asian.pdf"
     if not pdf.is_file():
-        raise RuntimeError("Actions.pdf missing after build_arxiv_pdf.sh")
+        raise RuntimeError("Asian.pdf missing after build_arxiv_pdf.sh")
     # Drop legacy Zenodo / view.pdf alias if present.
     view = ROOT / "view.pdf"
     if view.is_file():
@@ -912,7 +912,7 @@ def refresh_note_lean_imports() -> None:
         print("note: refresh_note_lean_imports.py not present; skipping", file=sys.stderr)
         return
     print("==> Refreshing Lean @imports in notes")
-    n = refresh_all(ROOT / "Actions")
+    n = refresh_all(ROOT / "Asian")
     print(f"updated {n} notes")
 
 
@@ -925,7 +925,7 @@ def compile_tree_to_pdf(
     tex_only: bool = False,
     clean: bool = False,
 ) -> Path:
-    """Flatten the note tree and build ``Actions.pdf`` (unless ``md_only`` / ``tex_only``)."""
+    """Flatten the note tree and build ``Asian.pdf`` (unless ``md_only`` / ``tex_only``)."""
     refresh_note_lean_imports()
     out = flatten_md_tree(
         root_md, lean_mode=lean_mode, include_ai_prose=include_ai_prose
@@ -938,7 +938,7 @@ def compile_tree_to_pdf(
     if tex_only:
         return ROOT / "arxiv.tex"
     build_arxiv_pdf(clean=clean)
-    pdf = ROOT / "Actions.pdf"
+    pdf = ROOT / "Asian.pdf"
     print(f"wrote {pdf.relative_to(ROOT)} ({pdf.stat().st_size:,} bytes)")
     return pdf
 
@@ -949,7 +949,7 @@ def main(argv: list[str] | None = None) -> int:
         "--root",
         type=Path,
         default=DEFAULT_ROOT_MD,
-        help="root markdown file (default: DomainTheory.md)",
+        help="root markdown file (default: Asian.md)",
     )
     parser.add_argument(
         "--out",

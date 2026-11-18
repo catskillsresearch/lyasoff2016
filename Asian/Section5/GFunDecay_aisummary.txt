@@ -1,0 +1,1 @@
+Gaussian decay of `g_{t,p}` along the horizontal lines `u ↦ u − ia`, from tail bounds for `erf(x + iβ) ∓ 1`. These bounds justify exchanging the two integrations for the contour `ζ_{π/2}` (pp. 1085–1086).

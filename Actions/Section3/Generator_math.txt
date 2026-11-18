@@ -1,4 +1,0 @@
-**Lyasoff (2016), p. 1067, (3.2)**
-
-generator L = ½σ²x² ∂ₓₓ + (1 + (ν + σ²/2)x) ∂ₓ.
-   PAPER NOTE: β = −2ν/σ² in our e^{σW+νs} convention.

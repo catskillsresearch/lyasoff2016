@@ -1,1 +1,0 @@
-Moment determinacy for probability measures on `[0, ∞)` with a finite exponential moment. It declares 6 items (3 lemmas, 3 theorems).

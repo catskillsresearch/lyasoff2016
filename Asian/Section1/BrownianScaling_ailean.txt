@@ -1,0 +1,19 @@
+Mathematical English for `BrownianScaling.lean` (Lean names in typewriter).
+
+**Theorem** (`isBrownianReal_path_functional`). A functional of the path which is measurable on `C(ℝ≥0, ℝ)` is a.e.-measurable along a Brownian motion, and its law does not depend on the Brownian motion.
+
+**Theorem** (`measurable_path_integral_Ioi`). Measurability on path space of `x ↦ ∫_{s > a} V(s, x_s) ds` for jointly continuous `V`.
+
+**Theorem** (`measurable_path_intervalIntegral`). Measurability on path space of `x ↦ ∫ₐᵇ V(s, x_s) ds` for jointly continuous `V`.
+
+**Theorem** (`jointLaw_scaling`). Finite horizon: `(∫₀ᵗ e^{W_s} ds, W_t) =ᵈ (σ² ∫₀^{t/σ²} e^{σ W_s} ds, σ W_{t/σ²})`.
+
+**Theorem** (`inftyLaw_scaling`). Infinite horizon: `∫₀^∞ e^{W_s + ν s} ds =ᵈ σ² ∫₀^∞ e^{σ W_s + ν σ² s} ds`.
+
+**Theorem** (`map_withDensity_eq_of_map_eq_smul`). If a measurable equivalence `e` scales `μ` by `k`, then it sends the density `f` to `k · f ∘ e⁻¹`.
+
+**Theorem** (`jointDensity_scaling_posPart`). Paper p. 1066, first scaling display, for the positive parts of continuous densities: `φ_{t,1}(x,y) = σ⁻³ φ_{t/σ²,σ}(x/σ², y/σ)`.
+
+**Theorem** (`inftyDensity_scaling_posPart`). Paper p. 1066, third scaling display, for the positive parts of continuous densities: `ψ_{1,ν}(x) = σ⁻² ψ_{σ,νσ²}(x/σ²)`.
+
+Supporting declarations without a docstring: `isBrownianReal_scaled`, `map_mul_left_withDensity`, `map_prod_mul_withDensity`.

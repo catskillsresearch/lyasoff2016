@@ -1,1 +1,0 @@
-Smooth bump equal to `1` on `[b, c]` and `0` outside `(a, d)`. It declares 6 items (1 def, 5 theorems).

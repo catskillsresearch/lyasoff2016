@@ -1,0 +1,1 @@
+The Hartman–Watson/Yor contour identity, proved with a Cauchy rectangle contour: the `1/x`-Laplace transform of Yor's density has the closed form used to identify the joint law.

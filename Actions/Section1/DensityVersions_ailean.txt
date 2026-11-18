@@ -1,7 +1,0 @@
-Mathematical English for `DensityVersions.lean` (Lean names in typewriter).
-
-**Theorem** (`IsJointDensity.nonpos_of_neg`). Stated and proved in Lean; see the source for the formal statement.
-
-**Theorem** (`IsJointDensity.add_min`). Stated and proved in Lean; see the source for the formal statement.
-
-**Theorem** (`IsJointDensity.not_forall_version_eq`). Stated and proved in Lean; see the source for the formal statement.

@@ -1,0 +1,7 @@
+Mathematical English for `TimeReversal.lean` (Lean names in typewriter).
+
+**Definition** (`timeReversed`). on [0,t], the process s ↦ W_t − W_{t−s} is again Brownian; past t we keep W.
+
+**Theorem** (`covariance_timeReversed_le`). for s,u ≤ t the time-reversed increments have BM covariance min(s,u).
+
+Supporting declarations without a docstring: `zero`, `eq_on_Icc`, `eq_of_gt`, `eq_fun_le`, `eq_fun_gt`, `covariance_timeReversed_aux`, `isGaussianProcess_timeReversed`, `isPreBrownianReal_timeReversed`, `isBrownianReal_timeReversed`.

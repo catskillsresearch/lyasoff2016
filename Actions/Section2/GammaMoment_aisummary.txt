@@ -1,1 +1,0 @@
-Integer moments of a Gamma law, and their Inverse-Gamma pairings. It declares 4 items (1 def, 3 theorems).

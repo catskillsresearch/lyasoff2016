@@ -1,7 +1,0 @@
-Mathematical English for `WaldIncrementFromPaths.lean` (Lean names in typewriter).
-
-**Definition** (`waldIncrementFromPaths`). Stated and proved in Lean; see the source for the formal statement.
-
-**Theorem** (`continuous_time`). Stated and proved in Lean; see the source for the formal statement.
-
-**Theorem** (`measurable`). Stated and proved in Lean; see the source for the formal statement.

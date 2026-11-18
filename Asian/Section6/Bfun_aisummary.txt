@@ -1,0 +1,1 @@
+The factor `B(w) = 2w^{2μ/σ² − 1} e^{μ²t/(2σ²)}/σ` of the Asian integrand (p. 1090), coming from the change of variables `w = e^{σy/2}` and the Girsanov drift.

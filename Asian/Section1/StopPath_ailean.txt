@@ -1,0 +1,7 @@
+Mathematical English for `StopPath.lean` (Lean names in typewriter).
+
+**Definition** (`stopPath`). The path stopped at time `t`.
+
+**Theorem** (`integral_eq`). On `[0, t]` the stopped path agrees with the path, so the time integral up to `t` of the stopped path only sees the values `y` of the path.
+
+Supporting declarations without a docstring: `measurable`.

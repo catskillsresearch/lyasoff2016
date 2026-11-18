@@ -1,0 +1,21 @@
+Mathematical English for `Cerf.lean` (Lean names in typewriter).
+
+**Definition** (`cerf`). entire function erf on ℂ, defined via the Gaussian integral `erf z = (2/√π) ∫₀¹ z e^{-(zs)²} ds` (the substitution `u = zs` in `(2/√π) ∫₀ᶻ e^{-u²} du`).
+
+**Theorem** (`neg`). `cerf` is odd.
+
+**Theorem** (`conj`). The complex error function commutes with complex conjugation.
+
+**Theorem** (`hasDerivAt_integrand`). The `z`-derivative of the integrand `z ↦ z e^{-(zs)²}` is `e^{-(zs)²} (1 - 2 (zs)²)`.
+
+**Theorem** (`hasDerivAt_primitive`). The same expression `e^{-(zs)²} (1 - 2 (zs)²)` is the `s`-derivative of `s ↦ s e^{-(zs)²}`.
+
+**Theorem** (`integral_deriv_integrand`). `∫₀¹ e^{-(zs)²} (1 - 2 (zs)²) ds = e^{-z²}` by the fundamental theorem of calculus.
+
+**Theorem** (`hasDerivAt`). `cerf' z = (2/√π) e^{-z²}`, by differentiating under the integral sign.
+
+**Theorem** (`differentiable`). `cerf` is entire.
+
+**Theorem** (`contDiff`). `cerf` is smooth (indeed analytic) on `ℂ`.
+
+Supporting declarations without a docstring: `deriv_apply`.

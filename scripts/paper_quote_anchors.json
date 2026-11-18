@@ -1,0 +1,167 @@
+{
+ "Afun|p. 1090, display defining A(u,w)": {
+  "start": "A(u,w) := \\frac{2w^{2}e^{\\mu t}",
+  "end": "A(u,w) := \\frac{2w^{2}e^{\\mu t}",
+  "label": "display defining A(u,w)"
+ },
+ "Bfun|p. 1090, display defining B(w)": {
+  "start": "B(w) := \\frac{2w^{",
+  "end": "B(w) := \\frac{2w^{",
+  "label": "display defining B(w)"
+ },
+ "Cfun|p. 1090, display defining C(u,w)": {
+  "start": "C(u,w) := \\frac{8i\\sqrt{2}",
+  "end": "C(u,w) := \\frac{8i\\sqrt{2}",
+  "label": "display defining C(u,w)"
+ },
+ "SfunC|p. 1091, first display": {
+  "start": "The innermost integral can be computed in closed form",
+  "end": "S_{0,p}(u, w) := \\int_0^\\infty",
+  "label": "closed form of S_{k,p}"
+ },
+ "Sfun|p. 1091, closed form": {
+  "start": "The innermost integral can be computed in closed form",
+  "end": "S_{0,p}(u, w) := \\int_0^\\infty",
+  "label": "closed form of S_{k,p}"
+ },
+ "UpperGamma|p. 1091, incomplete Gamma": {
+  "start": "The innermost integral can be computed in closed form",
+  "end": "S_{0,p}(u, w) := \\int_0^\\infty",
+  "label": "closed form of S_{k,p}"
+ },
+ "SfunDerivC|p. 1091, S'_{k(α),p}": {
+  "start": "If $k$ depends on a parameter",
+  "end": "= k'(\\alpha)A^{-(p-1)}\\Gamma\\!\\left(p - 1",
+  "label": "S'_{k(α),p}"
+ },
+ "Asian|p. 1093, market Asian call": {
+  "start": "the dynamics of $(S_t)$ are given by",
+  "end": "\\frac{KT}{S_0}\\right)^+\\right]",
+  "label": "price of an Asian call"
+ },
+ "Asian|p. 1088–1090, Asian call payoff": {
+  "start": "Now we turn to the computation of expected values of the form",
+  "end": "\\mathbb{E}\\left[f\\left(\\int_0^t e^{\\sigma W_s + \\mu s}\\,\\mathrm{d}s\\right)\\right],",
+  "label": "expected values of the form E[f(∫ e^{σW+μs} ds)]"
+ },
+ "Auxiliary|p. 1065, proof of Lemma 2.1": {
+  "start": "*Proof.* There are well-known exact formulae",
+  "end": "\\left(\\int_0^t e^{\\sigma W_s}\\,ds\\right)^{-1} \\stackrel{\\text{law}}{=}",
+  "label": "proof of Lemma 2.1"
+ },
+ "Auxiliary|p. 1065, matching lower bound": {
+  "start": "*Proof.* There are well-known exact formulae",
+  "end": "\\left(\\int_0^t e^{\\sigma W_s}\\,ds\\right)^{-1} \\stackrel{\\text{law}}{=}",
+  "label": "proof of Lemma 2.1"
+ },
+ "Auxiliary|p. 1065, ψ_{σ,ν}": {
+  "start": "\\psi_{\\sigma,\\nu}(x) := \\frac{1}{dx}",
+  "end": "\\psi_{\\sigma,\\nu}(x) := \\frac{1}{dx}",
+  "label": "Proposition 2.2, density ψ_{σ,ν}"
+ },
+ "Auxiliary|p. 1066, three scaling displays": {
+  "start": "With the scaling property of Brownian motion in mind",
+  "end": "\\psi_{1,\\nu}(x) = \\frac{1}{\\sigma^2}",
+  "label": "scaling relations"
+ },
+ "Auxiliary|p. 1066, the three scaling displays": {
+  "start": "With the scaling property of Brownian motion in mind",
+  "end": "\\psi_{1,\\nu}(x) = \\frac{1}{\\sigma^2}",
+  "label": "scaling relations"
+ },
+ "Dufresne|p. 1067–1068, stationary zero-flux ODE": {
+  "start": "Consequently, the density $\\psi_{\\sigma,\\nu}(x)$, which is also",
+  "end": "\\psi_{\\sigma,\\nu}(x) \\right) = 0.",
+  "label": "Fokker–Planck equation for ψ_{σ,ν}"
+ },
+ "FokkerPlanck|p. 1067, footnote 2": {
+  "start": "$^2$ In Dufresne [11, Proposition 4.4.4]",
+  "end": "$^2$ In Dufresne [11, Proposition 4.4.4]",
+  "label": "footnote 2"
+ },
+ "FokkerPlanck|p. 1067, stationarity of Z": {
+  "start": "This process is a stationary Markov process",
+  "end": "This process is a stationary Markov process",
+  "label": "stationarity of Z"
+ },
+ "Aop|p. 1069, operator A_t": {
+  "start": "Due to the time-reversibility feature (1.3), nothing will change in (3.4b)",
+  "end": "\\mathscr{A}_t(x, y; u, v) := ",
+  "label": "operator 𝒜_t"
+ },
+ "Line|p. 1071, integral lines": {
+  "start": "This is a first order PDE, the nature of which",
+  "end": "(xe^{\\frac{1}{2}\\sigma^2 u},\\,(y+u)\\sigma)",
+  "label": "integral lines of 𝒱"
+ },
+ "Line|p. 1071": {
+  "start": "This is a first order PDE, the nature of which",
+  "end": "(xe^{\\frac{1}{2}\\sigma^2 u},\\,(y+u)\\sigma)",
+  "label": "integral lines of 𝒱"
+ },
+ "Line|p. 1073, foliation": {
+  "start": "which gives a *foliation* of the space",
+  "end": "which gives a *foliation* of the space",
+  "label": "foliation"
+ },
+ "Foliation|p. 1074, ODE along each line": {
+  "start": "Next, notice that the first order equations for",
+  "end": "\\frac{\\mathrm{d}}{\\mathrm{d}u}\\phi_{t,\\sigma}\\!\\left(x e^{\\frac{1}{2}\\sigma^2 u},\\,\\sigma u\\right)",
+  "label": "ODEs along the integral lines"
+ },
+ "Foliation|p. 1077, operator T_{t,y}": {
+  "start": "To facilitate the calculation of $\\mathscr{L}_{t,y}(u)$",
+  "end": "(\\mathscr{T}_{t,y}\\varphi)(x) :=",
+  "label": "operators 𝒯_{t,y}"
+ },
+ "Foliation|p. 1079, negative moments": {
+  "start": "The calculation of moments of higher order is possible",
+  "end": "\\frac{15\\sigma^{2}}{4\\,t^9} + \\frac{1}{t^{10}}",
+  "label": "moments of higher order"
+ },
+ "ModifiedBesselK1|p. 1075": {
+  "start": "\\frac{h_t(x)}{C_t(x)} = \\int_{-\\infty}^{\\infty}",
+  "end": "where $K_1$ stands for the modified Bessel function",
+  "label": "K₁ identity"
+ },
+ "Cerf|p. 1082–1083": {
+  "start": "In addition to being even, these functions are analytic",
+  "end": "In addition to being even, these functions are analytic",
+  "label": "analyticity of g_{t,p}"
+ },
+ "GFunDecay|p. 1085–1086": {
+  "start": "To see why these estimates are indeed satisfied",
+  "end": "the exchange of the two integration operations is finally justified.",
+  "label": "exchange of integrations"
+ },
+ "IntegralReps|p. 1085–1086. Both": {
+  "start": "\\tag{5.10a}",
+  "end": "\\tag{5.10b}",
+  "label": "(5.10a)–(5.10b)"
+ },
+ "ContourEq|p. 1082–1085": {
+  "start": "With a completely analogous calculation, (5.3) can be cast as",
+  "end": "\\frac{g_{t,p}(u - ia)}{(\\cosh(u - ia) - \\cosh y)^{p-1}}",
+  "label": "(5.3) on the contour ζ_a"
+ },
+ "TableParams|all cases use S₀ = 1": {
+  "start": "We now conclude the paper with yet another set of examples",
+  "end": "We now conclude the paper with yet another set of examples",
+  "label": "setting of Tables 1–4"
+ },
+ "TableParams|p. 1094–1095, Tables 1–4": {
+  "start": "**Table 1** $T = 1/2$",
+  "end": "0.30620859092",
+  "label": "Tables 1–4"
+ },
+ "Theta|p. 1062": {
+  "start": "\\theta(r,t)=\\frac{r}{\\sqrt{2\\pi^3 t}}",
+  "end": "\\theta(r,t)=\\frac{r}{\\sqrt{2\\pi^3 t}}",
+  "label": "θ(r,t) in (1.1)"
+ },
+ "TimeReversal|p. 1063": {
+  "start": "The above identity—usually stated with $n = 1$",
+  "end": "The above identity—usually stated with $n = 1$",
+  "label": "proof of (1.3)"
+ }
+}

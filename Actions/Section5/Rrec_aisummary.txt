@@ -1,1 +1,0 @@
-Concrete residues R_{t,p} for g = g_{t,p} of (5.8). It declares 16 items (1 def, 6 lemmas, 9 theorems).

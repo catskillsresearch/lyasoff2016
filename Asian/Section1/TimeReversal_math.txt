@@ -1,0 +1,7 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1063, proof of (1.3)**
+
+The above identity—usually stated with $n = 1$ and $V_1(s, W_s) = \exp(\sigma W_s)$—has been used in a number of contexts (see Alili et al. [1], Bertoin and Yor [3], Carmona et al. [4], Linetsky [19]), and its proof is completely elementary. Indeed, setting $B_s^t := W_t - W_{t-s}$, $s \in [0,t]$, and changing the integration variable in the last $n$ integrals from $s$ to $t-s$, the right side of (1.3) can be written as
+
+</div>

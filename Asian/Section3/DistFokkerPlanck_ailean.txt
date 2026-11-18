@@ -1,0 +1,5 @@
+Mathematical English for `DistFokkerPlanck.lean` (Lean names in typewriter).
+
+**Theorem** (`jointLaw_two_fp_u`). Fixed-`u` distributional Fokker–Planck identity for `(expInt W 2 0 t, W t)`: for every `t > 0`, `u > 0`, and `ψ ∈ C_c^3(ℝ)`, `E[(2 X_t² φ_u''(X_t) + (1 + 2 X_t - e^{2 W_t}) φ_u'(X_t)) ψ(W_t) + 2 X_t φ_u'(X_t) ψ'(W_t)] = 0`.
+
+Supporting declarations without a docstring: `measurable_expInt_bm`, `continuous_expInt_bm`, `continuous_expectation_expInt_aux`.

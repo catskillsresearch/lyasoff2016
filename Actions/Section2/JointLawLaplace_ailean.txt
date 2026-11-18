@@ -1,5 +1,0 @@
-Mathematical English for `JointLawLaplace.lean` (Lean names in typewriter).
-
-**Lemma** (`expInt_two_pos_ae`). Stated and proved in Lean; see the source for the formal statement.
-
-**Theorem** (`jointLaw_two_dist_fp`). Stated and proved in Lean; see the source for the formal statement.

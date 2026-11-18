@@ -1,0 +1,1 @@
+Proof that Yor's formula (1.1) really is the joint density of `(∫₀ᵗ e^{2W_s} ds, W_t)`. It evaluates the exact `1/x`-Laplace transform of `yorDensity`, gives uniform integrability bounds, proves continuity and nonnegativity, and matches the joint law against test functions.

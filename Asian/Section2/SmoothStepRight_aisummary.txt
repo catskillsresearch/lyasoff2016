@@ -1,0 +1,1 @@
+A smooth step from `0` on `(−∞, a]` to `1` on `[b, ∞)`.

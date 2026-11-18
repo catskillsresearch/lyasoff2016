@@ -1,0 +1,1 @@
+The inverse-Gamma density `igDensity` and its measure `igMeasure`, defined as the law of `1/Y` for a Gamma variable `Y`. Proves nonnegativity, measurability, total mass `1`, and the change of variables `x = 1/y`.

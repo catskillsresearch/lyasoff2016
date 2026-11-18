@@ -1,0 +1,1 @@
+The concrete residues `R_{t,p}` for `g = g_{t,p}` of (5.8), with explicit values for `p = 2, 3, 4`. Verifies the residue condition (5.5), `R_{t,p}(y) + R_{t,p}(−y) = ((−4)^{p−2}/(p−2)!) e^{−2y²/t}/(2πi)`, and records how Lean's `x / 0 = 0` convention affects `y = 0`.

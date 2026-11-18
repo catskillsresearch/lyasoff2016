@@ -1,0 +1,1 @@
+The upper incomplete Gamma function `Γ(s, x)`, used in the closed form of the Asian inner integral (p. 1091).

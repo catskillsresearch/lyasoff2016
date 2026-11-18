@@ -1,0 +1,28 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1082, (5.8)**
+
+With the help of the Sage system again, we arrive for $p = 2, 3, 4$ at the expressions
+
+$$
+\begin{aligned}
+g_{t,2}(y) &= \frac{1}{4\pi i} e^{-2\frac{y^2}{t}}, \quad y \in \mathbb{R}, \\
+g_{t,3}(y) &= e^{t/8} \frac{\sqrt{t}}{4i\sqrt{2\pi}} \left( \mathrm{erf}\left( \frac{t+4y}{2\sqrt{2t}} \right) + \mathrm{erf}\left( \frac{t-4y}{2\sqrt{2t}} \right) \right), \quad y \in \mathbb{R}, \\
+g_{t,4}(y) &= e^{t/2} \frac{\sqrt{t}}{2i\sqrt{2\pi}} \left( \mathrm{erf}\left( \frac{t+2y}{\sqrt{2t}} \right) + \mathrm{erf}\left( \frac{t-2y}{\sqrt{2t}} \right) \right) \\
+&\quad - e^{t/8} \cosh y \frac{\sqrt{t}}{i\sqrt{2\pi}} \left( \mathrm{erf}\left( \frac{t+4y}{2\sqrt{2t}} \right) + \mathrm{erf}\left( \frac{t-4y}{2\sqrt{2t}} \right) \right), \quad y \in \mathbb{R}. \qquad\text{(5.8)}
+\end{aligned}
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1091, (6.1)**
+
+can be integrated numerically in the domain $\mathbb{R}_+ \times \mathbb{R}_+$, and we are only interested in the real part of the result. Some of the widely used (and highly efficient) numerical integration packages will not accept functions that do not evaluate to real floats—`numerical_integral` and `nintegral` in Sage are in this category.$^{13}$ However, the symbolic platform in Sage is capable of segregating the real and imaginary parts of the above functions in symbolic form (one of the advantages of the $\frac{\pi}{2}$-formula), providing closed-form expressions in terms of special functions for $\Re\bigl(F_{t,\sigma,\mu,k}(u, w)\bigr)$ and $\Im\bigl(F_{t,\sigma,\mu,k}(u, w)\bigr)$. The integrals
+
+$$
+\int_0^\infty \int_0^\infty \Re\bigl(F_{t,\sigma,\mu,k}(u, w)\bigr)\,du\,dw, \quad \int_0^\infty \int_0^\infty \Re\bigl(F'_{t,\sigma,\mu,k(\alpha)}(u, w)\bigr)\,du\,dw \qquad\text{(6.1)}
+$$
+
+</div>

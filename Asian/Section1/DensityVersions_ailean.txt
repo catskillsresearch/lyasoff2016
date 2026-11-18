@@ -1,0 +1,9 @@
+Mathematical English for `DensityVersions.lean` (Lean names in typewriter).
+
+**Theorem** (`IsJointDensity.nonpos_of_neg`). A continuous joint density is `≤ 0` on the half-plane `x < 0`, which the joint law of `(∫₀ᵗ e^{σW_s+νs} ds, W_t)` does not charge.
+
+**Theorem** (`IsJointDensity.add_min`). If `φ` is a continuous version of the joint density then so is `φ + min x 0`, which differs from `φ` at every point with `x < 0`.
+
+**Theorem** (`IsJointDensity.not_forall_version_eq`). No function `F` can equal *every* continuous version of a joint density pointwise: as soon as one continuous version exists, two of them differ at `(-1, 0)`.
+
+Supporting declarations without a docstring: `expInt_nonneg_aux`.

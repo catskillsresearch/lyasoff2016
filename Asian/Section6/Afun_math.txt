@@ -1,0 +1,9 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1090, display defining A(u,w)**
+
+$$
+A(u,w) := \frac{2w^{2}e^{\mu t} + 4iw\, e^{\frac{1}{2}\mu t}\sinh u + 2}{\sigma^{2}},
+$$
+
+</div>

@@ -1,0 +1,1 @@
+Parameters of Tables 1–4 (pp. 1094–1095): maturity, volatility, the paper's quadrature settings, and its reported `K = 0` error figure, which is recorded but not claimed. Also holds the strikes and the `1e−9` agreement level of the independent numerical check, which is not a Lean bound.

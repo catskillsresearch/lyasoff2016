@@ -1,7 +1,0 @@
-**Lyasoff (2016), (5.6)/(5.7), R_{t,p}(y) for the concrete choice g = g_{t,p} of (5.8). PAPER NOTE: the skeleton's `Rrec p t y a := gFun p t (a i)` was not the paper's recipe (R_{t,p} is a function of y and does not involve the contour parameter a)**
-
-
-**Lyasoff (2016), (5.5) for p = 2. `R_{t,2}(y) + R_{t,2}(-y) = e^{-2y²/t} / (2πi)`**
-
-
-**Lyasoff (2016), (5.5), with (5.7)–(5.8). For the concrete `g = g_{t,p}`, `p ∈ {2,3,4}`: R_{t,p}(y) + R_{t,p}(−y) = ((−4)^{p−2} / (p−2)!) · e^{−2y²/t} / (2πi). For `p = 3, 4` this needs `y ≠ 0`: `Rrecipe` divides by `sinh y`, so `Rrec p t 0 = 0` (`three_zero`, `four_zero`) and the identity is false at `y = 0` (`three_sum_zero_ne`)**

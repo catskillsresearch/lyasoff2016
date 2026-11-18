@@ -1,0 +1,1 @@
+The density ingredients of the Asian pricing identity. The pair `(∫₀ᵗ e^{σW_s+νs} ds, W_t)` is measurable, Girsanov holds at the level of joint laws, the π/2-formula is measurable, normalised, and a.e. nonnegative, and Fubini applies to the Asian kernel and its strike derivative.

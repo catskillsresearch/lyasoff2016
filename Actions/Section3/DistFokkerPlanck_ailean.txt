@@ -1,5 +1,0 @@
-Mathematical English for `DistFokkerPlanck.lean` (Lean names in typewriter).
-
-**Lemma** (`measurable_expInt_bm`). Stated and proved in Lean; see the source for the formal statement.
-
-**Theorem** (`jointLaw_two_fp_u`). Stated and proved in Lean; see the source for the formal statement.

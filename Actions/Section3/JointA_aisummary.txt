@@ -1,1 +1,0 @@
-Paper (3.5) operator `jointA` and product-test identities. It declares 6 items (1 def, 5 theorems).

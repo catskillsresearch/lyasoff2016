@@ -1,1 +1,0 @@
-Probability flux in the `x` direction (paper (3.6b)). It declares 1 item (1 def).

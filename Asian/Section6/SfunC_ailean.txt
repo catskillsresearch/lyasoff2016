@@ -1,0 +1,5 @@
+Mathematical English for `SfunC.lean` (Lean names in typewriter).
+
+**Theorem** (`ofReal`). On real arguments (and integer strikes) the complex `SfunC` is the real `Sfun`, so `Sfun.zero` and `Sfun.closed_form` evaluate it there.
+
+Supporting declarations without a docstring: `SfunC`.

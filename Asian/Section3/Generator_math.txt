@@ -1,0 +1,11 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1067, (3.2)**
+
+This process is a stationary Markov process for the filtration $(\mathcal{F}_t)_{t \ge 0}$ defined by $\mathcal{F}_t := \sigma(W_u, B_v : u \in \mathbb{R}_+, v \in [0,t])$, with $Z_t \stackrel{\text{law}}{=} \int_0^\infty e^{\sigma(W_s+\nu s)}\,ds$ for any $t \ge 0$, and its infinitesimal generator is given by
+
+$$
+\mathcal{L} := \frac{1}{2}\sigma^2 x^2 \frac{\partial^2}{\partial x^2} + \left( 1 + \left( \nu\sigma + \frac{\sigma^2}{2} \right) x \right) \frac{\partial}{\partial x}. \qquad\text{(3.2)}
+$$
+
+</div>

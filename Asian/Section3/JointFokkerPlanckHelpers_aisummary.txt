@@ -1,0 +1,1 @@
+Analytic helpers for the joint Fokker–Planck theorem: the open half-plane domain `{x > 0}`, the fundamental lemma of the calculus of variations for product test functions, and the upgrade from a.e. to pointwise vanishing for continuous functions.

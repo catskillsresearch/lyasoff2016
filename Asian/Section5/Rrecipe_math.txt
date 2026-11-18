@@ -1,0 +1,11 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1081, (5.7)**
+
+These relations reveal the general rule for producing the function $R_{t,p}(\cdot)$ from any concrete choice for the function $g_{t,p}(\cdot)$. To put it in another way, one can think of $R_{t,p}$ as a function of the symbol $g_{t,p}$. If we now use the symbol $g(\cdot)$ as a generic placeholder for the input $g_{t,p}(\cdot)$, and interpret the above relations as recipes for producing the symbol $R_{t,p}(\cdot)$ from the generic symbol $g(\cdot)$, we see that for $p \geq 3$, the recipe for producing $R_{t,p}(\cdot)$ is connected to the recipe for producing $R_{t,p-1}(\cdot)$, through the following relation, which is easy to verify directly from (5.6):
+
+$$
+R_{t,p}(y) = \frac{1}{(p-2)\sinh y}\frac{d}{dy} R_{t,p-1}(y), \quad R_{t,2}(y) = g(y), \quad y \in \mathbb{R}. \qquad\text{(5.7)}
+$$
+
+</div>

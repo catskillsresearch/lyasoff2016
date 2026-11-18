@@ -1,0 +1,1 @@
+The Wald (exponential-martingale) increment written as a functional of continuous paths, with its continuity in time and measurability.

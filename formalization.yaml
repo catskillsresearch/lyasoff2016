@@ -444,7 +444,7 @@ fidelity:
     Lean proof path for Yor/π often matches densities by Laplace and transfers
     from Yor to the π-family, rather than specializing a prior π-density as in
     the paper’s Rem 5.1 narrative order; conclusions agree. Tables contain reported data only; no price enclosure is asserted.
-    Exact narrative alignment lives in Actions.md / Actions.pdf.
+    Exact narrative alignment lives in Asian.md / Asian.pdf.
 
 sources:
   - title: >-
@@ -462,7 +462,7 @@ sources:
       Primary source. Andrew Lyasoff did not participate in, review, or
       endorse this formalization. No other collaborators.
 
-  - title: Lyasoff 2016 formalization write-up (Actions.md / view.pdf)
+  - title: Lyasoff 2016 formalization write-up (Asian.md / view.pdf)
     authors:
     - Lars Warren Ericson
     type: other
@@ -470,7 +470,7 @@ sources:
     relationship: other
     author_endorsement: participated
     note: >-
-      Paper-facing write-up of this formalization (Actions.md tree), not a
+      Paper-facing write-up of this formalization (Asian.md tree), not a
       claim that the underlying theorems are original.
 
 related_formalizations:
@@ -497,7 +497,7 @@ automation:
     framework: Cursor
     role: >-
       Primary agents for Lean 4 / Mathlib formalization, lake build repair,
-      vision-OCR alignment, Actions writeup, and Palomar packaging.
+      vision-OCR alignment, Asian writeup, and Palomar packaging.
   - method: manual
     models: []
     role: >-

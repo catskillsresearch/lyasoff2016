@@ -1,0 +1,7 @@
+Mathematical English for `JointLawLaplace.lean` (Lean names in typewriter).
+
+**Lemma** (`expInt_two_pos_ae`). For a Brownian motion `W` and `t > 0`, `expInt W 2 0 t ω > 0` almost surely.
+
+**Theorem** (`jointLaw_two_dist_fp`). Integrated distributional Fokker–Planck identity for `(expInt W 2 0 t, W t)`: for every `t > 0`, `v > 0`, and `ψ ∈ C_c^3(ℝ)`, `E[((2 v + 1 - exp(2 W_t)) / X_t * ψ(W_t) + 2 ψ'(W_t)) * exp(-v / X_t)] = 0`.
+
+Supporting declarations without a docstring: `integral_Ioi_exp_neg_div`, `integral_Ioi_mul_exp_neg_div`.

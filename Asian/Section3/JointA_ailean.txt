@@ -1,0 +1,13 @@
+Mathematical English for `JointA.lean` (Lean names in typewriter).
+
+**Definition** (`jointA`). Paper (3.5) operator at exponential-BM coefficients, acting on a test function.
+
+**Theorem** (`eq_drift_diff`). The (3.4b)−(3.4a) drift difference is `jointA` on product tests.
+
+**Theorem** (`eq_twinGenerator_sub`). Pointwise: `jointA(u⊗v) = twinGenerator − (3.4a drift)`.
+
+**Theorem** (`continuous_product`). Continuity of the product-test generator.
+
+**Theorem** (`product_bounds`). Compactly supported product tests make `jointA(u⊗v)`, `twinGenerator`, and the (3.4a) drift globally bounded.
+
+Supporting declarations without a docstring: `eq_Aop`.

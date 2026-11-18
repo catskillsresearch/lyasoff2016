@@ -1,0 +1,1 @@
+A truncated logarithm `truncLog n`, clipped to `[−n, n]` on `(0, ∞)` and `0` elsewhere: a bounded measurable approximation of `log` that converges to it pointwise as `n → ∞`.

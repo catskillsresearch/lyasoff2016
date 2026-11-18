@@ -1,0 +1,1 @@
+Brownian time reversal on a fixed interval: `timeReversed` maps `W` to `s ↦ W_t − W_{t−s}`, and the module proves that this process is again a Brownian motion on `[0, t]` by computing its covariance and checking it is Gaussian. This is the ingredient behind the paper's identity (1.3).

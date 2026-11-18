@@ -1,7 +1,0 @@
-Mathematical English for `JointLawLaplaceInv.lean` (Lean names in typewriter).
-
-**Theorem** (`jointLaw_two_laplace_inv_contDiff`). Stated and proved in Lean; see the source for the formal statement.
-
-**Theorem** (`jointLaw_two_laplace_inv_compact`). Stated and proved in Lean; see the source for the formal statement.
-
-**Theorem** (`jointLaw_two_laplace_inv`). Stated and proved in Lean; see the source for the formal statement.

@@ -1,0 +1,1 @@
+Finiteness of moments of the exponential integral: every positive and negative integer moment of `∫₀ᵗ e^{σW_s} ds` is integrable, proved with exponential moments of the Brownian running maximum. These are the integrability facts behind Lemma 2.1.

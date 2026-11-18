@@ -1,9 +1,0 @@
-Mathematical English for `PiFormulaHigher.lean` (Lean names in typewriter).
-
-**Theorem** (`piFormula_sigma_two_laplace`). Stated and proved in Lean; see the source for the formal statement.
-
-**Lemma** (`piFormula_sigma_two_measurable`). Stated and proved in Lean; see the source for the formal statement.
-
-**Theorem** (`pi_formula_sigma_two`). Stated and proved in Lean; see the source for the formal statement.
-
-**Theorem** (`pi_formula_general`). Stated and proved in Lean; see the source for the formal statement.

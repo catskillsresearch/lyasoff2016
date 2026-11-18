@@ -1,0 +1,1 @@
+§6 Asian options (pp. 1088–1093). Defines the undiscounted Asian call expectation `asianCall` and the market price `asianMarketPrice` (`S₀ = 1`). Proves the `K = 0` benchmark of Remark 6.1, the pricing identity `asian_price_formula` (the first integral in (6.1)), differentiation under `∬ ℜ F` in the strike, and the delta identity `asian_delta` (the second integral in (6.1)).

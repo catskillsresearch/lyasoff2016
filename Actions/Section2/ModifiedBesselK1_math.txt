@@ -1,1 +1,0 @@
-**Lyasoff (2016), p. 1075, link of the foliation constant to modified Bessel K₁. The printed calculation is `∫ exp (-u/2 - (4/x) cosh (u/2)) du = 4 K₁(4/x)`**

@@ -1,0 +1,5 @@
+Mathematical English for `YPlus.lean` (Lean names in typewriter).
+
+**Definition** (`yPlus`). Upper inverse branch `y_+(v, a) = log(a + √(a² - (1 + 2v)))`.
+
+Supporting declarations without a docstring: `contDiffOn`, `yPlus`, `image_Ioi_yCrit`, `charA`.

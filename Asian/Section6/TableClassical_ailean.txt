@@ -1,0 +1,5 @@
+Mathematical English for `TableClassical.lean` (Lean names in typewriter).
+
+**Definition** (`tableRate`). Risk-free rate used in Tables 1–4 (paper: r = 2.5% = 5/200).
+
+Supporting declarations without a docstring: `table1`, `table2`, `table3`, `table4`.

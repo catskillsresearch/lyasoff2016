@@ -1,1 +1,0 @@
-Building blocks g_{t,p} for the contour representation (5.8). It declares 19 items (1 def, 1 lemma, 17 theorems).

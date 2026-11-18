@@ -1,0 +1,13 @@
+Mathematical English for `PiHalfIdentify.lean` (Lean names in typewriter).
+
+**Lemma** (`integrable_gauss_mul_cosh`). Integrable Gaussian–`cosh` envelope dominating both the cosine and the sine kernels.
+
+**Lemma** (`piHalf_two_integrand_eq`). The integrand of the order-two π/2-formula at `σ = 2` in cosine form (paper (5.10a)).
+
+**Theorem** (`piHalf_cos_integral_eq_pi_sin_integral`). Paper (5.10a) cosine integral matches (5.10b) after the Gaussian `g_{t,2}` phase shift.
+
+**Lemma** (`remark_5_1_half_aux`). Algebraic core of the order-two π/2-formula at `σ = 2` (paper (5.10a)).
+
+**Theorem** (`piHalf_eq_piFormula_ref_coords`). `remark_5_1` comparison at arguments `(xσ², yσ)` after reparametrisation.
+
+Supporting declarations without a docstring: `piHalf_eq_piFormula_two_sigma_two`, `piHalfFormula_sigma_covariant_fixed`, `piHalf_eq_piFormula_two_general`, `scaled_piHalf_joint_eq_scaled_pi_joint`, `pi_half_formula_two_sigma_two`, `pi_half_formula_two_general`.

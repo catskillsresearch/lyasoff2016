@@ -1,0 +1,11 @@
+Mathematical English for `PiFormulaHigher.lean` (Lean names in typewriter).
+
+**Definition** (`piContourReal`). The real integrand on the lower edge of the `a = π` contour, written with the positive denominator which occurs after the inverse-Gamma integration.
+
+**Theorem** (`piFormula_sigma_two_laplace`). For every paper order `p = 2,3,4`, the `σ = 2` π-formula has Yor's conditional `1/x`-Laplace transform.
+
+**Theorem** (`pi_formula_sigma_two`). The `σ = 2` π-formula is a constructive joint density for every paper order `p = 2,3,4`.
+
+**Theorem** (`pi_formula_general`). The π-formula is a constructive joint density for `p = 2,3,4`, every positive volatility, and every positive horizon.
+
+Supporting declarations without a docstring: `piContourReal_eq_contourIntegrand`, `piContourReal_even`, `piContourReal_integrable`, `piContourReal_integral`, `piKernel`, `charA_one_le`, `piKernel_scale`, `piKernel_inner_integrable`, `piKernel_inner_integral`, `piKernel_inner_norm_integral`, `piKernel_integrable`, `piFormula_scaled_eq_kernel`, `piFormula_sigma_two_measurable`.

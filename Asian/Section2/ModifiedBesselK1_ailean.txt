@@ -1,0 +1,3 @@
+Mathematical English for `ModifiedBesselK1.lean` (Lean names in typewriter).
+
+Supporting declarations without a docstring: `modifiedBesselK1`, `identity`.

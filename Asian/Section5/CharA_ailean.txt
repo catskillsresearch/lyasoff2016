@@ -1,0 +1,5 @@
+Mathematical English for `CharA.lean` (Lean names in typewriter).
+
+**Definition** (`charA`). Characteristic invariant `A(v, y) = cosh y + v * exp(-y)`.
+
+Supporting declarations without a docstring: `eq`, `deriv_y_eq`, `hasDerivAt_y`, `hasDerivAt_v`, `sq_sub`, `yCrit`, `ge_sqrt`, `deriv_pos_iff`, `deriv_neg_iff`, `strictMonoOn`, `strictAntiOn`, `lower_bound`.

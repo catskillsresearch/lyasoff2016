@@ -1,0 +1,13 @@
+Mathematical English for `MomentUniqueness.lean` (Lean names in typewriter).
+
+**Theorem** (`measure_eq_of_mgf_eqOn`). Two probability measures on `ℝ` whose moment generating functions are finite on `(-∞, a)` and agree on `(0, a)` are equal (identity theorem for the complex mgf on the strip `Re z < a`, then uniqueness of characteristic functions).
+
+**Theorem** (`lintegral_exp_eq_tsum_moments`). For a measure concentrated on `[0, ∞)` and `s ≥ 0`, the exponential moment is the power series of the integer moments (monotone convergence).
+
+**Theorem** (`measure_eq_of_moments`). **Moment determinacy.** Two probability measures on `ℝ` concentrated on `[0, ∞)` with the same integer moments coincide as soon as one of them has a finite exponential moment `∫ e^{s y}` for every `0 ≤ s < a`.
+
+**Lemma** (`one_sub_mul_le_one_add_rpow_neg`). First-order lower bound for a negative power: `1 - p u ≤ (1 + u)^{-p}`.
+
+**Lemma** (`one_add_rpow_neg_le`). Second-order upper bound for a negative power: `(1 + u)^{-p} ≤ 1 - p u + p (p + 1) u² / 2` for `u ≥ 0`.
+
+**Lemma** (`rpow_neg_add_bounds`). Taylor bounds for `x ↦ x^{-p}` at `x > 0` with nonnegative increment `c`.

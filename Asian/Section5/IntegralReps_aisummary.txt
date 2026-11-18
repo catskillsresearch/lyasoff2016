@@ -1,0 +1,1 @@
+§5 integral representations (pp. 1079–1088): Yor's formula (1.1) by the constructive route (`yor_formula`), the identification of both the π- and π/2-formulae with the joint density for `p = 2, 3, 4` (`pi_formula`), and the identity of Remark 5.5.

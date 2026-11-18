@@ -1,0 +1,1 @@
+Identification of the π/2-formulae with the joint density for `p = 2, 3, 4`. Works with the complex Fubini kernel on the `π/2` edge, after the paper's trigonometric reduction, and with absolute integrability bounds. It shows that the π and π/2 contours give the same right side of (5.3) and therefore the same Laplace transform.

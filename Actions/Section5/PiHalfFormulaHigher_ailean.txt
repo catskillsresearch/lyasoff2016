@@ -1,7 +1,0 @@
-Mathematical English for `PiHalfFormulaHigher.lean` (Lean names in typewriter).
-
-**Theorem** (`piHalfFormula_sigma_two_laplace`). both π and π/2 contours yield the same RHS of (5.3), hence after inverse-Gamma both Laplaces match (pp. 1083–1086). The exchange of the two integrations is justified by the Gaussian decay of `g_{t,p}` on the line `ℑ z = −π/2` (`GFunDecay`); the `x`-integral is the complex inverse-Gamma integral with scale `v + e^y (cosh y + i sinh u)`, and the remaining `u`-integral is the contour equation (5.3) at `a = π/2`.
-
-**Theorem** (`pi_half_formula_sigma_two`). both π and π/2 contours yield the same RHS of (5.3), hence after inverse-Gamma both Laplaces match (pp. 1083–1086). The exchange of the two integrations is justified by the Gaussian decay of `g_{t,p}` on the line `ℑ z = −π/2` (`GFunDecay`); the `x`-integral is the complex inverse-Gamma integral with scale `v + e^y (cosh y + i sinh u)`, and the remaining `u`-integral is the contour equation (5.3) at `a = π/2`.
-
-**Theorem** (`pi_half_formula_general`). both π and π/2 contours yield the same RHS of (5.3), hence after inverse-Gamma both Laplaces match (pp. 1083–1086). The exchange of the two integrations is justified by the Gaussian decay of `g_{t,p}` on the line `ℑ z = −π/2` (`GFunDecay`); the `x`-integral is the complex inverse-Gamma integral with scale `v + e^y (cosh y + i sinh u)`, and the remaining `u`-integral is the contour equation (5.3) at `a = π/2`.

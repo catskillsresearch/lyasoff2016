@@ -1,1 +1,0 @@
-Brownian scaling for the exponential functionals of the paper (p. 1066). It declares 11 items (11 theorems).

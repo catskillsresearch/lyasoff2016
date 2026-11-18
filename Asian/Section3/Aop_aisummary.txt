@@ -1,0 +1,1 @@
+The second-order operator `𝒜_t(x, y; u, v)` that appears on p. 1069 in the Fokker–Planck argument for the joint density.

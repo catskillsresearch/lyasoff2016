@@ -1,1 +1,0 @@
-Integral lines of the foliation vector field V = (σ²x/2)∂ₓ + σ∂ᵧ. It declares 3 items (1 def, 2 theorems).

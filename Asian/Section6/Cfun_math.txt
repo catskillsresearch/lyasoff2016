@@ -1,0 +1,9 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1090, display defining C(u,w)**
+
+$$
+C(u,w) := \frac{8i\sqrt{2}\,\sigma^{-2p+2}\, w^{p-1}\cosh u\, e^{\frac{1}{2}\mu p t - \frac{1}{2}\mu t}}{\sqrt{\pi t}}.
+$$
+
+</div>

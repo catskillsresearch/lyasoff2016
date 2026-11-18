@@ -1,0 +1,1 @@
+The kernel `θ(r, t)` in Yor's formula (1.1): `r/√(2π³t) · e^{π²/(2t)} ∫₀^∞ e^{−u²/(2t)} e^{−r cosh u} sinh u sin(πu/t) du`.

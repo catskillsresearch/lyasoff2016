@@ -1,1 +1,0 @@
-Correct Brownian scaling from the reference volatility `2`, together with the. It declares 9 items (4 lemmas, 5 theorems).

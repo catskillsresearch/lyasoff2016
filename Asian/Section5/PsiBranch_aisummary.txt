@@ -1,0 +1,1 @@
+A branch cutoff `ψBranch` of a compactly supported profile along the characteristic `A`, with smoothness, compact support, and derivative bounds.

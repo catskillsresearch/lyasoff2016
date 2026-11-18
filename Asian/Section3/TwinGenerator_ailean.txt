@@ -1,0 +1,5 @@
+Mathematical English for `TwinGenerator.lean` (Lean names in typewriter).
+
+**Definition** (`twinGenerator`). The integrand of paper (3.4b) for a product test `u ⊗ v`: the generator of `(expIntTwin, B)` applied to `u ⊗ v`.
+
+**Theorem** (`continuous`). The integrand of (3.4b) is jointly continuous for smooth tests.

@@ -1,7 +1,0 @@
-**Lyasoff (2016), Remark 5.1 and (5.10a)/(5.10b) for p = 2**
-
-both sides are, up to the same positive prefactor, the order-two π/2- and
-   π-formulae at `σ = 2`.  These have the same `1/x`-Laplace transform
-   (`piHalfFormula_sigma_two_laplace`, `piFormula_sigma_two_laplace`: both contours ζ_{π/2} and
-   ζ_π give the right-hand side of (5.3)), hence agree for a.e. `x > 0` (`prop_4_4`); both
-   are continuous in `x > 0` by dominated convergence, hence agree for every `x > 0`.

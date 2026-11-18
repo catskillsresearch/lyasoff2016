@@ -1,0 +1,9 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1062, θ(r,t) in (1.1)**
+
+$$
+\theta(r,t)=\frac{r}{\sqrt{2\pi^3 t}}\,e^{\frac{\pi^2}{2t}}\int_0^\infty e^{-\frac{u^2}{2t}}\,e^{-r\cosh u}\,\sinh u\,\sin\frac{\pi u}{t}\,\mathrm{d}u.
+$$
+
+</div>

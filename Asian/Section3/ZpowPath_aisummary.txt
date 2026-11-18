@@ -1,0 +1,1 @@
+A path functional giving a reciprocal power of the finite-horizon `Z`, built from a continuous path with fixed initial capital, together with its measurability.

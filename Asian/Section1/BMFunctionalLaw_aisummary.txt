@@ -1,0 +1,1 @@
+Laws of continuous path functionals do not depend on which Brownian motion is used. The module packages the time integral `∫₀ᵗ V(s, W_s) ds` as a functional of the path and shows that its joint law with `W_t` is the same for any two Brownian motions, which is the uniqueness step behind (1.3).

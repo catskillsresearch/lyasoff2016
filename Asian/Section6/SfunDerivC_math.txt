@@ -1,0 +1,19 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1091, S'_{k(α),p}**
+
+If $k$ depends on a parameter $\alpha$, i.e., $k = k(\alpha)$, then
+
+$$
+S'_{k(\alpha),p}(u, w) := \partial_\alpha\bigl(S_{k(\alpha),p}(u, w)\bigr) = -k'(\alpha) \int_{k(\alpha)}^\infty e^{-\frac{A}{x}} \frac{1}{x^p}\,dx
+$$
+
+$$
+= -k'(\alpha) \int_0^{\frac{1}{k}} e^{-Av}\,v^{p-2}\,dv
+$$
+
+$$
+= k'(\alpha)A^{-(p-1)}\Gamma\!\left(p - 1, \frac{A}{k}\right) - k'(\alpha)A^{-(p-1)}\Gamma(p - 1).
+$$
+
+</div>

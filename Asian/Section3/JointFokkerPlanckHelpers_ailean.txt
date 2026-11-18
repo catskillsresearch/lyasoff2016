@@ -1,0 +1,13 @@
+Mathematical English for `JointFokkerPlanckHelpers.lean` (Lean names in typewriter).
+
+**Definition** (`jointDomain`). Open half-plane domain for joint densities of `(∫ e^{σW}, W_t)`.
+
+**Theorem** (`ae_eq_zero_of_weak_joint`). Fundamental lemma on the joint domain.
+
+**Theorem** (`eq_zero_of_continuousOn_ae_eq_zero`). Continuous-on-open + a.e. zero ⇒ pointwise zero.
+
+**Theorem** (`hasCompactSupport_tensor`). Compact support of a tensor product of compactly supported scalars.
+
+**Theorem** (`eq_zero_of_integral_product_eq_zero`). Product-test weak vanishing + continuity ⇒ pointwise zero on `jointDomain`. ContDiff index is `∞` (C^∞), matching Mathlib bump constructors.
+
+Supporting declarations without a docstring: `isOpen_jointDomain`, `mem_jointDomain`.

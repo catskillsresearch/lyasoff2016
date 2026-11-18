@@ -1,0 +1,1 @@
+Standing notation for the whole formalization: Brownian motion as Mathlib's `IsBrownianReal`, the exponential functional `expInt` (∫₀ᵗ e^{σW_s+νs} ds), the joint law of `(expInt, W_t)`, and what it means for a function to be a joint or conditional density of that law. It also records the inverse-Gamma family (1.2) and states the time-reversal identity (1.3) as `time_reversal`.

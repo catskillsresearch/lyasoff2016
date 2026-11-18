@@ -1,0 +1,7 @@
+Mathematical English for `JointFokkerPlanckAdjoint.lean` (Lean names in typewriter).
+
+**Definition** (`jointFokkerPlanckAdjoint`). The expanded formal adjoint in (3.6a). This is the derivative in `x` of `jointFlux`; keeping it named separates the analytic integration-by-parts calculation from the stochastic weak-forward-equation argument.
+
+**Theorem** (`hasDerivAt`). Deterministic divergence/adjoint calculation underlying (3.6a)–(3.6b).
+
+**Theorem** (`deriv_eq`). Pointwise equality between the derivative-of-flux and expanded-adjoint formulations.

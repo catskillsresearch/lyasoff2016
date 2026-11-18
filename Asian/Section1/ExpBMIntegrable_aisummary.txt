@@ -1,0 +1,1 @@
+Integrability of `exp(σW_s + νs)` along a Brownian motion: the Gaussian moment generating function `E[e^{σW_s+νs}] = e^{(ν+σ²/2)s}` and joint integrability on `(0, t] × Ω`, which justifies swapping `E` with `∫₀ᵗ ds`.

@@ -26,7 +26,7 @@ integral representations, and the Asian call pricing formula. Secondary
 story: closed forms for the Asian inner integral `S_{k,p}` and the
 undiscounted call as a double integral of `Re F`.
 
-Proof-path note (also in the Actions writeup): Lean often identifies
+Proof-path note (also in the Asian writeup): Lean often identifies
 `yorDensity` with the joint law via Laplace matching and transfers density
 *from* Yor *to* the π-family, rather than deriving Yor by specializing a
 previously proved π-density as in the paper’s narrative order. The
@@ -55,7 +55,7 @@ Selected §4 Comparator theorems (`theorem_4_1_pde`, `theorem_4_1_striking`,
 the paper’s foliation PDE / striking / ODE / Laplace inputs and prove the
 displayed identities under those hypotheses. The Comparator theorems
 `cond_density_satisfies_*` discharge those inputs by exhibiting a conditional
-density (Brownian-scaled Yor) satisfying each of them; see the §4 Actions
+density (Brownian-scaled Yor) satisfying each of them; see the §4 Asian
 writeup.
 
 Compared declarations live in namespace `Lyasoff2016`. `Challenge.lean` is a

@@ -1,0 +1,1 @@
+The residue recipe (5.7), `R_{t,2}[g] = g` and `R_{t,p}[g] = (1/((p − 2) sinh y)) d/dy R_{t,p−1}[g]`, worked out explicitly for `p = 2, 3, 4`.

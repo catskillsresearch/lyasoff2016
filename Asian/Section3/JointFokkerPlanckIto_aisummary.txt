@@ -1,0 +1,1 @@
+Itô-calculus toolkit for (3.4a)/(3.4b). It proves Itô's formula and the product rule along explicit continuous versions, that a pre-Brownian motion is the Itô integral `∫ 1 dB`, and the expected-Itô identities for product test functions along `(expInt, W)` and its time-reversed twin.

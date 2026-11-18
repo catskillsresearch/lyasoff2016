@@ -1,3 +1,0 @@
-**Lyasoff (2016), p. 1091, incomplete Gamma and S_{k,p}**
-
-upper incomplete Gamma and the Asian inner integral S.

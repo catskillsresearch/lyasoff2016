@@ -1,0 +1,1 @@
+The complex error function `cerf z = (2/√π) ∫₀¹ z e^{−(zs)²} ds`: oddness, conjugation symmetry, the derivative `(2/√π) e^{−z²}`, and that it is entire and smooth. It is used to build `g_{t,3}` and `g_{t,4}` (pp. 1082–1083).

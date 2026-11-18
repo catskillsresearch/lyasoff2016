@@ -1,3 +1,0 @@
-Mathematical English for `PiHalfFormula.lean` (Lean names in typewriter).
-
-**Definition** (`piHalfFormula`). (5.9a)/(5.10a), π/2-formula, normalised so that `gaussianPDFReal 0 t y * (σ²)⁻¹ * piHalfFormula p σ t (x σ²) (y σ)` is the joint density (same scaled-coordinate convention as `piFormula`). Outside weight is `cosh u`; the oscillatory kernel is `ℜ(i exp(-i (4/x) e^{y/2} sinh u) g_{σ²t,p}(u − iπ/2))` — not the π-kernel.

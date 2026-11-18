@@ -1,0 +1,19 @@
+Mathematical English for `CameronMartin.lean` (Lean names in typewriter).
+
+**Theorem** (`isBrownianReal_path_functional_two`). The law of a measurable path functional is the same along any two Brownian motions, even when they live under different probability measures (or on different spaces).
+
+**Theorem** (`setIntegral_withDensity_ofReal_mul`). Set integrals against `μ.withDensity (ofReal ∘ Z)` for a nonnegative real density `Z`.
+
+**Theorem** (`isBrownianReal_drift_girsanov`). **Girsanov for a constant drift, frozen after the horizon.** If `B` is a Brownian motion under `P` with measurable marginals, then under `Q = exp(−θ B_T − θ² T / 2) · P` the process `u ↦ B_u + θ (u ∧ T)` is a Brownian motion.
+
+**Theorem** (`cameronMartin_path_functional`). **Cameron–Martin for a constant drift.** For a Brownian motion `W` under `P` and a measurable path functional `F`, the law of `F (W + θ (· ∧ T))` under `exp(−θ W_T − θ² T / 2) · P` is the law of `F W` under `P`.
+
+**Theorem** (`map_withDensity_comp`). Pushing a density forward along the map that defines it.
+
+**Theorem** (`jointLaw_girsanov`). Paper p. 1066, (2.2) at the level of laws: the joint law with drift `σθ`, tilted by `exp(−θ y − θ² t / 2)` and translated by `y ↦ y + θ t`, is the driftless joint law.
+
+**Definition** (`shiftSnd`). Translation in the second coordinate, as a measurable equivalence of the plane.
+
+**Theorem** (`jointDensity_girsanov_posPart`). Paper p. 1066, (2.2), for the positive parts of continuous densities: `φ_{σθ}(x, y) = e^{θ y + θ² t / 2} φ_0(x, y + θ t)`.
+
+Supporting declarations without a docstring: `map_shiftSnd_volume`.

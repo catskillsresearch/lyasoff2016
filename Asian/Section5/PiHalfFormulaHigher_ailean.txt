@@ -1,0 +1,15 @@
+Mathematical English for `PiHalfFormulaHigher.lean` (Lean names in typewriter).
+
+**Definition** (`piHalfScale`). Complex inverse-Gamma scale `v + e^y (cosh y + i sinh u)`: its real part is positive and its imaginary part carries the oscillation of the π/2-kernel.
+
+**Definition** (`piHalfKernelC`). The complex Fubini kernel: `cosh u · i g(u − iπ/2) · x⁻ᵖ exp(−(v + e^y(cosh y + i sinh u))/x)`. The oscillatory factor `exp(−i e^y sinh u / x)` has modulus one.
+
+**Lemma** (`piHalfKernelC_integrable`). Absolute Fubini for the π/2-kernel: the modulus integrates in `x` to an inverse-Gamma constant times `cosh u · |g(u − iπ/2)|`, which is integrable by the Gaussian decay of `g_{t,p}` on horizontal lines (`GFunDecay`).
+
+**Theorem** (`piHalfFormula_sigma_two_laplace`). Paper: both π and π/2 contours yield the same RHS of (5.3), hence after inverse-Gamma both Laplaces match (pp. 1083–1086). The exchange of the two integrations is justified by the Gaussian decay of `g_{t,p}` on the line `ℑ z = −π/2` (`GFunDecay`); the `x`-integral is the complex inverse-Gamma integral with scale `v + e^y (cosh y + i sinh u)`, and the remaining `u`-integral is the contour equation (5.3) at `a = π/2`.
+
+**Theorem** (`pi_half_formula_sigma_two`). The `σ = 2` π/2-formula is a constructive joint density for `p = 2,3,4`.
+
+**Theorem** (`pi_half_formula_general`). The π/2-formula is a constructive joint density for `p = 2,3,4`.
+
+Supporting declarations without a docstring: `piHalfContourReal`, `piHalfContourReal_eq_contourIntegrand`, `piHalfContourReal_even`, `piHalfContourReal_integrable`, `piHalfContourReal_integral`, `charA_one_le'`, `piHalfScale_re`, `piHalfScale_re_pos`, `piHalfScale_eq`, `piHalfKernelC_norm`, `piHalfKernelC_inner_integrable`, `piHalfKernelC_inner_integral`, `piHalfKernelC_inner_norm_integral`, `piHalfFormula_scaled_eq_kernel`, `piHalfFormula_sigma_two_measurable`.

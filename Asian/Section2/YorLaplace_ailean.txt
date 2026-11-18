@@ -1,0 +1,5 @@
+Mathematical English for `YorLaplace.lean` (Lean names in typewriter).
+
+**Theorem** (`hartman_watson_contour`). Hartman–Watson / Yor contour integral identity: for `t > 0` and `α > 0`, `e^{π²/(2t)} ∫₀^∞ e^{-u²/(2t)} sinh u * sin(π u / t) / (cosh u + cosh α) du = π e^{-α²/(2t)}`.
+
+Supporting declarations without a docstring: `cosh_re_im`, `sinh_re_im`, `norm_cosh_ge_abs_sinh`, `norm_sinh_le_cosh`, `cosh_eq_cosh_real_strip_iff`, `log_neg_of_im_pos`, `log_neg_of_im_neg`, `integral_boundary_rect_sub_inv_eq`.

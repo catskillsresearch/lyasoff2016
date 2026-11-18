@@ -1,0 +1,5 @@
+Mathematical English for `HBranch.lean` (Lean names in typewriter).
+
+**Definition** (`hBranch`). Branch weight of a compactly supported profile along the characteristic `A`.
+
+Supporting declarations without a docstring: `eq_mul_`, `compactSupport_bound`, `hasDerivAt_v`, `continuous`.

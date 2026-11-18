@@ -1,0 +1,19 @@
+Mathematical English for `Asian.lean` (Lean names in typewriter).
+
+**Theorem** (`benchmark_k_zero`). E[∫₀ᵗ e^{σW_s+νs} ds] = ∫₀ᵗ e^{(ν+σ²/2)s} ds by Fubini and the Gaussian mgf.
+
+**Definition** (`asianCall`). E[(∫₀ᵗ e^{σW_s+νs} ds − K)₊].
+
+**Theorem** (`asianCall_eq_integral_density`). Payoff–density reduction (p. 1090): if `φ ≥ 0` is a joint density of `(∫₀ᵗ e^{σW_s+νs} ds, W_t)`, then the undiscounted Asian call is `∬ (x − K)₊ φ(x, y) dx dy`. No integrability hypothesis is needed: both sides are integrals of nonnegative functions with the same Lebesgue integral.
+
+**Theorem** (`asian_price_formula`). Asian pricing identity (Lyasoff pp. 1090–1093): the undiscounted call equals the double integral of `Re F` from the π/2-formula of order 4 after Girsanov drift and `w = e^{σ y / 2}`. Proof outline. (1) The expectation is a (nonnegative) integral against the joint law with drift `ν`, which by Girsanov (`lintegral_jointLaw_girsanov`) is an integral against the driftless joint law tilted by `exp(θ y − θ² t / 2)`, `θ = ν/σ`. (2) The driftless law has the order-4 π/2-density (`pi_half_formula_general`), which is a.e. nonnegative (`piHalfFormula_ae_nonneg`). (3) Tonelli in `(x, y)`. (4) For each fixed `y`, Fubini in `(x, u)` (`asianKernel_fubini`) turns the `x`-integral into `(σ w / 2) ∫ ℜ F(u, w) du` with `w = e^{σy/2 − νt/2}`. (5) The substitution `y ↦ w` (`integral_Ioi_comp_exp_affine`). The triple integral in `(x, y, u)` is *not* absolutely convergent for every drift (only for `−3σ²/2 < ν < σ²/2`), so the `y`-integration is carried out last, on nonnegative integrands.
+
+**Theorem** (`asian_price_formula_k_zero`). Consistency: at `K = 0` the pricing formula specialises.
+
+**Theorem** (`hasDerivAt_integral_max_sub`). Under an atomless law for `X`, `∂_K E[(X-K)₊] = -P(X > K)`. Uses `hasDerivAt_integral_of_dominated_loc_of_lip` with bound `1` and the pointwise derivative from `SfunC.hasDerivAt_max_sub`.
+
+**Theorem** (`hasDerivAt_integral_Re_Ffun`). Differentiation under `∬ Re F` in the strike (Lyasoff §6 / (6.1)). Rather than seeking an absolute `(u,w)` majorant (which does not exist for every drift), the proof identifies the integral locally with the call price, differentiates the payoff expectation, and identifies `∬ Re F'` with the same tail probability through the Girsanov-tilted order-4 density.
+
+**Theorem** (`asian_delta`). Asian delta identity (Lyasoff pp. 1091–1093): strike derivative of the call equals the double integral of `Re F'` (`SfunDerivC = ∂_k SfunC`).
+
+Supporting declarations without a docstring: `asianMarketPrice`.

@@ -1,0 +1,1 @@
+The integrand of the contour equation (5.3) on the lower edge `u ↦ u − ia` of the contour `ζ_a`: `g_{t,p}(u − ia) sinh(u − ia) / (cosh(u − ia) − cosh y)^{p−1}`.

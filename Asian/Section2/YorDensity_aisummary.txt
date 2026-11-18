@@ -1,0 +1,1 @@
+Yor's candidate joint density for `σ = 2` from (1.1), built from `θ`: `(1/x) e^{−(1+e^{2y})/(2x)} θ(e^y/x, t)` on `x > 0`, and `0` otherwise.

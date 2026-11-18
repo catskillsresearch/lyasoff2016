@@ -1,0 +1,27 @@
+Mathematical English for `JointFokkerPlanckIto.lean` (Lean names in typewriter).
+
+**Theorem** (`contDiff_top_compactSupport_bounds`). Compactly supported `C^∞` functions are bounded with their first two derivatives.
+
+**Theorem** (`pathwise_u_expInt_ftc`). Pathwise FTC for `u ∘ expInt` along a continuous path.
+
+**Theorem** (`ae_localItoIntegral_const_eq`). The local Itô integral of a constant integrand `a` is `a * B`, up to indistinguishability on `[0, T]`: its Riemann sums telescope, and `B 0 = 0` almost surely.
+
+**Theorem** (`integral_predItoIntegral_eq_zero_of_ae_bdd`). The predictable Itô integral of an integrand that is almost surely bounded on `[0, T]` is integrable and centered at the horizon: there it is the `L²` Itô integral of the clipped integrand.
+
+**Theorem** (`ito_expInt_product_of_continuous`). Paper (3.4a) for product tests, along a pre-Brownian motion with every path continuous, with the time integral over `ℝ≥0`.
+
+**Theorem** (`ito_expInt_test_product`). Paper (3.4a) for product tests `ϕ = u ⊗ v`.
+
+**Theorem** (`ae_localItoProcess_comp_of_version`). **Itô's formula along an explicit version.** If the Itô process with coefficients `(σ, b)` started at `x₀` is, almost surely on `[0, T]`, the explicit process `X`, then for `f` of class `C²` the Itô process with coefficients `(f'(X) σ, f'(X) b + ½ f''(X) σ²)` started at `f x₀` is, almost surely on `[0, T]`, the process `f ∘ X`.
+
+**Theorem** (`ae_localItoProcess_mul_of_version`). **The product rule along explicit versions.** If the Itô processes with coefficients `(σ₁, b₁)`, `(σ₂, b₂)` started at `x₁`, `x₂` are, almost surely on `[0, T]`, the explicit processes `X₁`, `X₂`, then the Itô process with coefficients `(X₁ σ₂ + X₂ σ₁, X₁ b₂ + X₂ b₁ + σ₁ σ₂)` started at `x₁ x₂` is, almost surely on `[0, T]`, the product `X₁ X₂`.
+
+**Theorem** (`ae_localItoProcess_one_eq`). A pre-Brownian motion with continuous paths is the Itô process `∫ 1 dB`, almost surely on `[0, T]`.
+
+**Theorem** (`ae_localItoProcess_expIntTwin`). **The twin is an Itô process**: `dY = (1 + σ² Y / 2) ds + σ Y dB`, `Y_0 = 0`, almost surely on `[0, T]`. The product rule for `e^{σ B} · ∫ e^{-σ B} ds`, with `d e^{σ B} = (σ²/2) e^{σ B} ds + σ e^{σ B} dB` from Itô's formula.
+
+**Theorem** (`integral_expIntTwin_eq`). **Time reversal at a fixed horizon**: `(expIntTwin_s, B_s)` and `(∫₀ˢ e^{σ B_r} dr, B_s)` have the same law, so they integrate every continuous function alike (paper (1.3)).
+
+**Theorem** (`ito_expIntTwin_product_of_continuous`). Itô's formula for a product test along `(expIntTwin, B)`, for a pre-Brownian motion with every path continuous, with the time integral over `ℝ≥0`: the twin is an Itô process (`dY = (1 + σ² Y / 2) ds + σ Y dB`, by the product rule for `e^{σ B} · ∫ e^{-σ B}`), then Itô's formula for `u ∘ Y`, the product rule with `v ∘ B`, and the stochastic term is centered.
+
+**Theorem** (`ito_timeReversed_expInt_test_product`). Paper (3.4b) after time-reversal, for product tests.

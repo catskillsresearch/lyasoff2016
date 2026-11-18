@@ -1,0 +1,1 @@
+Regularity of Yor's conditional density for `σ = 2`. It is `C^∞` on `(0, ∞) × ℝ`, every mixed partial derivative is an explicit finite sum of basis terms, and boundary limits at `0⁺` and `∞` plus Gaussian-weighted moment bounds hold. Together these prove Proposition 2.2 constructively (`prop_2_2_constructive`).

@@ -1,0 +1,25 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1071, integral lines of 𝒱**
+
+This is a first order PDE, the nature of which is encrypted into the integral lines of the vector field
+
+$$
+(x,y)\mapsto\mathcal{V}(x,y):=\frac{\sigma^2 x}{2}\frac{\partial}{\partial x}+\sigma\frac{\partial}{\partial y}.
+$$
+
+These integral lines can be expressed as
+
+$$
+\mathbb{R}\ni u\mapsto(\gamma_x(u),\eta_y(u)):=(xe^{\frac{1}{2}\sigma^2 u},\,(y+u)\sigma),
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1074, foliation**
+
+which gives a *foliation* of the space $\mathbb{R}_{++} \times \mathbb{R}$ into 1-manifolds. The key feature of this foliation is that an explicit expression for the logarithmic derivative of the (conditional or unconditional) density along each of its 1-manifolds is readily available, as we are about to establish. To this end, we first note that, setting$^6$
+
+</div>

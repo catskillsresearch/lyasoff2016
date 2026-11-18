@@ -1,0 +1,5 @@
+Mathematical English for `WaldIncrementFromPaths.lean` (Lean names in typewriter).
+
+**Definition** (`waldIncrementFromPaths`). Wald increment as a continuous-path functional.
+
+Supporting declarations without a docstring: `continuous_time`, `measurable`.

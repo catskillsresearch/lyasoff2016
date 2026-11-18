@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-18T15:44:54Z",
+  "updated": "2026-11-18T16:29:52Z",
   "sorryCount": 0,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
@@ -199,7 +199,7 @@
       "id": "theorem_4_1_pde",
       "label": "Thm 4.1 PDE (cond.)",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:34",
+      "file": "Lyasoff2016/Foliation.lean:35",
       "status": "done",
       "blocker": null,
       "detail": "Conditional rearrangement: if SatisfiesTheorem41PDE, then the PDE."
@@ -208,7 +208,7 @@
       "id": "theorem_4_1_striking",
       "label": "Thm 4.1 (4.4) (cond.)",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:53",
+      "file": "Lyasoff2016/Foliation.lean:55",
       "status": "done",
       "blocker": null,
       "detail": "Conditional rearrangement: if SatisfiesStrikingIdentity, then (4.4)."
@@ -217,7 +217,7 @@
       "id": "formula_4_6",
       "label": "(4.6) (cond.)",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:97",
+      "file": "Lyasoff2016/Foliation.lean:99",
       "status": "done",
       "blocker": null,
       "detail": "Conditional rearrangement: if SatisfiesFoliationODE, then (4.6)."
@@ -226,7 +226,7 @@
       "id": "prop_4_4",
       "label": "Prop 4.4",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:316",
+      "file": "Lyasoff2016/Foliation.lean:318",
       "status": "done",
       "blocker": null,
       "detail": "Uniqueness of \u03c6(\u00b7|0) from the Laplace normalisation."
@@ -235,7 +235,7 @@
       "id": "theorem_4_5",
       "label": "Thm 4.5 (cond.)",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:365",
+      "file": "Lyasoff2016/Foliation.lean:367",
       "status": "done",
       "blocker": null,
       "detail": "Conditional rearrangement: mass + Laplace reduction \u21d2 arcosh form."
@@ -244,7 +244,7 @@
       "id": "cond_density_satisfies_theorem_41_pde",
       "label": "Cond dens. PDE",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:437",
+      "file": "Lyasoff2016/Foliation.lean:440",
       "status": "done",
       "blocker": null,
       "detail": "Open: \u2203 conditional density satisfying SatisfiesTheorem41PDE."
@@ -253,7 +253,7 @@
       "id": "cond_density_satisfies_striking",
       "label": "Cond dens. (4.4)",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:539",
+      "file": "Lyasoff2016/Foliation.lean:542",
       "status": "done",
       "blocker": null,
       "detail": "Open: \u2203 conditional density satisfying SatisfiesStrikingIdentity."
@@ -262,7 +262,7 @@
       "id": "cond_density_satisfies_foliation_ode",
       "label": "Cond dens. ODE",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:445",
+      "file": "Lyasoff2016/Foliation.lean:448",
       "status": "done",
       "blocker": null,
       "detail": "Open: \u2203 conditional density satisfying SatisfiesFoliationODE."
@@ -271,7 +271,7 @@
       "id": "cond_density_satisfies_laplace_inputs",
       "label": "Cond dens. Laplace",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:510",
+      "file": "Lyasoff2016/Foliation.lean:513",
       "status": "done",
       "blocker": null,
       "detail": "Open: \u2203 conditional density with Thm 4.5 mass + Laplace inputs."

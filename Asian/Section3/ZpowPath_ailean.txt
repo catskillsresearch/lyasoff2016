@@ -1,0 +1,5 @@
+Mathematical English for `ZpowPath.lean` (Lean names in typewriter).
+
+**Definition** (`zpowPath`). Path functional: reciprocal power of the finite-horizon `Z` built from a continuous path with fixed initial capital `A`.
+
+Supporting declarations without a docstring: `measurable`.

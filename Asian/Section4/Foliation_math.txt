@@ -1,0 +1,159 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1073, Theorem 4.1**
+
+**Theorem 4.1** *In the domain $\{(x,y): x>0,\,-\infty<y<\infty\}$, the conditional density $\phi_{t,\sigma}(x \mid y)$ satisfies the first order PDE*
+
+$$
+\frac{\sigma^2 x}{2}\frac{\partial}{\partial x}\phi_{t,\sigma}(x \mid y)+\sigma\frac{\partial}{\partial y}\phi_{t,\sigma}(x \mid y)=\left(\frac{\sigma y}{t}+\frac{1-e^{\sigma y}}{x}-\frac{\sigma^2}{2}\right)\phi_{t,\sigma}(x \mid y),
+$$
+
+*which is equivalent to the PDE, for the unconditional density,*
+
+$$
+\frac{\sigma^2 x}{2}\frac{\partial}{\partial x}\phi_{t,\sigma}(x,y)+\sigma\frac{\partial}{\partial y}\phi_{t,\sigma}(x,y)=\left(\frac{1-e^{\sigma y}}{x}-\frac{\sigma^2}{2}\right)\phi_{t,\sigma}(x,y).
+$$
+
+*In addition, we have the identity*
+
+$$
+\mathbb{E}\left[\left(\int_0^{t} e^{\sigma W_s}\,\mathrm{d}s\right)^{-1} \,\middle|\, W_t = y/\sigma\right]=\frac{y}{t(e^y-1)} \quad \text{for any } y \in \mathbb{R}, \qquad\text{(4.4)}
+$$
+
+*where the right side is understood to be $\frac{1}{t}$ when $y=0$.*
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1074, ODEs along the integral lines**
+
+Next, notice that the first order equations for $\phi_{t,\sigma}(x \mid y)$ and $\phi_{t,\sigma}(x,y)$ from Theorem 4.1 can be foliated into the two (equivalent) collections of ODEs
+
+$$
+\frac{\mathrm{d}}{\mathrm{d}u}\phi_{t,\sigma}\!\left(x e^{\frac{1}{2}\sigma^2 u},\,\sigma u\right) = \left(\frac{1 - e^{\sigma^2 u}}{x e^{\frac{1}{2}\sigma^2 u}} - \frac{\sigma^2}{2}\right)\phi_{t,\sigma}\!\left(x e^{\frac{1}{2}\sigma^2 u},\,\sigma u\right), \quad x \in \mathbb{R}_{++},
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1075, (4.6)**
+
+and therefore (4.5) can be rearranged as
+
+$$
+\phi_{t,\sigma}(x \mid y) = \phi_{t,\sigma}\!\left(x e^{-\frac{\sigma y}{2}} \,\middle|\, 0\right) e^{-\frac{\sigma y}{2} - \frac{2}{\sigma^2 x}\left(e^{\frac{\sigma y}{2}} - 1\right)^2 + \frac{y^2}{2t}}. \qquad\text{(4.6)}
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1075, Remark 4.3**
+
+*Remark 4.3* We stress that here we work with Laplace transforms with respect to the probability measure, not with respect to the time variable. $\square$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1075, operators 𝒯_{t,y}**
+
+To facilitate the calculation of $\mathscr{L}_{t,y}(u)$, we now define the family of operators $\mathscr{T}_{t,y}$, $y \in \mathbb{R}$, to act on continuous functions $\varphi : \mathbb{R}_{++} \to \mathbb{R}$ according to the rule
+
+$$
+(\mathscr{T}_{t,y}\varphi)(x) := \varphi\!\left(x e^{-\frac{\sigma y}{2}}\right) e^{-\frac{\sigma y}{2} - \frac{2}{\sigma^2 x}\left(e^{\frac{\sigma y}{2}} - 1\right)^2 + \frac{y^2}{2t}}, \quad x > 0.
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1076, Proposition 4.4**
+
+**Proposition 4.4** The density $x \mapsto \phi_{t,\sigma}(x \mid 0)$ can be identified as the unique function $x \mapsto \varphi(x)$ that has the property $\int_{0}^{\infty} \mathscr{T}_{t,y}\varphi(x)\,\mathrm{d}x = 1$ for all $y \in \mathbb{R}$.
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1076, Theorem 4.5**
+
+**Theorem 4.5** For fixed $t > 0$ and $\sigma > 0$, the Laplace transform of the conditional law
+
+$$
+\frac{1}{\mathrm{d}x}\,\mathbb{P}\!\left[\left(\int_0^t e^{\sigma W_s}\,\mathrm{d}s\right)^{-1} \in \mathrm{d}x \,\middle|\, W_t = y\right], \quad x > 0,\, y \in \mathbb{R},
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), pp. 1077–1079, moments of higher order**
+
+The calculation of moments of higher order is possible—especially if delegated to computer algebra. By way of an example, the Sage program gives the expansion
+
+$$
+\begin{aligned}
+\mathscr{L}_{t,0}(u) \\
+= {}& \frac{1}{810967336058880000}\left(\frac{171460800\,\sigma^{18}}{t} + \frac{3168117684\,\sigma^{16}}{t^2}\right. \\
+&\quad + \frac{26520488325\,\sigma^{14}}{t^3} + \frac{132024741590\,\sigma^{12}}{t^4} + \frac{430791891075\,\sigma^{10}}{t^5} \\
+&\quad + \frac{955555260660\,\sigma^{8}}{t^6} + \frac{1440985946400\,\sigma^{6}}{t^7} + \frac{1424690467200\,\sigma^{4}}{t^8} \\
+&\quad \left.+ \frac{838053216000\,\sigma^{2}}{t^9} + \frac{223480857600}{t^{10}}\right) u^{10} \\
+&- \frac{1}{1067062284288000}\left(\frac{2116800\,\sigma^{16}}{t} + \frac{38798964\,\sigma^{14}}{t^2} + \frac{317833445\,\sigma^{12}}{t^3}\right. \\
+&\quad + \frac{1520066730\,\sigma^{10}}{t^4} + \frac{4642833195\,\sigma^{8}}{t^5} + \frac{9274945680\,\sigma^{6}}{t^6} \\
+&\quad \left.+ \frac{11835663840\,\sigma^{4}}{t^7} + \frac{8821612800\,\sigma^{2}}{t^8} + \frac{2940537600}{t^9}\right) u^{9} \\
+&+ \frac{1}{6974263296000}\left(\frac{132300\,\sigma^{14}}{t} + \frac{2400129\,\sigma^{12}}{t^2} + \frac{19114550\,\sigma^{10}}{t^3}\right. \\
+&\quad + \frac{86641555\,\sigma^{8}}{t^4} + \frac{241441200\,\sigma^{6}}{t^5} + \frac{413693280\,\sigma^{4}}{t^6} + \frac{403603200\,\sigma^{2}}{t^7} \\
+&\quad \left.+ \frac{172972800}{t^{8}}\right) u^{8}
+\end{aligned}
+$$
+
+**1078** · A. Lyasoff
+
+$$
+\begin{aligned}
+&- \frac{1}{14529715200}\left(\frac{2700\sigma^{12}}{t} + \frac{48321\sigma^{10}}{t^2} + \frac{370370\sigma^{8}}{t^3} + \frac{1556555\sigma^{6}}{t^4} + \frac{3783780\sigma^{4}}{t^5} + \frac{5045040\sigma^{2}}{t^6} + \frac{2882880}{t^7}\right) u^7 \\
+&+ \frac{1}{159667200}\left(\frac{300\sigma^{10}}{t} + \frac{5269\sigma^{8}}{t^2} + \frac{38225\sigma^{6}}{t^3} + \frac{143220\sigma^{4}}{t^4} + \frac{277200\sigma^{2}}{t^5} + \frac{221760}{t^6}\right) u^6 \\
+&- \frac{1}{604800}\left(\frac{12\sigma^{8}}{t} + \frac{205\sigma^{6}}{t^2} + \frac{1365\sigma^{4}}{t^3} + \frac{4200\sigma^{2}}{t^4} + \frac{5040}{t^5}\right) u^5 \\
+&+ \frac{1}{13440}\left(\frac{3\sigma^{6}}{t} + \frac{49\sigma^{4}}{t^2} + \frac{280\sigma^{2}}{t^3} + \frac{560}{t^4}\right) u^4 - \frac{1}{360}\left(\frac{\sigma^{4}}{t} + \frac{15\sigma^{2}}{t^2} + \frac{60}{t^3}\right) u^3 \\
+&+ \frac{1}{24}\left(\frac{\sigma^{2}}{t} + \frac{12}{t^2}\right) u^2 - \frac{u}{t} + 1 + \mathcal{O}(u^{11}).
+\end{aligned}
+$$
+
+From the last expansion, one can easily obtain the values for
+
+$$
+\mathbb{E}\left[\left(\int_{0}^{t} e^{\sigma W_s}\,\mathrm{d}s\right)^{-p} \,\middle|\, W_t = 0\right]
+$$
+
+with $p = 0, 1, \ldots, 10$ (we use Sage again) as
+
+$$
+\begin{aligned}
+&1,\quad \frac{1}{t},\quad \frac{\sigma^2}{12t} + \frac{1}{t^2},\quad \frac{\sigma^4}{60t} + \frac{\sigma^2}{4t^2} + \frac{1}{t^3},\quad \frac{3\sigma^6}{560t} + \frac{7\sigma^4}{80t^2} + \frac{\sigma^2}{2t^3} + \frac{1}{t^4}, \\
+&\frac{\sigma^8}{420t} + \frac{41\sigma^6}{1008t^2} + \frac{13\sigma^4}{48t^3} + \frac{5\sigma^2}{6t^4} + \frac{1}{t^5},\quad \frac{5\sigma^{10}}{3696t} + \frac{479\sigma^8}{20160t^2} + \frac{695\sigma^6}{4032t^3} + \frac{31\sigma^4}{48t^4} + \frac{5\sigma^2}{4t^5} + \frac{1}{t^6}, \\
+&\frac{15\sigma^{12}}{16016t} + \frac{59\sigma^{10}}{3520t^2} + \frac{37\sigma^8}{288t^3} + \frac{311\sigma^6}{576t^4} + \frac{21\sigma^4}{16t^5} + \frac{7\sigma^2}{4t^6} + \frac{1}{t^7}, \\
+&\frac{7\sigma^{14}}{9152t} + \frac{266681\sigma^{12}}{19219200t^2} + \frac{4201\sigma^{10}}{38016t^3} + \frac{17311\sigma^8}{34560t^4} + \frac{67\sigma^6}{48t^5} + \frac{287\sigma^4}{120t^6} + \frac{7\sigma^2}{3t^7} + \frac{1}{t^8}, \\
+&\frac{7\sigma^{16}}{9724t} + \frac{63397\sigma^{14}}{4804800t^2} + \frac{3739217\sigma^{12}}{34594560t^3} + \frac{32753\sigma^{10}}{63360t^4} + \frac{2021\sigma^8}{1280t^5} + \frac{757\sigma^6}{240t^6} + \frac{161\sigma^4}{40t^7} + \frac{3\sigma^2}{t^8} + \frac{1}{t^9},
+\end{aligned}
+$$
+
+$$
+\frac{567\sigma^{18}}{739024\,t} + \frac{1543917\sigma^{16}}{108908800\,t^2} + \frac{364919\sigma^{14}}{3075072\,t^3} + \frac{5839219\sigma^{12}}{9884160\,t^4} + \frac{21713\sigma^{10}}{11264\,t^5}
+$$
+
+$$
++ \frac{5473\sigma^{8}}{1280\,t^6} + \frac{619\sigma^{6}}{96\,t^7} + \frac{51\sigma^{4}}{8\,t^8} + \frac{15\sigma^{2}}{4\,t^9} + \frac{1}{t^{10}}.
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1079, Remark 4.6**
+
+**Remark 4.6** It is now clear that the striking identity discovered by Donati-Martin et al. [8] is a special case of a perhaps even more striking feature: The conditional moments of $\mathbb{E}\bigl[(\int_0^t e^{\sigma W_s}\,\mathrm{d}s)^{-p} \mid W_t = 0\bigr]$ can be written as homogeneous polynomials of degree $p$ from the variables $\sigma^2$ and $\frac{1}{t}$ with leading term $\frac{1}{t^p}$ and final term equal to const. $\frac{\sigma^{2(p-1)}}{t}$, for $p \geq 2$.
+
+</div>

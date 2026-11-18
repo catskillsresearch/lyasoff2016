@@ -1,1 +1,0 @@
-Contour-equation integrand (5.3) on the lower edge u ↦ u − ia. It declares 1 item (1 def).

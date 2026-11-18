@@ -1,0 +1,23 @@
+Mathematical English for `YorKernel.lean` (Lean names in typewriter).
+
+**Definition** (`Jm`). `m`-th formal derivative of the Hartman–Watson integral kernel: `Jm t m r = (-1)^m ∫₀^∞ (cosh u)^m exp(-u²/(2t) - r cosh u) sinh u sin(π u / t) du`.
+
+**Lemma** (`integrableOn_cosh_pow_exp_neg_quad_mul_sinh`). Integrability of `(cosh u)^m * exp(-u²/(2t)) * sinh u` on `Ioi 0`.
+
+**Lemma** (`Jm_continuousOn`). `Jm t m` is continuous on `[0, ∞)` for every `t > 0, m : ℕ`.
+
+**Lemma** (`hasDerivAt`). Derivative of `Jm t m` on `(0, ∞)` is `Jm t (m + 1)`.
+
+**Lemma** (`Jm_contDiffOn`). `Jm t m` is `C^k` on `(0, ∞)` for every `k, m : ℕ`.
+
+**Lemma** (`iteratedDeriv_Jm`). Iterated derivative of `Jm t 0` at `r > 0` equals `Jm t k r`.
+
+**Lemma** (`Jm_zero_eq_zero`). Every derivative of the Hartman–Watson kernel vanishes at `r = 0`: `Jm t m 0 = 0`.
+
+**Lemma** (`Jm_exp_decay`). Exponential decay of `Jm t m r` for `r ≥ 0`.
+
+**Lemma** (`Jm_poly_decay`). Polynomial vanishing of `Jm t m r` as `r → 0⁺` for every `m, N : ℕ`.
+
+**Lemma** (`Jm_bound`). Combined kernel bound: `|Jm t m r| ≤ C * r^N * exp(-r / 2)` for all `r ≥ 0` and `m, N : ℕ`.
+
+Supporting declarations without a docstring: `integral_exp_linear_quad_sin_eq_zero`.

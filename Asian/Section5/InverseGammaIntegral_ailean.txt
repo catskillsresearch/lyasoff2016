@@ -1,0 +1,17 @@
+Mathematical English for `InverseGammaIntegral.lean` (Lean names in typewriter).
+
+**Theorem** (`integrableOn_inv_pow_exp_neg_div`). The inverse-Gamma kernel with integer shape is integrable on `(0, ∞)`.
+
+**Theorem** (`integral_inv_pow_exp_neg_div`). The inverse-Gamma normalization integral for integer shape `p - 1`.
+
+**Theorem** (`integrableOn_exp_neg_div_mul_inv_pow_exp_neg_div`). Laplace multiplication only shifts the inverse-Gamma scale parameter. This is the one-dimensional `x` integral used after expanding (5.4).
+
+**Theorem** (`integral_exp_neg_div_mul_inv_pow_exp_neg_div`). The shifted inverse-Gamma integral: `∫₀∞ exp (-v/x) x⁻ᵖ exp (-c/x) dx = (p-2)! / (v+c)^(p-1)`.
+
+**Theorem** (`integral_exp_neg_div_mul_one_div_pow_exp_neg_div`). Paper-shaped version of the shifted inverse-Gamma integral, using `1 / x^p`.
+
+**Theorem** (`integral_inv_pow_cexp_neg_div`). Complex inverse-Gamma normalization: `∫₀∞ x⁻ᵖ exp (-c/x) dx = (p-2)! / c^(p-1)` for `0 < re c`.
+
+**Theorem** (`integrableOn_inv_pow_cexp_neg_div`). Integrability companion to `integral_inv_pow_cexp_neg_div`.
+
+Supporting declarations without a docstring: `integrableOn_pow_mul_cexp_neg`, `integral_pow_mul_cexp_neg`.

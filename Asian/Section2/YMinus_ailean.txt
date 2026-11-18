@@ -1,0 +1,7 @@
+Mathematical English for `YMinus.lean` (Lean names in typewriter).
+
+**Definition** (`yMinus`). Lower inverse branch `y_-(v, a) = log(a - √(a² - (1 + 2v)))`.
+
+**Lemma** (`sqrt_sq_sub_lt_self`). Helper: on the branch domain, `√(a² - (1+2v)) < a`.
+
+Supporting declarations without a docstring: `contDiffOn`, `yMinus`, `image_Iio_yCrit`, `charA`.

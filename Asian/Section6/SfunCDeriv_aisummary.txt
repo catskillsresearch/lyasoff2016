@@ -1,0 +1,1 @@
+The Leibniz rule `∂_k S_{k,p}(A) = S'_{k,p}(A)` for `p ≥ 3` and `ℜ A > 0`, proved by rewriting `S_{k,p}` over the fixed domain `(0, ∞)` with `(x − k)₊` and differentiating under the integral sign.

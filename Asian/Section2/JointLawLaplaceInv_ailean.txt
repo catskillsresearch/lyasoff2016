@@ -1,0 +1,9 @@
+Mathematical English for `JointLawLaplaceInv.lean` (Lean names in typewriter).
+
+**Theorem** (`jointLaw_two_laplace_inv_contDiff`). `1/x`-Laplace inversion on `(expInt W 2 0 t, W t)` for `f ∈ C_c^3(ℝ)`.
+
+**Theorem** (`jointLaw_two_laplace_inv_compact`). `1/x`-Laplace inversion on `(expInt W 2 0 t, W t)` for any `f ∈ C_c(ℝ)`.
+
+**Theorem** (`jointLaw_two_laplace_inv`). `1/x`-Laplace inversion on `(expInt W 2 0 t, W t)` for any bounded continuous `f`.
+
+Supporting declarations without a docstring: `transport_branch_eq`, `gaussianPDFReal_neg_eq`, `continuous_arcosh_charA`, `branch_eval_zero`, `jointLaw_two_laplace_inv_branch`, `poly_contDiff`.

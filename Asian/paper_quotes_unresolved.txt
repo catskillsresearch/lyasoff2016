@@ -1,0 +1,4 @@
+Paper ascriptions in Lyasoff2016/*.lean with no verbatim quote located in
+sources/lyasoff2016_vision.md (no green box is emitted for these):
+
+- Setting: p. 1061 onwards, standing assumption

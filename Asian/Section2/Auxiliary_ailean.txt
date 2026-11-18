@@ -1,0 +1,17 @@
+Mathematical English for `Auxiliary.lean` (Lean names in typewriter).
+
+**Lemma** (`integral_exp_le`). if |f| ≤ M on [0,t] and σ ≥ 0 then ∫₀ᵗ e^{σ f} ≤ t e^{σ M}.
+
+**Lemma** (`integral_exp_ge`). ∫₀ᵗ e^{σ f} ≥ t e^{-σ M}, so the reciprocal is ≤ t⁻¹ e^{σ M}.
+
+**Theorem** (`lemma_2_1`). all positive and negative integer moments of ∫₀ᵗ e^{σ W_s} ds are finite. PAPER NOTE: the proof writes sup|W| =ᵈ |W_t|; only one-sided max equals |W_t| in law. Use e^{σ sup|W|} ≤ e^{σ sup W} + e^{σ sup(-W)} instead. Positive moments: Hölder + Fubini + Gaussian mgf (no reflection). Negative moments: integral_exp_ge + moments of the running max.
+
+**Definition** (`IsInftyDensity`). density of ∫₀^∞ e^{σ W_s + ν s} ds.
+
+**Theorem** (`scaling_relations_posPart`). with B_s = σ W_{s/σ²} (again a Brownian motion, `IsBrownianReal.smul`) one has (∫₀ᵗ e^{B}, B_t) = (σ² ∫₀^{t/σ²} e^{σW}, σ W_{t/σ²}); pushing the laws forward under (x,y) ↦ (σ²x, σy) gives the Jacobians σ⁻³ / σ⁻², and continuous functions agreeing a.e. agree everywhere. `IsJointDensity`, `IsCondDensity`, `IsInftyDensity` only constrain `ENNReal.ofReal ∘ φ`, i.e. the positive part of `φ`, so this is exactly the pointwise statement the hypotheses of `scaling_relations` determine. Proved in full (`BrownianScaling.lean`).
+
+**Theorem** (`scaling_relations`). Brownian scaling relates densities at σ = 1 and general σ. Hypothesis: the named densities are continuous nonnegative versions (Prop. 2.2), so a.e. identities from the law of `s ↦ σ W_{s/σ²}` upgrade to pointwise ones. PAPER NOTE: nonnegativity is required for the unsigned pointwise form (`scaling_relations_unsigned_obstruction`); densities are nonnegative by construction.
+
+**Theorem** (`girsanov_density`). adding drift μ shifts the joint density by an exponential Girsanov factor. Continuous nonnegative versions of the densities are assumed so a.e. identities become pointwise. PAPER NOTE: nonnegativity as in `scaling_relations`.
+
+Supporting declarations without a docstring: `prop_2_2`, `scaling_relations_of_nonneg`, `scaling_relations_unsigned_obstruction`, `girsanov_density_unsigned_obstruction`.

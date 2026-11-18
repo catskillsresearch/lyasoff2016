@@ -1,0 +1,1 @@
+The distributional Fokker–Planck identity for `(∫₀ᵗ e^{2W_s} ds, W_t)` at a fixed Laplace parameter `u`, tested against `C_c³` functions of `y`. It also proves the measurability and continuity of the exponential integral that the identity needs.

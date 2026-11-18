@@ -1,0 +1,1 @@
+An expected Itô formula for smooth functionals of `(∫₀ᵗ a(B_s) ds, B_t)` along a continuous pre-Brownian motion, proved through Riemann sums of the path integral and square-integrability of the running maximum of `e^{cB}`.

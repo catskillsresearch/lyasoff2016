@@ -1,0 +1,1 @@
+The Asian complex integrand `F_{t,σ,μ,k}(u, w) = B(w) C(u, w) g_{σ²t,4}(u − iπ/2) S_{k,4}(u, w)` from p. 1091, with `g_{t,4}` taken from (5.8).

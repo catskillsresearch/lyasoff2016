@@ -1,1 +1,0 @@
-Distributional Fokker–Planck equation and inverse-argument Laplace transform for `(∫₀ᵗ e^{2 W_s} ds, W_t)`. It declares 2 items (1 lemma, 1 theorem).

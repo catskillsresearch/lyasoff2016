@@ -1,0 +1,1 @@
+The perpetuity `∫₀^∞ e^{σx_s + νs} ds` as a measurable functional of the continuous path.

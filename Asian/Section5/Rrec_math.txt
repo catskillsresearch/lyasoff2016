@@ -1,0 +1,49 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), pp. 1080–1082, (5.6), (5.7), (5.8)**
+
+where
+
+$$
+R_{t,p}(y) := \frac{1}{(p-2)!} \lim_{z \to y} \frac{\mathrm{d}^{p-2}}{\mathrm{d}z^{p-2}} \left( \frac{(z-y)^{p-1} g_{t,p}(z)}{(\cosh z - \cosh y)^{p-1}} \sinh z \right). \qquad\text{(5.6)}
+$$
+
+$$
+R_{t,p}(y) = \frac{1}{(p-2)\sinh y}\frac{d}{dy} R_{t,p-1}(y), \quad R_{t,2}(y) = g(y), \quad y \in \mathbb{R}. \qquad\text{(5.7)}
+$$
+
+$$
+\begin{aligned}
+g_{t,2}(y) &= \frac{1}{4\pi i} e^{-2\frac{y^2}{t}}, \quad y \in \mathbb{R}, \\
+g_{t,3}(y) &= e^{t/8} \frac{\sqrt{t}}{4i\sqrt{2\pi}} \left( \mathrm{erf}\left( \frac{t+4y}{2\sqrt{2t}} \right) + \mathrm{erf}\left( \frac{t-4y}{2\sqrt{2t}} \right) \right), \quad y \in \mathbb{R}, \\
+g_{t,4}(y) &= e^{t/2} \frac{\sqrt{t}}{2i\sqrt{2\pi}} \left( \mathrm{erf}\left( \frac{t+2y}{\sqrt{2t}} \right) + \mathrm{erf}\left( \frac{t-2y}{\sqrt{2t}} \right) \right) \\
+&\quad - e^{t/8} \cosh y \frac{\sqrt{t}}{i\sqrt{2\pi}} \left( \mathrm{erf}\left( \frac{t+4y}{2\sqrt{2t}} \right) + \mathrm{erf}\left( \frac{t-4y}{2\sqrt{2t}} \right) \right), \quad y \in \mathbb{R}. \qquad\text{(5.8)}
+\end{aligned}
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), pp. 1080–1082, (5.5), (5.7), (5.8)**
+
+The only remaining task is to establish precisely how the contour $\zeta$ and the function $z \mapsto g_{t,p}(z)$ can be engineered to solve (5.3). To start with this program, notice first that if $\zeta$ is a closed contour that bounds a region $\Omega$ which contains the entire real line $\mathbb{R}$, and if the function $\zeta \ni z \mapsto g_{t,p}(z)$ has an analytic extension to the entire domain $\Omega$, the calculus of residues would reduce (5.3) to
+
+$$
+R_{t,p}(y) + R_{t,p}(-y) = \frac{1}{2\pi i} \frac{(-4)^{p-2}}{(p-2)!} e^{-\frac{2y^2}{t}}, \quad y \in \mathbb{R},\, p \geq 2, \qquad\text{(5.5)}
+$$
+
+$$
+R_{t,p}(y) = \frac{1}{(p-2)\sinh y}\frac{d}{dy} R_{t,p-1}(y), \quad R_{t,2}(y) = g(y), \quad y \in \mathbb{R}. \qquad\text{(5.7)}
+$$
+
+$$
+\begin{aligned}
+g_{t,2}(y) &= \frac{1}{4\pi i} e^{-2\frac{y^2}{t}}, \quad y \in \mathbb{R}, \\
+g_{t,3}(y) &= e^{t/8} \frac{\sqrt{t}}{4i\sqrt{2\pi}} \left( \mathrm{erf}\left( \frac{t+4y}{2\sqrt{2t}} \right) + \mathrm{erf}\left( \frac{t-4y}{2\sqrt{2t}} \right) \right), \quad y \in \mathbb{R}, \\
+g_{t,4}(y) &= e^{t/2} \frac{\sqrt{t}}{2i\sqrt{2\pi}} \left( \mathrm{erf}\left( \frac{t+2y}{\sqrt{2t}} \right) + \mathrm{erf}\left( \frac{t-2y}{\sqrt{2t}} \right) \right) \\
+&\quad - e^{t/8} \cosh y \frac{\sqrt{t}}{i\sqrt{2\pi}} \left( \mathrm{erf}\left( \frac{t+4y}{2\sqrt{2t}} \right) + \mathrm{erf}\left( \frac{t-4y}{2\sqrt{2t}} \right) \right), \quad y \in \mathbb{R}. \qquad\text{(5.8)}
+\end{aligned}
+$$
+
+</div>

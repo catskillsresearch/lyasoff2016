@@ -1,0 +1,15 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), pp. 1085–1086, (5.9a), (5.10a)**
+
+By using the conversion rule $\phi_{t,\sigma}(x \mid 0) = \sigma^2 \phi_{\sigma^2 t,1}(\sigma^2 x \mid 0)$ and the relation (4.6), we obtain the general formulae ($x \in \mathbb{R}$)
+
+$$
+\phi_{t,\sigma}(x \mid y) = \frac{16}{\sigma^{2p-2} x^p}\, e^{\frac{1}{2}\sigma y(p-1) + \frac{y^2}{2t} - \frac{2}{\sigma^2 x}(e^{\sigma y} + 1)} \times \int_0^{\infty} \cosh u \, \mathfrak{R}\!\left(i\, e^{-i \frac{4}{\sigma^2 x} e^{\sigma y/2} \sinh u}\, g_{\sigma^2 t,p}(u - i\pi/2)\right) du, \qquad\text{(5.9a)}
+$$
+
+$$
+\phi_{t,\sigma}(x, y) = \frac{16}{\sigma^{2p-2} x^p \sqrt{2\pi t}}\, e^{\frac{1}{2}\sigma y(p-1) - \frac{2}{\sigma^2 x}(e^{\sigma y} + 1)} \times \int_0^{\infty} \cosh u \, \mathfrak{R}\!\left(i\, e^{-i \frac{4}{\sigma^2 x} e^{\sigma y/2} \sinh u}\, g_{\sigma^2 t,p}(u - i\pi/2)\right) du, \qquad\text{(5.10a)}
+$$
+
+</div>

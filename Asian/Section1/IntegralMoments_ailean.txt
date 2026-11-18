@@ -1,0 +1,15 @@
+Mathematical English for `IntegralMoments.lean` (Lean names in typewriter).
+
+**Lemma** (`intervalIntegral_pow_le`). Hölder/Jensen bound for a nonnegative function on a positive interval.
+
+**Theorem** (`expInt_pow_integrable`). Positive integer moments of finite-horizon exponential Brownian integrals are integrable.
+
+**Lemma** (`bddAbove_range_Iic_of_continuous`). A continuous function on `ℝ≥0` is bounded above on the compact `[0, t]`.
+
+**Lemma** (`ciSup_Iic_eq_iSup_denseSeq`). For a continuous function, the supremum over `[0, t]` is a countable supremum along a dense sequence (clamped to `[0, t]`). This is what makes the running maximum measurable.
+
+**Lemma** (`expInt_memLp_two_of_preBrownian`). The pathwise time integral of `exp (c * B)` is in `L²` (in particular a.e. measurable).
+
+**Lemma** (`integrable_sqrt_iSup_exp_preBrownian`). **Exponential moments of the running maximum of Brownian motion** (in square-root form). For a pre-Brownian motion with continuous paths, `s ↦ exp (θ B_s)` is a nonnegative continuous submartingale, so Doob's maximal inequality gives the weak-type tail bound `ε P(sup_{s ≤ t} exp (θ B_s) ≥ ε) ≤ E[exp (θ B_t)]`; the layer-cake formula then yields integrability of the square root of the running supremum.
+
+**Theorem** (`expInt_zpow_neg_integrable`). Negative integer moments of finite-horizon exponential Brownian integrals are integrable. Scaffold: Doob maximal inequality on `s ↦ exp(θ B_s)` + layer cake ⇒ exponential moments of `⨆_{s≤t} B_s` (and of `-B`); then `integral_exp_ge` upgrades to `(expInt)^{-p}`.

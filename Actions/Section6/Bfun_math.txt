@@ -1,1 +1,0 @@
-**Lyasoff (2016), p. 1090, display defining B(w): B(w) := 2 w^{2μ/σ² − 1} e^{μ² t/(2σ²)} / σ**

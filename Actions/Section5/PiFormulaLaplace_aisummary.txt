@@ -1,1 +1,0 @@
-Constructive Laplace-transform facts for the π-formula. It declares 9 items (4 lemmas, 5 theorems).

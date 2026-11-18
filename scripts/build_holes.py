@@ -512,7 +512,7 @@ def write_md(data: dict) -> None:
         "",
         "**Live board:** [`holes.html`](holes.html) (graph embedded; open the file directly).",
         "",
-        "**Completed proof writeup:** [`Actions.md`](Actions.md) (paper-facing narrative).",
+        "**Completed proof writeup:** [`Asian.md`](Asian.md) (paper-facing narrative).",
         "",
         "```bash",
         "python3 scripts/build_holes.py   # refreshes HOLES.md, holes-graph.json, embeds into holes.html",
@@ -523,7 +523,7 @@ def write_md(data: dict) -> None:
     ]
     if not open_n:
         lines.append(
-            "_None — every paper-facing hole is done. Browse the formalization in [`Actions.md`](Actions.md)._"
+            "_None — every paper-facing hole is done. Browse the formalization in [`Asian.md`](Asian.md)._"
         )
     else:
         lines.append("| Id | Label | File |")

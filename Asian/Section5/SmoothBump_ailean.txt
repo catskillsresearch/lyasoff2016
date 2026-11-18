@@ -1,0 +1,5 @@
+Mathematical English for `SmoothBump.lean` (Lean names in typewriter).
+
+**Definition** (`smoothBump`). Smooth bump equal to `1` on `[b, c]` and `0` outside `(a, d)`, for `a < b ≤ c < d`.
+
+Supporting declarations without a docstring: `contDiff`, `mem_Icc`, `one_of_mem`, `zero_of_not_mem`, `hasCompactSupport`.

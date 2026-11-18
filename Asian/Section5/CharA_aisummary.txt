@@ -1,0 +1,1 @@
+The characteristic invariant `A(v, y) = cosh y + v e^{−y}` of the transport equation, with its derivatives, critical point, and monotonicity on either side of it.

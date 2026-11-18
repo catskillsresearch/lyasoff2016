@@ -1,0 +1,15 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1075, K₁ identity**
+
+$$
+\frac{h_t(x)}{C_t(x)} = \int_{-\infty}^{\infty} e^{-\frac{u}{2} - \frac{4}{x}\cosh\frac{u}{2}}\,\mathrm{d}u = 2\int_{-\infty}^{\infty} e^{-u - \frac{4}{x}\cosh u}\,\mathrm{d}u
+$$
+
+$$
+= 4\int_0^{\infty} e^{-\frac{4}{x}\cosh u}\cosh u\,\mathrm{d}u = 4K_1\!\left(\frac{4}{x}\right),
+$$
+
+where $K_1$ stands for the modified Bessel function of the second kind.
+
+</div>

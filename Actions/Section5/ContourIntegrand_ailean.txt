@@ -1,3 +1,0 @@
-Mathematical English for `ContourIntegrand.lean` (Lean names in typewriter).
-
-**Definition** (`contourIntegrand`). p. 1080, (5.3), the integrand of the contour equation on the lower edge u ↦ u − ia of the contour ζ_a (p. 1082): g_{t,p}(u − ia) sinh(u − ia) / (cosh(u − ia) − cosh y)^{p−1}.

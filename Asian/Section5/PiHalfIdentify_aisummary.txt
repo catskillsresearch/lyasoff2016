@@ -1,0 +1,1 @@
+Identification of the order-two π/2-formula with the π-formula, and hence with Yor's density. Matches the cosine integral of (5.10a) with the sine integral of (5.10b) after the Gaussian phase shift of `g_{t,2}`, then reparametrises to all `σ`.

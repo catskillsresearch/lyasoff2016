@@ -1,0 +1,19 @@
+Mathematical English for `ExpectedIto.lean` (Lean names in typewriter).
+
+**Lemma** (`timeMeasure_Ioc_eq_intervalIntegral`). For a continuous function `g : ℝ≥0 → ℝ` and `s : ℝ≥0`, the `Ioc 0 s` integral against `ItoIntegralL2.timeMeasure` equals the interval integral `∫ r in 0..(s : ℝ), g r.toNNReal`.
+
+**Lemma** (`measurable_pathIntegral_natFiltration`). Pathwise integral `A s ω = ∫ r in 0..(s : ℝ), a (B r.toNNReal ω)` is adapted to the natural filtration of `B` when `B` has continuous paths and measurable marginals.
+
+**Lemma** (`two_mul_abs_mul_le`). Elementary AM-GM bound: for `δ > 0` and any `u, v : ℝ`, `2 * |u| * |v| ≤ δ * u ^ 2 + δ⁻¹ * v ^ 2`.
+
+**Lemma** (`two_mul_abs_cube_le`). Cubic bound via quadratic and quartic powers: for `δ > 0` and any `u : ℝ`, `2 * |u| ^ 3 ≤ δ * u ^ 2 + δ⁻¹ * u ^ 4`.
+
+**Lemma** (`continuous_pathIntegral_nnreal`). Continuity of `s ↦ ∫ r in 0..(s : ℝ), g r.toNNReal` for continuous `g : ℝ≥0 → ℝ`.
+
+**Lemma** (`tendsto_sum_mul_increment_path`). Convergence of the weighted path-integral sum `∑ F_x(A_{t_k}, B_{t_k}) (A_{t_{k+1}} - A_{t_k})` for a single path.
+
+**Theorem** (`expected_ito_integral_path`). **Expected Itô formula for `(A_t, B_t)`** where `A_t = ∫₀ᵗ a(B_s) ds` and `B` is a continuous pre-Brownian motion with `B 0 = 0` a.s. For `F(x, y)` of class `C^{2,3}` (with `F_yy` jointly continuous and all partials bounded on `ℝ × ℝ`) and `E[(sup_{s ≤ T} |a(B_s)|)^2] < ∞`, `E[F(A_t, B_t)] - F 0 0 = ∫₀ᵗ E[F_x(A_s, B_s) * a(B_s) + (1/2) * F_yy(A_s, B_s)] ds`.
+
+**Lemma** (`integrable_sq_iSup_exp_preBrownian`). Helper: for any `c : ℝ`, `⨆ i : Iic T, |Real.exp (c * B i ω)|` is square-integrable for a continuous pre-Brownian motion `B`.
+
+Supporting declarations without a docstring: `measurable_of_tendsto_real'`.

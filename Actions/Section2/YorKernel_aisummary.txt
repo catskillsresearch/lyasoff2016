@@ -1,1 +1,0 @@
-Smoothness and rapid decay at `0` and `∞` of the Hartman–Watson integral kernel. It declares 10 items (1 def, 9 lemmas).

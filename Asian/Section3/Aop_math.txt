@@ -1,0 +1,11 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1069, operator 𝒜_t**
+
+Due to the time-reversibility feature (1.3), nothing will change in (3.4b) if throughout this equation, the symbol “$Y$” is replaced with the symbol “$X$”. In our next step, we define the differentiation operator
+
+$$
+\mathscr{A}_t(x, y; u, v) := \frac{1}{2}u^2 \frac{\partial^2}{\partial x^2} + u \frac{\partial^2}{\partial x\,\partial y} + \left(\frac{1}{2}v + V(0) - V(y)\right) \frac{\partial}{\partial x},
+$$
+
+</div>

@@ -1,0 +1,15 @@
+Mathematical English for `ContourEq.lean` (Lean names in typewriter).
+
+**Definition** (`contourEq`). ζ_a is the boundary of the strip {|ℑ z| < a}; since g_{t,p}(z̄) = −conj g_{t,p}(z) the upper edge contributes the conjugate of the lower one, leaving twice the real part. This is the only condition imposed on g_{t,p} (footnote 9). The integrand is also required to be integrable (pp. 1084–1085). PAPER NOTE: earlier versions of `contourEq` took a density `φc` and equated `laplaceCond φc y ξ` with `0`, resp. with `∫ ℜ((−4/ξ)^{p−1} · contourIntegrand)`. Neither is in the paper, and both are false for a genuine conditional density (at ξ = 0 they give `∫ φc(x|y) dx = 0`). (5.3) involves no density: it is a statement about g_{t,p}, the contour ζ_a and y only.
+
+**Lemma** (`integral_re_eq`). The integral of the real part is the real part of the integral.
+
+**Theorem** (`two`). Contour equation for `p = 2`.
+
+**Theorem** (`three`). Contour equation for `p = 3`.
+
+**Theorem** (`four`). Contour equation for `p = 4`.
+
+**Theorem** (`g_solves_contour_equation`). Contour/residue identity (Lyasoff pp. 1082–1085).
+
+Supporting declarations without a docstring: `integrand_two`, `integrand_three`, `integrand_four`.

@@ -1,1 +1,0 @@
-Lower inverse branch `y_-(v, a)` of the characteristic `A`. It declares 6 items (1 def, 1 lemma, 4 theorems).

@@ -1,0 +1,1 @@
+The smooth cutoff `expInvCut u x = e^{−u/x}` for `x > 0` and `0` otherwise, with its first three derivatives, bounds `x^{−k} e^{−u/x} ≤ k!/u^k`, and continuity. It is the test function behind the inverse-argument Laplace transform.

@@ -1,0 +1,7 @@
+Mathematical English for `PathMeasurable.lean` (Lean names in typewriter).
+
+**Theorem** (`measurable_pathSetIntegral`). The time-set integral `∫_S V s (x s) ds` is a measurable functional on path space.
+
+**Theorem** (`measurable_pathSup`). The running maximum over `[0, t]` is a measurable functional on path space.
+
+**Theorem** (`measurable_pathIntegral`). The time integral `∫₀ᵗ V s (x s) ds` is a measurable functional on path space.

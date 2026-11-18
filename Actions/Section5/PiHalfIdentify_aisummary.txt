@@ -1,1 +1,0 @@
-Constructive identification of the π/2-formula with the π-formula (and hence with Yor). It declares 9 items (2 lemmas, 7 theorems).

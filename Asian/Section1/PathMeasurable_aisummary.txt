@@ -1,0 +1,1 @@
+Measurability on path space of the functionals used throughout: time integrals `∫₀ᵗ V(s, x_s) ds`, set integrals, and the running maximum over `[0, t]`.

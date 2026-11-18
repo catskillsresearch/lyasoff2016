@@ -1,1 +1,0 @@
-Gaussian decay of g_{t,p} along horizontal lines u ↦ u − ia, and the resulting absolute. It declares 19 items (13 lemmas, 6 theorems).

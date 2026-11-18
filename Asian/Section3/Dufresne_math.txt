@@ -1,0 +1,31 @@
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1068, (3.3)**
+
+arrive at the formula
+
+$$
+\psi_{\sigma,\nu}(x) = \frac{\sigma^{\frac{4\nu}{\sigma}}}{4^{\nu/\sigma}\,\Gamma\!\left(-\frac{2\nu}{\sigma}\right)}\,e^{-\frac{2}{x\sigma^2}}\,x^{\frac{2\nu}{\sigma}-1}, \qquad x \in \mathbb{R}_{++},\; \nu < 0,\; \sigma > 0. \qquad\text{(3.3)}
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1067, Fokker–Planck equation for ψ_{σ,ν}**
+
+Consequently, the density $\psi_{\sigma,\nu}(x)$, which is also the density of the random variable $Z_t$ for any fixed $t \in \mathbb{R}_+$, must solve the Fokker–Planck equation
+
+$$
+\frac{\partial}{\partial x} \left( \frac{\sigma^2}{2} \frac{\partial}{\partial x}\bigl(x^2 \psi_{\sigma,\nu}(x)\bigr) - \left( 1 + \left( \nu\sigma + \frac{\sigma^2}{2} \right) x \right) \psi_{\sigma,\nu}(x) \right) = 0.
+$$
+
+</div>
+
+<div class="sourcequote" style="border:1px solid #2f7d57; background:#eef7f1; border-radius:4px; padding:0.1em 0.9em; margin:0.7em 0;">
+
+**Lyasoff (2016), p. 1068, Remark 3.1**
+
+*Remark 3.1* The above formula can be traced back to Pollak and Siegmund [25, Proposition 3], where it is established in the special case $\nu = -\frac{1}{2}\sigma$. In its present form, it was first derived by Dufresne [11] by using an entirely different method. Since then, a number of other derivations have emerged: Yor [34], Bertoin and Yor [3, (16)], Matsumoto and Yor [22, p. 334], Baudoin and O'Connell [2, (6)], etc. Except for [2], which relies on the features of the Laplace transform of the integral, the consensus strategy appears to be to derive the law of the integral over infinite time as the limit of the law of the integral over finite time,[^3] which in turn can be identified in law with a diffusion process that has the same dynamics as the process $Z$ (one can write the same SDE for both) and shares the same generator as the one in (3.2). The shortcut in the foregoing is in the explicit construction of a process ($Z$ from equation (3.1)) that already *is* stationary (immediately after it starts at $t = 0$), has the same law (for any fixed $t$, including $t = 0$) as the integral taken at infinite time period, and is subject to a Markovian dynamics described in terms of a concrete generator ($\mathcal{L}$ from equation (3.2)). This allows us to circumvent the passing-to-the-limit step in the argument, and to immediately conclude that the “running” (as opposed to the “limiting”) density of the already stationary process must solve the associated Fokker–Planck equation, without the need to invoke any tools from diffusion theory in order to justify the ergodicity feature and connect the infinitesimal generator with the limiting law.[^4]
+
+</div>

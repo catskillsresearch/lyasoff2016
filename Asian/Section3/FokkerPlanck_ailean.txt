@@ -1,0 +1,121 @@
+Mathematical English for `FokkerPlanck.lean` (Lean names in typewriter).
+
+**Theorem** (`ae_integrableOn_exp_bm`). for σ > 0 and ν < 0, almost every path s ↦ e^{σ W_s + ν s} is Lebesgue integrable on (0, ∞), because W_s / s → 0 a.s.
+
+**Theorem** (`infinite_integral_finite`). for σ > 0 and ν < 0 the improper integral ∫₀^∞ e^{σW+νs} is a.s. finite.
+
+**Theorem** (`isBrownianReal_map_pathFunctional_eq`). Any two Brownian motions induce the same law for a measurable functional of the continuous path. `F` and `G` are random variables that coincide (a.s.) with `Φ` evaluated at any continuous path agreeing with `W`, resp. `B`.
+
+**Theorem** (`indepFun_path_of_ae_eq`). Independence of two processes (in the product σ-algebra of `ℝ≥0 → ℝ`) transfers to any `C(ℝ≥0, ℝ)`-valued versions of them.
+
+**Theorem** (`integral_Ioi_exp_split`). Deterministic Markov-type decomposition of the perpetuity at time `t`: `∫₀^∞ e^{σ w_s + ν s} ds = ∫₀ᵗ e^{σ w_s + ν s} ds + e^{σ w_t + ν t} ∫₀^∞ e^{σ (w_{t+s} − w_t) + ν s} ds`.
+
+**Theorem** (`Z_stationary_consistent`). with the *same* drift ν in the perpetuity and in the perturbation, i.e. Z_t = e^{νt − σB_t} (∫₀^∞ e^{σW_s+νs} ds + ∫₀ᵗ e^{−νs+σB_s} ds), Z_t has the law of ∫₀^∞ e^{σW_s+νs} ds for every t. Proof: `β_u = B_{t−u} − B_t` (negated time reversal of B) is a BM independent of W and Z_t = ∫₀ᵗ e^{σβ_u+νu} du + e^{σβ_t+νt} A_∞(W); by the weak Markov property the perpetuity of a single BM has the same decomposition with the same joint law of the ingredients.
+
+**Theorem** (`Z_stationary`). Z_t has the same law as ∫₀^∞ e^{σW+νs} ds.
+
+**Theorem** (`ae_perpetuity_pos`). The Dufresne perpetuity is strictly positive a.s.: continuous paths make the integrand bounded below by a positive constant on `[0,1]`, so the improper integral is positive.
+
+**Theorem** (`aemeasurable_perpetuity`). The map `ω ↦ ∫₀^∞ e^{W_s+νs} ds` is a.e. equal to `perpetuityPath ν ∘ bmPath`.
+
+**Theorem** (`pathwise_log_Z_identity`). Deterministic pathwise identity: writing `Y_t = A + ∫₀ᵗ e^{-νs+B_s}` and `Z_t = e^{νt−B_t} Y_t`, one has `log Z_t − log A = νt − B_t + ∫₀ᵗ Z_s⁻¹` by ordinary calculus.
+
+**Theorem** (`ae_perpetuity_ge_expInt`). Finite-horizon lower bound: `A ≥ e^ν ∫₀¹ e^{W_s} ds` a.s. when `ν < 0`.
+
+**Theorem** (`integrable_inv_perpetuity`). Integrability of the reciprocal perpetuity: bound by the finite-horizon negative moment.
+
+**Theorem** (`integrable_BM_eval`). Brownian evaluation is integrable (Gaussian moments).
+
+**Theorem** (`integral_BM_eval`). Mean-zero property of Brownian motion.
+
+**Theorem** (`aemeasurable_Zproc`). `Zproc` is a.e. measurable (path-integral construction).
+
+**Theorem** (`integral_inv_Zproc_eq`). Reciprocal moments of `Z_t` and `A` agree by stationarity.
+
+**Theorem** (`integrable_inv_Zproc`). Slice integrability of `Z_t⁻¹` (same L¹ norm as `A⁻¹` by stationarity).
+
+**Theorem** (`integrable_uncurry_inv_Zproc`). Joint integrability of `(s, ω) ↦ Z_s(ω)⁻¹` on `(0, t] × Ω`, for Fubini.
+
+**Theorem** (`perpetuity_inv_moment`). Stationarity of `Z` plus the pathwise log identity give `E[A⁻¹] = -ν`. Uses truncated logs + DCT so that only `Integrable A⁻¹` (not `Integrable log A`) is required.
+
+**Abbreviation** (`dufresneGenerator`). Unit-volatility generator: `generator 1 ν`.
+
+**Theorem** (`dufresneGenerator_log`). Formal computation: `L(log)(x) = ν + x⁻¹` for `x > 0`.
+
+**Theorem** (`dufresneGenerator_zpow`). Formal computation: `L(y ↦ (y^k)⁻¹)(x) = (k²/2 - k ν)(x^k)⁻¹ - k (x^{k+1})⁻¹` for `x > 0`.
+
+**Theorem** (`integrable_pow_inv_perpetuity`). Integrability of all negative integer moments of the perpetuity.
+
+**Theorem** (`integral_pow_inv_Zproc_eq`). Reciprocal power moments of `Z_t` and `A` agree by stationarity.
+
+**Theorem** (`pathwise_pow_inv_Y_identity`). Pathwise FTC: derivative of `Y ↦ Y⁻ᵏ` along the finite-variation factor of `Z`.
+
+**Theorem** (`integral_wald_exp_eq_one`). Wald exponential for Brownian motion: `E[exp(α B_t − α² t / 2)] = 1`.
+
+**Theorem** (`integrable_uncurry_pow_inv_Zproc`). Joint integrability of `(s, ω) ↦ Z_s(ω)⁻ᵏ` on `(0, t] × Ω`.
+
+**Theorem** (`pathwise_Zpow_eq_wald_mul`). Algebraic identity: `Z_u^{-k} = M_u · G_u` with Wald factor `M` and FV factor `G`.
+
+**Theorem** (`pathwise_Zpow_eq_wald_H`). Pathwise Wald–log factorization: `Z_t^{-k} = A^{-k} N_t H_t` with `N` the Wald exponential and `H_t = exp(c t - k ∫₀ᵗ Z^{-1})`.
+
+**Theorem** (`pathwise_H_ftc`). Pathwise FTC for the finite-variation factor `H` in `pathwise_Zpow_eq_wald_H`.
+
+**Theorem** (`integral_Ainv_mul_wald_eq`). On the product space, `A⁻ᵏ` (from the first BM) is independent of the Wald factor `N_t = exp(k B_t − k² t/2)` (from the second BM), and `E[A⁻ᵏ N_t] = E[A⁻ᵏ]`.
+
+**Theorem** (`integral_waldIncrement_mul_Zpow_fixedA`). For fixed initial capital `A > 0`, the Wald increment after time `s` is independent of `Z_s` (which depends on `B` only through `[0, s]`), hence `E[D_{s,t} Z_s^{-m}] = E[Z_s^{-m}]`.
+
+**Theorem** (`integrable_waldIncrement_mul_Zpow`). Integrability of the Wald-increment times `Z_s^{-m}` on the product space.
+
+**Theorem** (`integral_waldIncrement_mul_Zpow`). Product-space lift: Wald increment after `s` is mean-one against `Z_s^{-m}`.
+
+**Theorem** (`integrable_pow_inv_Zproc`). Integrability of reciprocal powers of the stationary process `Z`.
+
+**Theorem** (`pathwise_Zpow_drift_identity`). Pathwise Dynkin identity: expand `Z_t^{-k} - A^{-k}` via Wald–H and the FTC for `H`.
+
+**Theorem** (`integrable_uncurry_waldIncrement_mul_Zpow`). Joint integrability of Wald-increment × `Z_s^{-m}` on `(0,1] × Q`.
+
+**Theorem** (`perpetuity_neg_moment_succ`). Generator recurrence for reciprocal moments of the unit-volatility perpetuity.
+
+**Theorem** (`perpetuity_neg_moments`). Classical reciprocal-Gamma moments of the unit-volatility perpetuity: `E[A^{-n}] = gammaMoment (-2ν) 2 n` for `A = ∫₀^∞ e^{W_s+νs} ds`. Together with `measure_eq_of_moments` and `gammaMoment.lintegral_inv_pow_igMeasure` this identifies `law(A)` with `igMeasure (-2ν) 2` (= `dufresne 1 ν`).
+
+**Theorem** (`dufresne_theorem_sigma_one`). The unit-volatility form of Dufresne's identity. This is the sole probabilistic identification needed after Brownian scaling: equivalently, the reciprocal of the integral has the Gamma law with shape `-2 * ν` and rate `2`. From `perpetuity_neg_moments`, compare the law of `A⁻¹` to the Gamma law via `measure_eq_of_moments`, then invert to conclude `P.map A = igMeasure (-2ν) 2`.
+
+**Lemma** (`continuous_expectation_jointA_path`). Expectation of a continuous bounded functional of `(expInt, B_s)` is continuous in time.
+
+**Theorem** (`joint_dynkin_Aop_product`). Dynkin identity (3.5) for product test functions. Proof outline (paper (3.5)): the product-test Itô identities (3.4a)/(3.4b) share the same LHS, so their drift-integrand difference integrates to zero on every horizon `τ ∈ (0,t]`. Pointwise that difference is `jointA` (`jointA.eq_twinGenerator_sub`). The resulting cumulative integral of `g(τ) := E[jointA(expInt_τ, W_τ)]` vanishes; continuity of `g` and FTC recover `g(t) = 0`.
+
+**Lemma** (`integral_jointLaw_eq_path`). Path expectation of a continuous functional of `(expInt, W_t)` equals the `jointLaw` integral.
+
+**Lemma** (`integral_jointLaw_eq_density`). `jointLaw` integral of continuous `H` against an `IsJointDensity` equals `∫ H · φ`.
+
+**Lemma** (`integral_deriv_eq_zero_of_hasCompactSupport`). Pure x-derivative integrates to 0 for a compactly supported C¹ function on ℝ.
+
+**Lemma** (`hasDerivAt_slice_fst`). Slice derivative in the first variable from a Fréchet derivative on `ℝ × ℝ`.
+
+**Lemma** (`hasDerivAt_slice_snd`). Slice derivative in the second variable from a Fréchet derivative on `ℝ × ℝ`.
+
+**Lemma** (`hasLineDerivAt_fst_of_slice`). A derivative of the `x`-slice is a line derivative in the direction `(1, 0)`.
+
+**Lemma** (`hasLineDerivAt_snd_of_slice`). A derivative of the `y`-slice is a line derivative in the direction `(0, 1)`.
+
+**Lemma** (`integral_eq_zero_of_hasLineDerivAt`). A directional derivative of an integrable function on the plane integrates to zero (boundary-term-free integration by parts against the constant `1`).
+
+**Lemma** (`integrable_tensor_mul`). Continuous compactly supported tensor times a continuous coefficient is integrable.
+
+**Lemma** (`jointA_product_expand`). `jointA` on a product test, grouped by derivatives of `u`.
+
+**Lemma** (`integral_jointA_product_eq_integral_adjoint_of_contDiff`). Formal adjoint IBP for product tests against a globally `C²` density. Flux form: with `ϕ = u ⊗ v`, `a = σ²x²/2`, `b = σx`, `jointA ϕ · ψ − ϕ · adjoint ψ = ∂ₓ(a ∂ₓϕ ψ − ϕ · jointFlux ψ) + ∂ᵧ(b ∂ₓϕ ψ)`, and both divergence terms integrate to zero by compact support.
+
+**Lemma** (`integral_jointA_product_eq_integral_adjoint`). Formal adjoint IBP for product tests with compact support in `jointDomain`. `∫ jointA(u⊗v) · φ = ∫ (u⊗v) · jointFokkerPlanckAdjoint(φ)`. `φ` is only smooth on the open half-plane, so it is first multiplied by an `x`-cutoff `χ` that equals `1` near `tsupport u` and vanishes near `x ≤ 0`; the cut-off density is globally `C²`, both integrands are unchanged, and the global flux-form IBP applies.
+
+**Theorem** (`weak_joint_fokker_planck_product`). Weak adjoint identity against product test functions, via `IsJointDensity`. Nonnegativity of `φ` is required so `ENNReal.ofReal ∘ φ` recovers `φ` (cf. `scaling_relations_of_nonneg` / DensityVersions).
+
+**Lemma** (`continuousOn_jointFokkerPlanckAdjoint`). C² on the open joint domain ⇒ the formal adjoint is continuous there.
+
+**Theorem** (`jointFokkerPlanckAdjoint_eq_zero`). Pointwise vanishing of the adjoint from product weak identities. Nonnegativity / measurability of `φ` are required so the weak product identity can identify path expectations with `∫ (u⊗v)·adjoint` (cf. DensityVersions).
+
+**Theorem** (`fokker_planck_joint`). the joint density φ satisfies the divergence-form PDE ∂ₓ[(σ²x²/2)∂ₓφ + σx ∂ᵧφ + (e^{σy} + σ²x/2 − 1)φ] = 0. PAPER NOTE: the skeleton placed the zeroth-order term outside ∂ₓ; restored to the paper's bracketed form (what §4 integrates in x).
+
+**Theorem** (`remark_3_2`). identity in law relating (X_t, M_t−W_t, M_t) to a reflected version.
+
+Supporting declarations without a docstring: `Z_stationary_sigma_one`, `isBM_prod_fst`, `isBM_prod_snd`, `indepFun_prod_copies`, `dufresne_theorem`, `continuous_expInt_of_continuous_path`, `measurable_expInt_of_continuous_path`.

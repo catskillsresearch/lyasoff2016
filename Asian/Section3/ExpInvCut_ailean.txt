@@ -1,0 +1,27 @@
+Mathematical English for `ExpInvCut.lean` (Lean names in typewriter).
+
+**Definition** (`expInvCut`). Smooth cutoff at `0`: `φ_u(x) = exp(-u / x)` for `x > 0` and `0` for `x ≤ 0`.
+
+**Definition** (`expInvCut₁`). Derivative of `expInvCut u`: `(u / x^2) * exp(-u / x)` for `x > 0`.
+
+**Definition** (`expInvCut₂`). Second derivative of `expInvCut u`: `(-2 u / x^3 + u^2 / x^4) * exp(-u / x)` for `x > 0`.
+
+**Definition** (`expInvCut₃`). Third derivative of `expInvCut u`: `(6 u / x^4 - 6 u^2 / x^5 + u^3 / x^6) * exp(-u / x)`.
+
+**Lemma** (`inv_pow_mul_exp_neg_div_le`). For `u > 0`, `k : ℕ`, and `x > 0`, `x^(-k) * exp(-u / x) ≤ k! / u^k`.
+
+**Lemma** (`tendsto_inv_pow_mul_exp_neg_div_zero`). For `u > 0` and `k : ℕ`, `x^(-k) * exp(-u/x) → 0` as `x → 0⁺`.
+
+**Lemma** (`hasDerivAt`). `HasDerivAt` for `expInvCut u`.
+
+**Lemma** (`hasDerivAt₁`). `HasDerivAt` for `expInvCut₁ u`.
+
+**Lemma** (`hasDerivAt₂`). `HasDerivAt` for `expInvCut₂ u`.
+
+**Lemma** (`expInvCut_bounds`). Bounds on `expInvCut` and its first 3 derivatives on all of `ℝ` for `u > 0`.
+
+**Lemma** (`mul_expInvCut_bounds`). Uniform-in-`u` bounds on `x * expInvCut₁ u x`, `x^2 * expInvCut₂ u x`, `x^3 * expInvCut₃ u x`.
+
+**Lemma** (`contDiff_three_compactSupport_bounds`). Compactly supported `C^3` functions on `ℝ` have global bounds on `ψ, ψ', ψ'', ψ'''`.
+
+Supporting declarations without a docstring: `hasDerivAt_zero_of_eq_zero_nonpos`, `hasDerivAt_exp_neg_div`, `continuous_expInvCut`.

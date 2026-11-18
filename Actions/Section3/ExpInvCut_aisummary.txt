@@ -1,1 +1,0 @@
-Smooth cutoff `expInvCut u x = if 0 < x then exp(-u / x) else 0` and its derivatives/bounds,. It declares 13 items (4 defs, 9 lemmas).
