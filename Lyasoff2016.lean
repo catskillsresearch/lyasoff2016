@@ -6,8 +6,9 @@ Formalization of
   A. Lyasoff, "Another look at the integral of exponential Brownian motion
   and the pricing of Asian options", Finance Stoch. 20 (2016) 1061–1096.
 
-Vendored dependencies (verbatim under `vendor/`): BrownianMotion,
-kolmogorov_extension4, formal-mathfin. Mathlib via Lake.
+Dependencies: BrownianMotion as a path copy under `vendor/brownian-motion`
+(upstream pin with a few unfinished declarations removed; see `vendor/SOURCES`);
+formal-mathfin, kolmogorov_extension4 (transitive) and Mathlib as Lake Git pins.
 -/
 module
 

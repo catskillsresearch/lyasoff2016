@@ -64,9 +64,10 @@ single Mathlib-only statement file (deliberate `sorry` holes).
 
 ## Dependencies
 
-Proofs use Mathlib together with public Git dependencies pinned in
-`lake-manifest.json` (BrownianMotion, formal-mathfin /
-kolmogorov_extension4 as transitive). Challenge imports Mathlib only
+Proofs use Mathlib together with these dependencies: BrownianMotion as a
+path copy under `vendor/brownian-motion` (upstream pin with a few unfinished
+declarations removed, listed in `vendor/SOURCES`), and formal-mathfin and
+kolmogorov_extension4 (transitive) as Lake Git pins in `lake-manifest.json`. Challenge imports Mathlib only
 (including Mathlib’s `IsBrownianReal`). Pin ledger: `vendor/SOURCES`.
 
 No project-defined `axiom`s or unfinished proofs remain in `Lyasoff2016/`.

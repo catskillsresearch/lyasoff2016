@@ -19,7 +19,7 @@ Toolchain: Lean `v4.35.0` (see `lean-toolchain`), Mathlib pin in `lakefile.toml`
 |------|---------|
 | `sources/lyasoff2016.pdf` | Source paper |
 | `Lyasoff2016/*.lean` | Section modules (§0–§6) with paper-position comments |
-| `vendor/` | Verbatim copies of BrownianMotion, kolmogorov_extension4, formal-mathfin (see `vendor/SOURCES`) |
+| `vendor/` | `brownian-motion/`: path copy of RemyDegenne/brownian-motion at the pinned commit, with a few unfinished upstream declarations removed (listed in `vendor/SOURCES`). formal-mathfin, kolmogorov_extension4 (transitive) and Mathlib are Lake Git pins, not vendored; revisions in `vendor/SOURCES` and `lake-manifest.json`. `palomar-policy/`: pinned Palomar policy. |
 
 ## Status
 
