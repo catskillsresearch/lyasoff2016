@@ -1,0 +1,15 @@
+Mathematical English for `JointDensityScaling.lean` (Lean names in typewriter).
+
+**Definition** (`referenceTimeFromTwo`). Reference time at volatility `2` corresponding to target horizon `T` at volatility `σ`.
+
+**Lemma** (`referenceTimeFromTwo_div`). The target horizon is recovered by scaling the reference horizon back from volatility `2` to volatility `σ`.
+
+**Theorem** (`jointLaw_scaling_from_two_fixed`). Joint-law scaling directly from volatility `2` at its corresponding reference time.
+
+**Theorem** (`map_prod_smul_withDensity_ofReal_fixed`). Pushforward of a real-valued product density by independent nonzero coordinate scalings.
+
+**Theorem** (`IsJointDensity_scaling_from_two_fixed`). Scaling a measurable joint density from volatility `2` to a target volatility and horizon.
+
+**Lemma** (`gaussianPDFReal_referenceTimeFromTwo`). Gaussian scaling at the reference horizon `T σ²/4`.
+
+Supporting declarations without a docstring: `referenceTimeFromTwo_pos`, `referenceTimeFromTwo_two`.

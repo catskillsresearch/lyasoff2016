@@ -15,6 +15,7 @@ the conditional density itself.
 
 Subsections follow Lean import order; labels are mathematical English.
 
+- [Brownian scaling of joint densities from the reference volatility `2`](Section4/JointDensityScaling.md)
 - [A genuine conditional density of `(expInt, W)` from Yor's formula](Section4/CondDensityYor.md)
 - [Reciprocal moments from the transformed mass identity (4.7)](Section4/StrikingMass.md)
 - [Foliation of the joint law](Section4/Foliation.md)

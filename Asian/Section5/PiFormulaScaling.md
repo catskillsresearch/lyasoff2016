@@ -1,4 +1,4 @@
-# Correct Brownian scaling from the reference volatility `2`, together with the
+# π-formula covariance under Brownian scaling, and the order-two π-formula
 
 @import "PiFormulaScaling_aisummary.txt" {code_block=false}
 

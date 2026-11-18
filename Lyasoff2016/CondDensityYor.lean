@@ -15,7 +15,7 @@ module
 
 public import Lyasoff2016.Setting
 public import Lyasoff2016.YorJointDensity
-public import Lyasoff2016.PiFormulaScaling
+public import Lyasoff2016.JointDensityScaling
 public import Lyasoff2016.YorAnalytic
 
 @[expose] public section

@@ -20,7 +20,4 @@ Subsections follow Lean import order; labels are mathematical English.
 - [Path functional: reciprocal power of the finite-horizon `Z`](Section3/ZpowPath.md)
 - [Path-space reciprocal of the finite-horizon `Z` process](Section3/InvZFromPaths.md)
 - [Path-space perpetuity functional](Section3/PerpetuityPath.md)
-- [Distributional Fokker–Planck equation and inverse-argument Laplace transform for `(∫₀ᵗ…](Section3/DistFokkerPlanck.md)
-- [Expected Itô formula for functionals of `(∫₀ᵗ a(B_s) ds, B_t)` and the](Section3/ExpectedIto.md)
-- [Smooth cutoff `expInvCut u x = if 0 < x then exp(-u / x) else 0` and its…](Section3/ExpInvCut.md)
 - [Analytic helpers for `fokker_planck_joint`: open joint domain and pointwise upgrade](Section3/JointFokkerPlanckHelpers.md)

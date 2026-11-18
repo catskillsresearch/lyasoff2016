@@ -21,7 +21,7 @@ Subsections follow Lean import order; labels are mathematical English.
 - [Constructive identification of the higher-order π-formulae](Section5/PiFormulaHigher.md)
 - [Constructive identification of the π/2-formulae with the joint density](Section5/PiHalfFormulaHigher.md)
 - [Constructive Laplace-transform facts for the π-formula](Section5/PiFormulaLaplace.md)
-- [Correct Brownian scaling from the reference volatility `2`, together with the](Section5/PiFormulaScaling.md)
+- [π-formula covariance under Brownian scaling, and the order-two π-formula](Section5/PiFormulaScaling.md)
 - [Compatibility shim for π-formula scaling](Section5/PiFormulaScale.md)
 - [Constructive identification of the π/2-formula with the π-formula (and hence with Yor)](Section5/PiHalfIdentify.md)
 - [Upper incomplete Gamma `Γ(s, x)` used in Asian inner integrals](Section5/UpperGamma.md)

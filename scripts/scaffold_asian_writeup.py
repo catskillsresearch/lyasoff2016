@@ -63,6 +63,14 @@ MODULE_SECTION: dict[str, int] = {
     "PsiBranch": 2,
     "SmoothBump": 2,
     "UpperGamma": 5,
+    # §2↔§3 / §4↔§5 (Lars, 2026-11-18): the distributional Fokker–Planck stack
+    # used by Yor's joint law (JointLawLaplace) sits with its importer in §2,
+    # and the scaling lemmas CondDensityYor needs were extracted from
+    # PiFormulaScaling (§5) into JointDensityScaling (§4).
+    "DistFokkerPlanck": 2,
+    "ExpectedIto": 2,
+    "ExpInvCut": 2,
+    "JointDensityScaling": 4,
 }
 
 # Extra prose under a section barrel's blurb.

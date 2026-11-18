@@ -66,7 +66,7 @@
  },
  "CondDensityYor": {
   "summary": "A genuine conditional density of `∫₀ᵗ e^{σW_s} ds` given `W_t`, for every `σ > 0` and `t > 0`. It is built from Yor's `σ = 2` density by Brownian scaling, has unit mass on each slice, and satisfies the integrated foliation ODE (4.5). A smooth version, equal to it on `x > 0`, satisfies the Theorem 4.1 transport PDE.",
-  "lean_sha256": "df5de85f7e295b80bf68ff02834edcd798ebce8a0c97f38624b020a728908721",
+  "lean_sha256": "b13ef0f6165a78db82f58a8396d4d7e9acd0d640de9f17ba63d10d90d20a8613",
   "author": "Grok Bot (AI), 2026-11-18, from the Lean source"
  },
  "ContourBend": {
@@ -280,13 +280,13 @@
   "author": "Grok Bot (AI), 2026-11-18, from the Lean source"
  },
  "PiFormulaScale": {
-  "summary": "A compatibility module left after an earlier draft used a false time identity. It contains no declarations; the corrected statements are in `PiFormulaScaling`.",
+  "summary": "A compatibility module left after an earlier draft used a false time identity. It contains no declarations; the corrected statements are in `PiFormulaScaling` and `JointDensityScaling`, which it re-exports.",
   "lean_sha256": "17d4710026739e6a3bea5cfe04a8cf29134a0d0aeded59fec98e093e22725808",
   "author": "Grok Bot (AI), 2026-11-18, from the Lean source"
  },
  "PiFormulaScaling": {
-  "summary": "Correct Brownian scaling from the reference volatility `2` to any `σ > 0` and horizon, using the reference time `Tσ²/4`. It proves that the π-formula has the covariance required by scaling, which extends the order-two result to every positive volatility.",
-  "lean_sha256": "71ac969a55a75637b65cb94cfdb8eac3f32a2036259b0de84a289e74a7215215",
+  "summary": "The π-formula has the covariance required by Brownian scaling from the reference volatility `2`. Combined with the joint-density scaling lemmas of `JointDensityScaling`, this extends the order-two π-formula to every positive volatility and horizon.",
+  "lean_sha256": "b6a02dc2cf1a88521a825fbc8c63321d217c9190c5a3b7b7c4cdb2e8bfc78827",
   "author": "Grok Bot (AI), 2026-11-18, from the Lean source"
  },
  "PiHalfFormula": {
@@ -472,6 +472,11 @@
  "Zproc": {
   "summary": "The process `Z_t` of (3.1), built from two independent Brownian motions as `e^{σ(νt − B_t)}(∫₀^∞ e^{σ(νs+W_s)} ds + ∫₀ᵗ e^{σ(−νs+B_s)} ds)`.",
   "lean_sha256": "d91e4f0e7fe0edb0c826f0cdd6203a65ce2659e4c5a45d37412a5d717497153e",
+  "author": "Grok Bot (AI), 2026-11-18, from the Lean source"
+ },
+ "JointDensityScaling": {
+  "summary": "Brownian scaling of joint densities from the reference volatility `2` to any `σ > 0`, using the reference horizon `referenceTimeFromTwo σ T = Tσ²/4`. It proves that the joint law of `(∫₀ᵀ e^{σW_s} ds, W_T)` is a coordinate rescaling of the volatility-`2` law at the reference horizon, transfers a measurable joint density accordingly, and records the matching Gaussian scaling at the reference horizon.",
+  "lean_sha256": "57e9461538602885d22fe62bfd387dc18cdde674032c7dc40a51576fff8c51d5",
   "author": "Grok Bot (AI), 2026-11-18, from the Lean source"
  }
 }

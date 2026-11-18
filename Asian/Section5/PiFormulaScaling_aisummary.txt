@@ -1,1 +1,1 @@
-Correct Brownian scaling from the reference volatility `2` to any `σ > 0` and horizon, using the reference time `Tσ²/4`. It proves that the π-formula has the covariance required by scaling, which extends the order-two result to every positive volatility.
+The π-formula has the covariance required by Brownian scaling from the reference volatility `2`. Combined with the joint-density scaling lemmas of `JointDensityScaling`, this extends the order-two π-formula to every positive volatility and horizon.
