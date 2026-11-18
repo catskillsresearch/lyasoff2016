@@ -6,7 +6,6 @@ Paper: Lyasoff pp. 1088–1095 (pricing identity (6.1), delta, Tables 1–4).
 
 Subsections follow Lean import order; labels are mathematical English.
 
-- [Upper incomplete Gamma `Γ(s, x)` used in Asian inner integrals](Section6/UpperGamma.md)
 - [Real Asian inner integral `S_{k,p}(α)` and closed forms](Section6/Sfun.md)
 - [Complex Asian inner integral `S_{k,p}(A)` for complex rate `A`](Section6/SfunC.md)
 - [Strike-derivative kernel `S'_{k,p}(A)` for complex rate `A`](Section6/SfunDerivC.md)

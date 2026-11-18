@@ -57,6 +57,12 @@ MODULE_SECTION: dict[str, int] = {
     "StrikingMass": 4,
     "ContourBend": 6,
     "ContourBendFfun": 6,
+    # Helpers placed with their importers so Figure 1 has no §2↔§5 / §5↔§6
+    # two-way arrows (Lars, 2026-11-18). Only the writeup grouping moves.
+    "CharA": 2,
+    "PsiBranch": 2,
+    "SmoothBump": 2,
+    "UpperGamma": 5,
 }
 
 # Extra prose under a section barrel's blurb.
