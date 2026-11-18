@@ -7,6 +7,8 @@ module
 public import Lyasoff2016.Line
 public import Lyasoff2016.ModifiedBesselK1
 public import Lyasoff2016.Setting
+public import Lyasoff2016.CondDensityYor
+public import Lyasoff2016.StrikingMass
 
 
 @[expose] public section
@@ -430,30 +432,165 @@ theorem remark_4_6 (t : ℝ) (φc : ℝ → ℝ → ℝ)
 The Comparator theorems above are conditional rearrangements. The holes below ask for
 those inputs on a genuine conditional density of `(expInt, W)`. -/
 
-/-- Open: some conditional density of `(expInt, W)` satisfies the Thm 4.1 transport PDE. -/
+/-- Some conditional density of `(expInt, W)` satisfies the Thm 4.1 transport PDE: the
+smooth scaled Yor conditional density `smoothYorCondDensity` (`Lyasoff2016.CondDensityYor`). -/
 theorem cond_density_satisfies_theorem_41_pde (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (_ht : 0 < t) :
-    ∃ φc : ℝ → ℝ → ℝ, IsCondDensity P W σ t φc ∧ SatisfiesTheorem41PDE σ t φc := by
-  sorry
+    ∃ φc : ℝ → ℝ → ℝ, IsCondDensity P W σ t φc ∧ SatisfiesTheorem41PDE σ t φc :=
+  ⟨smoothYorCondDensity σ t, isCondDensity_smoothYorCondDensity P W _hW _hσ _ht,
+    smoothYorCondDensity_transport_pde _hσ _ht⟩
 
-/-- Open: some conditional density satisfies the striking reciprocal-moment identity (4.4). -/
-theorem cond_density_satisfies_striking (P : Measure Ω) [IsProbabilityMeasure P]
-    (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (_ht : 0 < t) :
-    ∃ φc : ℝ → ℝ → ℝ, IsCondDensity P W σ t φc ∧ SatisfiesStrikingIdentity σ t φc := by
-  sorry
-
-/-- Open: some conditional density satisfies the integrated foliation ODE (4.5). -/
+/-- Some conditional density satisfies the integrated foliation ODE (4.5): the scaled
+Yor conditional density `scaledYorCondDensity` (`Lyasoff2016.CondDensityYor`). -/
 theorem cond_density_satisfies_foliation_ode (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (_ht : 0 < t) :
-    ∃ φc : ℝ → ℝ → ℝ, IsCondDensity P W σ t φc ∧ SatisfiesFoliationODE σ t φc := by
-  sorry
+    ∃ φc : ℝ → ℝ → ℝ, IsCondDensity P W σ t φc ∧ SatisfiesFoliationODE σ t φc :=
+  ⟨scaledYorCondDensity σ t, isCondDensity_scaledYorCondDensity P W _hW _hσ _ht,
+    scaledYorCondDensity_foliation_ode _hσ _ht⟩
 
-/-- Open: some conditional density satisfies the Thm 4.5 mass + Laplace-reduction inputs. -/
+/-- Change of variables `x = x' e^{σy/2}` along the foliation: under (4.5), every
+`x`-integral against the slice `φc · y` reduces to one against the slice `φc · 0`. -/
+theorem integral_slice_eq_of_foliationODE (σ : ℝ) (t : ℝ≥0) (hσ : 0 < σ)
+    (φc : ℝ → ℝ → ℝ) (hfol : SatisfiesFoliationODE σ t φc) (g : ℝ → ℝ) (y : ℝ) :
+    ∫ x in Ioi (0 : ℝ), g x * φc x y =
+      Real.exp (y ^ 2 / (2 * (t : ℝ))) *
+        ∫ x in Ioi (0 : ℝ), g (x * Real.exp (σ * y / 2)) * φc x 0 *
+          Real.exp (-4 / (σ ^ 2 * x) * (Real.cosh (σ * y / 2) - 1)) := by
+  set b := Real.exp (σ * y / 2) with hbdef
+  have hb : 0 < b := Real.exp_pos _
+  have hσ0 : σ ≠ 0 := hσ.ne'
+  have hcv := integral_comp_mul_right_Ioi (fun x => g x * φc x y) 0 hb
+  rw [zero_mul, smul_eq_mul] at hcv
+  have hLHS : ∫ x in Ioi (0 : ℝ), g x * φc x y =
+      b * ∫ x in Ioi (0 : ℝ), g (x * b) * φc (x * b) y := by
+    rw [hcv]; field_simp
+  rw [hLHS, ← integral_const_mul, ← integral_const_mul]
+  refine setIntegral_congr_fun measurableSet_Ioi fun x hx => ?_
+  have hx : 0 < x := hx
+  have hxb : 0 < x * b := mul_pos hx hb
+  have h46 := formula_4_6 σ t hσ φc hfol (x * b) y hxb
+  have hback : x * b * Real.exp (-(σ * y) / 2) = x := by
+    rw [hbdef, mul_assoc, ← Real.exp_add,
+      show σ * y / 2 + -(σ * y) / 2 = 0 by ring, Real.exp_zero, mul_one]
+  rw [hback] at h46
+  rw [h46]
+  have hbinv : Real.exp (-(σ * y) / 2) = b⁻¹ := by
+    rw [hbdef, ← Real.exp_neg]; ring_nf
+  have hcosh : Real.cosh (σ * y / 2) = (b + b⁻¹) / 2 := by
+    rw [Real.cosh_eq, hbdef, Real.exp_neg]
+  have hexp : Real.exp (-(σ * y) / 2 - 2 / (σ ^ 2 * (x * b)) * (b - 1) ^ 2 +
+      y ^ 2 / (2 * (t : ℝ))) =
+      b⁻¹ * (Real.exp (y ^ 2 / (2 * (t : ℝ))) *
+        Real.exp (-4 / (σ ^ 2 * x) * (Real.cosh (σ * y / 2) - 1))) := by
+    rw [← hbinv, ← Real.exp_add, ← Real.exp_add]
+    congr 1
+    rw [hcosh]
+    field_simp
+    ring
+  rw [hexp]
+  field_simp
+
+/-- The transformed mass identity (4.7) for the zero slice of `scaledYorCondDensity`. -/
+theorem scaledYorCondDensity_mass {σ : ℝ} (hσ : 0 < σ) {t : ℝ≥0} (ht : 0 < t) :
+    TransformedMassIdentity σ t (fun x => scaledYorCondDensity σ t x 0) := by
+  have hfol := scaledYorCondDensity_foliation_ode hσ ht
+  intro z
+  have h := integral_slice_eq_of_foliationODE σ t hσ _ hfol (fun _ => 1) z
+  simp only [one_mul, integral_scaledYorCondDensity hσ ht z] at h
+  have hE : Real.exp (-z ^ 2 / (2 * (t : ℝ))) * Real.exp (z ^ 2 / (2 * (t : ℝ))) = 1 := by
+    rw [← Real.exp_add, ← Real.exp_zero]; congr 1; ring
+  calc _ = Real.exp (-z ^ 2 / (2 * (t : ℝ))) * (Real.exp (z ^ 2 / (2 * (t : ℝ))) *
+        ∫ x in Ioi (0 : ℝ), scaledYorCondDensity σ t x 0 *
+          Real.exp (-4 / (σ ^ 2 * x) * (Real.cosh (σ * z / 2) - 1))) := by
+          rw [← mul_assoc, hE, one_mul]
+    _ = _ := by rw [← h, mul_one]
+
+/-- Some conditional density satisfies the Thm 4.5 mass + Laplace-reduction inputs: the
+scaled Yor conditional density, via the foliation ODE and unit mass of each slice. -/
 theorem cond_density_satisfies_laplace_inputs (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (_ht : 0 < t) :
     ∃ φc : ℝ → ℝ → ℝ,
       IsCondDensity P W σ t φc ∧
         TransformedMassIdentity σ t (fun x => φc x 0) ∧ HasLaplaceReduction σ t φc := by
-  sorry
+  have hfol := scaledYorCondDensity_foliation_ode _hσ _ht
+  have hσ0 : σ ≠ 0 := _hσ.ne'
+  refine ⟨scaledYorCondDensity σ t, isCondDensity_scaledYorCondDensity P W _hW _hσ _ht,
+    fun z => ?_, fun y u _ => ?_⟩
+  · exact scaledYorCondDensity_mass _hσ _ht z
+  · unfold laplaceCond
+    rw [integral_slice_eq_of_foliationODE σ t _hσ _ hfol (fun x => Real.exp (-u / x)) y]
+    congr 1
+    refine setIntegral_congr_fun measurableSet_Ioi fun x hx => ?_
+    have hx : 0 < x := hx
+    have hb : 0 < Real.exp (σ * y / 2) := Real.exp_pos _
+    have hbinv : Real.exp (-(σ * y) / 2) = (Real.exp (σ * y / 2))⁻¹ := by
+      rw [← Real.exp_neg]; ring_nf
+    rw [mul_comm (Real.exp _) (scaledYorCondDensity σ t x 0), mul_assoc, ← Real.exp_add]
+    congr 2
+    rw [hbinv]
+    field_simp
+    ring
+
+/-- Some conditional density satisfies the striking reciprocal-moment identity (4.4):
+the scaled Yor conditional density.  The zero slice satisfies the mass identity (4.7);
+differentiating it in the Laplace variable (`StrikingMass`) gives the weighted reciprocal
+moments, the foliation change of variables transports them to every slice, and monotone
+convergence gives the `y = 0` case. -/
+theorem cond_density_satisfies_striking (P : Measure Ω) [IsProbabilityMeasure P]
+    (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (σ : ℝ) (t : ℝ≥0) (_hσ : 0 < σ) (_ht : 0 < t) :
+    ∃ φc : ℝ → ℝ → ℝ, IsCondDensity P W σ t φc ∧ SatisfiesStrikingIdentity σ t φc := by
+  have hfol := scaledYorCondDensity_foliation_ode _hσ _ht
+  have htR : (0 : ℝ) < t := _ht
+  have hσ0 : σ ≠ 0 := _hσ.ne'
+  have ht0 : (t : ℝ) ≠ 0 := htR.ne'
+  set φc := scaledYorCondDensity σ t with hφc
+  have hint : IntegrableOn (fun x => φc x 0) (Ioi 0) :=
+    Integrable.of_integral_ne_zero (by rw [integral_scaledYorCondDensity _hσ _ht 0]; norm_num)
+  have hnn : ∀ x, 0 < x → 0 ≤ φc x 0 := by
+    intro x hx
+    have hτ : 0 < referenceTimeFromTwo σ t := referenceTimeFromTwo_pos _hσ _ht
+    have hX : 0 < σ ^ 2 / 4 * x := by positivity
+    exact div_nonneg (mul_nonneg (by positivity) (yorDensity_nonneg P W _hW _ hτ hX _))
+      (gaussianPDFReal_pos 0 t 0 _ht.ne').le
+  have hmass : ∀ z : ℝ, ∫ x in Ioi (0 : ℝ),
+      φc x 0 * Real.exp (-4 / (σ ^ 2 * x) * (Real.cosh (σ * z / 2) - 1)) =
+        Real.exp (-z ^ 2 / (2 * (t : ℝ))) := scaledYorCondDensity_mass _hσ _ht
+  refine ⟨φc, isCondDensity_scaledYorCondDensity P W _hW _hσ _ht, fun y hy => ?_,
+    integral_inv_mul_of_mass _hσ htR hint hnn hmass⟩
+  have hz : y / σ ≠ 0 := div_ne_zero hy hσ0
+  have hy2 : σ * (y / σ) / 2 = y / 2 := by field_simp
+  have hs := integral_slice_eq_of_foliationODE σ t _hσ φc hfol (fun x => x⁻¹) (y / σ)
+  rw [hy2] at hs
+  set b := Real.exp (y / 2) with hb
+  have hbpos : 0 < b := Real.exp_pos _
+  have hcongr : ∫ x in Ioi (0 : ℝ), (x * b)⁻¹ * φc x 0 *
+      Real.exp (-4 / (σ ^ 2 * x) * (Real.cosh (y / 2) - 1)) =
+      b⁻¹ * ∫ x in Ioi (0 : ℝ), x⁻¹ * φc x 0 * Real.exp (-massExponent σ (y / σ) / x) := by
+    rw [← integral_const_mul]
+    refine setIntegral_congr_fun measurableSet_Ioi fun x hx => ?_
+    have hx : x ≠ 0 := ne_of_gt hx
+    simp only [massExponent, hy2]
+    rw [show -(4 / σ ^ 2 * (Real.cosh (y / 2) - 1)) / x =
+        -4 / (σ ^ 2 * x) * (Real.cosh (y / 2) - 1) by field_simp]
+    rw [mul_inv]; ring
+  rw [hs, hcongr, integral_inv_mul_exp_massExponent _hσ htR hint hmass hz, hy2]
+  have hEE : Real.exp ((y / σ) ^ 2 / (2 * (t : ℝ))) * Real.exp (-(y / σ) ^ 2 / (2 * (t : ℝ))) = 1 := by
+    rw [← Real.exp_add, ← Real.exp_zero]; congr 1; ring
+  have hsinh : Real.sinh (y / 2) = (b - b⁻¹) / 2 := by rw [Real.sinh_eq, hb, Real.exp_neg]
+  have hey : Real.exp y = b ^ 2 := by rw [hb, ← Real.exp_nat_mul]; congr 1; push_cast; ring
+  have hsne : Real.sinh (y / 2) ≠ 0 := by
+    rw [Ne, Real.sinh_eq_zero]; intro h; apply hy; linarith
+  have heyne : Real.exp y - 1 ≠ 0 := by
+    rw [sub_ne_zero, Ne, Real.exp_eq_one_iff]; exact hy
+  rw [hey] at heyne ⊢
+  rw [hsinh] at hsne ⊢
+  have hbne : b ≠ 0 := hbpos.ne'
+  have hb2 : b ^ 2 - 1 = b * (b - b⁻¹) := by field_simp
+  have hbb : b - b⁻¹ ≠ 0 := by
+    intro h; apply heyne; rw [hb2, h, mul_zero]
+  generalize Real.exp ((y / σ) ^ 2 / (2 * (t : ℝ))) = E1 at hEE ⊢
+  generalize Real.exp (-(y / σ) ^ 2 / (2 * (t : ℝ))) = E2 at hEE ⊢
+  field_simp
+  linear_combination hEE
 
 end Lyasoff2016

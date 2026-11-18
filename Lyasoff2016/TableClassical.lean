@@ -3,8 +3,11 @@ Copyright (c) 2026 Lars Warren Ericson. All rights reserved.
 # §6 Tables 1–4 — classical numerical certificates
 
 Lyasoff (2016) reports high-precision mpmath/spline quadratures of `∬ Re F` for the
-market Asian call. These open holes record those printed absolute-error claims; they
-are not interval-arithmetic re-derivations. No Lean `axiom` — each certificate is a
+market Asian call. These open holes claim only that the printed digit strings are
+reproduced to the absolute tolerance `tableClaimTol = 1e-9` (worst independently checked
+miss 2.2e-10, `scripts/asian_tables_independent_check.py`); the paper's per-table K = 0
+error figures (`err0`) are not claimed at the printed strikes. They are not
+interval-arithmetic re-derivations. No Lean `axiom` — each certificate is a
 `sorry` theorem until re-proved. Density identities remain axioms-clean.
 -/
 module
@@ -59,39 +62,43 @@ def table4 : Fin 6 → ℚ
   | 5 => 2244768617 / 100000000000
 
 /-- Classical numerical certificate (Lyasoff p. 1094, Table 1): market price within
-`err0` of the printed digit string (mp.dps = 120; K = 0 error ≤ 1e-15). Open hole. -/
+`tableClaimTol = 1e-9` of the printed digit string (paper: mp.dps = 120; its reported
+K = 0 error 1e-15 is not claimed here). Open hole. -/
 theorem table1_asian_enclosure_classical {Ω : Type*} [MeasurableSpace Ω]
     (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (i : Fin 6) :
     |asianMarketPrice P W table1Params.σ tableRate table1Params.T.toNNReal
-        (tableStrikes i) - (table1 i : ℝ)| ≤ table1Params.err0 := by
+        (tableStrikes i) - (table1 i : ℝ)| ≤ tableClaimTol := by
   sorry
 
 /-- Classical numerical certificate (Lyasoff p. 1094, Table 2): market price within
-`err0` of the printed digit string (mp.dps = 60; K = 0 error ≤ 1e-11). Open hole. -/
+`tableClaimTol = 1e-9` of the printed digit string (paper: mp.dps = 60; its reported
+K = 0 error 1e-11 is not claimed here). Open hole. -/
 theorem table2_asian_enclosure_classical {Ω : Type*} [MeasurableSpace Ω]
     (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (i : Fin 6) :
     |asianMarketPrice P W table2Params.σ tableRate table2Params.T.toNNReal
-        (tableStrikes i) - (table2 i : ℝ)| ≤ table2Params.err0 := by
+        (tableStrikes i) - (table2 i : ℝ)| ≤ tableClaimTol := by
   sorry
 
 /-- Classical numerical certificate (Lyasoff p. 1095, Table 3): market price within
-`err0` of the printed digit string (mp.dps = 60; K = 0 error ≤ 1e-12). Open hole. -/
+`tableClaimTol = 1e-9` of the printed digit string (paper: mp.dps = 60; its reported
+K = 0 error 1e-12 is not claimed here). Open hole. -/
 theorem table3_asian_enclosure_classical {Ω : Type*} [MeasurableSpace Ω]
     (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (i : Fin 6) :
     |asianMarketPrice P W table3Params.σ tableRate table3Params.T.toNNReal
-        (tableStrikes i) - (table3 i : ℝ)| ≤ table3Params.err0 := by
+        (tableStrikes i) - (table3 i : ℝ)| ≤ tableClaimTol := by
   sorry
 
 /-- Classical numerical certificate (Lyasoff p. 1095, Table 4): market price within
-`err0` of the printed digit string (mp.dps = 45; K = 0 error ≤ 1e-11). Open hole. -/
+`tableClaimTol = 1e-9` of the printed digit string (paper: mp.dps = 45; its reported
+K = 0 error 1e-11 is not claimed here). Open hole. -/
 theorem table4_asian_enclosure_classical {Ω : Type*} [MeasurableSpace Ω]
     (P : Measure Ω) [IsProbabilityMeasure P]
     (W : ℝ≥0 → Ω → ℝ) (_hW : IsBM P W) (i : Fin 6) :
     |asianMarketPrice P W table4Params.σ tableRate table4Params.T.toNNReal
-        (tableStrikes i) - (table4 i : ℝ)| ≤ table4Params.err0 := by
+        (tableStrikes i) - (table4 i : ℝ)| ≤ tableClaimTol := by
   sorry
 
 end Lyasoff2016

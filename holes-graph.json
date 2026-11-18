@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-18T11:56:38Z",
-  "sorryCount": 12,
+  "updated": "2026-11-18T13:56:16Z",
+  "sorryCount": 8,
   "legend": {
     "open": "No unfinished required proof-deps \u2014 try next",
     "blocked": "Waiting on incomplete required proof-deps",
@@ -12,7 +12,7 @@
     "Done = no local sorry and every hard predecessor is done (no unproven\u2192proven).",
     "Blue = done. Green = open. Grey = blocked.",
     "Regenerate with: python3 scripts/build_holes.py",
-    "Open tips: cond_density_satisfies_theorem_41_pde, cond_density_satisfies_striking, cond_density_satisfies_foliation_ode, cond_density_satisfies_laplace_inputs, table1_asian_enclosure_classical, table2_asian_enclosure_classical, table3_asian_enclosure_classical, table4_asian_enclosure_classical."
+    "Open tips: table1_asian_enclosure_classical, table2_asian_enclosure_classical, table3_asian_enclosure_classical, table4_asian_enclosure_classical."
   ],
   "nodes": [
     {
@@ -199,7 +199,7 @@
       "id": "theorem_4_1_pde",
       "label": "Thm 4.1 PDE (cond.)",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:32",
+      "file": "Lyasoff2016/Foliation.lean:34",
       "status": "done",
       "blocker": null,
       "detail": "Conditional rearrangement: if SatisfiesTheorem41PDE, then the PDE."
@@ -208,7 +208,7 @@
       "id": "theorem_4_1_striking",
       "label": "Thm 4.1 (4.4) (cond.)",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:51",
+      "file": "Lyasoff2016/Foliation.lean:53",
       "status": "done",
       "blocker": null,
       "detail": "Conditional rearrangement: if SatisfiesStrikingIdentity, then (4.4)."
@@ -217,7 +217,7 @@
       "id": "formula_4_6",
       "label": "(4.6) (cond.)",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:95",
+      "file": "Lyasoff2016/Foliation.lean:97",
       "status": "done",
       "blocker": null,
       "detail": "Conditional rearrangement: if SatisfiesFoliationODE, then (4.6)."
@@ -226,7 +226,7 @@
       "id": "prop_4_4",
       "label": "Prop 4.4",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:314",
+      "file": "Lyasoff2016/Foliation.lean:316",
       "status": "done",
       "blocker": null,
       "detail": "Uniqueness of \u03c6(\u00b7|0) from the Laplace normalisation."
@@ -235,7 +235,7 @@
       "id": "theorem_4_5",
       "label": "Thm 4.5 (cond.)",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:363",
+      "file": "Lyasoff2016/Foliation.lean:365",
       "status": "done",
       "blocker": null,
       "detail": "Conditional rearrangement: mass + Laplace reduction \u21d2 arcosh form."
@@ -244,8 +244,8 @@
       "id": "cond_density_satisfies_theorem_41_pde",
       "label": "Cond dens. PDE",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:434",
-      "status": "open",
+      "file": "Lyasoff2016/Foliation.lean:437",
+      "status": "done",
       "blocker": null,
       "detail": "Open: \u2203 conditional density satisfying SatisfiesTheorem41PDE."
     },
@@ -253,8 +253,8 @@
       "id": "cond_density_satisfies_striking",
       "label": "Cond dens. (4.4)",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:440",
-      "status": "open",
+      "file": "Lyasoff2016/Foliation.lean:539",
+      "status": "done",
       "blocker": null,
       "detail": "Open: \u2203 conditional density satisfying SatisfiesStrikingIdentity."
     },
@@ -262,8 +262,8 @@
       "id": "cond_density_satisfies_foliation_ode",
       "label": "Cond dens. ODE",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:446",
-      "status": "open",
+      "file": "Lyasoff2016/Foliation.lean:445",
+      "status": "done",
       "blocker": null,
       "detail": "Open: \u2203 conditional density satisfying SatisfiesFoliationODE."
     },
@@ -271,8 +271,8 @@
       "id": "cond_density_satisfies_laplace_inputs",
       "label": "Cond dens. Laplace",
       "section": 4,
-      "file": "Lyasoff2016/Foliation.lean:452",
-      "status": "open",
+      "file": "Lyasoff2016/Foliation.lean:510",
+      "status": "done",
       "blocker": null,
       "detail": "Open: \u2203 conditional density with Thm 4.5 mass + Laplace inputs."
     },
@@ -379,73 +379,73 @@
       "id": "table1_asian_enclosure",
       "label": "Table 1",
       "section": 6,
-      "file": "Lyasoff2016/TableClaim.lean:72",
+      "file": "Lyasoff2016/TableClaim.lean:77",
       "status": "blocked",
       "blocker": "needs table1_asian_enclosure_classical",
-      "detail": "Table 1 enclosure via classical numerical hole."
+      "detail": "Table 1 enclosure to 1e-9 via classical numerical hole."
     },
     {
       "id": "table2_asian_enclosure",
       "label": "Table 2",
       "section": 6,
-      "file": "Lyasoff2016/TableClaim.lean:80",
+      "file": "Lyasoff2016/TableClaim.lean:85",
       "status": "blocked",
       "blocker": "needs table2_asian_enclosure_classical",
-      "detail": "Table 2 enclosure via classical numerical hole."
+      "detail": "Table 2 enclosure to 1e-9 via classical numerical hole."
     },
     {
       "id": "table3_asian_enclosure",
       "label": "Table 3",
       "section": 6,
-      "file": "Lyasoff2016/TableClaim.lean:88",
+      "file": "Lyasoff2016/TableClaim.lean:93",
       "status": "blocked",
       "blocker": "needs table3_asian_enclosure_classical",
-      "detail": "Table 3 enclosure via classical numerical hole."
+      "detail": "Table 3 enclosure to 1e-9 via classical numerical hole."
     },
     {
       "id": "table4_asian_enclosure",
       "label": "Table 4",
       "section": 6,
-      "file": "Lyasoff2016/TableClaim.lean:96",
+      "file": "Lyasoff2016/TableClaim.lean:101",
       "status": "blocked",
       "blocker": "needs table4_asian_enclosure_classical",
-      "detail": "Table 4 enclosure via classical numerical hole."
+      "detail": "Table 4 enclosure to 1e-9 via classical numerical hole."
     },
     {
       "id": "table1_asian_enclosure_classical",
       "label": "Table 1 num.",
       "section": 6,
-      "file": "Lyasoff2016/TableClassical.lean:63",
+      "file": "Lyasoff2016/TableClassical.lean:67",
       "status": "open",
       "blocker": null,
-      "detail": "Open: mpmath/spline absolute-error claim for Table 1."
+      "detail": "Open: printed Table 1 digits reproduced to tableClaimTol = 1e-9 (paper K=0 error figure not claimed)."
     },
     {
       "id": "table2_asian_enclosure_classical",
       "label": "Table 2 num.",
       "section": 6,
-      "file": "Lyasoff2016/TableClassical.lean:72",
+      "file": "Lyasoff2016/TableClassical.lean:77",
       "status": "open",
       "blocker": null,
-      "detail": "Open: mpmath/spline absolute-error claim for Table 2."
+      "detail": "Open: printed Table 2 digits reproduced to tableClaimTol = 1e-9 (paper K=0 error figure not claimed)."
     },
     {
       "id": "table3_asian_enclosure_classical",
       "label": "Table 3 num.",
       "section": 6,
-      "file": "Lyasoff2016/TableClassical.lean:81",
+      "file": "Lyasoff2016/TableClassical.lean:87",
       "status": "open",
       "blocker": null,
-      "detail": "Open: mpmath/spline absolute-error claim for Table 3."
+      "detail": "Open: printed Table 3 digits reproduced to tableClaimTol = 1e-9 (paper K=0 error figure not claimed)."
     },
     {
       "id": "table4_asian_enclosure_classical",
       "label": "Table 4 num.",
       "section": 6,
-      "file": "Lyasoff2016/TableClassical.lean:90",
+      "file": "Lyasoff2016/TableClassical.lean:97",
       "status": "open",
       "blocker": null,
-      "detail": "Open: mpmath/spline absolute-error claim for Table 4."
+      "detail": "Open: printed Table 4 digits reproduced to tableClaimTol = 1e-9 (paper K=0 error figure not claimed)."
     }
   ],
   "edges": [

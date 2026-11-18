@@ -2,8 +2,8 @@
 
 Inventory of paper-facing Lean holes, ordered **prove-first**.
 
-**Updated:** 2026-11-18T11:56:38Z
-**Holes:** 12 open+blocked · 8 open · 4 blocked · 36 done.
+**Updated:** 2026-11-18T13:56:16Z
+**Holes:** 8 open+blocked · 4 open · 4 blocked · 40 done.
 
 **Live board:** [`holes.html`](holes.html) (graph embedded; open the file directly).
 
@@ -17,14 +17,10 @@ python3 scripts/build_holes.py   # refreshes HOLES.md, holes-graph.json, embeds 
 
 | Id | Label | File |
 |---|---|---|
-| `cond_density_satisfies_theorem_41_pde` | Cond dens. PDE | `Lyasoff2016/Foliation.lean:434` |
-| `cond_density_satisfies_striking` | Cond dens. (4.4) | `Lyasoff2016/Foliation.lean:440` |
-| `cond_density_satisfies_foliation_ode` | Cond dens. ODE | `Lyasoff2016/Foliation.lean:446` |
-| `cond_density_satisfies_laplace_inputs` | Cond dens. Laplace | `Lyasoff2016/Foliation.lean:452` |
-| `table1_asian_enclosure_classical` | Table 1 num. | `Lyasoff2016/TableClassical.lean:63` |
-| `table2_asian_enclosure_classical` | Table 2 num. | `Lyasoff2016/TableClassical.lean:72` |
-| `table3_asian_enclosure_classical` | Table 3 num. | `Lyasoff2016/TableClassical.lean:81` |
-| `table4_asian_enclosure_classical` | Table 4 num. | `Lyasoff2016/TableClassical.lean:90` |
+| `table1_asian_enclosure_classical` | Table 1 num. | `Lyasoff2016/TableClassical.lean:67` |
+| `table2_asian_enclosure_classical` | Table 2 num. | `Lyasoff2016/TableClassical.lean:77` |
+| `table3_asian_enclosure_classical` | Table 3 num. | `Lyasoff2016/TableClassical.lean:87` |
+| `table4_asian_enclosure_classical` | Table 4 num. | `Lyasoff2016/TableClassical.lean:97` |
 
 ## By section
 
@@ -63,19 +59,19 @@ python3 scripts/build_holes.py   # refreshes HOLES.md, holes-graph.json, embeds 
 | done | `fokker_planck_joint` | FP (3.6b) | `Lyasoff2016/FokkerPlanck.lean:3347` |
 | done | `remark_3_2` | Rem 3.2 | `Lyasoff2016/FokkerPlanck.lean:3403` |
 
-### §4 — 4 hole(s)
+### §4 — 0 hole(s)
 
 | Status | Id | Label | File |
 |---|---|---|---|
-| done | `theorem_4_1_pde` | Thm 4.1 PDE (cond.) | `Lyasoff2016/Foliation.lean:32` |
-| done | `theorem_4_1_striking` | Thm 4.1 (4.4) (cond.) | `Lyasoff2016/Foliation.lean:51` |
-| done | `formula_4_6` | (4.6) (cond.) | `Lyasoff2016/Foliation.lean:95` |
-| done | `prop_4_4` | Prop 4.4 | `Lyasoff2016/Foliation.lean:314` |
-| done | `theorem_4_5` | Thm 4.5 (cond.) | `Lyasoff2016/Foliation.lean:363` |
-| open | `cond_density_satisfies_theorem_41_pde` | Cond dens. PDE | `Lyasoff2016/Foliation.lean:434` |
-| open | `cond_density_satisfies_striking` | Cond dens. (4.4) | `Lyasoff2016/Foliation.lean:440` |
-| open | `cond_density_satisfies_foliation_ode` | Cond dens. ODE | `Lyasoff2016/Foliation.lean:446` |
-| open | `cond_density_satisfies_laplace_inputs` | Cond dens. Laplace | `Lyasoff2016/Foliation.lean:452` |
+| done | `theorem_4_1_pde` | Thm 4.1 PDE (cond.) | `Lyasoff2016/Foliation.lean:34` |
+| done | `theorem_4_1_striking` | Thm 4.1 (4.4) (cond.) | `Lyasoff2016/Foliation.lean:53` |
+| done | `formula_4_6` | (4.6) (cond.) | `Lyasoff2016/Foliation.lean:97` |
+| done | `prop_4_4` | Prop 4.4 | `Lyasoff2016/Foliation.lean:316` |
+| done | `theorem_4_5` | Thm 4.5 (cond.) | `Lyasoff2016/Foliation.lean:365` |
+| done | `cond_density_satisfies_theorem_41_pde` | Cond dens. PDE | `Lyasoff2016/Foliation.lean:437` |
+| done | `cond_density_satisfies_striking` | Cond dens. (4.4) | `Lyasoff2016/Foliation.lean:539` |
+| done | `cond_density_satisfies_foliation_ode` | Cond dens. ODE | `Lyasoff2016/Foliation.lean:445` |
+| done | `cond_density_satisfies_laplace_inputs` | Cond dens. Laplace | `Lyasoff2016/Foliation.lean:510` |
 
 ### §5 — 0 hole(s)
 
@@ -97,14 +93,14 @@ python3 scripts/build_holes.py   # refreshes HOLES.md, holes-graph.json, embeds 
 | done | `asian_delta` | Asian delta | `Lyasoff2016/Asian.lean:493` |
 | done | `SfunC.hasDerivAt` | ∂_k SfunC | `Lyasoff2016/SfunCDeriv.lean:100` |
 | done | `hasDerivAt_integral_Re_Ffun` | ∂_k ∬ Re F | `Lyasoff2016/Asian.lean:300` |
-| blocked | `table1_asian_enclosure` | Table 1 | `Lyasoff2016/TableClaim.lean:72` |
-| blocked | `table2_asian_enclosure` | Table 2 | `Lyasoff2016/TableClaim.lean:80` |
-| blocked | `table3_asian_enclosure` | Table 3 | `Lyasoff2016/TableClaim.lean:88` |
-| blocked | `table4_asian_enclosure` | Table 4 | `Lyasoff2016/TableClaim.lean:96` |
-| open | `table1_asian_enclosure_classical` | Table 1 num. | `Lyasoff2016/TableClassical.lean:63` |
-| open | `table2_asian_enclosure_classical` | Table 2 num. | `Lyasoff2016/TableClassical.lean:72` |
-| open | `table3_asian_enclosure_classical` | Table 3 num. | `Lyasoff2016/TableClassical.lean:81` |
-| open | `table4_asian_enclosure_classical` | Table 4 num. | `Lyasoff2016/TableClassical.lean:90` |
+| blocked | `table1_asian_enclosure` | Table 1 | `Lyasoff2016/TableClaim.lean:77` |
+| blocked | `table2_asian_enclosure` | Table 2 | `Lyasoff2016/TableClaim.lean:85` |
+| blocked | `table3_asian_enclosure` | Table 3 | `Lyasoff2016/TableClaim.lean:93` |
+| blocked | `table4_asian_enclosure` | Table 4 | `Lyasoff2016/TableClaim.lean:101` |
+| open | `table1_asian_enclosure_classical` | Table 1 num. | `Lyasoff2016/TableClassical.lean:67` |
+| open | `table2_asian_enclosure_classical` | Table 2 num. | `Lyasoff2016/TableClassical.lean:77` |
+| open | `table3_asian_enclosure_classical` | Table 3 num. | `Lyasoff2016/TableClassical.lean:87` |
+| open | `table4_asian_enclosure_classical` | Table 4 num. | `Lyasoff2016/TableClassical.lean:97` |
 
 ## Dependency sketch
 
