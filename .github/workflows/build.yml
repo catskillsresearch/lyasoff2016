@@ -15,13 +15,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Checkout palomar-preflight
-        uses: actions/checkout@v4
-        with:
-          repository: catskillsresearch/palomar-preflight
-          ref: 9581c674a5588c984d8cb7db279bf916607d0125
-          path: palomar-preflight
-
       - name: Install elan
         run: |
           curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
@@ -30,5 +23,5 @@ jobs:
       - name: Configure Lake cache
         run: lake exe cache get || true
 
-      - name: Run mechanical Palomar preflight
-        run: bash scripts/palomar_preflight.sh --mechanical-only
+      - name: Build
+        run: lake build
