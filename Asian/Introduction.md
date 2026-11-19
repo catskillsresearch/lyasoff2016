@@ -21,10 +21,13 @@ and `vendor/SOURCES`. LeanCert is not a dependency of this formalization.
 Challenge/Solution packaging follows the scott_models and nowakowska1982
 repositories [@gh-scott-models; @gh-nowakowska1982], using the Palomar policy,
 Comparator conventions and formalization metadata schema
-[@gh-palomar-policy; @gh-comparator; @gh-formalization-yaml]. These are tooling
-credits, not a claim of Palomar registration, submission or independent review:
-**Palomar Registration: TBD**. The Unicode-to-LaTeX listing sanitizer was adapted
-from scott1964 [@gh-scott1964]. The formalization source is available on GitHub
+[@gh-palomar-policy; @gh-comparator; @gh-formalization-yaml]. This repository is
+registered with Palomar as
+[PALOMAR-2026-11-19-000018](https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-19-000018&version=1)
+[@palomar-lyasoff2016], version 1.
+**Palomar Registration:** <https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-19-000018&version=1>.
+The Unicode-to-LaTeX listing sanitizer was adapted from scott1964
+[@gh-scott1964]. The formalization source is available on GitHub
 [@gh-lyasoff2016].
 
 The independent Python table checks use the Geman--Yor transform and Linetsky's

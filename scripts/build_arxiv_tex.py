@@ -41,8 +41,7 @@ LISTING_CHUNK_LINES = 400
 AUTHOR = "Lars Warren Ericson"
 COMPANY = "Catskills Research Company"
 GITHUB_URL = r"https://github.com/catskillsresearch/lyasoff2016"
-# Not yet submitted to Palomar. Set to the entry URL once a registration exists.
-PALOMAR_URL = None
+PALOMAR_URL = r"https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-19-000018&version=1"
 ORCID = "0000-0001-8299-9361"
 EMAIL = "lars.ericson@catskillsresearch.com"
 

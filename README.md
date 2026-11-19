@@ -1,8 +1,15 @@
+[![Palomar](https://img.shields.io/badge/Palomar-2026--11--19--000018-0f766e.svg)](https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-19-000018&version=1)
+
 # Formalization of Lyasoff's Asian Option Model
 
 Formalization of Andrew Lyasoff,
 *Another look at the integral of exponential Brownian motion and the pricing of Asian options*,
 Finance Stoch. **20** (2016) 1061–1096.
+
+Standalone package. This repo is registered with
+[Palomar](https://palomar-registry.org/about) on its own as
+[PALOMAR-2026-11-19-000018](https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-19-000018&version=1)
+(see `PROVENANCE.md`).
 
 ## Build
 

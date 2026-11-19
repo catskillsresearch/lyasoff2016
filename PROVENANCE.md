@@ -13,10 +13,14 @@ under his direction and review. The source paper is cited as literature
 only and is not licensed under this repository's Apache-2.0 terms (see
 `NOTICE`).
 
-Packaging follows the Palomar Challenge / Solution / `comparator.json` /
-`formalization.yaml` pattern used in
+**This repository is registered with Palomar on its own**, for the Lyasoff 2016
+Asian-options development alone, following the Challenge / Solution /
+`comparator.json` / `formalization.yaml` pattern used in
 [`catskillsresearch/scott_models`](https://github.com/catskillsresearch/scott_models)
 and [`catskillsresearch/nowakowska1982`](https://github.com/catskillsresearch/nowakowska1982).
+Registry entry:
+[PALOMAR-2026-11-19-000018](https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-19-000018&version=1),
+version 1.
 
 ## Framing
 
