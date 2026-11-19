@@ -11,7 +11,7 @@ public import Mathlib.Probability.BrownianMotion.Basic
 # Palomar Challenge (statement of record)
 
 Mathlib-only statement file for the Lyasoff 2016 proof-chart family. Compared
-declarations match `Solution.lean` via the `Lyasoff2016/` library. Framing:
+declarations match `Lyasoff2016Comparator/Solution.lean` via the `Lyasoff2016/` library. Framing:
 reconstruction/verification of Lyasoff, *Another look at the integral of
 exponential Brownian motion and the pricing of Asian options*, Finance Stoch.
 20 (2016) 1061–1096. Andrew Lyasoff did not participate in or endorse this

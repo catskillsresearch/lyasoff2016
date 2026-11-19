@@ -10,7 +10,7 @@ public import Lyasoff2016
 # Palomar Solution
 
 Imports the `Lyasoff2016/` library. Comparator matches the compared
-declarations named in `Challenge.lean` / `comparator.json` against these
+declarations named in `Lyasoff2016Comparator/Challenge.lean` / `comparator.json` against these
 proved definitions and theorems (scott_models / nowakowska1982 packaging).
 
 The library proof modules contain no unfinished proofs. Tables 1–4 are reported

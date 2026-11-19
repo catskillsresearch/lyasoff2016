@@ -1,5 +1,5 @@
 name = "lyasoff2016"
-defaultTargets = ["Lyasoff2016", "Challenge", "Solution"]
+defaultTargets = ["Lyasoff2016", "Lyasoff2016Challenge", "Lyasoff2016Solution"]
 
 [leanOptions]
 pp.unicode.fun = true
@@ -25,9 +25,9 @@ name = "Lyasoff2016"
 globs = ["Lyasoff2016", "Lyasoff2016.+"]
 
 [[lean_lib]]
-name = "Challenge"
-roots = ["Challenge"]
+name = "Lyasoff2016Challenge"
+roots = ["Lyasoff2016Comparator.Challenge"]
 
 [[lean_lib]]
-name = "Solution"
-roots = ["Solution"]
+name = "Lyasoff2016Solution"
+roots = ["Lyasoff2016Comparator.Solution"]

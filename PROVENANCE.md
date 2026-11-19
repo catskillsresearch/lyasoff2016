@@ -58,9 +58,9 @@ displayed identities under those hypotheses. The Comparator theorems
 density (Brownian-scaled Yor) satisfying each of them; see the §4 Asian
 writeup.
 
-Compared declarations live in namespace `Lyasoff2016`. `Challenge.lean` is a
-single Mathlib-only statement file (deliberate `sorry` holes).
-`Solution.lean` imports the `Lyasoff2016/` library.
+Compared declarations live in namespace `Lyasoff2016`. `Lyasoff2016Comparator/Challenge.lean` is
+a single Mathlib-only statement file (deliberate `sorry` holes).
+`Lyasoff2016Comparator/Solution.lean` imports the `Lyasoff2016/` library.
 
 ## Dependencies
 
@@ -71,4 +71,4 @@ kolmogorov_extension4 (transitive) as Lake Git pins in `lake-manifest.json`. Cha
 (including Mathlib’s `IsBrownianReal`). Pin ledger: `vendor/SOURCES`.
 
 No project-defined `axiom`s or unfinished proofs remain in `Lyasoff2016/`.
-Intentional challenge stubs in `Challenge.lean` are unchanged.
+Intentional challenge stubs in `Lyasoff2016Comparator/Challenge.lean` are unchanged.

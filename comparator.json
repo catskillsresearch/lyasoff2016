@@ -1,6 +1,6 @@
 {
-  "challenge_module": "Challenge",
-  "solution_module": "Solution",
+  "challenge_module": "Lyasoff2016Comparator.Challenge",
+  "solution_module": "Lyasoff2016Comparator.Solution",
   "theorem_names": [
     "Lyasoff2016.time_reversal",
     "Lyasoff2016.lemma_2_1",

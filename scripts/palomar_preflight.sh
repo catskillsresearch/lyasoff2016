@@ -48,7 +48,7 @@ step "Proof-chart axiom audit (all chart theorems)"
 bash scripts/validate_chart_axioms.sh
 
 # Build first: the type comparison reads the built Challenge/Solution oleans.
-step "Build Lean project (Lyasoff2016 + Challenge + Solution)"
+step "Build Lean project (Lyasoff2016 + Lyasoff2016Comparator Challenge/Solution)"
 lake build
 
 step "Compare Challenge/Solution declaration types"
@@ -56,7 +56,7 @@ bash scripts/compare_challenge_solution_types.sh
 
 if toolkit="$(find_toolkit "$ROOT")"; then
   step "Shared palomar-preflight toolkit"
-  SORRY_PATHS="Lyasoff2016 Solution.lean"
+  SORRY_PATHS="Lyasoff2016 Lyasoff2016Comparator/Solution.lean"
   if bash "$toolkit/palomar_preflight.sh" --help 2>&1 | grep -q -- '--project-root'; then
     bash "$toolkit/palomar_preflight.sh" \
       --project-root "$ROOT" \

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regenerate Mathlib-only Challenge.lean from holes-graph.json + library defs."""
+"""Regenerate Mathlib-only Lyasoff2016Comparator/Challenge.lean from holes-graph.json + library defs."""
 from __future__ import annotations
 
 import json
@@ -224,7 +224,7 @@ public import Mathlib.Probability.BrownianMotion.Basic
 # Palomar Challenge (statement of record)
 
 Mathlib-only statement file for the Lyasoff 2016 proof-chart family. Compared
-declarations match `Solution.lean` via the `Lyasoff2016/` library. Framing:
+declarations match `Lyasoff2016Comparator/Solution.lean` via the `Lyasoff2016/` library. Framing:
 reconstruction/verification of Lyasoff, *Another look at the integral of
 exponential Brownian motion and the pricing of Asian options*, Finance Stoch.
 20 (2016) 1061–1096. Andrew Lyasoff did not participate in or endorse this
@@ -251,21 +251,21 @@ noncomputable section
     body = body.replace("{Ω : Type*}", "{Ω : Type u_1}")
     footer = "\n\nend\nend Lyasoff2016\n"
     text = header + body.strip() + footer
-    (ROOT / "Challenge.lean").write_text(text)
+    (ROOT / "Lyasoff2016Comparator" / "Challenge.lean").write_text(text)
     print(f"theorems={len(thm_names)} def_names={len(DEF_NAMES)}")
     print(f"lines={text.count(chr(10))+1} bytes={len(text.encode())}")
     missing_classical = sorted(CLASSICAL_AXIOM_THMS)
     print("excluded_classical:", ", ".join(missing_classical))
 
     cfg = {
-        "challenge_module": "Challenge",
-        "solution_module": "Solution",
+        "challenge_module": "Lyasoff2016Comparator.Challenge",
+        "solution_module": "Lyasoff2016Comparator.Solution",
         "theorem_names": thm_names,
         "definition_names": DEF_NAMES,
         "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
     }
     (ROOT / "comparator.json").write_text(json.dumps(cfg, indent=2) + "\n")
-    print("wrote Challenge.lean and comparator.json")
+    print("wrote Lyasoff2016Comparator/Challenge.lean and comparator.json")
 
 
 if __name__ == "__main__":

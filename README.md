@@ -67,8 +67,8 @@ Challenge / Solution / Comparator / metadata (scott_models / nowakowska1982 patt
 
 | File | Role |
 |------|------|
-| [`Challenge.lean`](Challenge.lean) | Mathlib-only statement of record (`sorry` holes) |
-| [`Solution.lean`](Solution.lean) | Imports `Lyasoff2016/` |
+| [`Lyasoff2016Comparator/Challenge.lean`](Lyasoff2016Comparator/Challenge.lean) | Mathlib-only statement of record (`sorry` holes); module `Lyasoff2016Comparator.Challenge` |
+| [`Lyasoff2016Comparator/Solution.lean`](Lyasoff2016Comparator/Solution.lean) | Imports `Lyasoff2016/`; module `Lyasoff2016Comparator.Solution` |
 | [`comparator.json`](comparator.json) | 40 proof-chart theorems + 13 definitions |
 | [`formalization.yaml`](formalization.yaml) | v0.4 self-report; `project.description` is the abstract |
 | [`PROVENANCE.md`](PROVENANCE.md) | Authorship, Lyasoff non-involvement, reported numerical data |
@@ -78,7 +78,7 @@ Challenge / Solution / Comparator / metadata (scott_models / nowakowska1982 patt
 python3 scripts/regen_challenge.py          # refresh Challenge + comparator from holes-graph
 bash scripts/validate_chart_axioms.sh       # all chart theorems: Palomar-clean
 bash scripts/palomar_preflight.sh           # comparator + chart audit + lake build
-lake build Challenge Solution
+lake build Lyasoff2016Challenge Lyasoff2016Solution
 ```
 
 Andrew Lyasoff did not participate in or endorse this formalization. Author:

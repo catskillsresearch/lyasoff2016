@@ -597,7 +597,7 @@ known_gaps:
     conditional density.
   - >-
     No Lean axiom declarations or unfinished proofs remain in Lyasoff2016/.
-    Intentional Comparator challenge stubs in Challenge.lean are unchanged.
+    Intentional Comparator challenge stubs in Lyasoff2016Comparator/Challenge.lean are unchanged.
 
 limitations:
   - >-
