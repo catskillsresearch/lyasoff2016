@@ -1,3 +1,4 @@
+[![Lean 4](https://img.shields.io/github/actions/workflow/status/catskillsresearch/lyasoff2016/build.yml?label=Lean%204)](https://github.com/catskillsresearch/lyasoff2016/actions/workflows/build.yml)
 [![Palomar](https://img.shields.io/badge/Palomar-2026--11--19--000018-0f766e.svg)](https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-19-000018&version=1)
 
 # Formalization of Lyasoff's Asian Option Model
