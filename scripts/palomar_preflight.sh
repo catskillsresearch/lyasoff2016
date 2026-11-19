@@ -51,6 +51,11 @@ bash scripts/validate_chart_axioms.sh
 step "Build Lean project (Lyasoff2016 + Lyasoff2016Comparator Challenge/Solution)"
 lake build
 
+# Palomar/Verso rejects a Challenge or Solution module whose top-level name is
+# also a top-level entry of a Lake dependency (e.g. MathFin ships Challenge.lean).
+step "Challenge/Solution module names vs Lake dependency top-level entries"
+python3 scripts/check_module_name_clash.py
+
 step "Compare Challenge/Solution declaration types"
 bash scripts/compare_challenge_solution_types.sh
 
